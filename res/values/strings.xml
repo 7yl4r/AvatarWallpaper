@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+	<string name="hello">Hello World, MirrorMeAvatarActivity!</string>
+	
+    <!-- Application name -->
+    <string name="wallpapers">Example Wallpapers</string>
+    <string name="app_name">MirrorMe Avatar</string>
+    
+    <!-- Wallpaper showing a cube -->
+    <string name="wallpaper_avatar">MirrorMe Avatar</string>
+
+    <!-- Wallpaper showing a cube or dodecahedron, data read from resource -->
+    <string name="wallpaper_cube2">Rotating Geometry</string>
+    <string name="cube2_settings">Settings</string>
+    <string name="cube2_settings_title">Select shape</string>
+    <string name="cube2_settings_summary">Choose whether to display a cube or a dodecahedron</string>
+   
+
+</resources>
