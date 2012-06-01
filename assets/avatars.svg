@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.76871958"
-     inkscape:cx="519.04493"
-     inkscape:cy="292.4013"
+     inkscape:zoom="0.54356683"
+     inkscape:cx="659.22445"
+     inkscape:cy="1134.7111"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -282,152 +282,39 @@
        inkscape:export-ydpi="90"
        transform="translate(200.49122,445.59531)" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 291.48284,-41.904384 -92.99199,2.75595"
-       id="path3009-1"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 153.05655,-27.12885 45.11207,-15.636236"
-       id="path3011-3"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="M 159.53072,-1.8458036 200.6181,-41.891574"
-       id="path3013-6"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 94.4101,-23.023909 53.45214,-2.023408"
-       id="path3015-08"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="M 106.35853,26.380958 157.3335,-3.4402946"
-       id="path3017-0"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="M 238.8843,-2.7462236 272.61637,-36.171507"
-       id="path3019-5"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 239.12245,-34.993661 43.62102,-24.47955"
-       id="path3021-6"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 240.50419,-31.621011 42.33528,17.07038"
-       id="path3023-1"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 240.43715,-1.0516242 47.9412,-8.899022"
-       id="path3025-4"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       sodipodi:type="arc"
-       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="path3027-8"
-       sodipodi:cx="250"
-       sodipodi:cy="-104.78068"
-       sodipodi:rx="31.428572"
-       sodipodi:ry="30"
-       d="m 281.42857,-104.78068 a 31.428572,30 0 1 1 -62.85714,0 31.428572,30 0 1 1 62.85714,0 z"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"
-       transform="matrix(-0.03182788,0.99949336,-0.99949336,-0.03182788,211.66451,-288.85566)" />
-    <text
-       xml:space="preserve"
+       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1"
+       d="m 284.92903,-267.57334 c -16.56015,-0.52734 -29.53696,-15.01876 -28.9845,-32.36748 0.55245,-17.34873 14.42495,-30.98516 30.98511,-30.45782 16.56018,0.52735 29.53698,15.01876 28.98448,32.36749 -0.5524,17.34872 -14.4249,30.98515 -30.98509,30.45781 z m -66.99768,3.1831 47.9412,-8.89902 m -47.87416,-21.67037 42.33528,17.07038 m -43.71702,-20.44302 43.62102,-24.47956 m -43.85917,56.72699 33.73207,-33.42528 m -166.257836,62.55247 50.974966,-29.82126 m -62.923396,-19.58362 53.452136,-2.0234 m 11.66848,23.20151 41.08738,-40.04577 m -47.56155,14.76273 45.11207,-15.63624 m 76.40298,0.8607 -76.08075,2.75595"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ssssscccccccccccccccccc" />
+    <g
        style="font-size:28.40113258px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="278.0047"
-       y="-114.51325"
-       id="text3993"
-       sodipodi:linespacing="125%"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"><tspan
-         sodipodi:role="line"
-         id="tspan3995"
-         x="278.0047"
-         y="-114.51325">Z</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="319.47888"
-       y="-38.241768"
-       id="text3993-2"
-       sodipodi:linespacing="125%"
+       id="text3993" />
+    <g
        transform="matrix(0.98546227,-0.1698944,0.1698944,0.98546227,0,0)"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"><tspan
-         sodipodi:role="line"
-         id="tspan3995-7"
-         x="319.47888"
-         y="-38.241768">Z</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:17.29084396px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="238.36067"
-       y="-227.91348"
-       id="text3993-1"
-       sodipodi:linespacing="125%"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="text3993-2" />
+    <g
        transform="matrix(0.95521253,0.29592063,-0.29592063,0.95521253,0,0)"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"><tspan
-         sodipodi:role="line"
-         id="tspan3995-1"
-         x="238.36067"
-         y="-227.91348">Z</tspan></text>
-    <text
-       xml:space="preserve"
+       style="font-size:17.29084396px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="text3993-1" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 273.10464,-441.18784 5.87527,-1.42832 0.18752,0.77134 -3.30482,7.00473 4.84348,-1.17749 0.207,0.85149 -6.10569,1.48434 -0.18752,-0.77135 3.30483,-7.00472 -4.61307,1.12147 -0.207,-0.85149 m 4.17651,18.92601 9.45984,2.93063 -0.38474,1.24195 -10.53368,7.06911 7.79854,2.41595 -0.42474,1.371 -9.83082,-3.04555 0.38476,-1.24196 10.53366,-7.0691 -7.42756,-2.30103 0.42474,-1.371 m 5.80967,37.84188 22.5771,-3.8923 0.511,2.96408 -14.2904,25.63254 18.6121,-3.20875 0.5641,3.27204 -23.46244,4.04495 -0.51102,-2.96409 14.29046,-25.63253 -17.7268,3.05611 -0.5641,-3.27205 m -25.99713,-14.13646 16.26686,0 0,2.13563 -13.09115,16.21139 13.41011,0 0,2.35752 -16.90478,0 0,-2.13563 13.09115,-16.21139 -12.77219,0 0,-2.35752"
        style="font-size:10.55672264px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="328.664"
-       y="-95.288773"
-       id="text3993-11"
-       sodipodi:linespacing="125%"
-       transform="matrix(0.97169798,-0.23622666,0.23622666,0.97169798,0,0)"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_0.png"
+       id="path3243" />
+    <path
+       sodipodi:nodetypes="ccccccccccc"
+       d="m 282.78791,-139.8968 5.01513,-2.66537 0.34992,0.65842 -1.37976,7.14305 4.13438,-2.19728 0.38629,0.72683 -5.2118,2.76989 -0.34993,-0.65842 1.37977,-7.14305 -3.93772,2.09276 -0.38628,-0.72683"
+       style="font-size:10.55672264px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="path3243-2"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/sleep_f0.png"
        inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"><tspan
-         sodipodi:role="line"
-         id="tspan3995-6"
-         x="328.664"
-         y="-95.288773">Z</tspan></text>
+       inkscape:export-ydpi="90" />
     <g
        id="g4209"
-       transform="translate(-19.512967,3.9025934)"
+       transform="translate(-103.55163,-240.4236)"
        inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_1.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
@@ -457,7 +344,7 @@
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 547.74402,-164.04238 5.71429,92.85715"
+       d="m 463.70533,-408.36857 5.7143,92.85715"
        id="path3009-5"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_1.png"
@@ -465,7 +352,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="M 592.52057,-45.184347 552.67955,-71.495643"
+       d="m 508.48193,-289.51054 -39.841,-26.31129"
        id="path3011-77"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_1.png"
@@ -473,7 +360,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="M 611.53436,-58.849577 555.81297,-72.523039"
+       d="m 527.49573,-303.17577 -55.7214,-13.67346"
        id="path3013-4"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_1.png"
@@ -481,7 +368,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 585.66635,10.127313 6.56431,-53.0861"
+       d="m 501.62773,-234.19888 6.5643,-53.0861"
        id="path3015-07"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_1.png"
@@ -489,7 +376,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="M 647.90417,-7.2025296 616.4756,-57.20253"
+       d="m 563.86553,-251.52872 -31.4286,-50"
        id="path3017-1"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_1.png"
@@ -497,7 +384,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 588.55644,-112.71681 -34.48197,-32.65112"
+       d="m 504.51783,-357.043 -34.482,-32.65112"
        id="path3019-51"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_1.png"
@@ -505,7 +392,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 512.13604,-98.6806 26.93026,-42.15213"
+       d="m 428.09743,-343.00679 26.9302,-42.15213"
        id="path3021-0"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_1.png"
@@ -513,7 +400,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 499.45831,-62.04238 15.71429,-42.85714"
+       d="m 415.41963,-306.36857 15.7143,-42.85714"
        id="path3023-5"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_1.png"
@@ -521,7 +408,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="M 601.73796,-65.272982 590.89294,-112.81177"
+       d="m 517.69933,-309.59917 -10.845,-47.53879"
        id="path3025-5"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_1.png"
@@ -539,7 +426,7 @@
        inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/avatars/0_1.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
-       transform="translate(303.45831,-76.40456)" />
+       transform="translate(219.41965,-320.73075)" />
     <path
        id="path3027-2-3"
        style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1"
@@ -606,11 +493,66 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       inkscape:connector-curvature="0"
+       id="path3027-8-4"
        style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1"
-       d="m 1016.6857,815.65573 c 0,16.56854 -14.071,30 -31.42856,30 -17.35752,0 -31.42857,-13.43146 -31.42857,-30 0,-16.56854 14.07105,-30 31.42857,-30 17.35756,0 31.42856,13.43146 31.42856,30 0,0 0,0 0,0 m -15.3149,123.85958 c 0,0 -16.84636,-32.0134 -16.84636,-32.0134 m 19.54156,29.654 c 0,0 -23.92437,-32.1112 -23.92437,-32.1112 m -2.58842,-1.2536 c 0,0 -3.80094,-47.44832 -3.80094,-47.44832 m 9.63512,47.02702 c 0,0 4.77892,-47.24685 4.77892,-47.24685 m -10.61434,163.74684 c 0,0 41.41133,-58.38429 41.41133,-58.38429 m -44.90686,60.32709 c 0,0 40.41666,-51.30359 40.41666,-51.30359 m 5.139,-8.4633 c 0,0 -28.95056,-49.5349 -28.95056,-49.5349 m 25.09496,56.936 c 0,0 -25.05412,-40.6434 -25.05412,-40.6434 m -7.25694,-82.99622 c 0,0 1.8117,79.84852 1.8117,79.84852"
-       id="path9879"
-       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/avatar/three/run/f6.png"
+       d="m 288.74271,-54.171655 c -16.56015,-0.527342 -29.53695,-15.018758 -28.9845,-32.367484 0.55245,-17.348731 14.42496,-30.985151 30.98511,-30.457811 16.56014,0.52734 29.53695,15.01876 28.98449,32.367484 -0.55245,17.348726 -14.42496,30.985152 -30.9851,30.457811 z m -66.99768,3.183088 47.9412,-8.899021 m -47.87416,-21.670362 42.33528,17.07038 m -43.71702,-20.443027 43.62102,-24.479553 m -43.85917,56.726991 33.73207,-33.425284 M 87.66641,-23.555987 138.64138,-53.37723 m -62.9234,-19.58362 53.45214,-2.023407 m 11.66848,23.201518 41.08738,-40.045774 m -47.56155,14.762726 45.11207,-15.636241 m 77.70385,0.860705 -77.38162,2.755954"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ssssscccccccccccccccccc"
+       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/sleep_f0.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:nodetypes="ccccccccccc"
+       d="m 560.7223,-162.45792 8.30195,-1.91846 0.25186,1.08994 -4.76928,9.81755 6.84397,-1.58153 0.27805,1.20319 -8.62752,1.99367 -0.25187,-1.08994 4.7693,-9.81755 -6.51842,1.5063 -0.27804,-1.20317"
+       style="font-size:10.55672264000000027px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;opacity:0.753"
+       id="path3243-2-6"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/sleep_f1.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       id="path3027-8-4-7"
+       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1"
+       d="m 569.72944,-65.960275 c -16.56015,-0.527342 -29.53695,-15.018758 -28.9845,-32.367484 0.55245,-17.348731 14.42496,-30.985151 30.98511,-30.457811 16.56014,0.52734 29.53695,15.01876 28.98449,32.367484 -0.55245,17.348726 -14.42496,30.985152 -30.9851,30.457811 z m -66.99768,3.183088 47.9412,-8.899021 m -47.87416,-21.670362 42.33528,17.07038 m -43.71702,-20.443027 43.62102,-24.479553 m -43.85917,56.726991 33.73207,-33.425284 m -166.25784,62.552454 50.97497,-29.821241 m -62.9234,-19.58362 53.45214,-2.023407 m 11.66848,23.201518 41.08738,-40.045771 m -47.56155,14.762723 45.11207,-15.636243 m 77.70385,0.86071 -77.38162,2.75595"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ssssscccccccccccccccccc"
+       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/sleep_f1.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:nodetypes="ccccccccccc"
+       d="m 846.52342,-180.69036 10.98979,2.03226 -0.26682,1.44281 -10.86962,9.31679 9.05976,1.67538 -0.29452,1.59274 -11.42076,-2.112 0.26682,-1.44282 10.86965,-9.31676 -8.62882,-1.59568 0.29452,-1.59272"
+       style="font-size:10.55672264000000027px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;opacity:0.5"
+       id="path3243-2-6-2"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/sleep_f2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       id="path3027-8-4-7-3"
+       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1"
+       d="m 846.81358,-70.703964 c -16.56015,-0.527342 -29.53695,-15.01876 -28.9845,-32.367476 0.55245,-17.34873 14.42496,-30.98515 30.98511,-30.45781 16.56014,0.52734 29.53695,15.01876 28.98449,32.36748 -0.55245,17.348726 -14.42496,30.985147 -30.9851,30.457806 z m -66.99768,3.183085 47.9412,-8.899018 m -47.87416,-21.670357 42.33528,17.07038 m -43.71702,-20.443026 43.62102,-24.47955 m -43.85917,56.726982 33.73207,-33.425282 m -166.25784,62.552451 50.97497,-29.82124 m -62.9234,-19.583615 53.45214,-2.02341 m 11.66848,23.201515 41.08738,-40.045761 m -47.56155,14.762716 45.11207,-15.636236 m 77.70385,0.86071 -77.38162,2.75595"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ssssscccccccccccccccccc"
+       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/sleep_f2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:nodetypes="ccccccccccc"
+       d="m 1109.0166,-212.41197 16.8322,-1.88295 0.2471,2.20985 -11.6695,18.29016 13.8761,-1.55224 0.2729,2.43946 -17.4923,1.95676 -0.2473,-2.20985 11.6698,-18.29017 -13.2163,1.47847 -0.2727,-2.43949"
+       style="font-size:10.55672264000000027px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;opacity:0.25;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="path3243-2-6-2-6"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/sleep_f3.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       id="path3027-8-4-7-3-6"
+       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1"
+       d="m 1117.564,-76.232672 c -16.5601,-0.52735 -29.5369,-15.018764 -28.9845,-32.367478 0.5525,-17.34873 14.425,-30.98515 30.9851,-30.45781 16.5602,0.52734 29.537,15.01876 28.9845,32.36748 -0.5524,17.348724 -14.4249,30.985148 -30.9851,30.457808 z m -66.9977,3.18308 47.9412,-8.89902 m -47.8741,-21.670358 42.3353,17.070384 m -43.7171,-20.443024 43.6211,-24.47955 m -43.8592,56.726978 33.7321,-33.425278 m -166.25788,62.552448 50.97497,-29.82124 m -62.9234,-19.583614 53.45214,-2.02341 m 11.66848,23.201514 41.08739,-40.045758 m -47.56156,14.762714 45.11206,-15.636234 m 77.7039,0.86071 -77.3817,2.75595"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ssssscccccccccccccccccc"
+       inkscape:export-filename="/home/tylar/EclipseWorkspace/MirrorMe Avatar/res/drawable/sleep_f3.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>

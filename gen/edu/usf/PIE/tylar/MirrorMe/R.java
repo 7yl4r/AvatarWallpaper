@@ -36,10 +36,14 @@ public final class R {
         public static final int run_f4=0x7f020007;
         public static final int run_f5=0x7f020008;
         public static final int run_f6=0x7f020009;
-        public static final int three_0=0x7f02000a;
-        public static final int two_0=0x7f02000b;
-        public static final int zero_0=0x7f02000c;
-        public static final int zero_1=0x7f02000d;
+        public static final int sleep_f0=0x7f02000a;
+        public static final int sleep_f1=0x7f02000b;
+        public static final int sleep_f2=0x7f02000c;
+        public static final int sleep_f3=0x7f02000d;
+        public static final int three_0=0x7f02000e;
+        public static final int two_0=0x7f02000f;
+        public static final int zero_0=0x7f020010;
+        public static final int zero_1=0x7f020011;
     }
     public static final class layout {
         public static final int main=0x7f030000;

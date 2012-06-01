@@ -50,9 +50,23 @@ public class avatarWallpaper extends WallpaperService {
         int level_of_activity = 3; //(int) Math.round(10*Math.random());		//TODO: set this variable somewhere/someway else
        
         //vars for the animation
-        private int currentFrame = 0;
-        //TODO: move png resource retrieval here (create array of bitmaps here, call appropriate frames in the loop)
-
+        private int currentFrame = 0;	//TODO: this needs to reset whenever level_of_activity changes
+        //avatar bitmaps
+        Bitmap[] running = {BitmapFactory.decodeResource(getResources(),R.drawable.run_f0),
+        					BitmapFactory.decodeResource(getResources(),R.drawable.run_f1),
+        					BitmapFactory.decodeResource(getResources(),R.drawable.run_f2),
+        					BitmapFactory.decodeResource(getResources(),R.drawable.run_f3),
+        					BitmapFactory.decodeResource(getResources(),R.drawable.run_f4),
+        					BitmapFactory.decodeResource(getResources(),R.drawable.run_f5),
+    						BitmapFactory.decodeResource(getResources(),R.drawable.run_f6)
+        };
+        
+        Bitmap[] sleeping ={BitmapFactory.decodeResource(getResources(), R.drawable.sleep_f0),
+        					BitmapFactory.decodeResource(getResources(), R.drawable.sleep_f1),
+			        		BitmapFactory.decodeResource(getResources(), R.drawable.sleep_f2),
+			        		BitmapFactory.decodeResource(getResources(), R.drawable.sleep_f3)
+        };
+        
         private final Runnable mDrawCube = new Runnable() {
             public void run() {
                 drawFrame();
@@ -195,6 +209,7 @@ public class avatarWallpaper extends WallpaperService {
             Bitmap avatar = null;
             switch (level_of_activity) {
             	case 0:
+            		/*
             		//choose randomly between multiple same-activity-level images
             		int randomizer = (int) Math.round(1 * Math.random());	//multiplied by number of choices in this activity level
             		switch(randomizer){
@@ -207,6 +222,25 @@ public class avatarWallpaper extends WallpaperService {
             		//etc...
             		//TODO: default should show error
             		}
+            		*/
+            		switch(currentFrame){
+            			case 4:
+            				currentFrame = 0;
+            			case 0:
+            				avatar = sleeping[0];
+            				break;
+            			case 1:
+            				avatar = sleeping[1];
+            				break;
+            			case 2:
+            				avatar = sleeping[2];
+            				break;
+            			case 3:
+            				avatar = sleeping[3];
+            				break;
+            				//TODO: default case gives error
+            		}
+            		currentFrame++;
             		break;
             	case 1:
             		avatar = BitmapFactory.decodeResource(getResources(),R.drawable.one_0);
@@ -219,30 +253,30 @@ public class avatarWallpaper extends WallpaperService {
             		switch(currentFrame){
             			case 12: currentFrame = 0;	//reset frame counter
             			case 0:
-            				avatar = BitmapFactory.decodeResource(getResources(),R.drawable.run_f0);
+            				avatar = running[0];
                     		break;
             			case 1: 
             			case 11:
-            				avatar = BitmapFactory.decodeResource(getResources(),R.drawable.run_f1);
+            				avatar = running[1];
                     		break;
             			case 2:
             			case 10:
-            				avatar = BitmapFactory.decodeResource(getResources(),R.drawable.run_f2);
+            				avatar = running[2];
                     		break;
             			case 3:
             			case 9:
-            				avatar = BitmapFactory.decodeResource(getResources(),R.drawable.run_f3);
+            				avatar = running[3];
                     		break;
             			case 4:
             			case 8:
-            				avatar = BitmapFactory.decodeResource(getResources(),R.drawable.run_f4);
+            				avatar = running[4];
                     		break;
             			case 5:
             			case 7:
-            				avatar = BitmapFactory.decodeResource(getResources(),R.drawable.run_f5);
+            				avatar = running[5];
                     		break;
             			case 6:
-            				avatar = BitmapFactory.decodeResource(getResources(),R.drawable.run_f6);
+            				avatar = running[6];
                     		break;
             		}
             		currentFrame++;
@@ -250,8 +284,9 @@ public class avatarWallpaper extends WallpaperService {
             	//etc...
         		//TODO: default should show error
             }
-           //draw the bitmap in the middle of the screen, assuming canvas origin set to center
+           
             if(avatar != null){
+            	//draw the bitmap in the middle of the screen, assuming canvas origin set to center
             	c.drawBitmap(avatar,-avatar.getWidth()/2,-avatar.getHeight()/2,null);
             }
             c.restore();
