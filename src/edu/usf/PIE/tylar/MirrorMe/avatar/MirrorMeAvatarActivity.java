@@ -1,29 +1,27 @@
 package edu.usf.PIE.tylar.MirrorMe.avatar;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.app.Activity;
+import android.os.Bundle;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import edu.usf.PIE.tylar.MirrorMe.R;
 
 /*
  * This animated wallpaper draws a rotating wireframe cube.
  */
-public class avatarWallpaper extends WallpaperService {
+public class MirrorMeAvatarActivity extends WallpaperService {
 
     private final Handler mHandler = new Handler();
 
     @Override
     public void onCreate() {
         super.onCreate();
-    	 //theAvatar = new avatarObject(this.getResources(), level_of_realism, level_of_activity); 
     }
 
     @Override
@@ -38,33 +36,14 @@ public class avatarWallpaper extends WallpaperService {
 
     class CubeEngine extends Engine {
 
-        //vars for the avatar
-    	long lastFrameChange = 0;		//last frame update [ms]
-        int level_of_activity = 3;		//TODO: set this variable somewhere/someway else
-        int level_of_realism = 0;		//0=least realistic
-        Resources r = getResources();
-        
-        Bitmap test = BitmapFactory.decodeResource(r,R.drawable.r0_a3_body_f0);
-        avatarObject theAvatar = new avatarObject(r, level_of_realism, level_of_activity);
-        
-        //vars for canvas
         private final Paint mPaint = new Paint();
-        private float mCenterX;
-        private float mCenterY;
-        
-        //vars for touchPoint circle
+        private float mOffset;
         private float mTouchX = -1;
         private float mTouchY = -1;
+        private long mStartTime;
+        private float mCenterX;
+        private float mCenterY;
 
-    	//vars for the cube???
-        private float mOffset;
-        
-        //vars for frame rate
-        private long mStartTime;	//time of app start
-        private long lastTime = 0;	//time measurement for calculating deltaT and thus fps
-        private float desiredFPS = 15;
-        private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
-        
         private final Runnable mDrawCube = new Runnable() {
             public void run() {
                 drawFrame();
@@ -75,7 +54,7 @@ public class avatarWallpaper extends WallpaperService {
         CubeEngine() {
             // Create a Paint to draw the lines for our cube
             final Paint paint = mPaint;
-            paint.setColor(Color.GRAY); //0xffffffff);
+            paint.setColor(0xffffffff);
             paint.setAntiAlias(true);
             paint.setStrokeWidth(2);
             paint.setStrokeCap(Paint.Cap.ROUND);
@@ -87,6 +66,7 @@ public class avatarWallpaper extends WallpaperService {
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
             super.onCreate(surfaceHolder);
+
             // By default we don't get touch events, so enable them.
             setTouchEventsEnabled(true);
         }
@@ -163,27 +143,8 @@ public class avatarWallpaper extends WallpaperService {
                 c = holder.lockCanvas();
                 if (c != null) {
                     // draw something
-                	drawBG(c);
                     drawCube(c);
                     drawTouchPoint(c);
-                    drawAvatar(c);
-                    //calculate current frame rate
-                    long thisTime = System.currentTimeMillis();
-                    long elapsedTime = thisTime-lastTime;
-                    lastTime = thisTime;
-                    float FPSsum = 0;
-                    for(int i = 9; i > 0; i--){
-                    	lastFPS[i] = lastFPS[i-1];
-                    	FPSsum += lastFPS[i];
-                    }
-                	lastFPS[0] = (float)1000 / ((float)elapsedTime); // 1 frame / <ms passed> * 1000ms/s = frame/s
-                	FPSsum += lastFPS[0];
-                	float fps = FPSsum/(float)10;	// 10 is # of saved previous FPS measures
-                	//draw the frame rate to the screen
-                	mPaint.setColor(Color.BLACK); 
-                	mPaint.setTextSize(20); 
-                	c.drawText("virtual FPS: " + desiredFPS + "    actual FPS: " + fps, 10, 100, mPaint); 
-                	
                 }
             } finally {
                 if (c != null) holder.unlockCanvasAndPost(c);
@@ -203,7 +164,7 @@ public class avatarWallpaper extends WallpaperService {
         void drawCube(Canvas c) {
             c.save();
             c.translate(mCenterX, mCenterY);
-            // draw the cube
+            c.drawColor(0xff000000);
             drawLine(c, -400, -400, -400,  400, -400, -400);
             drawLine(c,  400, -400, -400,  400,  400, -400);
             drawLine(c,  400,  400, -400, -400,  400, -400);
@@ -218,7 +179,6 @@ public class avatarWallpaper extends WallpaperService {
             drawLine(c,  400, -400,  400,  400, -400, -400);
             drawLine(c,  400,  400,  400,  400,  400, -400);
             drawLine(c, -400,  400,  400, -400,  400, -400);
-            
             c.restore();
         }
 
@@ -262,27 +222,6 @@ public class avatarWallpaper extends WallpaperService {
                 c.drawCircle(mTouchX, mTouchY, 80, mPaint);
             }
         }
-        
-        /*draw avatar*/
-        void drawAvatar(Canvas c) {
-        	
-        	//determine if enough time has passed to move to next frame
-        	long now = SystemClock.elapsedRealtime();
-             if(((float)(now - lastFrameChange)) > (((float)1000)/desiredFPS)){		//if total ms elapsed > desired ms elapsed
-            	 theAvatar.nextFrame();
-            	 lastFrameChange = now;
-             } //else display same as last loop
-             
-        	c.translate(mCenterX, mCenterY);
-        	theAvatar.drawAvatar(c,mCenterX*2,mCenterY*2);
-            c.restore();
-        }
-        
-        
-        /*background */
-        void drawBG(Canvas c){
-            //background
-            c.drawColor(Color.DKGRAY); //(0xff000000);
-        }
+
     }
 }

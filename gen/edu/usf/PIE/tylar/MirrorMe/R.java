@@ -28,22 +28,20 @@ public final class R {
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
         public static final int ic_launcher_wallpaper=0x7f020001;
-        public static final int one_0=0x7f020002;
-        public static final int run_f0=0x7f020003;
-        public static final int run_f1=0x7f020004;
-        public static final int run_f2=0x7f020005;
-        public static final int run_f3=0x7f020006;
-        public static final int run_f4=0x7f020007;
-        public static final int run_f5=0x7f020008;
-        public static final int run_f6=0x7f020009;
-        public static final int sleep_f0=0x7f02000a;
-        public static final int sleep_f1=0x7f02000b;
-        public static final int sleep_f2=0x7f02000c;
-        public static final int sleep_f3=0x7f02000d;
-        public static final int three_0=0x7f02000e;
-        public static final int two_0=0x7f02000f;
-        public static final int zero_0=0x7f020010;
-        public static final int zero_1=0x7f020011;
+        public static final int r0_a3_body_f0=0x7f020002;
+        public static final int r0_a3_body_f1=0x7f020003;
+        public static final int r0_a3_body_f2=0x7f020004;
+        public static final int r0_a3_body_f3=0x7f020005;
+        public static final int r0_a3_body_f4=0x7f020006;
+        public static final int r0_a3_body_f5=0x7f020007;
+        public static final int r0_a3_body_f6=0x7f020008;
+        public static final int r0_a3_body_f7=0x7f020009;
+        public static final int r0_a3_body_f8=0x7f02000a;
+        public static final int r0_a3_body_f9=0x7f02000b;
+        public static final int sleep_f0=0x7f02000c;
+        public static final int sleep_f1=0x7f02000d;
+        public static final int sleep_f2=0x7f02000e;
+        public static final int sleep_f3=0x7f02000f;
     }
     public static final class layout {
         public static final int main=0x7f030000;
