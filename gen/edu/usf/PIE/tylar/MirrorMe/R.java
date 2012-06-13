@@ -38,10 +38,19 @@ public final class R {
         public static final int r0_a3_body_f7=0x7f020009;
         public static final int r0_a3_body_f8=0x7f02000a;
         public static final int r0_a3_body_f9=0x7f02000b;
-        public static final int sleep_f0=0x7f02000c;
-        public static final int sleep_f1=0x7f02000d;
-        public static final int sleep_f2=0x7f02000e;
-        public static final int sleep_f3=0x7f02000f;
+        public static final int r0_a3_head_f0=0x7f02000c;
+        public static final int r1_a3_head_f0=0x7f02000d;
+        public static final int r3_a3_body_f0=0x7f02000e;
+        public static final int r3_a3_body_f1=0x7f02000f;
+        public static final int r3_a3_body_f2=0x7f020010;
+        public static final int r3_a3_body_f3=0x7f020011;
+        public static final int r3_a3_body_f4=0x7f020012;
+        public static final int r3_a3_body_f5=0x7f020013;
+        public static final int r3_a3_body_f6=0x7f020014;
+        public static final int r3_a3_body_f7=0x7f020015;
+        public static final int r3_a3_body_f8=0x7f020016;
+        public static final int r3_a3_body_f9=0x7f020017;
+        public static final int r3_a3_head_f0=0x7f020018;
     }
     public static final class layout {
         public static final int main=0x7f030000;

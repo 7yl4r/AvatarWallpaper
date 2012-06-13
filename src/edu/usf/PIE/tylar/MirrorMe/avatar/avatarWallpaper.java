@@ -41,7 +41,7 @@ public class avatarWallpaper extends WallpaperService {
         //vars for the avatar
     	long lastFrameChange = 0;		//last frame update [ms]
         int level_of_activity = 3;		//TODO: set this variable somewhere/someway else
-        int level_of_realism = 0;		//0=least realistic
+        int level_of_realism = 3;		//0=least realistic
         Resources r = getResources();
         
         Bitmap test = BitmapFactory.decodeResource(r,R.drawable.r0_a3_body_f0);
