@@ -8,8 +8,12 @@
     <string name="wallpapers">Example Wallpapers</string>
     <string name="app_name">MirrorMe Avatar</string>
     
-    <!-- Wallpaper showing a cube -->
+    <!-- Wallpaper showing an avatar, data read from resource -->
+    <string name="AvatarWallpaperDescription">Avatar Live Wallpaper for MirrorMe and Proteus Studies</string>
     <string name="wallpaper_avatar">MirrorMe Avatar</string>
+    <string name="avatar_settings">Avatar Settings</string>
+    <string name="avatar_settings_title">Select Level of Realism</string>
+    <string name="avatar_settings_summary">Choose level of realism for avatar.</string>
 
     <!-- Wallpaper showing a cube or dodecahedron, data read from resource -->
     <string name="wallpaper_cube2">Rotating Geometry</string>

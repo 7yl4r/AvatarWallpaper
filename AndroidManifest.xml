@@ -22,6 +22,12 @@
             </intent-filter>
             <meta-data android:name="android.service.wallpaper" android:resource="@xml/avatar" />
         </service>
+        <activity
+            android:label="@string/avatar_settings"
+            android:name=".avatar.avatarWallpaperSettings"
+            android:theme="@android:style/Theme.Light.WallpaperSettings"
+            android:exported="true">
+        </activity>
 
         <service
             android:label="@string/wallpaper_cube2"

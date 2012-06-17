@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ */
+-->
+
+<!-- The attributes in this XML file provide configuration information -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/avatar_settings"
+    android:key="avatar_settings">
+
+<ListPreference
+        android:key="RealismLevel"
+        android:title="@string/avatar_settings_title"
+        android:summary="@string/avatar_settings_summary"
+        android:entries="@array/avatar_Realisms"
+        android:entryValues="@array/avatar_RealismLevels" />
+
+</PreferenceScreen>

@@ -6,16 +6,6 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string-array name="jibjab_shapenames">
-        <item>"Cube"</item>
-        <item>"Dodecahedron"</item>
-    </string-array>
-
-    <string-array name="jibjab_shapeprefix">
-        <item>"cube"</item>
-        <item>"dodecahedron"</item>
-    </string-array>
-    
     
     <string-array name="cube2_shapenames">
         <item>"Cube"</item>
@@ -116,4 +106,5 @@
         <item>"17 18"</item>
         <item>"18 19"</item>
     </string-array>
+    
 </resources>

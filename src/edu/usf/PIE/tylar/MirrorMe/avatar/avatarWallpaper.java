@@ -1,5 +1,7 @@
 package edu.usf.PIE.tylar.MirrorMe.avatar;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +11,7 @@ import android.graphics.Paint;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import edu.usf.PIE.tylar.MirrorMe.R;
@@ -18,8 +21,9 @@ import edu.usf.PIE.tylar.MirrorMe.R;
  */
 public class avatarWallpaper extends WallpaperService {
 
+	public static final String SHARED_PREFS_NAME="avatarsettings";
     private final Handler mHandler = new Handler();
-
+    
     @Override
     public void onCreate() {
         super.onCreate();
@@ -36,7 +40,8 @@ public class avatarWallpaper extends WallpaperService {
         return new CubeEngine();
     }
 
-    class CubeEngine extends Engine {
+    class CubeEngine extends Engine 
+    	implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         //vars for the avatar
     	long lastFrameChange = 0;		//last frame update [ms]
@@ -71,7 +76,9 @@ public class avatarWallpaper extends WallpaperService {
             }
         };
         private boolean mVisible;
-
+        
+        private SharedPreferences mPrefs;
+        
         CubeEngine() {
             // Create a Paint to draw the lines for our cube
             final Paint paint = mPaint;
@@ -82,7 +89,27 @@ public class avatarWallpaper extends WallpaperService {
             paint.setStyle(Paint.Style.STROKE);
 
             mStartTime = SystemClock.elapsedRealtime();
+            
+            mPrefs = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);
+            mPrefs.registerOnSharedPreferenceChangeListener(this);
+            onSharedPreferenceChanged(mPrefs, null);
         }
+        
+		@Override
+		public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+			Log.d("MirrorMe Avatar", "adjusting " + key + " preference");
+			//if(key == "RealismLevel"){
+				theAvatar.setRealismLevel(Integer.parseInt(prefs.getString("RealismLevel", Integer.toString(level_of_realism))));
+			//}
+		/*
+            // get the resource identifiers for the arrays for the selected shape
+            int pid = getResources().getIdentifier(prefix + "points", "array", getPackageName());
+            int lid = getResources().getIdentifier(prefix + "lines", "array", getPackageName());
+
+            String [] p = getResources().getStringArray(pid);
+            int numpoints = p.length;
+*/
+    	}
 
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
@@ -164,26 +191,10 @@ public class avatarWallpaper extends WallpaperService {
                 if (c != null) {
                     // draw something
                 	drawBG(c);
-                    drawCube(c);
-                    drawTouchPoint(c);
+                    //drawCube(c);
+                    //drawTouchPoint(c);
                     drawAvatar(c);
-                    //calculate current frame rate
-                    long thisTime = System.currentTimeMillis();
-                    long elapsedTime = thisTime-lastTime;
-                    lastTime = thisTime;
-                    float FPSsum = 0;
-                    for(int i = 9; i > 0; i--){
-                    	lastFPS[i] = lastFPS[i-1];
-                    	FPSsum += lastFPS[i];
-                    }
-                	lastFPS[0] = (float)1000 / ((float)elapsedTime); // 1 frame / <ms passed> * 1000ms/s = frame/s
-                	FPSsum += lastFPS[0];
-                	float fps = FPSsum/(float)10;	// 10 is # of saved previous FPS measures
-                	//draw the frame rate to the screen
-                	mPaint.setColor(Color.BLACK); 
-                	mPaint.setTextSize(20); 
-                	c.drawText("virtual FPS: " + desiredFPS + "    actual FPS: " + fps, 10, 100, mPaint); 
-                	
+                    //drawFPS(c);
                 }
             } finally {
                 if (c != null) holder.unlockCanvasAndPost(c);
@@ -281,8 +292,32 @@ public class avatarWallpaper extends WallpaperService {
         
         /*background */
         void drawBG(Canvas c){
+        	//CALCULATE BACKGROUND LOCATION BASED ON OFFSET:
+        	//float yrot = (0.5f - mOffset) * 2.0f;
+        	//TODO: replace solid color background with image
             //background
             c.drawColor(Color.DKGRAY); //(0xff000000);
+            //return canvas to default location
+            //c.restore();
+        }
+        
+        void drawFPS(Canvas c){
+        	//calculate current frame rate
+            long thisTime = System.currentTimeMillis();
+            long elapsedTime = thisTime-lastTime;
+            lastTime = thisTime;
+            float FPSsum = 0;
+            for(int i = 9; i > 0; i--){
+            	lastFPS[i] = lastFPS[i-1];
+            	FPSsum += lastFPS[i];
+            }
+        	lastFPS[0] = (float)1000 / ((float)elapsedTime); // 1 frame / <ms passed> * 1000ms/s = frame/s
+        	FPSsum += lastFPS[0];
+        	float fps = FPSsum/(float)10;	// 10 is # of saved previous FPS measures
+        	//draw the frame rate to the screen
+        	mPaint.setColor(Color.BLACK); 
+        	mPaint.setTextSize(20); 
+        	c.drawText("virtual FPS: " + desiredFPS + "    actual FPS: " + fps, 10, 100, mPaint); 
         }
     }
 }

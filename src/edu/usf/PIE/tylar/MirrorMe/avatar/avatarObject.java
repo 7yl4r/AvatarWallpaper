@@ -9,17 +9,25 @@ import edu.usf.PIE.tylar.MirrorMe.R;
 
 
 public class avatarObject extends avatarWallpaper {
-	//fields
-	private int currentFrame = 0;
+	//--- fields ---------------------------
+	//center locations of sprites:
 	private int headX = 0;
 	private int headY = 120;
 	private int bodyX = 0;
 	private int bodyY = 0;
+	//resource object for loading bitmaps from gen files
 	Resources res = null;
+	//values for choosing appropriate animations:
 	private int activityLevel;
 	private int realismLevel;
+	private int currentFrame = 0;	//current frame of the animation 
+	//bitmap arrays for sprites:
 	private Bitmap[] body = new Bitmap[10];
-	public Bitmap[] head = new Bitmap[10];
+	private Bitmap[] head = new Bitmap[10];
+	//booleans determine if bitmaps are drawn:
+	private boolean bodyOn = false;
+	private boolean faceOn = false;
+	private boolean backgroundOn = false;
 
 	
 	//constructor
@@ -42,6 +50,7 @@ public class avatarObject extends avatarWallpaper {
 	}
 	public void setRealismLevel(int newLevel){
 		realismLevel = newLevel;
+		Log.d("MirrorMe Avatar", "Realism Level set to " + realismLevel);
 		//update bitmaps
 		loadBitmaps();
 	}
@@ -61,6 +70,8 @@ public class avatarObject extends avatarWallpaper {
 		Log.d("MirrorMe Avatar","R:" + realismLevel + " A:" + activityLevel + " F:" + currentFrame);
 		switch(realismLevel){
 		case 0:	// === stickman ====================================================================
+			bodyOn = true;
+			faceOn = false;
 			switch(activityLevel){
 			/*
 			case 0:	//--- sleep ------------------------------------------------------------------
@@ -157,7 +168,10 @@ public class avatarObject extends avatarWallpaper {
 				break;
 			//TODO: default case should show error
 			}
+			break;
 		case 1: // === stickman with user face ========================================================
+			bodyOn = true;
+			faceOn = true;
 			switch(activityLevel){
 			/*
 			case 0:	//--- sleep ------------------------------------------------------------------
@@ -245,9 +259,25 @@ public class avatarObject extends avatarWallpaper {
 				break;
 			//TODO: default case should show error
 			}
-		case 2: // === ?something?more?realistic? ============================================================
-			 
-		case 3: // === realistic cartoon avatar =======================================================
+			break;
+		case 2: // === realistic cartoon avatar ============================================================
+			//break;
+			bodyOn = true;
+			faceOn = false;
+			body[0] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f0);
+			body[1] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f1);
+			body[2] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f2);
+			body[3] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f3);
+			body[4] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f4);
+			body[5] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f5);
+			body[6] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f6);
+			body[7] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f7);
+			body[8] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f8);
+			body[9] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f9);
+			break;
+		case 3: // === realistic cartoon avatar with face =======================================================
+			bodyOn = true;
+			faceOn = true;
 			body[0] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f0);
 			body[1] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f1);
 			body[2] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f2);
@@ -268,6 +298,8 @@ public class avatarObject extends avatarWallpaper {
 			headY = 110;
 			break;
 		case 4: // === actual recording of subject=====================================================
+			bodyOn = false;
+			faceOn = false;
 			break;
 		//TODO: default case should show error
 		}
@@ -337,16 +369,19 @@ public class avatarObject extends avatarWallpaper {
 		//debug print output
 		Log.d("MirrorMe Avatar","CURRENTFRAME:" + currentFrame);
 		 */
-		//draw background
-		
-		//draw body
-		Bitmap sprite = body[currentFrame];
-		c.drawBitmap(sprite,bodyX-sprite.getWidth()/2,bodyY-sprite.getHeight()/2,null);
-		
-		//draw head
-		sprite = head[currentFrame];
-		c.drawBitmap(sprite,-headX-sprite.getWidth()/2,-headY-sprite.getHeight()/2,null);
-		
+		if(backgroundOn){
+			//draw background
+		}
+		if(bodyOn){
+			//draw body
+			Bitmap sprite = body[currentFrame];
+			c.drawBitmap(sprite,bodyX-sprite.getWidth()/2,bodyY-sprite.getHeight()/2,null);
+		}
+		if(faceOn){
+			//draw head
+			Bitmap sprite = head[currentFrame];
+			c.drawBitmap(sprite,-headX-sprite.getWidth()/2,-headY-sprite.getHeight()/2,null);
+		}
 	}
 	
 	public void nextFrame(){
