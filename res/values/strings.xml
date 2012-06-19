@@ -12,14 +12,12 @@
     <string name="AvatarWallpaperDescription">Avatar Live Wallpaper for MirrorMe and Proteus Studies</string>
     <string name="wallpaper_avatar">MirrorMe Avatar</string>
     <string name="avatar_settings">Avatar Settings</string>
-    <string name="avatar_settings_title">Select Level of Realism</string>
-    <string name="avatar_settings_summary">Choose level of realism for avatar.</string>
+    <string name="RealismSelector_title">Select Level of Realism</string>
+    <string name="RealismSelector_summary">Choose level of realism for avatar.</string>
 
     <!-- Wallpaper showing a cube or dodecahedron, data read from resource -->
-    <string name="wallpaper_cube2">Rotating Geometry</string>
-    <string name="cube2_settings">Settings</string>
-    <string name="cube2_settings_title">Select shape</string>
-    <string name="cube2_settings_summary">Choose whether to display a cube or a dodecahedron</string>
+    <string name="ActivityLevelSelector_title">Method of Activity Level Selection</string>
+    <string name="ActivityLevelSelector_summary">Choose method of controlling activity level.</string>
    
 
 </resources>

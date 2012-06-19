@@ -12,9 +12,10 @@
 
 <ListPreference
         android:key="RealismLevel"
-        android:title="@string/avatar_settings_title"
-        android:summary="@string/avatar_settings_summary"
+        android:title="@string/RealismSelector_title"
+        android:summary="@string/RealismSelector_summary"
         android:entries="@array/avatar_Realisms"
         android:entryValues="@array/avatar_RealismLevels" />
+<ListPreference android:entryValues="@array/activity_level_selector" android:entries="@array/activity_level_selector" android:key="ActivityLevelSelector" android:summary="@string/ActivityLevelSelector_summary" android:title="@string/ActivityLevelSelector_title"/>
 
 </PreferenceScreen>

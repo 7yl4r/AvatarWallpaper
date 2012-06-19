@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.util.Log;
 import edu.usf.PIE.tylar.MirrorMe.R;
 
-
 public class avatarObject extends avatarWallpaper {
 	//--- fields ---------------------------
 	//center locations of sprites:
@@ -29,7 +28,6 @@ public class avatarObject extends avatarWallpaper {
 	private boolean faceOn = false;
 	private boolean backgroundOn = false;
 
-	
 	//constructor
 	public avatarObject(Resources r, int realismL, int activityL) {
 			activityLevel = activityL;

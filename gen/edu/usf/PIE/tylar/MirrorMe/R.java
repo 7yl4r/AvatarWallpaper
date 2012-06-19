@@ -9,19 +9,9 @@ package edu.usf.PIE.tylar.MirrorMe;
 
 public final class R {
     public static final class array {
+        public static final int activity_level_selector=0x7f050002;
         public static final int avatar_RealismLevels=0x7f050001;
         public static final int avatar_Realisms=0x7f050000;
-        public static final int cube2_shapenames=0x7f050002;
-        public static final int cube2_shapeprefix=0x7f050003;
-        /**  start,end point index tuples of the lines defining the object 
-         */
-        public static final int cubelines=0x7f050005;
-        /**  x,y,z tuples for the points defining the object 
- stored as strings for easier human readability 
-         */
-        public static final int cubepoints=0x7f050004;
-        public static final int dodecahedronlines=0x7f050007;
-        public static final int dodecahedronpoints=0x7f050006;
     }
     public static final class attr {
     }
@@ -57,23 +47,21 @@ public final class R {
         public static final int main=0x7f030000;
     }
     public static final class string {
+        public static final int ActivityLevelSelector_summary=0x7f060009;
+        /**  Wallpaper showing a cube or dodecahedron, data read from resource 
+         */
+        public static final int ActivityLevelSelector_title=0x7f060008;
         /**  Wallpaper showing an avatar, data read from resource 
          */
         public static final int AvatarWallpaperDescription=0x7f060003;
+        public static final int RealismSelector_summary=0x7f060007;
+        public static final int RealismSelector_title=0x7f060006;
         public static final int app_name=0x7f060002;
         public static final int avatar_settings=0x7f060005;
-        public static final int avatar_settings_summary=0x7f060007;
-        public static final int avatar_settings_title=0x7f060006;
-        public static final int cube2_settings=0x7f060009;
-        public static final int cube2_settings_summary=0x7f06000b;
-        public static final int cube2_settings_title=0x7f06000a;
         /**  General 
          */
         public static final int hello=0x7f060000;
         public static final int wallpaper_avatar=0x7f060004;
-        /**  Wallpaper showing a cube or dodecahedron, data read from resource 
-         */
-        public static final int wallpaper_cube2=0x7f060008;
         /**  Application name 
          */
         public static final int wallpapers=0x7f060001;
@@ -81,8 +69,5 @@ public final class R {
     public static final class xml {
         public static final int avatar=0x7f040000;
         public static final int avatar_settings=0x7f040001;
-        public static final int cube2=0x7f040002;
-        public static final int cube2_settings=0x7f040003;
-        public static final int jibjabavatar=0x7f040004;
     }
 }
