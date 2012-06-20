@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.util.Log;
 import edu.usf.PIE.tylar.MirrorMe.R;
 
@@ -71,313 +73,137 @@ public class avatarObject extends avatarWallpaper {
 			bodyOn = true;
 			faceOn = false;
 			switch(activityLevel){
-			/*
-			case 0:	//--- sleep ------------------------------------------------------------------
-				//head bitmaps:
-				head[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f0);
-				head[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f1);
-				head[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f2);
-				head[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f3);
-				head[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f4);
-				head[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f5);
-				head[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f6);
-				head[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f7);
-				head[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f8);
-				head[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f9);
-				//body bitmaps:
-				body[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f0);
-				body[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f1);
-				body[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f2);
-				body[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f3);
-				body[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f4);
-				body[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f5);
-				body[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f6);
-				body[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f7);
-				body[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f8);
-				body[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f9);
-				break;
-			case 1://--- uhmmm ------------------------------------------------------------------
-				//head bitmaps:
-				head[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f0);
-				head[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f1);
-				head[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f2);
-				head[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f3);
-				head[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f4);
-				head[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f5);
-				head[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f6);
-				head[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f7);
-				head[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f8);
-				head[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f9);
-				//body bitmaps:
-				body[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f0);
-				body[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f1);
-				body[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f2);
-				body[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f3);
-				body[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f4);
-				body[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f5);
-				body[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f6);
-				body[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f7);
-				body[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f8);
-				body[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f9);
-				break;
-			case 2: //--- somethin --------------------------------------------------------------
-				//head bitmaps:
-				head[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f0);
-				head[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f1);
-				head[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f2);
-				head[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f3);
-				head[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f4);
-				head[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f5);
-				head[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f6);
-				head[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f7);
-				head[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f8);
-				head[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f9);
-				//body bitmaps:
-				body[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f0);
-				body[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f1);
-				body[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f2);
-				body[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f3);
-				body[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f4);
-				body[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f5);
-				body[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f6);
-				body[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f7);
-				body[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f8);
-				body[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f9);
-				break;
-			*/
-			case 3:	// --- running ----------------------------------------------------------
-				/*
-				//head bitmaps:
-				head[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f0);
-				head[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f1);
-				head[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f2);
-				head[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f3);
-				head[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f4);
-				head[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f5);
-				head[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f6);
-				head[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f7);
-				head[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f8);
-				head[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f9);
-				*/
-				//body:
-				loadRunningStickman();
-				//face
-				loadCircle();
-				break;
-			//TODO: default case should show error
+				case 0:	//--- sleep ------------------------------------------------------------------
+					Log.e("MirrorMe Avatar", "sleeping stickman not yet implemented");
+					break;
+				case 3:	// --- running ----------------------------------------------------------
+					//body:
+					loadRunningStickman();
+					//face
+					loadCircle();
+					break;
+				default:
+					Log.d("MirrorMe Avtar", "This Stickman Activity case not yet implemented");
+					break;
 			}
 			break;
 		case 1: // === stickman with user face ========================================================
 			bodyOn = true;
 			faceOn = true;
 			switch(activityLevel){
-			/*
-			case 0:	//--- sleep ------------------------------------------------------------------
-				//head bitmaps:
-				head[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f0);
-				head[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f1);
-				head[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f2);
-				head[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f3);
-				head[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f4);
-				head[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f5);
-				head[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f6);
-				head[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f7);
-				head[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f8);
-				head[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_head_f9);
-				//body bitmaps:
-				body[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f0);
-				body[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f1);
-				body[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f2);
-				body[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f3);
-				body[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f4);
-				body[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f5);
-				body[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f6);
-				body[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f7);
-				body[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f8);
-				body[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a0_body_f9);
-				break;
-			case 1://--- uhmmm ------------------------------------------------------------------
-				//head bitmaps:
-				head[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f0);
-				head[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f1);
-				head[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f2);
-				head[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f3);
-				head[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f4);
-				head[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f5);
-				head[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f6);
-				head[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f7);
-				head[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f8);
-				head[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_head_f9);
-				//body bitmaps:
-				body[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f0);
-				body[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f1);
-				body[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f2);
-				body[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f3);
-				body[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f4);
-				body[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f5);
-				body[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f6);
-				body[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f7);
-				body[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f8);
-				body[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a1_body_f9);
-				break;
-			case 2: //--- somethin --------------------------------------------------------------
-				//head bitmaps:
-				head[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f0);
-				head[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f1);
-				head[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f2);
-				head[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f3);
-				head[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f4);
-				head[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f5);
-				head[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f6);
-				head[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f7);
-				head[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f8);
-				head[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_head_f9);
-				//body bitmaps:
-				body[0] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f0);
-				body[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f1);
-				body[2] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f2);
-				body[3] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f3);
-				body[4] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f4);
-				body[5] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f5);
-				body[6] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f6);
-				body[7] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f7);
-				body[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f8);
-				body[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a2_body_f9);
-				break;
-			*/
-			case 3:	// --- running ----------------------------------------------------------
-				headY = 120;
-				headX = 0;
-				bodyY = 0;
-				bodyY = 0;
-				//head bitmaps:
-				loadFace();
-				//body:
-				loadRunningStickman();
-				break;
-			//TODO: default case should show error
+				/*
+				case 0:	//--- sleep ------------------------------------------------------------------
+					break;
+				*/
+				case 3: // --- basketball -------------------------------------------------------
+					headY = 100;
+					headX = 0;
+					bodyY = 0;
+					bodyX = 0;
+					Log.e("MirrorMe Avatar", "stick basketball not yet implemented");
+					break;
+				case 4:	// --- running ----------------------------------------------------------
+					headY = 120;
+					headX = 0;
+					bodyY = 0;
+					bodyY = 0;
+					//head bitmaps:
+					loadFace();
+					//body:
+					loadRunningStickman();
+					break;
+				default:
+					Log.e("MirrorMe Avatar", "this case not yet implemented");
+					break;
 			}
 			break;
 		case 2: // === realistic cartoon avatar ============================================================
-			//break;
 			bodyOn = true;
 			faceOn = false;
-			body[0] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f0);
-			body[1] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f1);
-			body[2] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f2);
-			body[3] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f3);
-			body[4] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f4);
-			body[5] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f5);
-			body[6] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f6);
-			body[7] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f7);
-			body[8] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f8);
-			body[9] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f9);
+			switch(activityLevel){
+				case 0:	// --- sleeping --------------------------------
+					loadSleepingCartoon();
+					break;
+				case 3: // --- basketball ------------------------------
+					loadBasketballCartoon();
+					break;
+				case 4: // --- running ----------------------------------
+					loadRunningCartoon();
+					break;
+				default:
+					Log.e("MirrorMe Avtar", "this cartoon case not yet implemented");
+					break;
+			}	
 			break;
 		case 3: // === realistic cartoon avatar with face =======================================================
-			bodyOn = true;
-			faceOn = true;
-			body[0] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f0);
-			body[1] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f1);
-			body[2] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f2);
-			body[3] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f3);
-			body[4] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f4);
-			body[5] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f5);
-			body[6] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f6);
-			body[7] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f7);
-			body[8] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f8);
-			body[9] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f9);
-			
-			head[0] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_head_f0);
-			//set all to same bitmap
-			for(int i = 1; i < 10; i++){
-				head[i] = head[i-1];
+			switch(activityLevel){
+				case 0: // --- sleeping ------------------------------------------
+					loadSleepingCartoon();
+					break;
+				case 3: // --- Basketball ----------------------------------------
+					bodyOn = true;
+					faceOn = false;	//TODO: change this to true
+					loadBasketballCartoon();
+					//loadPhotoFace();
+					break;
+				case 4: // --- running -------------------------------------------
+					bodyOn = true;
+					faceOn = true;
+					//load body
+					loadRunningCartoon();
+					//load face
+					head[0] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_head_f0);
+					//set all to same bitmap
+					for(int i = 1; i < 10; i++){
+						head[i] = head[i-1];
+					}
+					headX = 20;
+					headY = 110;
+					break;
+				default:
+					Log.e("MirrorMe Avatar", "this cartoon with face case not yet implemented");
+					break;
 			}
-			headX = 20;
-			headY = 110;
 			break;
 		case 4: // === actual recording of subject=====================================================
 			bodyOn = false;
 			faceOn = false;
+			Log.e("MirrorMe Avatar", "Realism Level 4 not yet implemented");
 			break;
 		//TODO: default case should show error
+		default:
+			Log.e("MirrorMe Avatar", "This Realism level not yet implemented");
+			break;
 		}
 	}
-
 	
 	//params: canvas upon which to draw, size of surface in X direction, size of surface in Y direction
 	public void drawAvatar(Canvas c, float surfaceX, float surfaceY){
-		/*OLD CODE:
-		            //get avatar bitmap from bitmap arrays generated previously from resources
-            Bitmap avatar = null;
-            switch (level_of_activity) {
-            	case 0:
-            		if(currentFrame >= sleeping.length){
-            			currentFrame = 0;
-            		}
-            		avatar = sleeping[currentFrame];;
-            		break;
-            	case 1:
-            		avatar = BitmapFactory.decodeResource(getResources(),R.drawable.one_0);
-            		break;
-            	case 2:
-            		avatar = BitmapFactory.decodeResource(getResources(),R.drawable.two_0);
-            		break;
-            	case 3:
-            		//to animate the avatar:
-            		switch(currentFrame){
-            			case 12: currentFrame = 0;	//reset frame counter
-            			case 0:
-            				avatar = running[0];
-                    		break;
-            			case 1: 
-            			case 11:
-            				avatar = running[1];
-                    		break;
-            			case 2:
-            			case 10:
-            				avatar = running[2];
-                    		break;
-            			case 3:
-            			case 9:
-            				avatar = running[3];
-                    		break;
-            			case 4:
-            			case 8:
-            				avatar = running[4];
-                    		break;
-            			case 5:
-            			case 7:
-            				avatar = running[5];
-                    		break;
-            			case 6:
-            				avatar = running[6];
-                    		break;
-            		}
-            	//etc...
-        		//TODO: default should show error
-            }
-           
-            if(avatar != null){
-            	//draw the bitmap in the middle of the screen, assuming canvas origin set to center
-            	c.drawBitmap(avatar,-avatar.getWidth()/2,-avatar.getHeight()/2,null);
-            }
-		 */
-		
 		/*
 		//debug print output
 		Log.d("MirrorMe Avatar","CURRENTFRAME:" + currentFrame);
 		 */
+		Rect source, dest;
+		Bitmap sprite;
+		float scaler;
 		if(backgroundOn){
 			//draw background
 		}
 		if(bodyOn){
 			//draw body
-			Bitmap sprite = body[currentFrame];
-			c.drawBitmap(sprite,bodyX-sprite.getWidth()/2,bodyY-sprite.getHeight()/2,null);
+			sprite = body[currentFrame];
+			scaler = 2;
+			source = new Rect(0, 0, sprite.getWidth(), sprite.getHeight());
+			dest = new Rect((int) (bodyX-sprite.getWidth()/2*scaler),
+							(int) (bodyY-sprite.getHeight()/2*scaler),
+							(int) (bodyX+sprite.getWidth()/2*scaler),
+							(int) (bodyY+sprite.getHeight()/2*scaler));
+			c.drawBitmap(sprite, source, dest, null);
+			//c.drawBitmap(sprite,bodyX-sprite.getWidth()/2,bodyY-sprite.getHeight()/2,null);
 		}
 		if(faceOn){
 			//draw head
-			Bitmap sprite = head[currentFrame];
+			sprite = head[currentFrame];
 			c.drawBitmap(sprite,-headX-sprite.getWidth()/2,-headY-sprite.getHeight()/2,null);
 		}
 	}
@@ -388,6 +214,45 @@ public class avatarObject extends avatarWallpaper {
 		} else{
 			currentFrame++;
 		}
+	}
+	
+	private void loadSleepingCartoon(){
+		body[0] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f0);
+		body[1] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f1);
+		body[2] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f2);
+		body[3] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f3);
+		body[4] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f4);
+		body[5] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f5);
+		body[6] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f6);
+		body[7] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f7);
+		body[8] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f8);
+		body[9] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f9);
+	}
+	
+	private void loadRunningCartoon(){
+		body[0] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f0);
+		body[1] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f1);
+		body[2] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f2);
+		body[3] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f3);
+		body[4] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f4);
+		body[5] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f5);
+		body[6] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f6);
+		body[7] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f7);
+		body[8] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f8);
+		body[9] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_body_f9);
+	}
+	
+	private void loadBasketballCartoon(){
+		body[0] = BitmapFactory.decodeResource(res,R.drawable.bball_body_f0);
+		body[1] = BitmapFactory.decodeResource(res,R.drawable.bball_body_f1);
+		body[2] = BitmapFactory.decodeResource(res,R.drawable.bball_body_f2);
+		body[3] = BitmapFactory.decodeResource(res,R.drawable.bball_body_f3);
+		body[4] = BitmapFactory.decodeResource(res,R.drawable.bball_body_f4);
+		body[5] = BitmapFactory.decodeResource(res,R.drawable.bball_body_f5);
+		body[6] = BitmapFactory.decodeResource(res,R.drawable.bball_body_f6);
+		body[7] = BitmapFactory.decodeResource(res,R.drawable.bball_body_f7);
+		body[8] = BitmapFactory.decodeResource(res,R.drawable.bball_body_f8);
+		body[9] = BitmapFactory.decodeResource(res,R.drawable.bball_body_f9);
 	}
 	
 	private void loadRunningStickman(){

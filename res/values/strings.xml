@@ -12,12 +12,14 @@
     <string name="AvatarWallpaperDescription">Avatar Live Wallpaper for MirrorMe and Proteus Studies</string>
     <string name="wallpaper_avatar">MirrorMe Avatar</string>
     <string name="avatar_settings">Avatar Settings</string>
-    <string name="RealismSelector_title">Select Level of Realism</string>
+    <string name="RealismSelector_title">Level of Realism</string>
     <string name="RealismSelector_summary">Choose level of realism for avatar.</string>
 
     <!-- Wallpaper showing a cube or dodecahedron, data read from resource -->
-    <string name="ActivityLevelSelector_title">Method of Activity Level Selection</string>
+    <string name="ActivityLevelSelector_title">Method of Activity Selection</string>
     <string name="ActivityLevelSelector_summary">Choose method of controlling activity level.</string>
+    <string name="CurrentActivityLevel_title">Current Activity Level</string>
+    <string name="CurrentActivityLevel_summary">NOTE: only works for some activity level selectors</string>
    
 
 </resources>

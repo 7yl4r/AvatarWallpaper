@@ -17,5 +17,6 @@
         android:entries="@array/avatar_Realisms"
         android:entryValues="@array/avatar_RealismLevels" />
 <ListPreference android:entryValues="@array/activity_level_selector" android:entries="@array/activity_level_selector" android:key="ActivityLevelSelector" android:summary="@string/ActivityLevelSelector_summary" android:title="@string/ActivityLevelSelector_title"/>
+<ListPreference android:entries="@array/current_activity_level" android:key="CurrentActivityLevel" android:entryValues="@array/activity_levels" android:summary="@string/CurrentActivityLevel_summary" android:title="@string/CurrentActivityLevel_title"/>
 
 </PreferenceScreen>

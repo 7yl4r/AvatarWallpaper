@@ -37,10 +37,10 @@ public class avatarWallpaper extends WallpaperService {
 
     @Override
     public Engine onCreateEngine() {
-        return new CubeEngine();
+        return new DrawEngine();
     }
 
-    class CubeEngine extends Engine 
+    class DrawEngine extends Engine 
     	implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         //vars for the avatar
@@ -51,6 +51,9 @@ public class avatarWallpaper extends WallpaperService {
         
         Bitmap test = BitmapFactory.decodeResource(r,R.drawable.r0_a3_body_f0);
         avatarObject theAvatar = new avatarObject(r, level_of_realism, level_of_activity);
+        String selectorMethod = "Constant";
+        long lastActivityChange = 0;	//last time activity level was changed [ms]
+        long deltaActivityChange = 10*1000;	//desired time between (random?) activity level updates [ms]
         
         //vars for canvas
         private final Paint mPaint = new Paint();
@@ -72,14 +75,35 @@ public class avatarWallpaper extends WallpaperService {
         
         private final Runnable mDrawCube = new Runnable() {
             public void run() {
-                drawFrame();
+            	//TODO: log information if applicable
+            	
+            	//Log.v("MirrorMe Avatar", "selectorMethod = " + selectorMethod);
+            	if(selectorMethod.equals("Random")){	//select new level of activity
+            		//Log.v("MirrorMe Avatar", "random selected");
+            		//check if enough time has passed
+            		long now = SystemClock.elapsedRealtime();
+                    if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
+                    	//TODO: replace this with better random function
+                    	int newlevel = (int) (Math.round(Math.random()*4));
+                    	while(newlevel == 1 || newlevel == 2){	//TODO: remove this once these cases are implemented
+                    		newlevel = (int) (Math.round(Math.random()*4));
+                    	}
+                    	Log.v("MirrorMe Avatar", "new activity level = " + newlevel);
+                    	theAvatar.setActivityLevel(newlevel);	//where '4' is # of possible activity levels
+                   	 	lastActivityChange = now;
+                    }
+            	}//else if(selectorMethod.equals("Constant")){ //do nothing}
+            	else{
+            		Log.e("MirrorMe Avatar", "selectorMethod '" + selectorMethod + "' not recognized");
+            	}
+                drawFrame();//draw next frame
             }
         };
         private boolean mVisible;
         
         private SharedPreferences mPrefs;
         
-        CubeEngine() {
+        DrawEngine() {
             // Create a Paint to draw the lines for our cube
             final Paint paint = mPaint;
             paint.setColor(Color.GRAY); //0xffffffff);
@@ -98,18 +122,16 @@ public class avatarWallpaper extends WallpaperService {
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
 			Log.d("MirrorMe Avatar", "adjusting " + key + " preference");
-			//if(key == "RealismLevel"){
+			//if(key.equals("RealismLevel")){
 				theAvatar.setRealismLevel(Integer.parseInt(prefs.getString("RealismLevel", Integer.toString(level_of_realism))));
 			//}
-		/*
-            // get the resource identifiers for the arrays for the selected shape
-            int pid = getResources().getIdentifier(prefix + "points", "array", getPackageName());
-            int lid = getResources().getIdentifier(prefix + "lines", "array", getPackageName());
-
-            String [] p = getResources().getStringArray(pid);
-            int numpoints = p.length;
-*/
-    	}
+			//if (key == "CurrentActivityLevel"){
+				theAvatar.setActivityLevel(Integer.parseInt(prefs.getString("CurrentActivityLevel", Integer.toString(level_of_activity))));
+			//}
+			//if (key == "ActivityLevelSelector"){
+				selectorMethod = prefs.getString("ActivityLevelSelector", selectorMethod);
+			//}
+		}
 
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
@@ -180,7 +202,7 @@ public class avatarWallpaper extends WallpaperService {
         /*
          * Draw one frame of the animation. This method gets called repeatedly
          * by posting a delayed Runnable. You can do any drawing you want in
-         * here. This example draws a wireframe cube.
+         * here.
          */
         void drawFrame() {
             final SurfaceHolder holder = getSurfaceHolder();
@@ -208,64 +230,6 @@ public class avatarWallpaper extends WallpaperService {
         }
 
         /*
-         * Draw a wireframe cube by drawing 12 3 dimensional lines between
-         * adjacent corners of the cube
-         */
-        void drawCube(Canvas c) {
-            c.save();
-            c.translate(mCenterX, mCenterY);
-            // draw the cube
-            drawLine(c, -400, -400, -400,  400, -400, -400);
-            drawLine(c,  400, -400, -400,  400,  400, -400);
-            drawLine(c,  400,  400, -400, -400,  400, -400);
-            drawLine(c, -400,  400, -400, -400, -400, -400);
-
-            drawLine(c, -400, -400,  400,  400, -400,  400);
-            drawLine(c,  400, -400,  400,  400,  400,  400);
-            drawLine(c,  400,  400,  400, -400,  400,  400);
-            drawLine(c, -400,  400,  400, -400, -400,  400);
-
-            drawLine(c, -400, -400,  400, -400, -400, -400);
-            drawLine(c,  400, -400,  400,  400, -400, -400);
-            drawLine(c,  400,  400,  400,  400,  400, -400);
-            drawLine(c, -400,  400,  400, -400,  400, -400);
-            
-            c.restore();
-        }
-
-        /*
-         * Draw a 3 dimensional line on to the screen
-         */
-        void drawLine(Canvas c, int x1, int y1, int z1, int x2, int y2, int z2) {
-            long now = SystemClock.elapsedRealtime();
-            float xrot = ((float)(now - mStartTime)) / 1000;
-            float yrot = (0.5f - mOffset) * 2.0f;
-            float zrot = 0;
-
-            // 3D transformations
-
-            // rotation around X-axis
-            float newy1 = (float)(Math.sin(xrot) * z1 + Math.cos(xrot) * y1);
-            float newy2 = (float)(Math.sin(xrot) * z2 + Math.cos(xrot) * y2);
-            float newz1 = (float)(Math.cos(xrot) * z1 - Math.sin(xrot) * y1);
-            float newz2 = (float)(Math.cos(xrot) * z2 - Math.sin(xrot) * y2);
-
-            // rotation around Y-axis
-            float newx1 = (float)(Math.sin(yrot) * newz1 + Math.cos(yrot) * x1);
-            float newx2 = (float)(Math.sin(yrot) * newz2 + Math.cos(yrot) * x2);
-            newz1 = (float)(Math.cos(yrot) * newz1 - Math.sin(yrot) * x1);
-            newz2 = (float)(Math.cos(yrot) * newz2 - Math.sin(yrot) * x2);
-
-            // 3D-to-2D projection
-            float startX = newx1 / (4 - newz1 / 400);
-            float startY = newy1 / (4 - newz1 / 400);
-            float stopX =  newx2 / (4 - newz2 / 400);
-            float stopY =  newy2 / (4 - newz2 / 400);
-
-            c.drawLine(startX, startY, stopX, stopY, mPaint);
-        }
-
-        /*
          * Draw a circle around the current touch point, if any.
          */
         void drawTouchPoint(Canvas c) {
@@ -276,7 +240,6 @@ public class avatarWallpaper extends WallpaperService {
         
         /*draw avatar*/
         void drawAvatar(Canvas c) {
-        	
         	//determine if enough time has passed to move to next frame
         	long now = SystemClock.elapsedRealtime();
              if(((float)(now - lastFrameChange)) > (((float)1000)/desiredFPS)){		//if total ms elapsed > desired ms elapsed
