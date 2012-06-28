@@ -1,11 +1,18 @@
 package edu.usf.PIE.tylar.MirrorMe.avatar;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.Rect;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import edu.usf.PIE.tylar.MirrorMe.R;
 
@@ -16,8 +23,9 @@ public class avatarObject extends avatarWallpaper {
 	private int headY = 120;
 	private int bodyX = 0;
 	private int bodyY = 0;
+	String fileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
 	//resource object for loading bitmaps from gen files
-	Resources res = null;
+	Resources res = null;	//TODO: remove this
 	//values for choosing appropriate animations:
 	private int activityLevel;
 	private int realismLevel;
@@ -66,97 +74,45 @@ public class avatarObject extends avatarWallpaper {
 	//each animation is assumed to have 10 frames labeled F0->F9
 	private void loadBitmaps(){
 		currentFrame = 0;
-		Log.d("MirrorMe Avatar", "RESOURCES PASSED TO avatarObject: " + res);
+		//Log.d("MirrorMe Avatar", "RESOURCES PASSED TO avatarObject: " + res);
 		Log.d("MirrorMe Avatar","R:" + realismLevel + " A:" + activityLevel + " F:" + currentFrame);
-		switch(realismLevel){
+		switch(realismLevel){	//select for level of realism
 		case 0:	// === stickman ====================================================================
-			bodyOn = true;
-			faceOn = false;
-			switch(activityLevel){
-				case 0:	//--- sleep ------------------------------------------------------------------
-					Log.e("MirrorMe Avatar", "sleeping stickman not yet implemented");
-					break;
-				case 3:	// --- running ----------------------------------------------------------
-					//body:
-					loadRunningStickman();
-					//face
-					loadCircle();
-					break;
-				default:
-					Log.d("MirrorMe Avtar", "This Stickman Activity case not yet implemented");
-					break;
-			}
+			/*	TEMPORARILY DISABLED
+			stickman();
 			break;
+			*/
 		case 1: // === stickman with user face ========================================================
-			bodyOn = true;
-			faceOn = true;
-			switch(activityLevel){
-				/*
-				case 0:	//--- sleep ------------------------------------------------------------------
-					break;
-				*/
-				case 3: // --- basketball -------------------------------------------------------
-					headY = 100;
-					headX = 0;
-					bodyY = 0;
-					bodyX = 0;
-					Log.e("MirrorMe Avatar", "stick basketball not yet implemented");
-					break;
-				case 4:	// --- running ----------------------------------------------------------
-					headY = 120;
-					headX = 0;
-					bodyY = 0;
-					bodyY = 0;
-					//head bitmaps:
-					loadFace();
-					//body:
-					loadRunningStickman();
-					break;
-				default:
-					Log.e("MirrorMe Avatar", "this case not yet implemented");
-					break;
-			}
+			/*
+			stickmanNface();
 			break;
+		*/
 		case 2: // === realistic cartoon avatar ============================================================
+			/* TEMPORARILY DISABLED
+			cartoon();
+			break;
+			*/
+		case 3: // === realistic cartoon avatar with face =======================================================
 			bodyOn = true;
 			faceOn = false;
-			switch(activityLevel){
-				case 0:	// --- sleeping --------------------------------
-					loadSleepingCartoon();
-					break;
-				case 3: // --- basketball ------------------------------
-					loadBasketballCartoon();
-					break;
-				case 4: // --- running ----------------------------------
-					loadRunningCartoon();
-					break;
-				default:
-					Log.e("MirrorMe Avtar", "this cartoon case not yet implemented");
-					break;
-			}	
-			break;
-		case 3: // === realistic cartoon avatar with face =======================================================
+			//load face (same for all cartoons)
+			loadFace();
 			switch(activityLevel){
 				case 0: // --- sleeping ------------------------------------------
+					//TODO: set position & scale
 					loadSleepingCartoon();
 					break;
+				case 1: // --- passive activity ----------------------------------
+					
+				case 2: // --- active activity -----------------------------------
 				case 3: // --- Basketball ----------------------------------------
-					bodyOn = true;
-					faceOn = false;	//TODO: change this to true
+					//TODO: set position & scale
 					loadBasketballCartoon();
-					//loadPhotoFace();
 					break;
 				case 4: // --- running -------------------------------------------
-					bodyOn = true;
-					faceOn = true;
+					//TODO: set position & scale
 					//load body
 					loadRunningCartoon();
-					//load face
-					head[0] = BitmapFactory.decodeResource(res,R.drawable.r3_a3_head_f0);
-					//set all to same bitmap
-					for(int i = 1; i < 10; i++){
-						head[i] = head[i-1];
-					}
 					headX = 20;
 					headY = 110;
 					break;
@@ -165,12 +121,13 @@ public class avatarObject extends avatarWallpaper {
 					break;
 			}
 			break;
+			/* TEMPORARILY DISABLED
 		case 4: // === actual recording of subject=====================================================
 			bodyOn = false;
 			faceOn = false;
 			Log.e("MirrorMe Avatar", "Realism Level 4 not yet implemented");
 			break;
-		//TODO: default case should show error
+			*/
 		default:
 			Log.e("MirrorMe Avatar", "This Realism level not yet implemented");
 			break;
@@ -208,6 +165,7 @@ public class avatarObject extends avatarWallpaper {
 		}
 	}
 	
+	//moves animation to the next frame by incrementing currentFrame
 	public void nextFrame(){
 		if(currentFrame >= 9){
 			currentFrame = 0;
@@ -217,6 +175,14 @@ public class avatarObject extends avatarWallpaper {
 	}
 	
 	private void loadSleepingCartoon(){
+		//load in image from MirrorMe sdcard directory
+		
+		/*String[] imageInSD = {fileDirectory + "/sprites/sleep/f0.PNG",
+								fileDirectory + "/sprites/sleep/f1.PNG"};
+		body[0] = BitmapFactory.decodeFile(imageInSD[0]);
+        //TODO: this this this
+		*/
+		//old way of loading from resources
 		body[0] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f0);
 		body[1] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f1);
 		body[2] = BitmapFactory.decodeResource(res,R.drawable.sleeping_body_f2);
@@ -280,7 +246,7 @@ public class avatarObject extends avatarWallpaper {
 		head[0] = BitmapFactory.decodeResource(res,R.drawable.r1_a3_head_f0);
 		//set all to same bitmap
 		for(int i = 1; i < 10; i++){
-			head[i] = head[i-1];
+			head[i] = head[i-1];	
 		}
 		/*
 		head[1] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f1);
@@ -293,5 +259,72 @@ public class avatarObject extends avatarWallpaper {
 		head[8] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f8);
 		head[9] = BitmapFactory.decodeResource(getResources(),R.drawable.r0_a3_head_f9);
 		*/
+	}
+	
+	private void stickman(){
+		bodyOn = true;
+		faceOn = false;
+		switch(activityLevel){	//select for activity level of stickman
+			case 0:	//--- sleep ------------------------------------------------------------------
+				Log.e("MirrorMe Avatar", "sleeping stickman not yet implemented");
+				break;
+			case 3:	// --- running ----------------------------------------------------------
+				//body:
+				loadRunningStickman();
+				//face
+				loadCircle();
+				break;
+			default:
+				Log.d("MirrorMe Avtar", "This Stickman Activity case not yet implemented");
+				break;
+		}
+	}
+	
+	private void stickmanNface(){
+		bodyOn = true;
+		faceOn = true;
+		switch(activityLevel){
+			case 0:	//--- sleep ------------------------------------------------------------------
+
+			case 3: // --- basketball -------------------------------------------------------
+				headY = 100;
+				headX = 0;
+				bodyY = 0;
+				bodyX = 0;
+				Log.e("MirrorMe Avatar", "stick basketball not yet implemented");
+				break;
+			case 4:	// --- running ----------------------------------------------------------
+				headY = 120;
+				headX = 0;
+				bodyY = 0;
+				bodyY = 0;
+				//head bitmaps:
+				loadFace();
+				//body:
+				loadRunningStickman();
+				break;
+			default:
+				Log.e("MirrorMe Avatar", "this case not yet implemented");
+				break;
+		}
+	}
+	
+	private void cartoon(){
+		bodyOn = true;
+		faceOn = false;
+		switch(activityLevel){
+			case 0:	// --- sleeping --------------------------------
+				loadSleepingCartoon();
+				break;
+			case 3: // --- basketball ------------------------------
+				loadBasketballCartoon();
+				break;
+			case 4: // --- running ----------------------------------
+				loadRunningCartoon();
+				break;
+			default:
+				Log.e("MirrorMe Avtar", "this cartoon case not yet implemented");
+				break;
+		}	
 	}
 }

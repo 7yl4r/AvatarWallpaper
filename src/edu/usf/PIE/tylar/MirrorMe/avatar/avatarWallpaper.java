@@ -1,13 +1,19 @@
 package edu.usf.PIE.tylar.MirrorMe.avatar;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
@@ -27,7 +33,6 @@ public class avatarWallpaper extends WallpaperService {
     @Override
     public void onCreate() {
         super.onCreate();
-    	 //theAvatar = new avatarObject(this.getResources(), level_of_realism, level_of_activity); 
     }
 
     @Override
@@ -43,6 +48,14 @@ public class avatarWallpaper extends WallpaperService {
     class DrawEngine extends Engine 
     	implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    	//vars for logging
+    	long visibilityStart;
+    	boolean keepLogs = true;
+    	
+    	//set up the file directory for saving data and retrieving sprites
+        //File sdCard = Environment.getExternalStorageDirectory();
+        File fileDirectory = new File ((Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe");
+    	
         //vars for the avatar
     	long lastFrameChange = 0;		//last frame update [ms]
         int level_of_activity = 3;		//TODO: set this variable somewhere/someway else
@@ -73,6 +86,7 @@ public class avatarWallpaper extends WallpaperService {
         private float desiredFPS = 15;
         private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
         
+        
         private final Runnable mDrawCube = new Runnable() {
             public void run() {
             	//TODO: log information if applicable
@@ -92,8 +106,10 @@ public class avatarWallpaper extends WallpaperService {
                     	theAvatar.setActivityLevel(newlevel);	//where '4' is # of possible activity levels
                    	 	lastActivityChange = now;
                     }
-            	}//else if(selectorMethod.equals("Constant")){ //do nothing}
-            	else{
+            	} else if(selectorMethod.equals("Constant")){ 
+            		//do nothing
+            		//Log.d("MirrorMe Avatar", "Constant selectorMethod not implemented");
+            	} else{
             		Log.e("MirrorMe Avatar", "selectorMethod '" + selectorMethod + "' not recognized");
             	}
                 drawFrame();//draw next frame
@@ -131,6 +147,10 @@ public class avatarWallpaper extends WallpaperService {
 			//if (key == "ActivityLevelSelector"){
 				selectorMethod = prefs.getString("ActivityLevelSelector", selectorMethod);
 			//}
+			//if (key.equals("ResetLogs")){
+				keepLogs = !prefs.getBoolean("ResetLogs", keepLogs);
+				//Log.d("MirrorMe Avatar", "keepLogs=" + String.valueOf(keepLogs));
+			//}
 		}
 
         @Override
@@ -151,8 +171,61 @@ public class avatarWallpaper extends WallpaperService {
             mVisible = visible;
             if (visible) {
                 drawFrame();
+                visibilityStart = System.currentTimeMillis();
             } else {
                 mHandler.removeCallbacks(mDrawCube);
+                long visibleTime = System.currentTimeMillis() - visibilityStart;
+                File dataLogFile = new File(fileDirectory, "dataLog.txt");	//create file
+                
+                if(!fileDirectory.mkdirs()){	//create if directory not exist
+                	//if creation of directory fails
+                	Log.v("MirrorMe Avatar", "creation of directory fails, already exists?");
+                }
+                /*
+                if(!dataLogFile.exists() || !keepLogs){	//create file if does not exist or reset flag set
+                	keepLogs = true;	//turn of reset flag
+                	  try {
+						dataLogFile.createNewFile();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                	  Log.d("MirrorMe Avatar", "New dataLog file has been created");
+            	}
+            	*/
+                FileOutputStream dataFileOut = null;
+                if(keepLogs){
+					try {
+						dataFileOut = new FileOutputStream(dataLogFile, true);	//append
+					} catch (FileNotFoundException e) {
+						// TODO
+						e.printStackTrace();
+					}
+                } else {
+                	try {
+						dataFileOut = new FileOutputStream(dataLogFile, false);	//do not append
+						Log.d("MirrorMe Avatar", "New dataLog file has been created");
+						keepLogs = true;
+					} catch (FileNotFoundException e) {
+						// TODO
+						e.printStackTrace();
+					}
+                }
+				DataOutputStream dataOut = new DataOutputStream(dataFileOut);
+				//write time viewed to file
+                try {
+					dataOut.writeBytes(String.valueOf(visibleTime)+"\n");
+					Log.d("MirrorMe Avatar", visibleTime + " ms of time added to file");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                try {
+					dataOut.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         }
 

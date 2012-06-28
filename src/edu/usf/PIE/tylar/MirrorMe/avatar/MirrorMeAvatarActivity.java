@@ -1,10 +1,7 @@
 package edu.usf.PIE.tylar.MirrorMe.avatar;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
