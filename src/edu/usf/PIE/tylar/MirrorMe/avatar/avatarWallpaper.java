@@ -5,8 +5,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,7 +35,13 @@ public class avatarWallpaper extends WallpaperService {
     
     @Override
     public void onCreate() {
-        super.onCreate();
+    	/*
+    	String extStorageDirectory = Environment.getExternalStorageDirectory()+"/MirrorMe";
+        //copyFileOrDir("android.resource://edu.usf.PIE.tylar.MirrorMe/raw/MirrorMe");
+        //copyFileOrDir(extStorageDirectory);
+    	*/
+    	SetDirectory();
+    	super.onCreate();
     }
 
     @Override
@@ -53,12 +62,12 @@ public class avatarWallpaper extends WallpaperService {
     	boolean keepLogs = true;
     	
     	//set up the file directory for saving data and retrieving sprites
-        //File sdCard = Environment.getExternalStorageDirectory();
-        File fileDirectory = new File ((Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe");
+    	String extStorageDirectory = Environment.getExternalStorageDirectory()+"/MirrorMe";
+        File fileDirectory = new File (extStorageDirectory);
     	
         //vars for the avatar
     	long lastFrameChange = 0;		//last frame update [ms]
-        int level_of_activity = 3;		//TODO: set this variable somewhere/someway else
+        String level_of_activity = "sleeping";		//TODO: set this variable somewhere/someway else
         int level_of_realism = 3;		//0=least realistic
         Resources r = getResources();
         
@@ -97,13 +106,18 @@ public class avatarWallpaper extends WallpaperService {
             		//check if enough time has passed
             		long now = SystemClock.elapsedRealtime();
                     if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
+                    	String theLevel = "this is not a level";
                     	//TODO: replace this with better random function
-                    	int newlevel = (int) (Math.round(Math.random()*4));
-                    	while(newlevel == 1 || newlevel == 2){	//TODO: remove this once these cases are implemented
-                    		newlevel = (int) (Math.round(Math.random()*4));
+                    	int newlevel = (int) (Math.floor((Math.random()*2.99999)));
+                    	if(newlevel == 0){
+                    		theLevel = "sleeping";
+                    	}else if(newlevel == 1){
+                    		theLevel = "passive";
+                    	}else if(newlevel == 2){
+                    		theLevel = "active";
                     	}
-                    	Log.v("MirrorMe Avatar", "new activity level = " + newlevel);
-                    	theAvatar.setActivityLevel(newlevel);	//where '4' is # of possible activity levels
+                    	Log.v("MirrorMe Avatar", "new activity level = " + theLevel);
+                    	theAvatar.setActivityLevel(theLevel);	//where '4' is # of possible activity levels
                    	 	lastActivityChange = now;
                     }
             	} else if(selectorMethod.equals("Constant")){ 
@@ -142,7 +156,7 @@ public class avatarWallpaper extends WallpaperService {
 				theAvatar.setRealismLevel(Integer.parseInt(prefs.getString("RealismLevel", Integer.toString(level_of_realism))));
 			//}
 			//if (key == "CurrentActivityLevel"){
-				theAvatar.setActivityLevel(Integer.parseInt(prefs.getString("CurrentActivityLevel", Integer.toString(level_of_activity))));
+				//TODO: fix this: theAvatar.setActivityLevel(Integer.parseInt(prefs.getString("CurrentActivityLevel", level_of_activity)));
 			//}
 			//if (key == "ActivityLevelSelector"){
 				selectorMethod = prefs.getString("ActivityLevelSelector", selectorMethod);
@@ -356,4 +370,72 @@ public class avatarWallpaper extends WallpaperService {
         	c.drawText("virtual FPS: " + desiredFPS + "    actual FPS: " + fps, 10, 100, mPaint); 
         }
     }
+    
+    /**
+     * -- Check to see if the sdCard is mounted and create a directory w/in it
+     * ========================================================================
+     **/
+    private void SetDirectory() {
+        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+
+            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+
+            File txtDirectory = new File(extStorageDirectory + "/MirrorMe/");
+            // Create
+            // a
+            // File
+            // object
+            // for
+            // the
+            // parent
+            // directory
+            txtDirectory.mkdirs();// Have the object build the directory
+            // structure, if needed.
+            CopyAssets(extStorageDirectory); // Then run the method to copy the file.
+
+        } else if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED_READ_ONLY)) {
+        	Log.e("MirrorMe Asset Copier", "SD card is missing");
+            //AlertsAndDialogs.sdCardMissing(this);//Or use your own method ie: Toast
+        }
+
+    }
+
+    /**
+     * -- Copy the file from the assets folder to the sdCard
+     * ===========================================================
+     **/
+    private void CopyAssets(String extStorageDir) {
+        AssetManager assetManager = getAssets();
+        String[] files = null;
+        try {
+            files = assetManager.list("");
+        } catch (IOException e) {
+            Log.e("MirrorMe asset listing", e.getMessage());
+        }
+        for (int i = 0; i < files.length; i++) {
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                in = assetManager.open(files[i]);
+                out = new FileOutputStream(extStorageDir + "/MirrorMe/" + files[i]);
+                copyFile(in, out);
+                in.close();
+                in = null;
+                out.flush();
+                out.close();
+                out = null;
+            } catch (Exception e) {
+                Log.e("MirrorMe copyfile", e.getMessage());
+            }
+        }
+    }
+
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
+    }
+
 }

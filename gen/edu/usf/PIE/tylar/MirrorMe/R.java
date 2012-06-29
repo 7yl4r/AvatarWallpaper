@@ -53,17 +53,7 @@ public final class R {
         public static final int r3_a3_body_f8=0x7f020020;
         public static final int r3_a3_body_f9=0x7f020021;
         public static final int r3_a3_head_f0=0x7f020022;
-        public static final int sleeping_body_f0=0x7f020023;
-        public static final int sleeping_body_f1=0x7f020024;
-        public static final int sleeping_body_f2=0x7f020025;
-        public static final int sleeping_body_f3=0x7f020026;
-        public static final int sleeping_body_f4=0x7f020027;
-        public static final int sleeping_body_f5=0x7f020028;
-        public static final int sleeping_body_f6=0x7f020029;
-        public static final int sleeping_body_f7=0x7f02002a;
-        public static final int sleeping_body_f8=0x7f02002b;
-        public static final int sleeping_body_f9=0x7f02002c;
-        public static final int thumb=0x7f02002d;
+        public static final int thumb=0x7f020023;
     }
     public static final class layout {
         public static final int main=0x7f030000;
