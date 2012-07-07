@@ -380,7 +380,7 @@ public class avatarWallpaper extends WallpaperService {
 
             String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 
-            File txtDirectory = new File(extStorageDirectory + "/MirrorMe/");
+            File txtDirectory = new File(extStorageDirectory);
             // Create
             // a
             // File
@@ -405,19 +405,41 @@ public class avatarWallpaper extends WallpaperService {
      * ===========================================================
      **/
     private void CopyAssets(String extStorageDir) {
-        AssetManager assetManager = getAssets();
+        copier("MirrorMe",extStorageDir);
+    }
+    
+    private void copier(String inDir, String extStorageDir){
+    	AssetManager assetManager = getAssets();
         String[] files = null;
+        Log.v("MirrorMe Avatar", "copying files in " + inDir);
         try {
-            files = assetManager.list("");
+            files = assetManager.list(inDir);
         } catch (IOException e) {
             Log.e("MirrorMe asset listing", e.getMessage());
         }
+        String prefix = inDir;
+    	if(!inDir.equals("")){
+    		prefix += "/";
+    	}
         for (int i = 0; i < files.length; i++) {
             InputStream in = null;
             OutputStream out = null;
+            String fileName = files[i];
             try {
-                in = assetManager.open(files[i]);
-                out = new FileOutputStream(extStorageDir + "/MirrorMe/" + files[i]);
+                in = assetManager.open(prefix + fileName);
+            } catch(Exception e){	//failed file open means listing is a directory
+            	Log.v("MirrorMe Avatar", files[i] + " is directory");
+            	copier(prefix + fileName,extStorageDir);	//add dir name to prefix
+            	continue;
+            }
+            //implied else
+            Log.v("MirrorMe Avatar", files[i] + " is file");
+            
+            File fDir = new File (extStorageDir + "/" + prefix);	//file object for mkdirs
+            fDir.mkdirs();	//create directory
+
+            try{	//copy the file
+                out = new FileOutputStream(extStorageDir + "/" + prefix + files[i]);
                 copyFile(in, out);
                 in.close();
                 in = null;
