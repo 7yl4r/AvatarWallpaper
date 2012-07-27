@@ -19,8 +19,8 @@ import edu.usf.PIE.tylar.MirrorMe.R;
 public class avatarObject extends avatarWallpaper {
 	//--- fields ---------------------------
 	//center locations of sprites:
-	private int headX = 0;
-	private int headY = 120;
+	private int faceX = 0;
+	private int faceY = 120;
 	private int bodyX = 0;
 	private int bodyY = 0;
 	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
@@ -34,7 +34,7 @@ public class avatarObject extends avatarWallpaper {
 	private int currentFrame = 0;	//current frame of the animation 
 	//bitmap arrays for sprites:
 	private Bitmap body = null;
-	private Bitmap[] head = new Bitmap[10];
+	private Bitmap face = null;
 	//booleans determine if bitmaps are drawn:
 	private boolean bodyOn = false;
 	private boolean faceOn = false;
@@ -97,10 +97,8 @@ public class avatarObject extends avatarWallpaper {
 			bodyOn = true;
 			faceOn = false;		//TODO: this should be true
 			//body bitmap loading done every frame in drawAvatar() !!!
-			
+			//face bitmap loaded in drawAvatar!
 			loadPositions(getActivityName());	//set positions of sprites
-			//load face (same for all cartoons)
-			loadFace();
 			
 			break;
 			/* TEMPORARILY DISABLED
@@ -146,7 +144,7 @@ public class avatarObject extends avatarWallpaper {
 			sprite = body;
 			scaler = 2;
 			if(body == null){	//TODO: handle this error better!
-				Log.v("MirrorMe Avatar Draw", "ERROR: Problem Loading Sprites");
+				Log.v("MirrorMe Avatar Draw", "ERROR: Problem Loading body Sprites");
 			} else{
 				source = new Rect(0, 0, sprite.getWidth(), sprite.getHeight());
 				dest = new Rect((int) (bodyX-sprite.getWidth()/2*scaler),
@@ -158,9 +156,39 @@ public class avatarObject extends avatarWallpaper {
 			}
 		}
 		if(faceOn){
+			/*
 			//draw head
+			
 			sprite = head[currentFrame];
 			c.drawBitmap(sprite,-headX-sprite.getWidth()/2,-headY-sprite.getHeight()/2,null);
+			*/
+			
+			//load face
+			currentSprite = baseFileDirectory + "/sprites/face/default/0.png";
+			//load in images from MirrorMe sdcard directory
+			face = BitmapFactory.decodeFile(currentSprite);
+			if(face == null){
+				currentSprite = baseFileDirectory + "/sprites/face/default/0.png";				//load in images from MirrorMe sdcard directory
+				face = BitmapFactory.decodeFile(currentSprite);
+				if(face == null){	//if still null
+					Log.e("MirrorMe Avatar", "face sprite at " + currentSprite +" not found!");	//something went wrong
+				}
+			}
+			//draw face
+			sprite = face;
+			scaler = 2;
+			if(face == null){	//TODO: handle this error better!
+				Log.v("MirrorMe Avatar Draw", "ERROR: Problem Loading face Sprites");
+			} else{
+				source = new Rect(0, 0, sprite.getWidth(), sprite.getHeight());
+				dest = new Rect((int) (faceX-sprite.getWidth()/2*scaler),
+								(int) (faceY-sprite.getHeight()/2*scaler),
+								(int) (faceX+sprite.getWidth()/2*scaler),
+								(int) (faceY+sprite.getHeight()/2*scaler));
+				c.drawBitmap(sprite, source, dest, null);
+				//c.drawBitmap(sprite,bodyX-sprite.getWidth()/2,bodyY-sprite.getHeight()/2,null);
+			}
+			
 		}
 		
 	}
@@ -197,6 +225,7 @@ public class avatarObject extends avatarWallpaper {
 	}
 	*/
 	
+	/*
 	private void loadFace(){
 		head[0] = BitmapFactory.decodeResource(res,R.drawable.r1_a3_head_f0);
 		//set all to same bitmap
@@ -204,6 +233,7 @@ public class avatarObject extends avatarWallpaper {
 			head[i] = head[i-1];	
 		}
 	}
+	*/
 	
 /*	TEMPORARILY DISABLED
 	private void stickman(){
@@ -275,8 +305,8 @@ public class avatarObject extends avatarWallpaper {
 	*/
 	private void loadPositions(String activName){
 		if(activName.equals("running")){
-			headX = 20;
-			headY = 110;
+			faceX = 20;
+			faceY = 110;
 		}
 	}
 	public String getActivityName() {

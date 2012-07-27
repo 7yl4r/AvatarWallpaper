@@ -68,7 +68,6 @@ public class avatarWallpaper extends WallpaperService {
         int level_of_realism = 3;		//0=least realistic
         Resources r = getResources();
         
-        Bitmap test = BitmapFactory.decodeResource(r,R.drawable.r0_a3_body_f0);
         avatarObject theAvatar = new avatarObject(r, level_of_realism, level_of_activity);
         String selectorMethod = "Constant";
         long lastActivityChange = 0;	//last time activity level was changed [ms]
@@ -201,6 +200,7 @@ public class avatarWallpaper extends WallpaperService {
 			//}
 			//if (key == "CurrentActivity"){
 				theAvatar.setActivityName(prefs.getString("CurrentActivity", "inBed"));
+				lastActivityChange = SystemClock.elapsedRealtime();
 			//}
 			//if (key == "ActivityLevelSelector"){
 				selectorMethod = prefs.getString("ActivityLevelSelector", selectorMethod);

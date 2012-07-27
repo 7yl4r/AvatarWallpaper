@@ -10,76 +10,16 @@ package edu.usf.PIE.tylar.MirrorMe;
 public final class R {
     public static final class array {
         public static final int activity_level_selector=0x7f050002;
-        public static final int activity_levels=0x7f050004;
         public static final int avatar_RealismLevels=0x7f050001;
         public static final int avatar_Realisms=0x7f050000;
-        public static final int current_activity_level=0x7f050003;
+        public static final int current_activity=0x7f050003;
     }
     public static final class attr {
     }
     public static final class drawable {
-        public static final int bball_body_f0=0x7f020000;
-        public static final int bball_body_f1=0x7f020001;
-        public static final int bball_body_f2=0x7f020002;
-        public static final int bball_body_f3=0x7f020003;
-        public static final int bball_body_f4=0x7f020004;
-        public static final int bball_body_f5=0x7f020005;
-        public static final int bball_body_f6=0x7f020006;
-        public static final int bball_body_f7=0x7f020007;
-        public static final int bball_body_f8=0x7f020008;
-        public static final int bball_body_f9=0x7f020009;
-        public static final int ic_launcher=0x7f02000a;
-        public static final int ic_launcher_wallpaper=0x7f02000b;
-        public static final int one_0=0x7f02000c;
-        public static final int r0_a3_body_f0=0x7f02000d;
-        public static final int r0_a3_body_f1=0x7f02000e;
-        public static final int r0_a3_body_f2=0x7f02000f;
-        public static final int r0_a3_body_f3=0x7f020010;
-        public static final int r0_a3_body_f4=0x7f020011;
-        public static final int r0_a3_body_f5=0x7f020012;
-        public static final int r0_a3_body_f6=0x7f020013;
-        public static final int r0_a3_body_f7=0x7f020014;
-        public static final int r0_a3_body_f8=0x7f020015;
-        public static final int r0_a3_body_f9=0x7f020016;
-        public static final int r0_a3_head_f0=0x7f020017;
-        public static final int r1_a3_head_f0=0x7f020018;
-        public static final int r3_a3_body_f0=0x7f020019;
-        public static final int r3_a3_body_f1=0x7f02001a;
-        public static final int r3_a3_body_f2=0x7f02001b;
-        public static final int r3_a3_body_f3=0x7f02001c;
-        public static final int r3_a3_body_f4=0x7f02001d;
-        public static final int r3_a3_body_f5=0x7f02001e;
-        public static final int r3_a3_body_f6=0x7f02001f;
-        public static final int r3_a3_body_f7=0x7f020020;
-        public static final int r3_a3_body_f8=0x7f020021;
-        public static final int r3_a3_body_f9=0x7f020022;
-        public static final int r3_a3_head_f0=0x7f020023;
-        public static final int run_f0=0x7f020024;
-        public static final int run_f1=0x7f020025;
-        public static final int run_f2=0x7f020026;
-        public static final int run_f3=0x7f020027;
-        public static final int run_f4=0x7f020028;
-        public static final int run_f5=0x7f020029;
-        public static final int run_f6=0x7f02002a;
-        public static final int sleep_f0=0x7f02002b;
-        public static final int sleep_f1=0x7f02002c;
-        public static final int sleep_f2=0x7f02002d;
-        public static final int sleep_f3=0x7f02002e;
-        public static final int sleeping_body_f0=0x7f02002f;
-        public static final int sleeping_body_f1=0x7f020030;
-        public static final int sleeping_body_f2=0x7f020031;
-        public static final int sleeping_body_f3=0x7f020032;
-        public static final int sleeping_body_f4=0x7f020033;
-        public static final int sleeping_body_f5=0x7f020034;
-        public static final int sleeping_body_f6=0x7f020035;
-        public static final int sleeping_body_f7=0x7f020036;
-        public static final int sleeping_body_f8=0x7f020037;
-        public static final int sleeping_body_f9=0x7f020038;
-        public static final int three_0=0x7f020039;
-        public static final int thumb=0x7f02003a;
-        public static final int two_0=0x7f02003b;
-        public static final int zero_0=0x7f02003c;
-        public static final int zero_1=0x7f02003d;
+        public static final int ic_launcher=0x7f020000;
+        public static final int ic_launcher_wallpaper=0x7f020001;
+        public static final int thumb=0x7f020002;
     }
     public static final class layout {
         public static final int main=0x7f030000;
