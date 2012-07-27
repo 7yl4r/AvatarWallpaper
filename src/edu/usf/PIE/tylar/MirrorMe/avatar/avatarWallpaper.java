@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.TimeZone;
 
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -20,13 +21,14 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import edu.usf.PIE.tylar.MirrorMe.R;
 
 /*
- * This animated wallpaper draws a rotating wireframe cube.
+ * This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
  */
 public class avatarWallpaper extends WallpaperService {
 
@@ -35,11 +37,6 @@ public class avatarWallpaper extends WallpaperService {
     
     @Override
     public void onCreate() {
-    	/*
-    	String extStorageDirectory = Environment.getExternalStorageDirectory()+"/MirrorMe";
-        //copyFileOrDir("android.resource://edu.usf.PIE.tylar.MirrorMe/raw/MirrorMe");
-        //copyFileOrDir(extStorageDirectory);
-    	*/
     	SetDirectory();
     	super.onCreate();
     }
@@ -91,8 +88,9 @@ public class avatarWallpaper extends WallpaperService {
         
         //vars for frame rate
         private long mStartTime;	//time of app start
+      	int nextDay = Time.getJulianDay(System.currentTimeMillis(), TimeZone.getDefault().getRawOffset()) + 1; //tomorrow
         private long lastTime = 0;	//time measurement for calculating deltaT and thus fps
-        private float desiredFPS = 15;
+        private float desiredFPS = 10;
         private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
         
         
@@ -100,7 +98,52 @@ public class avatarWallpaper extends WallpaperService {
             public void run() {
             	//TODO: log information if applicable
             	
-            	//Log.v("MirrorMe Avatar", "selectorMethod = " + selectorMethod);
+            	int today = Time.getJulianDay((new Time()).toMillis(false), TimeZone.getDefault().getRawOffset()); 
+            	//check for enough time to change active/passive
+            	if(today == nextDay){	//If midnight has passed since app start or since last change
+            		//TODO:
+            		//change active/passive state
+            		if(theAvatar.getActivityLevel().equals("active")){
+            			theAvatar.setActivityLevel("passive");
+            		} else if(theAvatar.getActivityLevel().equals("passive")){
+            			theAvatar.setActivityLevel("active");
+            		} else {
+            			Log.e("MirrorMe Avatar", "activityLevel fail");
+            		}
+            		nextDay += 1;
+            	}
+            	//check for enough time to change animation
+        		long now = SystemClock.elapsedRealtime();
+                if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
+                	String theLevel = "this is not a level";
+                	//TODO: get these values from file directory on sdcard instead of having them as hardcoded strings
+            		//TODO: replace this with better random function
+                	int newlevel = (int) (Math.floor((Math.random()*2.99999999999)));
+                	if(theAvatar.getActivityLevel().equals("active")){
+                    	if(newlevel == 0){
+                    		theLevel = "basketball";
+                    	}else if(newlevel == 1){
+                    		theLevel = "running";
+                    	}else if(newlevel == 2){
+                    		theLevel = "bicycling";
+                    	}
+                    } else if(theAvatar.getActivityLevel().equals("passive")){
+                    	if(newlevel == 0){
+                    		theLevel = "watchingTV";
+                    	}else if(newlevel == 1){
+                    		theLevel = "videoGames";
+                    	}else if(newlevel == 2){
+                    		theLevel = "onComputer";
+                    	}
+                    } else {	//activity level is probably the default 'sleeping'
+                    	//TODO: something
+                    }
+                	Log.v("MirrorMe Avatar", "new activity level = " + theLevel);
+                	theAvatar.setActivityName(theLevel);
+               	 	lastActivityChange = now;
+                }
+            	
+            	/*
             	if(selectorMethod.equals("Random")){	//select new level of activity
             		//Log.v("MirrorMe Avatar", "random selected");
             		//check if enough time has passed
@@ -126,6 +169,7 @@ public class avatarWallpaper extends WallpaperService {
             	} else{
             		Log.e("MirrorMe Avatar", "selectorMethod '" + selectorMethod + "' not recognized");
             	}
+            	*/
                 drawFrame();//draw next frame
             }
         };
@@ -155,8 +199,8 @@ public class avatarWallpaper extends WallpaperService {
 			//if(key.equals("RealismLevel")){
 				theAvatar.setRealismLevel(Integer.parseInt(prefs.getString("RealismLevel", Integer.toString(level_of_realism))));
 			//}
-			//if (key == "CurrentActivityLevel"){
-				//TODO: fix this: theAvatar.setActivityLevel(Integer.parseInt(prefs.getString("CurrentActivityLevel", level_of_activity)));
+			//if (key == "CurrentActivity"){
+				theAvatar.setActivityName(prefs.getString("CurrentActivity", "inBed"));
 			//}
 			//if (key == "ActivityLevelSelector"){
 				selectorMethod = prefs.getString("ActivityLevelSelector", selectorMethod);
@@ -188,7 +232,8 @@ public class avatarWallpaper extends WallpaperService {
                 visibilityStart = System.currentTimeMillis();
             } else {
                 mHandler.removeCallbacks(mDrawCube);
-                long visibleTime = System.currentTimeMillis() - visibilityStart;
+                Long visibilityEnd = System.currentTimeMillis();
+                long visibleTime = visibilityEnd - visibilityStart;
                 File dataLogFile = new File(fileDirectory, "dataLog.txt");	//create file
                 
                 if(!fileDirectory.mkdirs()){	//create if directory not exist
@@ -218,6 +263,14 @@ public class avatarWallpaper extends WallpaperService {
                 } else {
                 	try {
 						dataFileOut = new FileOutputStream(dataLogFile, false);	//do not append
+						DataOutputStream dataOut = new DataOutputStream(dataFileOut);
+						//print header on data file
+						try {
+							dataOut.writeBytes("StartVisible,EndVisible,ViewTime,animationName\n");
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						Log.d("MirrorMe Avatar", "New dataLog file has been created");
 						keepLogs = true;
 					} catch (FileNotFoundException e) {
@@ -228,7 +281,8 @@ public class avatarWallpaper extends WallpaperService {
 				DataOutputStream dataOut = new DataOutputStream(dataFileOut);
 				//write time viewed to file
                 try {
-					dataOut.writeBytes(String.valueOf(visibleTime)+"\n");
+					dataOut.writeBytes(String.valueOf(visibilityStart)+","+String.valueOf(visibilityEnd)+String.valueOf(visibilityEnd-visibilityStart)+
+							"," + theAvatar.getActivityName() + "\n");
 					Log.d("MirrorMe Avatar", visibleTime + " ms of time added to file");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -298,7 +352,6 @@ public class avatarWallpaper extends WallpaperService {
             try {
                 c = holder.lockCanvas();
                 if (c != null) {
-                    // draw something
                 	drawBG(c);
                     //drawCube(c);
                     //drawTouchPoint(c);

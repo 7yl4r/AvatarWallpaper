@@ -28,8 +28,8 @@ public class avatarObject extends avatarWallpaper {
 	//resource object for loading bitmaps from gen files
 	Resources res = null;	//TODO: remove this
 	//values for choosing appropriate animations:
-	private String activityLevel;
-	private String activityName = "inBed";
+	private String activityLevel = "active";
+	private String activityName = "running";
 	private int realismLevel;
 	private int currentFrame = 0;	//current frame of the animation 
 	//bitmap arrays for sprites:
@@ -51,9 +51,9 @@ public class avatarObject extends avatarWallpaper {
 		return activityLevel;
 	}
 	public void setActivityLevel(String newLevel){
+		//choose new activity name (default names for each level)
 		activityLevel = newLevel;
-		//update bitmaps
-		loadBitmaps();
+		loadBitmaps();		//update bitmaps
 	}
 	public int getRealismLevel(){
 		return realismLevel;
@@ -98,7 +98,7 @@ public class avatarObject extends avatarWallpaper {
 			faceOn = false;		//TODO: this should be true
 			//body bitmap loading done every frame in drawAvatar() !!!
 			
-			loadPositions(activityName);	//set postions of sprites
+			loadPositions(getActivityName());	//set positions of sprites
 			//load face (same for all cartoons)
 			loadFace();
 			
@@ -130,12 +130,12 @@ public class avatarObject extends avatarWallpaper {
 		}
 		if(bodyOn){
 			//load body
-			currentSprite = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/" + String.valueOf(currentFrame) + ".png";
+			currentSprite = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + getActivityName() + "/" + String.valueOf(currentFrame) + ".png";
 			//load in images from MirrorMe sdcard directory
 			body = BitmapFactory.decodeFile(currentSprite);
 			if(body == null){
 				currentFrame = 0;	//animation loops back
-				currentSprite = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/" + String.valueOf(currentFrame) + ".png";
+				currentSprite = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + getActivityName() + "/" + String.valueOf(currentFrame) + ".png";
 				//load in images from MirrorMe sdcard directory
 				body = BitmapFactory.decodeFile(currentSprite);
 				if(body == null){	//if still null
@@ -278,5 +278,23 @@ public class avatarObject extends avatarWallpaper {
 			headX = 20;
 			headY = 110;
 		}
+	}
+	public String getActivityName() {
+		return activityName;
+	}
+	public void setActivityName(String newName) {
+		//change activity level
+		if(newName.equals("basketball") || newName.equals("running") || newName.equals("bicycling")){
+			this.setActivityLevel("active");
+		} else if(newName.equals("onComputer") || newName.equals("videoGames") || newName.equals("watchingTV")){
+			this.setActivityLevel("passive");
+		} else if (newName.equals("inBed")){
+			this.setActivityLevel("sleeping");
+		} else {
+			Log.e("Avatars4Change Avatar", "activity name not recognized");
+			return;
+		}
+		//set new activity name
+		this.activityName = newName;
 	}
 }

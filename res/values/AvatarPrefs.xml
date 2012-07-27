@@ -3,7 +3,7 @@
 <resources>
 
     <string-array name="avatar_Realisms">
-        <item>"0 - Stickman"</item>
+        <item>&quot;0 - Stickman&quot;</item>
         <item>"1 - Stickman + Face"</item>
         <item>"2 - Cartoon"</item>
         <item>"3 - Cartoon + Face"</item>
@@ -20,19 +20,14 @@
         <item >"Constant"</item>
     </string-array>
     
-    <string-array name="current_activity_level">
-        <item >"0 - sleeping"</item>
-        <item >"1 - ?"</item>
-        <item >"2 - ?"</item>
-        <item >"3 - Basketball"</item>
-        <item >"4 - Running"</item>
-    </string-array>
-    <string-array name="activity_levels">
-        <item >"0"</item>
-        <item >"1"</item>
-        <item >"2"</item>
-        <item >"3"</item>
-        <item >"4"</item>
+    <string-array name="current_activity">
+        <item >&quot;inBed&quot;</item>
+        <item >&quot;onComputer&quot;</item>
+        <item >&quot;videoGames&quot;</item>
+        <item >&quot;watchingTV&quot;</item>
+        <item >&quot;basketball&quot;</item>
+        <item >&quot;bicycling&quot;</item>
+        <item >&quot;running&quot;</item>
     </string-array>
     
 </resources>
