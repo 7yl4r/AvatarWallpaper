@@ -26,7 +26,6 @@ public class avatarObject extends avatarWallpaper {
 	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
 	String currentSprite = baseFileDirectory + "/sprites";
 	//resource object for loading bitmaps from gen files
-	Resources res = null;	//TODO: remove this
 	//values for choosing appropriate animations:
 	private String activityLevel = "active";
 	private String activityName = "running";
@@ -44,7 +43,6 @@ public class avatarObject extends avatarWallpaper {
 	public avatarObject(Resources r, int realismL, String activityL) {
 			activityLevel = activityL;
 			realismLevel = realismL;
-			res = r;
 			loadBitmaps();
 	}
 	public String getActivityLevel(){
@@ -53,6 +51,9 @@ public class avatarObject extends avatarWallpaper {
 	public void setActivityLevel(String newLevel){
 		//choose new activity name (default names for each level)
 		activityLevel = newLevel;
+		//TODO: choose random in new level
+		randomActivity(activityLevel);
+		
 		loadBitmaps();		//update bitmaps
 	}
 	public int getRealismLevel(){
@@ -63,10 +64,6 @@ public class avatarObject extends avatarWallpaper {
 		Log.d("MirrorMe Avatar", "Realism Level set to " + realismLevel);
 		//update bitmaps
 		loadBitmaps();
-	}
-	
-	public void setResources(Resources r){
-		res = r;
 	}
 	
 	//loads bitmap files assuming all are saved in the ./assets folder with the following naming convention:
@@ -326,5 +323,34 @@ public class avatarObject extends avatarWallpaper {
 		}
 		//set new activity name
 		this.activityName = newName;
+	}
+	
+	//sets random activity name in the level passed
+	public void randomActivity(String level){
+		String theLevel = "this is not an activity";
+    	//TODO: get these values from file directory on sdcard instead of having them as hardcoded strings
+		//TODO: replace this with better random function
+    	int newlevel = (int) (Math.floor((Math.random()*2.99999999999)));
+    	if(level.equals("active")){
+        	if(newlevel == 0){
+        		theLevel = "basketball";
+        	}else if(newlevel == 1){
+        		theLevel = "running";
+        	}else if(newlevel == 2){
+        		theLevel = "bicycling";
+        	}
+        } else if(level.equals("passive")){
+        	if(newlevel == 0){
+        		theLevel = "watchingTV";
+        	}else if(newlevel == 1){
+        		theLevel = "videoGames";
+        	}else if(newlevel == 2){
+        		theLevel = "onComputer";
+        	}
+        } else {	//activity level is probably the default 'sleeping'
+        	//TODO: something
+        }
+    	Log.v("MirrorMe Avatar", "new activity = " + theLevel);
+    	activityName = theLevel;
 	}
 }
