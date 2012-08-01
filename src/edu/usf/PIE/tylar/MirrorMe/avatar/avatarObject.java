@@ -1,20 +1,12 @@
 package edu.usf.PIE.tylar.MirrorMe.avatar;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
-import android.content.ContentResolver;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
-import edu.usf.PIE.tylar.MirrorMe.R;
 
 public class avatarObject extends avatarWallpaper {
 	//--- fields ---------------------------
@@ -49,10 +41,8 @@ public class avatarObject extends avatarWallpaper {
 		return activityLevel;
 	}
 	public void setActivityLevel(String newLevel){
-		//choose new activity name (default names for each level)
 		activityLevel = newLevel;
-		//TODO: choose random in new level
-		randomActivity(activityLevel);
+		randomActivity(activityLevel);		//choose random activity in new level
 		
 		loadBitmaps();		//update bitmaps
 	}
@@ -327,30 +317,30 @@ public class avatarObject extends avatarWallpaper {
 	
 	//sets random activity name in the level passed
 	public void randomActivity(String level){
-		String theLevel = "this is not an activity";
+		String activity = "this is not an activity";
     	//TODO: get these values from file directory on sdcard instead of having them as hardcoded strings
 		//TODO: replace this with better random function
     	int newlevel = (int) (Math.floor((Math.random()*2.99999999999)));
     	if(level.equals("active")){
         	if(newlevel == 0){
-        		theLevel = "basketball";
+        		activity = "basketball";
         	}else if(newlevel == 1){
-        		theLevel = "running";
+        		activity = "running";
         	}else if(newlevel == 2){
-        		theLevel = "bicycling";
+        		activity = "bicycling";
         	}
         } else if(level.equals("passive")){
         	if(newlevel == 0){
-        		theLevel = "watchingTV";
+        		activity = "watchingTV";
         	}else if(newlevel == 1){
-        		theLevel = "videoGames";
+        		activity = "videoGames";
         	}else if(newlevel == 2){
-        		theLevel = "onComputer";
+        		activity = "onComputer";
         	}
         } else {	//activity level is probably the default 'sleeping'
         	//TODO: something
         }
-    	Log.v("MirrorMe Avatar", "new activity = " + theLevel);
-    	activityName = theLevel;
+    	Log.v("MirrorMe Avatar", "new activity = " + activity);
+    	activityName = activity;
 	}
 }

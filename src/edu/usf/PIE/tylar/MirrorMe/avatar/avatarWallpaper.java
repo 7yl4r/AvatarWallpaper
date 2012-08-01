@@ -71,7 +71,7 @@ public class avatarWallpaper extends WallpaperService {
         avatarObject theAvatar = new avatarObject(r, level_of_realism, level_of_activity);
         String selectorMethod = "Constant";
         long lastActivityChange = 0;	//last time activity level was changed [ms]
-        long deltaActivityChange = 5*1000;	//desired time between (random?) activity level updates [ms]
+        long deltaActivityChange = 60*60*1000;	//desired time between activity level updates [ms]
         
         //vars for canvas
         private final Paint mPaint = new Paint();
@@ -82,7 +82,7 @@ public class avatarWallpaper extends WallpaperService {
         private float mTouchX = -1;
         private float mTouchY = -1;
 
-    	//vars for the cube???
+    	//vars for offset based on home screen location
         private float mOffset;
         
         //vars for frame rate
@@ -93,11 +93,11 @@ public class avatarWallpaper extends WallpaperService {
         private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
         
         
-        private final Runnable mDrawCube = new Runnable() {
+        private final Runnable mDrawViz = new Runnable() {
             public void run() {
             	
             	int today = Time.getJulianDay(System.currentTimeMillis(), TimeZone.getDefault().getRawOffset()); 	//(new Time()).toMillis(false)
-            	//Log.v("MirrorMe day timer", "today:" + today + "lastDay:" + lastActivityLevelChangeDay);
+            	//Log.v("MirrorMe day timer", "today:" + today + "   lastDay:" + lastActivityLevelChangeDay);
             	//check for enough time to change active/passive
             	if(today != lastActivityLevelChangeDay){	//If midnight has passed since app start or since last change
             		//change active/passive state
@@ -152,7 +152,7 @@ public class avatarWallpaper extends WallpaperService {
         private SharedPreferences mPrefs;
         
         DrawEngine() {
-            // Create a Paint to draw the lines for our cube
+            // Create a Paint to draw on
             final Paint paint = mPaint;
             paint.setColor(Color.GRAY); //0xffffffff);
             paint.setAntiAlias(true);
@@ -160,9 +160,10 @@ public class avatarWallpaper extends WallpaperService {
             paint.setStrokeCap(Paint.Cap.ROUND);
             paint.setStyle(Paint.Style.STROKE);
 
-            mStartTime = System.currentTimeMillis();
-            lastActivityLevelChangeDay = Time.getJulianDay(mStartTime, TimeZone.getDefault().getRawOffset()); 
-            mPrefs = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);
+            mStartTime = System.currentTimeMillis();	//set app start time
+            lastActivityLevelChangeDay = Time.getJulianDay(mStartTime, TimeZone.getDefault().getRawOffset()); 	//initialize to app start
+            mPrefs = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
+            //register reciever for changed settings:
             mPrefs.registerOnSharedPreferenceChangeListener(this);
             onSharedPreferenceChanged(mPrefs, null);
         }
@@ -196,7 +197,7 @@ public class avatarWallpaper extends WallpaperService {
         @Override
         public void onDestroy() {
             super.onDestroy();
-            mHandler.removeCallbacks(mDrawCube);
+            mHandler.removeCallbacks(mDrawViz);
         }
 
         @Override
@@ -206,7 +207,7 @@ public class avatarWallpaper extends WallpaperService {
                 drawFrame();
                 visibilityStart = System.currentTimeMillis();
             } else {
-                mHandler.removeCallbacks(mDrawCube);
+                mHandler.removeCallbacks(mDrawViz);
                 Long visibilityEnd = System.currentTimeMillis();
                 long visibleTime = visibilityEnd - visibilityStart;
                 File dataLogFile = new File(fileDirectory, "dataLog.txt");	//create file
@@ -275,7 +276,7 @@ public class avatarWallpaper extends WallpaperService {
         @Override
         public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             super.onSurfaceChanged(holder, format, width, height);
-            // store the center of the surface, so we can draw the cube in the right spot
+            // store the center of the surface, so we can draw in the right spot
             mCenterX = width/2.0f;
             mCenterY = height/2.0f;
             drawFrame();
@@ -290,7 +291,7 @@ public class avatarWallpaper extends WallpaperService {
         public void onSurfaceDestroyed(SurfaceHolder holder) {
             super.onSurfaceDestroyed(holder);
             mVisible = false;
-            mHandler.removeCallbacks(mDrawCube);
+            mHandler.removeCallbacks(mDrawViz);
         }
 
         @Override
@@ -328,7 +329,6 @@ public class avatarWallpaper extends WallpaperService {
                 c = holder.lockCanvas();
                 if (c != null) {
                 	drawBG(c);
-                    //drawCube(c);
                     //drawTouchPoint(c);
                     drawAvatar(c);
                     //drawFPS(c);
@@ -338,9 +338,9 @@ public class avatarWallpaper extends WallpaperService {
             }
 
             // Reschedule the next redraw
-            mHandler.removeCallbacks(mDrawCube);
+            mHandler.removeCallbacks(mDrawViz);
             if (mVisible) {
-                mHandler.postDelayed(mDrawCube, 1000 / 25);
+                mHandler.postDelayed(mDrawViz, 1000 / 25);
             }
         }
 
