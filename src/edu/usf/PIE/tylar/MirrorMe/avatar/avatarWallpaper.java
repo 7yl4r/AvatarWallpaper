@@ -12,8 +12,6 @@ import java.util.TimeZone;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -25,7 +23,6 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import edu.usf.PIE.tylar.MirrorMe.R;
 
 /*
  * This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
@@ -116,37 +113,10 @@ public class avatarWallpaper extends WallpaperService {
                 	theAvatar.randomActivity(theAvatar.getActivityLevel());
                	 	lastActivityChange = now;
                 }
-            	
-            	/*
-            	if(selectorMethod.equals("Random")){	//select new level of activity
-            		//Log.v("MirrorMe Avatar", "random selected");
-            		//check if enough time has passed
-            		long now = SystemClock.elapsedRealtime();
-                    if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
-                    	String theLevel = "this is not a level";
-                    	//TODO: replace this with better random function
-                    	int newlevel = (int) (Math.floor((Math.random()*2.99999)));
-                    	if(newlevel == 0){
-                    		theLevel = "sleeping";
-                    	}else if(newlevel == 1){
-                    		theLevel = "passive";
-                    	}else if(newlevel == 2){
-                    		theLevel = "active";
-                    	}
-                    	Log.v("MirrorMe Avatar", "new activity level = " + theLevel);
-                    	theAvatar.setActivityLevel(theLevel);	//where '4' is # of possible activity levels
-                   	 	lastActivityChange = now;
-                    }
-            	} else if(selectorMethod.equals("Constant")){ 
-            		//do nothing
-            		//Log.d("MirrorMe Avatar", "Constant selectorMethod not implemented");
-            	} else{
-            		Log.e("MirrorMe Avatar", "selectorMethod '" + selectorMethod + "' not recognized");
-            	}
-            	*/
                 drawFrame();//draw next frame
             }
         };
+        
         private boolean mVisible;
         
         private SharedPreferences mPrefs;
@@ -216,18 +186,7 @@ public class avatarWallpaper extends WallpaperService {
                 	//if creation of directory fails
                 	Log.v("MirrorMe Avatar", "creation of directory fails, already exists?");
                 }
-                /*
-                if(!dataLogFile.exists() || !keepLogs){	//create file if does not exist or reset flag set
-                	keepLogs = true;	//turn of reset flag
-                	  try {
-						dataLogFile.createNewFile();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-                	  Log.d("MirrorMe Avatar", "New dataLog file has been created");
-            	}
-            	*/
+                //create or open dataLog file:
                 FileOutputStream dataFileOut = null;
                 if(keepLogs){
 					try {

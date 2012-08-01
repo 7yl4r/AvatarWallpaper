@@ -9,7 +9,7 @@ import android.os.Environment;
 import android.util.Log;
 
 public class avatarObject extends avatarWallpaper {
-	//--- fields ---------------------------
+	//--- fields ---------------------------cd E	
 	//center locations of sprites:
 	private int faceX = 0;
 	private int faceY = 120;
