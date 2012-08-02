@@ -1,0 +1,6 @@
+﻿* Fix videoGames animation size changes
+	-> re-export bitmaps
+* increase time between channel changes in watchingTV animation
+	-> add multiples of last/first slide
+* users may experience next days' animation if they stay up late; first day animation changes may not be on the hour
+	-> add sleep animation starting at 3am ending at 5am between switches
