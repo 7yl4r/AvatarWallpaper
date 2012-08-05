@@ -20,8 +20,8 @@ public class avatarObject extends avatarWallpaper {
 	String currentSpriteName = baseFileDirectory + "/sprites";
 	//resource object for loading bitmaps from gen files
 	//values for choosing appropriate animations:
-	private String activityLevel = "active";
-	private String activityName = "running";
+	private String activityLevel = "sleeping";
+	private String activityName = "inBed";
 	private int realismLevel;
 	private int currentFrame = 0;	//current frame of the animation 
 	//bitmap arrays for sprites:
@@ -181,11 +181,7 @@ public class avatarObject extends avatarWallpaper {
 	
 	//moves animation to the next frame by incrementing currentFrame
 	public void nextFrame(){
-		if(currentFrame >= 9){
-			currentFrame = 0;
-		} else{
 			currentFrame++;
-		}
 	}
 	
 	/*
@@ -336,6 +332,8 @@ public class avatarObject extends avatarWallpaper {
         	}else if(newlevel == 2){
         		activity = "onComputer";
         	}
+        } else if(level.equals("sleeping")){
+        	activity = "inBed";
         } else {	//activity level is probably the default 'sleeping'
         	//TODO: something
         }

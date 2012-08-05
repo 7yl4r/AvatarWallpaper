@@ -2,15 +2,15 @@
 <resources>
 
     <!-- General -->
-	<string name="hello">Hello World, MirrorMeAvatarActivity!</string>
+	<string name="hello">Hello World, this is your Avatar speaking!</string>
 	
     <!-- Application name -->
-    <string name="wallpapers">Example Wallpapers</string>
+    <string name="wallpapers">Avatar Wallpaper</string>
     <string name="app_name">Avatars4Change</string>
     
     <!-- Wallpaper showing an avatar, data read from resource -->
     <string name="AvatarWallpaperDescription">Avatar Live Wallpaper for MirrorMe and Proteus Studies</string>
-    <string name="wallpaper_avatar">MirrorMe Avatar</string>
+    <string name="wallpaper_avatar">Avatars4Change Avatar</string>
     <string name="avatar_settings">Avatar Settings</string>
     <string name="RealismSelector_title">Level of Realism</string>
     <string name="RealismSelector_summary">Choose level of realism for avatar.</string>

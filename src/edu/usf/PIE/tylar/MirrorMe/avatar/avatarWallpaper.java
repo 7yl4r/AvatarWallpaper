@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Calendar;
 import java.util.TimeZone;
 
 import android.content.SharedPreferences;
@@ -61,14 +62,13 @@ public class avatarWallpaper extends WallpaperService {
     	
         //vars for the avatar
     	long lastFrameChange = 0;		//last frame update [ms]
-        String level_of_activity = "sleeping";		//TODO: set this variable somewhere/someway else
-        int level_of_realism = 3;		//0=least realistic
         Resources r = getResources();
-        
-        avatarObject theAvatar = new avatarObject(r, level_of_realism, level_of_activity);
+        avatarObject theAvatar = new avatarObject(r, 3, "sleeping");		//create new avatar
         String selectorMethod = "Constant";
         long lastActivityChange = 0;	//last time activity level was changed [ms]
-        long deltaActivityChange = 60*60*1000;	//desired time between activity level updates [ms]
+        long deltaActivityChange = 10*1000;	//desired time between activity level updates [ms]
+        int bedTime = 23;
+        int wakeTime = 5;
         
         //vars for canvas
         private final Paint mPaint = new Paint();
@@ -87,6 +87,7 @@ public class avatarWallpaper extends WallpaperService {
         //vars for frame rate
         private long mStartTime;	//time of app start
         int lastActivityLevelChangeDay;
+        String lastActivityLevel = "active";
         private long lastTime = 0;	//time measurement for calculating deltaT and thus fps
         private float desiredFPS = 10;
         private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
@@ -94,26 +95,34 @@ public class avatarWallpaper extends WallpaperService {
         
         private final Runnable mDrawViz = new Runnable() {
             public void run() {
-            	
-            	int today = Time.getJulianDay(System.currentTimeMillis(), TimeZone.getDefault().getRawOffset()); 	//(new Time()).toMillis(false)
-            	//Log.v("MirrorMe day timer", "today:" + today + "   lastDay:" + lastActivityLevelChangeDay);
-            	//check for enough time to change active/passive
-            	if(today != lastActivityLevelChangeDay){	//If midnight has passed since app start or since last change
-            		//change active/passive state
-            		if(theAvatar.getActivityLevel().equals("active")){
-            			theAvatar.setActivityLevel("passive");
-            		} else if(theAvatar.getActivityLevel().equals("passive")){
-            			theAvatar.setActivityLevel("active");
-            		} else {
-            			Log.e("MirrorMe Avatar", "activityLevel fail");
-            		}
-            		lastActivityLevelChangeDay += 1;
-            	}
-            	//check for enough time to change animation
-        		long now = SystemClock.elapsedRealtime();
-                if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
-                	theAvatar.randomActivity(theAvatar.getActivityLevel());
-               	 	lastActivityChange = now;
+                //if past bedTime and before wakeTime, sleep
+                int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                Log.v("Avatars4Change Avatar sleep clock", "current hour:" + currentHour);
+                if(currentHour >= bedTime || currentHour < wakeTime){
+                	//draw sleeping
+                	theAvatar.setActivityLevel("sleeping");
+                } else {
+	            	//check for enough time to change animation
+	        		long now = SystemClock.elapsedRealtime();
+	                if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
+	                	theAvatar.randomActivity(theAvatar.getActivityLevel());
+	               	 	lastActivityChange = now;
+	                }
+	            	int today = Time.getJulianDay(System.currentTimeMillis(), TimeZone.getDefault().getRawOffset()); 	//(new Time()).toMillis(false)
+	            	//check for time to change active/passive
+	            	if(today != lastActivityLevelChangeDay){	//If midnight has passed since app start or since last change
+	            		//change active/passive state
+	            		if(lastActivityLevel.equals("active")){
+	            			theAvatar.setActivityLevel("passive");
+	            			lastActivityLevel = "passive";
+	            		} else if(lastActivityLevel.equals("passive")){
+	            			theAvatar.setActivityLevel("active");
+	            			lastActivityLevel = "active";
+	            		} else {
+	            			Log.e("MirrorMe Avatar", "activityLevel fail");
+	            		}
+	            		lastActivityLevelChangeDay += 1;
+	            	}
                 }
                 drawFrame();//draw next frame
             }
@@ -144,7 +153,7 @@ public class avatarWallpaper extends WallpaperService {
 		public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
 			Log.d("MirrorMe Avatar", "adjusting " + key + " preference");
 			//if(key.equals("RealismLevel")){
-				theAvatar.setRealismLevel(Integer.parseInt(prefs.getString("RealismLevel", Integer.toString(level_of_realism))));
+				theAvatar.setRealismLevel(Integer.parseInt(prefs.getString("RealismLevel", Integer.toString(theAvatar.getRealismLevel()))));
 			//}
 			//if (key == "CurrentActivity"){
 				theAvatar.setActivityName(prefs.getString("CurrentActivity", "inBed"));
