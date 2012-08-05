@@ -66,7 +66,7 @@ public class avatarWallpaper extends WallpaperService {
         avatarObject theAvatar = new avatarObject(r, 3, "sleeping");		//create new avatar
         String selectorMethod = "Constant";
         long lastActivityChange = 0;	//last time activity level was changed [ms]
-        long deltaActivityChange = 10*1000;	//desired time between activity level updates [ms]
+        long deltaActivityChange = 60*60*1000;	//desired time between activity level updates [ms]
         int bedTime = 23;
         int wakeTime = 5;
         
@@ -89,7 +89,7 @@ public class avatarWallpaper extends WallpaperService {
         int lastActivityLevelChangeDay;
         String lastActivityLevel = "active";
         private long lastTime = 0;	//time measurement for calculating deltaT and thus fps
-        private float desiredFPS = 10;
+        private float desiredFPS = 5;
         private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
         
         
@@ -103,7 +103,7 @@ public class avatarWallpaper extends WallpaperService {
                 	theAvatar.setActivityLevel("sleeping");
                 } else {
 	            	//check for enough time to change animation
-	        		long now = SystemClock.elapsedRealtime();
+	        		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
 	                if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
 	                	theAvatar.randomActivity(theAvatar.getActivityLevel());
 	               	 	lastActivityChange = now;
