@@ -15,8 +15,9 @@ public class avatarObject extends avatarWallpaper {
 	private int faceY = 120;
 	private int bodyX = 0;
 	private int bodyY = 0;
+	private float scaler = 1;
 	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
-	String currentSprite = baseFileDirectory + "/sprites";
+	String currentSpriteName = baseFileDirectory + "/sprites";
 	//resource object for loading bitmaps from gen files
 	//values for choosing appropriate animations:
 	private String activityLevel = "active";
@@ -109,27 +110,25 @@ public class avatarObject extends avatarWallpaper {
 		 */
 		Rect source, dest;
 		Bitmap sprite;
-		float scaler;
 		if(backgroundOn){
 			//draw background
 		}
 		if(bodyOn){
 			//load body
-			currentSprite = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + getActivityName() + "/" + String.valueOf(currentFrame) + ".png";
+			currentSpriteName = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + getActivityName() + "/" + String.valueOf(currentFrame) + ".png";
 			//load in images from MirrorMe sdcard directory
-			body = BitmapFactory.decodeFile(currentSprite);
+			body = BitmapFactory.decodeFile(currentSpriteName);
 			if(body == null){
 				currentFrame = 0;	//animation loops back
-				currentSprite = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + getActivityName() + "/" + String.valueOf(currentFrame) + ".png";
+				currentSpriteName = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + getActivityName() + "/" + String.valueOf(currentFrame) + ".png";
 				//load in images from MirrorMe sdcard directory
-				body = BitmapFactory.decodeFile(currentSprite);
+				body = BitmapFactory.decodeFile(currentSpriteName);
 				if(body == null){	//if still null
-					Log.e("MirrorMe Avatar", "body sprite at " + currentSprite +" not found!");	//something went wrong
+					Log.e("MirrorMe Avatar", "body sprite at " + currentSpriteName +" not found!");	//something went wrong
 				}
 			}
 			//draw body
 			sprite = body;
-			scaler = 2;
 			if(body == null){	//TODO: handle this error better!
 				Log.v("MirrorMe Avatar Draw", "ERROR: Problem Loading body Sprites");
 			} else{
@@ -151,14 +150,14 @@ public class avatarObject extends avatarWallpaper {
 			*/
 			
 			//load face
-			currentSprite = baseFileDirectory + "/sprites/face/default/0.png";
+			currentSpriteName = baseFileDirectory + "/sprites/face/default/0.png";
 			//load in images from MirrorMe sdcard directory
-			face = BitmapFactory.decodeFile(currentSprite);
+			face = BitmapFactory.decodeFile(currentSpriteName);
 			if(face == null){
-				currentSprite = baseFileDirectory + "/sprites/face/default/0.png";				//load in images from MirrorMe sdcard directory
-				face = BitmapFactory.decodeFile(currentSprite);
+				currentSpriteName = baseFileDirectory + "/sprites/face/default/0.png";				//load in images from MirrorMe sdcard directory
+				face = BitmapFactory.decodeFile(currentSpriteName);
 				if(face == null){	//if still null
-					Log.e("MirrorMe Avatar", "face sprite at " + currentSprite +" not found!");	//something went wrong
+					Log.e("MirrorMe Avatar", "face sprite at " + currentSpriteName +" not found!");	//something went wrong
 				}
 			}
 			//draw face
@@ -342,5 +341,16 @@ public class avatarObject extends avatarWallpaper {
         }
     	Log.v("MirrorMe Avatar", "new activity = " + activity);
     	activityName = activity;
+	}
+	
+	public void setScaler(float newScale){
+		scaler = newScale;
+	}
+	
+	public int maxH(){
+		return 200;
+	}
+	public int maxW(){
+		return 200;
 	}
 }

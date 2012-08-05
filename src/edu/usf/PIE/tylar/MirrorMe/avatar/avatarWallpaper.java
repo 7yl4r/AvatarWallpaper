@@ -74,6 +74,8 @@ public class avatarWallpaper extends WallpaperService {
         private final Paint mPaint = new Paint();
         private float mCenterX;
         private float mCenterY;
+        private float mHeight;
+        private float mWidth;
         
         //vars for touchPoint circle
         private float mTouchX = -1;
@@ -238,6 +240,15 @@ public class avatarWallpaper extends WallpaperService {
             // store the center of the surface, so we can draw in the right spot
             mCenterX = width/2.0f;
             mCenterY = height/2.0f;
+            mHeight = height;
+            mWidth = width;
+            //TODO: MOVE THIS:
+            float hScaler = mHeight/theAvatar.maxH();
+            float wScaler = mWidth/theAvatar.maxW();
+            if(wScaler < hScaler){
+            	theAvatar.setScaler(wScaler);
+            } else theAvatar.setScaler(hScaler);
+            
             drawFrame();
         }
 
