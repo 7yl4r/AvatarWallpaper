@@ -69,6 +69,7 @@ public class avatarWallpaper extends WallpaperService {
         long deltaActivityChange = 60*60*1000;	//desired time between activity level updates [ms]
         int bedTime = 23;
         int wakeTime = 5;
+        boolean activeOnEvens = true;
         
         //vars for canvas
         private final Paint mPaint = new Paint();
@@ -97,32 +98,32 @@ public class avatarWallpaper extends WallpaperService {
             public void run() {
                 //if past bedTime and before wakeTime, sleep
                 int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                Log.v("Avatars4Change Avatar sleep clock", "current hour:" + currentHour);
+                //Log.v("Avatars4Change Avatar sleep clock", "current hour:" + currentHour);
                 if(currentHour >= bedTime || currentHour < wakeTime){
                 	//draw sleeping
                 	theAvatar.setActivityLevel("sleeping");
-                } else {
+                } else {	//awake
+                	int today = Time.getJulianDay(System.currentTimeMillis(), TimeZone.getDefault().getRawOffset()); 	//(new Time()).toMillis(false)
+	            	//set active or passive, depending on even or odd julian day
+	            	if(today%2 == 0){	//if today is even
+	            		if(activeOnEvens){
+	            			theAvatar.setActivityLevel("active");
+	            		}else{
+	            			theAvatar.setActivityLevel("passive");
+	            		}
+	            	}else{	//today is odd
+	            		if(activeOnEvens){	//if active on odd days
+	            			theAvatar.setActivityLevel("active");
+	            		}else{
+	            			theAvatar.setActivityLevel("passive");
+	            		}
+	            	}
 	            	//check for enough time to change animation
 	        		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
 	                if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
 	                	theAvatar.randomActivity(theAvatar.getActivityLevel());
 	               	 	lastActivityChange = now;
 	                }
-	            	int today = Time.getJulianDay(System.currentTimeMillis(), TimeZone.getDefault().getRawOffset()); 	//(new Time()).toMillis(false)
-	            	//check for time to change active/passive
-	            	if(today != lastActivityLevelChangeDay){	//If midnight has passed since app start or since last change
-	            		//change active/passive state
-	            		if(lastActivityLevel.equals("active")){
-	            			theAvatar.setActivityLevel("passive");
-	            			lastActivityLevel = "passive";
-	            		} else if(lastActivityLevel.equals("passive")){
-	            			theAvatar.setActivityLevel("active");
-	            			lastActivityLevel = "active";
-	            		} else {
-	            			Log.e("MirrorMe Avatar", "activityLevel fail");
-	            		}
-	            		lastActivityLevelChangeDay += 1;
-	            	}
                 }
                 drawFrame();//draw next frame
             }
@@ -152,20 +153,25 @@ public class avatarWallpaper extends WallpaperService {
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
 			Log.d("MirrorMe Avatar", "adjusting " + key + " preference");
-			//if(key.equals("RealismLevel")){
-				theAvatar.setRealismLevel(Integer.parseInt(prefs.getString("RealismLevel", Integer.toString(theAvatar.getRealismLevel()))));
-			//}
-			//if (key == "CurrentActivity"){
-				theAvatar.setActivityName(prefs.getString("CurrentActivity", "inBed"));
-				lastActivityChange = SystemClock.elapsedRealtime();
-			//}
-			//if (key == "ActivityLevelSelector"){
-				selectorMethod = prefs.getString("ActivityLevelSelector", selectorMethod);
-			//}
-			//if (key.equals("ResetLogs")){
-				keepLogs = !prefs.getBoolean("ResetLogs", keepLogs);
-				//Log.d("MirrorMe Avatar", "keepLogs=" + String.valueOf(keepLogs));
-			//}
+			if(! (key == null)){	//skip if null
+				if(key.equals("RealismLevel")){
+					theAvatar.setRealismLevel(Integer.parseInt(prefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
+				}
+				if (key.equals("CurrentActivity")){
+					theAvatar.setActivityName(prefs.getString(key, "inBed"));
+					lastActivityChange = SystemClock.elapsedRealtime();
+				}
+				if (key.equals("ActivityLevelSelector")){
+					selectorMethod = prefs.getString(key, selectorMethod);
+				}
+				if (key.equals("ResetLogs")){
+					keepLogs = !prefs.getBoolean(key, keepLogs);
+					//Log.d("MirrorMe Avatar", "keepLogs=" + String.valueOf(keepLogs));
+				}
+				if(key.equals("activeOnEvens")){
+					activeOnEvens = prefs.getBoolean(key, activeOnEvens);
+				}
+			}
 		}
 
         @Override

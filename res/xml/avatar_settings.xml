@@ -7,17 +7,10 @@
 <!-- The attributes in this XML file provide configuration information -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/avatar_settings"
+    android:title="avatar_settings"
     android:key="avatar_settings">
-
-<ListPreference
-        android:key="RealismLevel"
-        android:title="@string/RealismSelector_title"
-        android:summary="@string/RealismSelector_summary"
-        android:entries="@array/avatar_Realisms"
-        android:entryValues="@array/avatar_RealismLevels" />
-<ListPreference android:entryValues="@array/activity_level_selector" android:entries="@array/activity_level_selector" android:key="ActivityLevelSelector" android:summary="@string/ActivityLevelSelector_summary" android:title="@string/ActivityLevelSelector_title"/>
-<ListPreference android:entries="@array/current_activity" android:key="CurrentActivity" android:entryValues="@array/current_activity" android:summary="@string/CurrentActivityLevel_summary" android:title="@string/CurrentActivityLevel_title"/>
+<ListPreference android:entries="@array/current_activity" android:key="CurrentActivity" android:entryValues="@array/current_activity" android:summary="NOTE: can only choose those compatible with current Day/time" android:title="Current Animation (for Debugging)"/>
 <CheckBoxPreference android:key="ResetLogs" android:summaryOn="DataLogs will be reset" android:summaryOff="DataLogs will be kept" android:title="Reset Logs?" android:defaultValue="false"/>
+<CheckBoxPreference android:summaryOff="active on odd julian days" android:summaryOn="active on even julian days" android:key="activeOnEvens" android:title="Active/Passive Behavior" android:defaultValue="true"/>
 
 </PreferenceScreen>

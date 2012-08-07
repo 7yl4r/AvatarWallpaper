@@ -43,9 +43,10 @@ public class avatarObject extends avatarWallpaper {
 	}
 	public void setActivityLevel(String newLevel){
 		activityLevel = newLevel;
-		randomActivity(activityLevel);		//choose random activity in new level
-		
-		loadBitmaps();		//update bitmaps
+		if(!this.isOkay()){		//if level does not match activity
+			randomActivity(activityLevel);		//choose random activity in new level
+			loadBitmaps();		//update bitmaps
+		}//else don't worry about it
 	}
 	public int getRealismLevel(){
 		return realismLevel;
@@ -115,12 +116,12 @@ public class avatarObject extends avatarWallpaper {
 		}
 		if(bodyOn){
 			//load body
-			currentSpriteName = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + getActivityName() + "/" + String.valueOf(currentFrame) + ".png";
+			currentSpriteName = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/" + String.valueOf(currentFrame) + ".png";
 			//load in images from MirrorMe sdcard directory
 			body = BitmapFactory.decodeFile(currentSpriteName);
 			if(body == null){
 				currentFrame = 0;	//animation loops back
-				currentSpriteName = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + getActivityName() + "/" + String.valueOf(currentFrame) + ".png";
+				currentSpriteName = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/" + String.valueOf(currentFrame) + ".png";
 				//load in images from MirrorMe sdcard directory
 				body = BitmapFactory.decodeFile(currentSpriteName);
 				if(body == null){	//if still null
@@ -295,19 +296,20 @@ public class avatarObject extends avatarWallpaper {
 		return activityName;
 	}
 	public void setActivityName(String newName) {
-		//change activity level
-		if(newName.equals("basketball") || newName.equals("running") || newName.equals("bicycling")){
-			this.setActivityLevel("active");
-		} else if(newName.equals("onComputer") || newName.equals("videoGames") || newName.equals("watchingTV")){
-			this.setActivityLevel("passive");
-		} else if (newName.equals("inBed")){
-			this.setActivityLevel("sleeping");
-		} else {
-			Log.e("Avatars4Change Avatar", "activity name not recognized");
-			return;
-		}
 		//set new activity name
-		this.activityName = newName;
+		activityName = newName;
+		if(!this.isOkay()){	//change activity level if needed
+			if(newName.equals("basketball") || newName.equals("running") || newName.equals("bicycling")){
+				this.setActivityLevel("active");
+			} else if(newName.equals("onComputer") || newName.equals("videoGames") || newName.equals("watchingTV")){
+				this.setActivityLevel("passive");
+			} else if (newName.equals("inBed")){
+				this.setActivityLevel("sleeping");
+			} else {
+				Log.e("Avatars4Change Avatar", "activity name not recognized");
+				return;
+			}
+		}
 	}
 	
 	//sets random activity name in the level passed
@@ -345,10 +347,28 @@ public class avatarObject extends avatarWallpaper {
 		scaler = newScale;
 	}
 	
-	public int maxH(){
+	
+	public int maxH(){		//returns max height of avatar image
 		return 200;
 	}
-	public int maxW(){
+	public int maxW(){		//returns max width of avatar image
 		return 200;
 	}
+	
+	//returns true if current animation name and activity are compatible
+	public boolean isOkay(){
+		if(activityLevel.equals("sleeping")){
+			if(activityName.equals("inBed")){
+				return true;
+			}else return false;
+		}else if(activityLevel.equals("active")){
+			if (activityName.equals("basketball") || activityName.equals("running") || activityName.equals("bicycling")){
+				return true;
+			}else return false;
+		}else if(activityLevel.equals("passive")){
+			if(activityName.equals("onComputer") || activityName.equals("videoGames") || activityName.equals("watchingTV")){
+				return true;
+			}else return false;
+		}else return false;	//activity level not recognized
+	}	
 }

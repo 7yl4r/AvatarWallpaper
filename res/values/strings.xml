@@ -11,15 +11,9 @@
     <!-- Wallpaper showing an avatar, data read from resource -->
     <string name="AvatarWallpaperDescription">Avatar Live Wallpaper for MirrorMe and Proteus Studies</string>
     <string name="wallpaper_avatar">Avatars4Change Avatar</string>
-    <string name="avatar_settings">Avatar Settings</string>
-    <string name="RealismSelector_title">Level of Realism</string>
-    <string name="RealismSelector_summary">Choose level of realism for avatar.</string>
+    <string name="avatar_settings">Avatar4Change Settings</string>
 
     <!-- Wallpaper showing a cube or dodecahedron, data read from resource -->
-    <string name="ActivityLevelSelector_title">Method of Activity Selection</string>
-    <string name="ActivityLevelSelector_summary">Choose method of controlling activity level.</string>
-    <string name="CurrentActivityLevel_title">Current Animation</string>
-    <string name="CurrentActivityLevel_summary">Use this to debug specific animations</string>
    
 
 </resources>
