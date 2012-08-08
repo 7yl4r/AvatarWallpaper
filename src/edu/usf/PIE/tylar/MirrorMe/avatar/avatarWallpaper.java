@@ -112,13 +112,14 @@ public class avatarWallpaper extends WallpaperService {
 	            			theAvatar.setActivityLevel("passive");
 	            		}
 	            	}else{	//today is odd
-	            		if(activeOnEvens){	//if active on odd days
+	            		if(!activeOnEvens){	//if active on odd days
 	            			theAvatar.setActivityLevel("active");
 	            		}else{
 	            			theAvatar.setActivityLevel("passive");
 	            		}
 	            	}
 	            	//check for enough time to change animation
+	            	//TODO: change this next if issue#5 persists
 	        		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
 	                if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
 	                	theAvatar.randomActivity(theAvatar.getActivityLevel());
