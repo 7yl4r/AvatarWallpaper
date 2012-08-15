@@ -90,7 +90,7 @@ public class avatarWallpaper extends WallpaperService {
         int lastActivityLevelChangeDay;
         String lastActivityLevel = "active";
         private long lastTime = 0;	//time measurement for calculating deltaT and thus fps
-        private float desiredFPS = 5;
+        private float desiredFPS = 10;
         private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
         
         
@@ -103,7 +103,8 @@ public class avatarWallpaper extends WallpaperService {
                 	//draw sleeping
                 	theAvatar.setActivityLevel("sleeping");
                 } else {	//awake
-                	int today = Time.getJulianDay(System.currentTimeMillis(), TimeZone.getDefault().getRawOffset()); 	//(new Time()).toMillis(false)
+                	int today = Time.getJulianDay(System.currentTimeMillis(), (long) (TimeZone.getDefault().getRawOffset()/1000.0) ); 	//(new Time()).toMillis(false)
+                	//Log.v("Avatars4Change day calculator","time:"+System.currentTimeMillis()+"\ttimezone:"+TimeZone.getDefault().getRawOffset()+"\ttoday:"+today);
 	            	//set active or passive, depending on even or odd julian day
 	            	if(today%2 == 0){	//if today is even
 	            		if(activeOnEvens){
