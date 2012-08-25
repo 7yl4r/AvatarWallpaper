@@ -454,7 +454,7 @@ public class avatarWallpaper extends WallpaperService {
             fDir.mkdirs();	//create directory
 
             try{	//copy the file
-                out = new FileOutputStream(extStorageDir + "/" + prefix + files[i]);
+                out = new FileOutputStream(extStorageDir + "/" + prefix + '.' + files[i]);
                 copyFile(in, out);
                 in.close();
                 in = null;
