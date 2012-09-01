@@ -16,6 +16,7 @@ public class avatarObject extends avatarWallpaper {
 	private int bodyX = 0;
 	private int bodyY = 0;
 	private float scaler = 1;
+	private float faceScale = 1;
 	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
 	String currentSpriteName = baseFileDirectory + "/sprites";
 	//resource object for loading bitmaps from gen files
@@ -36,7 +37,7 @@ public class avatarObject extends avatarWallpaper {
 	public avatarObject(Resources r, int realismL, String activityL) {
 			activityLevel = activityL;
 			realismLevel = realismL;
-			loadBitmaps();
+			setupAvatar();
 	}
 	public String getActivityLevel(){
 		return activityLevel;
@@ -45,7 +46,7 @@ public class avatarObject extends avatarWallpaper {
 		activityLevel = newLevel;
 		if(!this.isOkay()){		//if level does not match activity
 			randomActivity(activityLevel);		//choose random activity in new level
-			loadBitmaps();		//update bitmaps
+			setupAvatar();		//update bitmaps
 		}//else don't worry about it
 	}
 	public int getRealismLevel(){
@@ -55,15 +56,12 @@ public class avatarObject extends avatarWallpaper {
 		realismLevel = newLevel;
 		Log.d("MirrorMe Avatar", "Realism Level set to " + realismLevel);
 		//update bitmaps
-		loadBitmaps();
+		setupAvatar();
 	}
 	
-	//loads bitmap files assuming all are saved in the ./assets folder with the following naming convention:
-	//	r<realism_level>_a<activity_level>_<body part>_f<frame number>.png
-	//  for example: realism=1, activity=3, left arm, frame = 11 would be:
-	//	R1_A3_leftArm_F11.png
-	//each animation is assumed to have 10 frames labeled F0->F9
-	private void loadBitmaps(){
+	//sets up the locations and sizes of the images for the avatar. Images are retreieved and drawn in the drawAvatar() method
+	//  must be called whenever activity/realism levels change to update locations and scales of images!
+	private void setupAvatar(){
 		//Log.d("MirrorMe Avatar", "RESOURCES PASSED TO avatarObject: " + res);
 		Log.d("MirrorMe Avatar","R:" + realismLevel + " A:" + activityLevel + " F:" + currentFrame);
 		switch(realismLevel){	//select for level of realism
@@ -84,9 +82,9 @@ public class avatarObject extends avatarWallpaper {
 			*/
 		case 3: // === realistic cartoon avatar with face =======================================================
 			bodyOn = true;
-			faceOn = false;		//TODO: this should be true
-			//body bitmap loading done every frame in drawAvatar() !!!
-			//face bitmap loaded in drawAvatar!
+			faceOn = true;
+			//body bitmap loading done every frame in drawAvatar()
+			//face bitmap loaded in drawAvatar
 			loadPositions(getActivityName());	//set positions of sprites
 			
 			break;
@@ -163,15 +161,14 @@ public class avatarObject extends avatarWallpaper {
 			}
 			//draw face
 			sprite = face;
-			scaler = 2;
 			if(face == null){	//TODO: handle this error better!
 				Log.v("MirrorMe Avatar Draw", "ERROR: Problem Loading face Sprites");
 			} else{
 				source = new Rect(0, 0, sprite.getWidth(), sprite.getHeight());
-				dest = new Rect((int) (faceX-sprite.getWidth()/2*scaler),
-								(int) (faceY-sprite.getHeight()/2*scaler),
-								(int) (faceX+sprite.getWidth()/2*scaler),
-								(int) (faceY+sprite.getHeight()/2*scaler));
+				dest = new Rect((int) (faceX-sprite.getWidth()/2*faceScale),
+								(int) (faceY-sprite.getHeight()/2*faceScale),
+								(int) (faceX+sprite.getWidth()/2*faceScale),
+								(int) (faceY+sprite.getHeight()/2*faceScale));
 				c.drawBitmap(sprite, source, dest, null);
 				//c.drawBitmap(sprite,bodyX-sprite.getWidth()/2,bodyY-sprite.getHeight()/2,null);
 			}
@@ -287,9 +284,59 @@ public class avatarObject extends avatarWallpaper {
 	}
 	*/
 	private void loadPositions(String activName){
+		// === ACTIVE ===
 		if(activName.equals("running")){
-			faceX = 20;
-			faceY = 110;
+			faceX = -45;
+			faceY = -220;
+			bodyX = 0;
+			bodyY = 0;
+			faceScale = scaler/6;
+		} else if(activName.equals("basketball")){
+			faceX = 65;
+			faceY = 60;
+			bodyX = 0;
+			bodyY = 0;
+			faceScale = scaler/12;
+		} else if(activName.equals("bicycling")){
+			faceX = -65;
+			faceY = -205;
+			bodyX = 0;
+			bodyY = 0;
+			faceScale = scaler/6;
+			// === ASLEEP ===
+		} else if(activName.equals("inBed")){
+			faceX = 300;	//OFF SCREEN
+			faceY = 300;
+			bodyX = 0;
+			bodyY = 0;
+			faceScale = scaler/10;
+			// === PASSIVE ===
+		} else if(activName.equals("onComputer")){
+			faceX = 75;
+			faceY = -120;
+			bodyX = 0;
+			bodyY = 0;
+			faceScale = scaler/6;
+		} else if(activName.equals("videoGames")){
+			faceX = 185;
+			faceY = -85;
+			bodyX = 0;
+			bodyY = 0;
+			faceScale = scaler/9;
+		} else if(activName.equals("watchingTV")){
+			faceX = 105;
+			faceY = -170;
+			bodyX = 0;
+			bodyY = 0;
+			faceScale = scaler/6;
+			// === DEFAULT === 
+		} else {
+			Log.e("MirrorMe location setup","activity name not recognized");
+			faceX = 0;
+			faceY = 0;
+			bodyX = 0;
+			bodyY = 0;
+			faceScale = scaler/3;
 		}
 	}
 	public String getActivityName() {
@@ -310,6 +357,7 @@ public class avatarObject extends avatarWallpaper {
 				return;
 			}
 		}
+		setupAvatar();
 	}
 	
 	//sets random activity name in the level passed
@@ -340,11 +388,12 @@ public class avatarObject extends avatarWallpaper {
         	//TODO: something
         }
     	Log.v("MirrorMe Avatar", "new activity = " + activity);
-    	activityName = activity;
+    	setActivityName(activity);
 	}
 	
 	public void setScaler(float newScale){
 		scaler = newScale;
+		//setupAvatar not needed, since scale is used in drawAvatar()
 	}
 	
 	
