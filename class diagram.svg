@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="class diagram.svg">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Lend"
+       style="overflow:visible;">
+      <path
+         id="path3879"
+         style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(1.1) rotate(180) translate(1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;">
+      <path
+         id="path3861"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3879-3"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="264.05017"
+     inkscape:cy="370.73655"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1366"
+     inkscape:window-height="744"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2989" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#cccccc;stroke:#ffffff;stroke-width:0.5029642;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2985"
+       width="260"
+       height="310"
+       x="20"
+       y="332.36218" />
+    <rect
+       style="fill:#f9f9f9;stroke:#ffffff;stroke-width:0.49684721;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2987"
+       width="240"
+       height="249.99998"
+       x="30"
+       y="382.36218" />
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="50"
+       y="372.36218"
+       id="text2991"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2993"
+         x="50"
+         y="372.36218">AvatarObject</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="102.14286"
+       y="223.07648"
+       id="text2995"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="102.14286"
+         y="223.07648"
+         id="tspan3021" /></text>
+    <rect
+       style="fill:#cccccc;stroke:#ffffff;stroke-width:0.42370889;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2985-8"
+       width="220"
+       height="260"
+       x="397.85715"
+       y="331.64789" />
+    <rect
+       style="fill:#f9f9f9;stroke:#ffffff;stroke-width:0.40567407;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2987-8"
+       width="200"
+       height="200"
+       x="407.85715"
+       y="381.64789" />
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="427.85715"
+       y="371.64789"
+       id="text2991-4"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2993-9"
+         x="427.85715"
+         y="371.64789">AvatarFace</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="480"
+       y="222.36218"
+       id="text2995-4"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="480"
+         y="222.36218"
+         id="tspan3021-2" /></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow2Lend)"
+       d="m 280,472.36216 120,0"
+       id="path3084"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="fill:#cccccc;stroke:#ffffff;stroke-width:0.5029642;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2985-5"
+       width="260"
+       height="310"
+       x="20"
+       y="12.362183" />
+    <rect
+       style="fill:#f9f9f9;stroke:#ffffff;stroke-width:0.49684721;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2987-0"
+       width="240"
+       height="249.99998"
+       x="30"
+       y="62.362183" />
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="50"
+       y="52.362183"
+       id="text2991-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2993-97"
+         x="50"
+         y="52.362183">AvatarWallpaper</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="42.14286"
+       y="83.076477"
+       id="text2995-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="42.14286"
+         y="83.076477"
+         id="tspan3011-6">Desc:</tspan><tspan
+         sodipodi:role="line"
+         x="42.14286"
+         y="98.076477"
+         id="tspan4577">this is the main class</tspan><tspan
+         sodipodi:role="line"
+         x="42.14286"
+         y="113.07648"
+         id="tspan4581" /><tspan
+         sodipodi:role="line"
+         x="42.14286"
+         y="128.07648"
+         id="tspan4579">Members:</tspan><tspan
+         sodipodi:role="line"
+         x="42.14286"
+         y="143.07648"
+         id="tspan3007-8">...</tspan><tspan
+         sodipodi:role="line"
+         x="42.14286"
+         y="158.07648"
+         id="tspan3019-8" /><tspan
+         sodipodi:role="line"
+         x="42.14286"
+         y="173.07648"
+         id="tspan3001-6">Public Methods:</tspan><tspan
+         sodipodi:role="line"
+         x="42.14286"
+         y="188.07648"
+         id="tspan4575">...</tspan><tspan
+         sodipodi:role="line"
+         x="42.14286"
+         y="203.07648"
+         id="tspan3021-9">...</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4605"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Sans;font-style:normal;font-weight:normal;font-size:10px;line-height:125%;letter-spacing:0px;word-spacing:0px"><flowRegion
+         id="flowRegion4607"><rect
+           id="rect4609"
+           width="35.355339"
+           height="49.497475"
+           x="293.95438"
+           y="401.82394" /></flowRegion><flowPara
+         id="flowPara4611"></flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4613"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Sans;font-style:normal;font-weight:normal;font-size:10px;line-height:125%;letter-spacing:0px;word-spacing:0px"><flowRegion
+         id="flowRegion4615"><rect
+           id="rect4617"
+           width="27.274118"
+           height="32.324883"
+           x="240.41631"
+           y="357.37723" /></flowRegion><flowPara
+         id="flowPara4619"></flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4711"
+       style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-60,179.99998)"><flowRegion
+         id="flowRegion4713"><rect
+           id="rect4715"
+           width="220.00003"
+           height="230"
+           x="100"
+           y="212.36218" /></flowRegion><flowPara
+         id="flowPara4717">Desc:</flowPara><flowPara
+         id="flowPara4719">class for controlling &amp; drawing avatar object</flowPara><flowPara
+         id="flowPara4721"></flowPara><flowPara
+         id="flowPara4723">Members:</flowPara><flowPara
+         id="flowPara4725">int currentFrame</flowPara><flowPara
+         id="flowPara4727">...</flowPara><flowPara
+         id="flowPara4729"></flowPara><flowPara
+         id="flowPara4731">Public Methods:</flowPara><flowPara
+         id="flowPara4733">nextFrame()</flowPara><flowPara
+         id="flowPara4735">drawAvatar()</flowPara><flowPara
+         id="flowPara4737">get...()</flowPara><flowPara
+         id="flowPara4739">set...()</flowPara><flowPara
+         id="flowPara4741">...</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4787"
+       style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-60,179.99998)"><flowRegion
+         id="flowRegion4789"><rect
+           id="rect4791"
+           width="181.42857"
+           height="182.14285"
+           x="480"
+           y="212.36218" /></flowRegion><flowPara
+         id="flowPara4793">Members:</flowPara><flowPara
+         id="flowPara4795">int x</flowPara><flowPara
+         id="flowPara4797">int y</flowPara><flowPara
+         id="flowPara4799">...</flowPara><flowPara
+         id="flowPara4801"></flowPara><flowPara
+         id="flowPara4803">Public Methods:</flowPara><flowPara
+         id="flowPara4805">get...()</flowPara><flowPara
+         id="flowPara4807">set...()</flowPara><flowPara
+         id="flowPara4809">...</flowPara></flowRoot>    <rect
+       style="fill:#cccccc;stroke:#ffffff;stroke-width:0.42370889;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2985-8-3"
+       width="220"
+       height="260"
+       x="400"
+       y="612.36218" />
+    <rect
+       style="fill:#f9f9f9;stroke:#ffffff;stroke-width:0.40567407;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2987-8-9"
+       width="200"
+       height="200"
+       x="410"
+       y="662.36218" />
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="430"
+       y="652.36218"
+       id="text2991-4-4"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2993-9-9"
+         x="430"
+         y="652.36218">AvatarBody</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4787-7"
+       style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-57.857147,460.71427)"><flowRegion
+         id="flowRegion4789-8"><rect
+           id="rect4791-9"
+           width="181.42857"
+           height="182.14285"
+           x="480"
+           y="212.36218" /></flowRegion><flowPara
+         id="flowPara4793-3">Members:</flowPara><flowPara
+         id="flowPara4795-3">int x</flowPara><flowPara
+         id="flowPara4797-7">int y</flowPara><flowPara
+         id="flowPara4799-9">...</flowPara><flowPara
+         id="flowPara4801-2" /><flowPara
+         id="flowPara4803-7">Public Methods:</flowPara><flowPara
+         id="flowPara4805-4">get...()</flowPara><flowPara
+         id="flowPara4807-8">set...()</flowPara><flowPara
+         id="flowPara4809-4">...</flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow2Lend)"
+       d="m 280,592.36216 60,2e-5 0,140 60,0"
+       id="path3084-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+  </g>
+</svg>
