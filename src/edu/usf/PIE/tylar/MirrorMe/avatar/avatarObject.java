@@ -15,11 +15,13 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 	private String activityLevel = "sleeping";
 	private String activityName = "inBed";
 	private int realismLevel;
+	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
+	String currentSpriteName = baseFileDirectory + "/sprites";
 	
 	//TODO: fix this here sprite stuff
 	//bitmap arrays for sprites:
 	sprite head = new sprite();		//create sprites
-	sprite body = new sprite();
+	sprite body = new sprite( baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/.");
 /*	
 	//SPRITE STUFF ---------------------------------------------
 	private int currentFrame = 0;	//current frame of the animation 
@@ -28,8 +30,7 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 	private float faceScaleX = 1;
 	private float faceScaleY = 1;
 	
-	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
-	String currentSpriteName = baseFileDirectory + "/sprites";
+
 	
 	//center locations of sprites:
 	private int faceX = 0;
@@ -121,47 +122,16 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 		//debug print output
 		Log.d("MirrorMe Avatar","CURRENTFRAME:" + currentFrame);
 		 */
-		Rect source, dest;
 		Bitmap sprite;
 		if(backgroundOn){
 			//draw background
 		}
 		if(bodyOn){
-			//load body
-			currentSpriteName = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/." + String.valueOf(currentFrame) + ".png";
 			//load in images from MirrorMe sdcard directory
-			body = BitmapFactory.decodeFile(currentSpriteName);
-			if(body == null){
-				currentFrame = 0;	//animation loops back
-				currentSpriteName = baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/." + String.valueOf(currentFrame) + ".png";
-				//load in images from MirrorMe sdcard directory
-				body = BitmapFactory.decodeFile(currentSpriteName);
-				if(body == null){	//if still null
-					Log.e("MirrorMe Avatar", "body sprite at " + currentSpriteName +" not found!");	//something went wrong
-				}
-			}
-			//draw body
-			sprite = body;
-			if(body == null){	//TODO: handle this error better!
-				Log.v("MirrorMe Avatar Draw", "ERROR: Problem Loading body Sprites");
-			} else{
-				source = new Rect(0, 0, sprite.getWidth(), sprite.getHeight());
-				dest = new Rect((int) (bodyX-sprite.getWidth()/2*scaler),
-								(int) (bodyY-sprite.getHeight()/2*scaler),
-								(int) (bodyX+sprite.getWidth()/2*scaler),
-								(int) (bodyY+sprite.getHeight()/2*scaler));
-				c.drawBitmap(sprite, source, dest, null);
-				//c.drawBitmap(sprite,bodyX-sprite.getWidth()/2,bodyY-sprite.getHeight()/2,null);
-			}
+			body.load();
+			body.draw();
 		}
 		if(faceOn){
-			/*
-			//draw head
-			
-			sprite = head[currentFrame];
-			c.drawBitmap(sprite,-headX-sprite.getWidth()/2,-headY-sprite.getHeight()/2,null);
-			*/
-			
 			//load face
 			currentSpriteName = baseFileDirectory + "/sprites/face/default/.0.png";
 			//load in images from MirrorMe sdcard directory
@@ -196,107 +166,6 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 			currentFrame++;
 	}
 	
-	/*
-	private void loadRunningStickman(){
-		body[0] = BitmapFactory.decodeResource(res,R.drawable.r0_a3_body_f0);
-		body[1] = BitmapFactory.decodeResource(res,R.drawable.r0_a3_body_f1);
-		body[2] = BitmapFactory.decodeResource(res,R.drawable.r0_a3_body_f2);
-		body[3] = BitmapFactory.decodeResource(res,R.drawable.r0_a3_body_f3);
-		body[4] = BitmapFactory.decodeResource(res,R.drawable.r0_a3_body_f4);
-		body[5] = BitmapFactory.decodeResource(res,R.drawable.r0_a3_body_f5);
-		body[6] = BitmapFactory.decodeResource(res,R.drawable.r0_a3_body_f6);
-		body[7] = BitmapFactory.decodeResource(res,R.drawable.r0_a3_body_f7);
-		body[8] = BitmapFactory.decodeResource(res,R.drawable.r0_a3_body_f8);
-		body[9] = BitmapFactory.decodeResource(res,R.drawable.r0_a3_body_f9);
-	}
-	
-	private void loadCircle(){
-		head[0] = BitmapFactory.decodeResource(res,R.drawable.r0_a3_head_f0);
-		//set all to same bitmap
-		for(int i = 1; i < 10; i++){
-			head[i] = head[i-1];
-		}
-	}
-	*/
-	
-	/*
-	private void loadFace(){
-		head[0] = BitmapFactory.decodeResource(res,R.drawable.r1_a3_head_f0);
-		//set all to same bitmap
-		for(int i = 1; i < 10; i++){
-			head[i] = head[i-1];	
-		}
-	}
-	*/
-	
-/*	TEMPORARILY DISABLED
-	private void stickman(){
-		bodyOn = true;
-		faceOn = false;
-		switch(activityLevel){	//select for activity level of stickman
-			case 0:	//--- sleep ------------------------------------------------------------------
-				Log.e("MirrorMe Avatar", "sleeping stickman not yet implemented");
-				break;
-			case 3:	// --- running ----------------------------------------------------------
-				//body:
-				loadRunningStickman();
-				//face
-				loadCircle();
-				break;
-			default:
-				Log.d("MirrorMe Avtar", "This Stickman Activity case not yet implemented");
-				break;
-		}
-	}
-	
-	private void stickmanNface(){
-		bodyOn = true;
-		faceOn = true;
-		switch(activityLevel){
-			case 0:	//--- sleep ------------------------------------------------------------------
-
-			case 3: // --- basketball -------------------------------------------------------
-				headY = 100;
-				headX = 0;
-				bodyY = 0;
-				bodyX = 0;
-				Log.e("MirrorMe Avatar", "stick basketball not yet implemented");
-				break;
-			case 4:	// --- running ----------------------------------------------------------
-				headY = 120;
-				headX = 0;
-				bodyY = 0;
-				bodyY = 0;
-				//head bitmaps:
-				loadFace();
-				//body:
-				loadRunningStickman();
-				break;
-			default:
-				Log.e("MirrorMe Avatar", "this case not yet implemented");
-				break;
-		}
-	}
-	
-	private void cartoon(){
-		bodyOn = true;
-		faceOn = false;
-		switch(activityLevel){
-			case 0:	// --- sleeping --------------------------------
-				loadSleepingCartoon();
-				break;
-			case 3: // --- basketball ------------------------------
-				loadBasketballCartoon();
-				break;
-			case 4: // --- running ----------------------------------
-				loadRunningCartoon();
-				break;
-			default:
-				Log.e("MirrorMe Avtar", "this cartoon case not yet implemented");
-				break;
-		}	
-	}
-	*/
 	private void loadPositions(String activName){
 		// === ACTIVE ===
 		if(activName.equals("running")){
