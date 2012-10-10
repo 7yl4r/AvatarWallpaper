@@ -1,10 +1,9 @@
 package edu.usf.PIE.tylar.MirrorMe.avatar;
 
+import java.util.Arrays;
+
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.os.Environment;
 import android.util.Log;
 
@@ -16,32 +15,11 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 	private String activityName = "inBed";
 	private int realismLevel;
 	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
-	String currentSpriteName = baseFileDirectory + "/sprites";
+	String spriteDir = baseFileDirectory + "/sprites";
+	float scaler = 1;	//set to actualsize/defaultsize
 	
-	//TODO: fix this here sprite stuff
-	//bitmap arrays for sprites:
-	sprite head = new sprite();		//create sprites
+	sprite head = new sprite( baseFileDirectory + "/sprites/face/default/.");		//create sprites
 	sprite body = new sprite( baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/.");
-/*	
-	//SPRITE STUFF ---------------------------------------------
-	private int currentFrame = 0;	//current frame of the animation 
-	
-	private float scaler = 1;
-	private float faceScaleX = 1;
-	private float faceScaleY = 1;
-	
-
-	
-	//center locations of sprites:
-	private int faceX = 0;
-	private int faceY = 120;
-	private int bodyX = 0;
-	private int bodyY = 0;
-	private Bitmap body = null;
-	private Bitmap face = null;
-	
-	//END SPRITE STUFF ------------------------------------------
-	 * */
 	
 	//booleans determine if bitmaps are drawn:
 	private boolean bodyOn = false;
@@ -61,8 +39,8 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 		activityLevel = newLevel;
 		if(!this.isOkay()){		//if level does not match activity
 			randomActivity(activityLevel);		//choose random activity in new level
-			setupAvatar();		//update bitmaps
 		}//else don't worry about it
+		setupAvatar();		//update bitmaps
 	}
 	public int getRealismLevel(){
 		return realismLevel;
@@ -74,7 +52,7 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 		setupAvatar();
 	}
 	
-	//sets up the locations and sizes of the images for the avatar. Images are retreieved and drawn in the drawAvatar() method
+	//sets up the locations and sizes of the images for the avatar. Images are retrieved and drawn in the drawAvatar() method
 	//  must be called whenever activity/realism levels change to update locations and scales of images!
 	private void setupAvatar(){
 		//Log.d("MirrorMe Avatar", "RESOURCES PASSED TO avatarObject: " + res);
@@ -116,121 +94,28 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 		}
 	}
 	
-	//params: canvas upon which to draw, size of surface in X direction, size of surface in Y direction
+	//params: canvas upon which to draw set to origin in center, size of surface in X direction, size of surface in Y direction
 	public void drawAvatar(Canvas c, float surfaceX, float surfaceY){
-		/*
-		//debug print output
-		Log.d("MirrorMe Avatar","CURRENTFRAME:" + currentFrame);
-		 */
-		Bitmap sprite;
+		//Log.d("MirrorMe Avatar","CURRENTFRAME:" + currentFrame);	//log for debugging
 		if(backgroundOn){
 			//draw background
 		}
 		if(bodyOn){
-			//load in images from MirrorMe sdcard directory
-			body.load();
-			body.draw();
+			body.draw(c,surfaceX,surfaceY);
 		}
 		if(faceOn){
-			//load face
-			currentSpriteName = baseFileDirectory + "/sprites/face/default/.0.png";
-			//load in images from MirrorMe sdcard directory
-			face = BitmapFactory.decodeFile(currentSpriteName);
-			if(face == null){
-				currentSpriteName = baseFileDirectory + "/sprites/face/default/.0.png";				//load in images from MirrorMe sdcard directory
-				face = BitmapFactory.decodeFile(currentSpriteName);
-				if(face == null){	//if still null
-					Log.e("MirrorMe Avatar", "face sprite at " + currentSpriteName +" not found!");	//something went wrong
-				}
-			}
-			//draw face
-			sprite = face;
-			if(face == null){	//TODO: handle this error better!
-				Log.v("MirrorMe Avatar Draw", "ERROR: Problem Loading face Sprites");
-			} else{
-				source = new Rect(0, 0, sprite.getWidth(), sprite.getHeight());
-				dest = new Rect((int) (faceX-faceScaleX),
-								(int) (faceY-faceScaleY),
-								(int) (faceX+faceScaleX),
-								(int) (faceY+faceScaleY));
-				c.drawBitmap(sprite, source, dest, null);
-				//c.drawBitmap(sprite,bodyX-sprite.getWidth()/2,bodyY-sprite.getHeight()/2,null);
-			}
-			
+			head.draw(c,surfaceX,surfaceY);
 		}
 		
 	}
 	
 	//moves animation to the next frame by incrementing currentFrame
 	public void nextFrame(){
-			currentFrame++;
+			body.nextFrame();
+			head.nextFrame();
 	}
 	
-	private void loadPositions(String activName){
-		// === ACTIVE ===
-		if(activName.equals("running")){
-			faceX = -45;
-			faceY = -220;
-			bodyX = 0;
-			bodyY = 0;
-			faceScaleX = scaler*25;
-			faceScaleY = scaler*25;
-		} else if(activName.equals("basketball")){
-			faceX = 65;
-			faceY = 60;
-			bodyX = 0;
-			bodyY = 0;
-			faceScaleX = scaler*8;
-			faceScaleY = scaler*8;
 
-		} else if(activName.equals("bicycling")){
-			faceX = -65;
-			faceY = -205;
-			bodyX = 0;
-			bodyY = 0;
-			faceScaleX = scaler*25;
-			faceScaleY = scaler*20;
-			// === ASLEEP ===
-		} else if(activName.equals("inBed")){
-			faceX = 300;	//OFF SCREEN
-			faceY = 300;
-			bodyX = 0;
-			bodyY = 0;
-			faceScaleX = scaler*15;
-			faceScaleY = scaler*20;
-			// === PASSIVE ===
-		} else if(activName.equals("onComputer")){
-			faceX = 75;
-			faceY = -120;
-			bodyX = 0;
-			bodyY = 0;
-			faceScaleX = scaler*10;
-			faceScaleY = scaler*20;
-		} else if(activName.equals("videoGames")){
-			faceX = 185;
-			faceY = -85;
-			bodyX = 0;
-			bodyY = 0;
-			faceScaleX = scaler*14;
-			faceScaleY = scaler*20;
-		} else if(activName.equals("watchingTV")){
-			faceX = 105;
-			faceY = -170;
-			bodyX = 0;
-			bodyY = 0;
-			faceScaleX = scaler*25;
-			faceScaleY = scaler*20;
-			// === DEFAULT === 
-		} else {
-			Log.e("MirrorMe location setup","activity name not recognized");
-			faceX = 0;
-			faceY = 0;
-			bodyX = 0;
-			bodyY = 0;
-			faceScaleX = scaler*5;
-			faceScaleY = scaler*5;
-		}
-	}
 	public String getActivityName() {
 		return activityName;
 	}
@@ -283,12 +168,6 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
     	setActivityName(activity);
 	}
 	
-	public void setScaler(float newScale){
-		scaler = newScale;
-		//setupAvatar not needed, since scale is used in drawAvatar()
-	}
-	
-	
 	public int maxH(){		//returns max height of avatar image
 		return 200;
 	}
@@ -312,4 +191,105 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 			}else return false;
 		}else return false;	//activity level not recognized
 	}	
+	
+	public void setScaler(float newScale){
+		scaler = newScale;
+	}
+	
+	//display is 160 display-independent pixels, numerical (non-var) values below can be thought of as pixel values in the 160 pixel display
+	public void loadPositions(String activName){
+		head.load( baseFileDirectory + "/sprites/face/default/.");		//create sprites
+		body.load( baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/.");
+		head.nFrames = 1;
+		Arrays.fill(body.x, 0);	//center?
+		Arrays.fill(body.y, 0);
+		Arrays.fill(body.sx,(int)Math.round(scaler*160));
+		Arrays.fill(body.sy,(int)Math.round(scaler*160));
+		// === ACTIVE ===
+		if(activName.equals("running")){
+			// === BODY ===
+			body.nFrames = 12;
+			//body loc const
+			// === HEAD ===
+			//head frames const
+			Arrays.fill(head.x, (int)Math.round(scaler*-13));
+			Arrays.fill(head.y, (int)Math.round(scaler*-60));
+			Arrays.fill(head.sx, (int)Math.round(scaler*40));
+			Arrays.fill(head.sy, (int)Math.round(scaler*40));
+		} else if(activName.equals("basketball")){
+			// === BODY ===
+			body.nFrames = 10;
+			//body loc const
+			// === HEAD ===
+			//head frames const
+			Arrays.fill(head.x, (int)Math.round(scaler*8));
+			Arrays.fill(head.y, (int)Math.round(scaler*16));
+			Arrays.fill(head.sx, (int)Math.round(scaler*15));
+			Arrays.fill(head.sy, (int)Math.round(scaler*15));
+		} else if(activName.equals("bicycling")){
+			// === BODY ===
+			body.nFrames = 9;
+			//body loc const
+			// === HEAD ===
+			//head frames const
+			Arrays.fill(head.x, (int)Math.round(scaler*-20));
+			Arrays.fill(head.y, (int)Math.round(scaler*-60));
+			Arrays.fill(head.sx, (int)Math.round(scaler*40));
+			Arrays.fill(head.sy, (int)Math.round(scaler*40));
+		// === ASLEEP ===
+		} else if(activName.equals("inBed")){
+			// === BODY ===
+			body.nFrames = 10;
+			//body loc const
+			// === HEAD ===
+			//head frames const
+			Arrays.fill(head.x, (int)Math.round(scaler*100));
+			Arrays.fill(head.y, (int)Math.round(scaler*0));
+			Arrays.fill(head.sx, (int)Math.round(scaler*25));
+			Arrays.fill(head.sy, (int)Math.round(scaler*25));
+		// === PASSIVE ===
+		} else if(activName.equals("onComputer")){
+			// === BODY ===
+			body.nFrames = 6;
+			//body loc const
+			// === HEAD ===
+			//head frames const
+			Arrays.fill(head.x, (int)Math.round(scaler*18));
+			Arrays.fill(head.y, (int)Math.round(scaler*-32));
+			Arrays.fill(head.sx, (int)Math.round(scaler*33));
+			Arrays.fill(head.sy, (int)Math.round(scaler*33));
+		} else if(activName.equals("videoGames")){
+			// === BODY ===
+			body.nFrames = 4;
+			//body loc const
+			// === HEAD ===
+			//head frames const
+			Arrays.fill(head.x, (int)Math.round(scaler*57));
+			Arrays.fill(head.y, (int)Math.round(scaler*-20));
+			Arrays.fill(head.sx, (int)Math.round(scaler*17));
+			Arrays.fill(head.sy, (int)Math.round(scaler*17));
+		} else if(activName.equals("watchingTV")){
+			// === BODY ===
+			body.nFrames = 10;
+			//body loc const
+			// === HEAD ===
+			//head frames const
+			Arrays.fill(head.x, (int)Math.round(scaler*10));
+			Arrays.fill(head.y, (int)Math.round(scaler*-50));
+			Arrays.fill(head.sx, (int)Math.round(scaler*30));
+			Arrays.fill(head.sy, (int)Math.round(scaler*30));
+			// === DEFAULT === 
+		} else {
+			Log.e("MirrorMe sprite","activity name not recognized");
+			// === BODY ===
+			body.nFrames = 0;
+			//body loc const
+			// === HEAD ===
+			//head frames const
+			Arrays.fill(head.x, (int)Math.round(scaler*0));
+			Arrays.fill(head.y, (int)Math.round(scaler*10));
+			Arrays.fill(head.sx, (int)Math.round(scaler*15));
+			Arrays.fill(head.sy, (int)Math.round(scaler*20));
+		}
+	}
 }

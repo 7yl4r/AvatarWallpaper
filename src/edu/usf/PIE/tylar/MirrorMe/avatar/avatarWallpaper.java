@@ -66,7 +66,7 @@ public class avatarWallpaper extends WallpaperService {
         avatarObject theAvatar = new avatarObject(r, 3, "sleeping");		//create new avatar
         String selectorMethod = "Constant";
         long lastActivityChange = 0;	//last time activity level was changed [ms]
-        long deltaActivityChange = 60*60*1000;	//desired time between activity level updates [ms]
+        long deltaActivityChange = 5*1000;	//60*60*1000;	//desired time between activity level updates [ms]
         int bedTime = 23;
         int wakeTime = 5;
         boolean activeOnEvens = true;
@@ -132,7 +132,6 @@ public class avatarWallpaper extends WallpaperService {
         };
         
         private boolean mVisible;
-        
         private SharedPreferences mPrefs;
         
         DrawEngine() {
@@ -260,12 +259,15 @@ public class avatarWallpaper extends WallpaperService {
             mHeight = height;
             mWidth = width;
             //TODO: MOVE THIS:
+            float s = Math.min(mHeight/160,mWidth/160);
+            theAvatar.setScaler(s);
+            /*
             float hScaler = mHeight/theAvatar.maxH();
             float wScaler = mWidth/theAvatar.maxW();
             if(wScaler < hScaler){
             	theAvatar.setScaler(wScaler);
             } else theAvatar.setScaler(hScaler);
-            
+            */
             drawFrame();
         }
 
@@ -443,12 +445,12 @@ public class avatarWallpaper extends WallpaperService {
             try {
                 in = assetManager.open(prefix + fileName);
             } catch(Exception e){	//failed file open means listing is a directory
-            	Log.v("MirrorMe Avatar", files[i] + " is directory");
+            	//Log.v("MirrorMe Avatar", files[i] + " is directory");
             	copier(prefix + fileName,extStorageDir);	//add dir name to prefix
             	continue;
             }
             //implied else
-            Log.v("MirrorMe Avatar", files[i] + " is file");
+            //Log.v("MirrorMe Avatar", files[i] + " is file");
             
             File fDir = new File (extStorageDir + "/" + prefix);	//file object for mkdirs
             fDir.mkdirs();	//create directory
