@@ -265,7 +265,7 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 			// === HEAD ===
 			//head frames const
 			Arrays.fill(head.x, (int)Math.round(scaler*57));
-			Arrays.fill(head.y, (int)Math.round(scaler*-20));
+			Arrays.fill(head.y, (int)Math.round(scaler*-23));
 			Arrays.fill(head.sx, (int)Math.round(scaler*17));
 			Arrays.fill(head.sy, (int)Math.round(scaler*17));
 		} else if(activName.equals("watchingTV")){
