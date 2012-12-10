@@ -49,6 +49,8 @@ public class avatarWallpaper extends WallpaperService {
         return new DrawEngine();
     }
 
+    /* All parts needed to draw the output go in this function
+     */
     class DrawEngine extends Engine 
     	implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -356,7 +358,6 @@ public class avatarWallpaper extends WallpaperService {
             c.restore();
         }
         
-        
         /*background */
         void drawBG(Canvas c){
         	//CALCULATE BACKGROUND LOCATION BASED ON OFFSET:
@@ -368,6 +369,7 @@ public class avatarWallpaper extends WallpaperService {
             //c.restore();
         }
         
+        //draw fps text for debugging
         void drawFPS(Canvas c){
         	//calculate current frame rate
             long thisTime = System.currentTimeMillis();
@@ -418,13 +420,14 @@ public class avatarWallpaper extends WallpaperService {
     }
 
     /**
-     * -- Copy the file from the assets folder to the sdCard
+     * -- Copy the files from the assets folder to the sdCard
      * ===========================================================
      **/
     private void CopyAssets(String extStorageDir) {
         copier("MirrorMe",extStorageDir);
     }
     
+    //copy file or directory
     private void copier(String inDir, String extStorageDir){
     	AssetManager assetManager = getAssets();
         String[] files = null;
@@ -469,6 +472,7 @@ public class avatarWallpaper extends WallpaperService {
         }
     }
 
+    //copy file
     private void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;

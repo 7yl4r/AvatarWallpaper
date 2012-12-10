@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.os.Environment;
 import android.util.Log;
 
-public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend avatarWallpaper
+public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend avatarWallpaper... wait... yes it does? idk. clearly I am not an experienced Java programmer.
 	//--- fields ---------------------------
 	//resource object for loading bitmaps from gen files
 	//values for choosing appropriate animations:
