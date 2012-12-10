@@ -29,6 +29,12 @@
             android:theme="@android:style/Theme.Light.WallpaperSettings"
             android:exported="true">
         </activity>
+        
+        <receiver android:name=".mMonitorReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="com.MILES.MonitoringApp.DailyStateChange" />
+            </intent-filter>
+        </receiver>
 
     </application>
 </manifest>

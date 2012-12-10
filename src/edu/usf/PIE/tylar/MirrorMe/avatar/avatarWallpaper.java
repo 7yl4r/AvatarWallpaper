@@ -71,7 +71,7 @@ public class avatarWallpaper extends WallpaperService {
         long deltaActivityChange = 5*1000;	//60*60*1000;	//desired time between activity level updates [ms]
         int bedTime = 23;
         int wakeTime = 5;
-        boolean activeOnEvens = true;
+        boolean activeOnEvens = true;	//active on even days?
         
         //vars for canvas
         private final Paint mPaint = new Paint();
