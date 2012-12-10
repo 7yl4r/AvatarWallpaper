@@ -30,11 +30,18 @@
             android:exported="true">
         </activity>
         
-        <receiver android:name=".mMonitorReceiver" android:enabled="true">
-            <intent-filter>
-                <action android:name="com.MILES.MonitoringApp.DailyStateChange" />
-            </intent-filter>
-        </receiver>
-
+        <receiver android:name=".avatar.mMonitorReceiver" android:enabled="true">
+		    <intent-filter>
+		        <action android:name="com.MILES.MonitoringApp.DailyStateChange" />
+		    </intent-filter>
+	    </receiver>
+	        
+		<receiver android:name=".avatar.myTestReceiver" >
+		    <intent-filter>
+		        <action android:name="com.tylar.research.avatars" />
+		    </intent-filter>
+	    </receiver>
+        
     </application>
+        
 </manifest>

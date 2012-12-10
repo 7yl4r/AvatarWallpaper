@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -125,8 +126,14 @@ public class avatarWallpaper extends WallpaperService {
 	            	//TODO: change this next if issue#5 persists
 	        		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
 	                if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
+	                	//avatar changes activity 
 	                	theAvatar.randomActivity(theAvatar.getActivityLevel());
 	               	 	lastActivityChange = now;
+	               	 	Log.v("mirrorMe Broadcaster","broadcast sent");
+	               	 	//test broadcast:
+	               	 	Intent intent = new Intent();
+	               	 	intent.setAction("com.tylar.research.avatars");
+	               	 	sendBroadcast(intent); 
 	                }
                 }
                 drawFrame();//draw next frame
