@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.widget.Toast;
 import edu.usf.PIE.tylar.MirrorMe.*;	//import for the R object???
 
@@ -25,7 +24,6 @@ public class mMonitorReceiver extends BroadcastReceiver {
 			Toast.makeText(context, "application intent not verified\n",
 					Toast.LENGTH_LONG).show();
 		}
-		
 		
 		//read in broadcast value
 		Bundle extras = intent.getExtras();
@@ -63,10 +61,12 @@ public class mMonitorReceiver extends BroadcastReceiver {
 		final int HELLO_ID = 1;
 		mNotificationManager.notify(HELLO_ID, notification);
 		
+		/*
+		//To add vibration, you must include vibrate access permission
 		//vibrate
 		Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(2000);
-		
+		*/
 		
 	}
 }
