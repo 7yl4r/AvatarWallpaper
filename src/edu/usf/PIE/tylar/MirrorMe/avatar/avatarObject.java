@@ -9,31 +9,46 @@ import android.util.Log;
 
 //import edu.usf.PIE.avatars4change.entity;
 
-public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend avatarWallpaper... wait... yes it does? idk. clearly I am not an experienced Java programmer.
+public class avatarObject extends entity {
 	//--- fields ---------------------------
 	//resource object for loading bitmaps from gen files
 	//values for choosing appropriate animations:
 	private String activityLevel = "sleeping";
 	private String activityName = "inBed";
 	private int realismLevel;
+	
 	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
 	String spriteDir = baseFileDirectory + "/sprites";
-	float scaler = 1;	//set to actualsize/defaultsize
 	
+	
+	float scaler = 1;	//set to actualsize/defaultsizen
+	
+	//entity avatar;
+	/*
 	sprite head = new sprite( baseFileDirectory + "/sprites/face/default/.");		//create sprites
 	sprite body = new sprite( baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/.");
-	
 	//booleans determine if bitmaps are drawn:
 	private boolean bodyOn = false;
 	private boolean faceOn = false;
 	private boolean backgroundOn = false;
-
+	 */
+	
+	/*
+	location headLoc;
+	String headFile = baseFileDirectory + "/sprites/face/default/.";
+	String headName = "head";
+	sprite headSprite = new sprite( headFile, activityLevel, headLoc );		//create sprites
+	avatar.addSprite(headSprite);
+	 */
+	
 	//constructor
 	public avatarObject(Resources r, int realismL, String activityL) {
 			activityLevel = activityL;
 			realismLevel = realismL;
 			setupAvatar();
 	}
+	
+	// === ACTIVITY LEVEL ===
 	public String getActivityLevel(){
 		return activityLevel;
 	}
@@ -44,6 +59,7 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 		}//else don't worry about it
 		setupAvatar();		//update bitmaps
 	}
+	// === REALISM LEVEL === 
 	public int getRealismLevel(){
 		return realismLevel;
 	}
@@ -61,63 +77,51 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 		Log.d("MirrorMe Avatar","R:" + realismLevel + " A:" + activityLevel);
 		switch(realismLevel){	//select for level of realism
 		case 0:	// === stickman ====================================================================
-			/*	TEMPORARILY DISABLED
-			stickman();
-			break;
-			*/
+			//	TEMPORARILY DISABLED
+			//stickman();
+			//break;
 		case 1: // === stickman with user face ========================================================
-			/*
-			stickmanNface();
-			break;
-		*/
+			//
+			//stickmanNface();
+			//break;
 		case 2: // === realistic cartoon avatar ============================================================
-			/* TEMPORARILY DISABLED
-			cartoon();
-			break;
-			*/
+			// TEMPORARILY DISABLED
+			//cartoon();
+			//break;
 		case 3: // === realistic cartoon avatar with face =======================================================
-			bodyOn = true;
-			faceOn = true;
+			//bodyOn = true;
+			//faceOn = true;
+			
 			//body bitmap loading done every frame in drawAvatar()
 			//face bitmap loaded in drawAvatar
-			loadPositions(getActivityName());	//set positions of sprites
+			
+			//TODO
+//			loadPositions(getActivityName());	//set positions of sprites
 			
 			break;
-			/* TEMPORARILY DISABLED
-		case 4: // === actual recording of subject=====================================================
-			bodyOn = false;
-			faceOn = false;
-			Log.e("MirrorMe Avatar", "Realism Level 4 not yet implemented");
-			break;
-			*/
+			// TEMPORARILY DISABLED
+		//case 4: // === actual recording of subject=====================================================
+			//bodyOn = false;
+			//faceOn = false;
+			//Log.e("MirrorMe Avatar", "Realism Level 4 not yet implemented");
+			//break;
 		default:
 			Log.e("MirrorMe Avatar", "This Realism level not yet implemented");
 			break;
 		}
 	}
 	
+	
 	//params: canvas upon which to draw set to origin in center, size of surface in X direction, size of surface in Y direction
 	public void drawAvatar(Canvas c, float surfaceX, float surfaceY){
 		//Log.d("MirrorMe Avatar","CURRENTFRAME:" + currentFrame);	//log for debugging
-		if(backgroundOn){
-			//draw background
-		}
-		if(bodyOn){
-			body.draw(c,surfaceX,surfaceY);
-		}
-		if(faceOn){
-			head.draw(c,surfaceX,surfaceY);
-		}
+		
+		//avatar.draw(c);
 		
 	}
 	
-	//moves animation to the next frame by incrementing currentFrame
-	public void nextFrame(){
-			body.nextFrame();
-			head.nextFrame();
-	}
 	
-
+	// === ACTIVITY NAME ===
 	public String getActivityName() {
 		return activityName;
 	}
@@ -198,8 +202,10 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 		scaler = newScale;
 	}
 	
+	/*
 	//display is 160 display-independent pixels, numerical (non-var) values below can be thought of as pixel values in the 160 pixel display
 	public void loadPositions(String activName){
+		
 		head.load( baseFileDirectory + "/sprites/face/default/.");		//create sprites
 		body.load( baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/.");
 		head.nFrames = 1;
@@ -294,4 +300,5 @@ public class avatarObject extends avatarWallpaper {	//TODO: this does NOT extend
 			Arrays.fill(head.sy, (int)Math.round(scaler*20));
 		}
 	}
+	*/
 }

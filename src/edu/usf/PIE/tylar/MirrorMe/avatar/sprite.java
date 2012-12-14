@@ -9,7 +9,10 @@ import android.util.Log;
 public class sprite {
 	int MAXFRAMES = 15;		//maximum number of frames in the sprite
 	
+	String name = "UNNAMED";
 	String fileDir = "notAFileName";	//init string (overwritten in constructor
+	location L = new location();
+	
 	Bitmap image;
 	
 	//animation frames
@@ -27,9 +30,10 @@ public class sprite {
 	//rotation
 	int theta = 0;
 
-	//constructor
-	public sprite(String fDir) {
+	public sprite(String nam, String fDir, location L) {
 			fileDir = fDir;	//set file directory
+			name = nam;
+			//TODO set location
 			//TODO set number of frames
 			//allocate space for arrays
 			this.load();
@@ -74,7 +78,7 @@ public class sprite {
 	}
 	
 	//draws the sprite on given canvas c at object location relative to given location L
-	public void draw(Canvas c, location L){
+	public void draw(Canvas c){
 		if(image == null)	return;	//don't draw if no image
 		Rect source, dest;
 		source = new Rect(0, 0, image.getWidth(), image.getHeight());//TODO to use sprite sheet, adjust this to select part of image
@@ -90,7 +94,6 @@ public class sprite {
 		dest = new Rect(L.x-w, L.y-h, L.x+w, L.y+h);
 		//TODO: rotate dest rect if needed
 		//dest.set(left, top, right, bottom)
-		
 		
 		c.drawBitmap(image, source, dest, null);	
 	}
