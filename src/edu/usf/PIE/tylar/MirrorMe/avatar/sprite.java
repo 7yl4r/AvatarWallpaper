@@ -7,13 +7,15 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public class sprite {
-	int MAXFRAMES = 15;
+	int MAXFRAMES = 15;		//maximum number of frames in the sprite
 	
-	//--- fields ---------------------------
-	String fileDir = "notAFileName";
+	String fileDir = "notAFileName";	//init string (overwritten in constructor
+	Bitmap image;
+	
+	//animation frames
 	int currentFrame = 0;
-	public int nFrames = 0;
-	
+	public int nFrames = 0;	//number of frames
+		
 	//center locations
 	int x[] = new int[MAXFRAMES];
 	int y[] = new int[MAXFRAMES];
@@ -22,16 +24,19 @@ public class sprite {
 	int sx[] = new int[MAXFRAMES];
 	int sy[] = new int[MAXFRAMES];
 	
-	Bitmap image;
+	//rotation
+	int theta = 0;
 
-	public sprite(String fDir) {	//constructor
+	//constructor
+	public sprite(String fDir) {
 			fileDir = fDir;	//set file directory
 			//TODO set number of frames
 			//allocate space for arrays
 			this.load();
 	}
 	
-	public void load(){	//loads next image
+	//loads current animation image
+	public void load(){	
 		image = BitmapFactory.decodeFile(fileDir+currentFrame+".png");
 		if(image == null){
 			currentFrame = 0;	//animation loops back
@@ -42,6 +47,7 @@ public class sprite {
 			}
 		}
 	}
+
 	public void load(String fDir){
 		fileDir = fDir;
 		image = BitmapFactory.decodeFile(fileDir+currentFrame+".png");
@@ -55,6 +61,7 @@ public class sprite {
 		}		
 	}
 	
+	//TODO this function is outdated, needs to be removed???
 	public void draw(Canvas c, float surfaceX, float surfaceY){
 		if(image == null)	return;	//don't draw if no image
 		Rect source, dest;
@@ -63,6 +70,28 @@ public class sprite {
 						(int)(y[currentFrame]-sy[currentFrame]/2),
 						(int)(x[currentFrame]+sx[currentFrame]/2),
 						(int)(y[currentFrame]+sy[currentFrame]/2));
+		c.drawBitmap(image, source, dest, null);	
+	}
+	
+	//draws the sprite on given canvas c at object location relative to given location L
+	public void draw(Canvas c, location L){
+		if(image == null)	return;	//don't draw if no image
+		Rect source, dest;
+		source = new Rect(0, 0, image.getWidth(), image.getHeight());//TODO to use sprite sheet, adjust this to select part of image
+		int w = 0,h = 0;	//image width & height (actually radius of image)
+		if(image.getWidth()>image.getHeight()){ 
+			w = L.scale;
+			h = L.scale * (image.getHeight()/image.getWidth());
+		} else {
+			h = L.scale;
+			w = L.scale * (image.getWidth()/image.getHeight());
+		}
+		
+		dest = new Rect(L.x-w, L.y-h, L.x+w, L.y+h);
+		//TODO: rotate dest rect if needed
+		//dest.set(left, top, right, bottom)
+		
+		
 		c.drawBitmap(image, source, dest, null);	
 	}
 	
