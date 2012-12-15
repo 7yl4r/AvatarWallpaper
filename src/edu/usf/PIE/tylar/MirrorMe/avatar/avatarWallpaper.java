@@ -93,7 +93,7 @@ public class avatarWallpaper extends WallpaperService {
         int lastActivityLevelChangeDay;
         String lastActivityLevel = "active";
         private long lastTime = 0;	//time measurement for calculating deltaT and thus fps
-        private float desiredFPS = 10;
+        private float desiredFPS = 30;
         private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
         
         
@@ -107,9 +107,6 @@ public class avatarWallpaper extends WallpaperService {
     	int testY = -50;
     	location testLoc = new location(testX, testY, testSize, testAngle);
     	animation testAnimation = new animation("test", testFile, testLoc);
-    	
-    	
-        
         
         private final Runnable mDrawViz = new Runnable() {
             public void run() {
@@ -343,7 +340,7 @@ public class avatarWallpaper extends WallpaperService {
                 	drawBG(c);
                     //drawTouchPoint(c);
                     drawAvatar(c);
-                    //drawFPS(c);
+                    drawFPS(c);
                     
                     //TODO remove these:
                     drawTestSprite(c);
