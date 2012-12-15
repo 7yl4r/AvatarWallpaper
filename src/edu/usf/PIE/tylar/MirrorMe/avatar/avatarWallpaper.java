@@ -61,7 +61,7 @@ public class avatarWallpaper extends WallpaperService {
     	
     	//set up the file directory for saving data and retrieving sprites
     	String extStorageDirectory = Environment.getExternalStorageDirectory()+"/MirrorMe";
-        File fileDirectory = new File (extStorageDirectory);
+    	File fileDirectory = new File (extStorageDirectory);
     	
         //vars for the avatar
     	long lastFrameChange = 0;		//last frame update [ms]
@@ -353,6 +353,23 @@ public class avatarWallpaper extends WallpaperService {
         
         /*draw avatar*/
         void drawAvatar(Canvas c) {
+        	
+        	// === TEST AREA ===
+        	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
+        	String spriteDir = baseFileDirectory + "/sprites";
+        	String spriteFile = spriteDir + "/face/default/.0.png";
+        	int testSize = 100;
+        	int testAngle= 45;
+        	int testX = 25;
+        	int testY = 50;
+        	location testLoc = new location(testX, testY, testSize, testAngle);
+        	sprite testSprite = new sprite("test",spriteFile, testLoc);
+        	c.translate(mCenterX, mCenterY);
+        	testSprite.draw(c);
+        	// === END TEST AREA ===
+        			
+        			
+        			
         	//determine if enough time has passed to move to next frame
         	long now = SystemClock.elapsedRealtime();
              if(((float)(now - lastFrameChange)) > (((float)1000)/desiredFPS)){		//if total ms elapsed > desired ms elapsed
@@ -360,8 +377,8 @@ public class avatarWallpaper extends WallpaperService {
             	 lastFrameChange = now;
              } //else display same as last loop
              
-        	c.translate(mCenterX, mCenterY);
-        	theAvatar.drawAvatar(c,mCenterX*2,mCenterY*2);
+        	//c.translate(mCenterX, mCenterY);
+        	//theAvatar.drawAvatar(c,mCenterX*2,mCenterY*2);
             c.restore();
         }
         
