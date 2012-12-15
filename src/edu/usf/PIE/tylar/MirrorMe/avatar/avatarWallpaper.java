@@ -95,18 +95,31 @@ public class avatarWallpaper extends WallpaperService {
         private long lastTime = 0;	//time measurement for calculating deltaT and thus fps
         private float desiredFPS = 30;
         private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
-        
-        
+
         //TODO set up the scene
+        
+        
+        // === BEGIN TEST CODE SECTION === 
+        //test animation:
         String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
     	String spriteDir = baseFileDirectory + "/sprites";
     	String testFile = spriteDir + "/body/active/running/.";
-    	int testSize = 100;
+    	int testSize =  100;
     	int testAngle= -10;
-    	int testX = 0;
-    	int testY = -50;
+    	int testX    =  0;
+    	int testY    = -50;
     	location testLoc = new location(testX, testY, testSize, testAngle);
     	animation testAnimation = new animation("test", testFile, testLoc);
+    	
+    	//test entity
+     	int En_testSize =  200;
+     	int En_testAngle= -150;
+     	int En_testX    =  33;
+     	int En_testY    =  11;
+     	location testEntLoc = new location(En_testX, En_testY, En_testSize, En_testAngle);
+     	entity testEntity   = new entity("name",testEntLoc);     	
+    	
+    	// === END TEST CODE SECTION === 
         
         private final Runnable mDrawViz = new Runnable() {
             public void run() {
@@ -200,6 +213,19 @@ public class avatarWallpaper extends WallpaperService {
             super.onCreate(surfaceHolder);
             // By default we don't get touch events, so enable them.
             setTouchEventsEnabled(true);
+            
+          //TODO set up the scene
+            String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
+        	String spriteDir = baseFileDirectory + "/sprites";
+        	String testFile = spriteDir + "/body/active/basketball/.";
+        	int testSize =  100;
+        	int testAngle= 150;
+        	int testX    =  0;
+        	int testY    = 50;
+        	location testLoc = new location(testX, testY, testSize, testAngle);
+        	animation tAnimation = new animation("test", testFile, testLoc);
+         	testEntity.addAnimation(tAnimation);
+
         }
 
         @Override
@@ -345,6 +371,7 @@ public class avatarWallpaper extends WallpaperService {
                     //TODO remove these:
                     drawTestSprite(c);
                     drawTestAnimation(c);
+                    drawTestEntity(c);
                     
                     
                 }
@@ -366,6 +393,16 @@ public class avatarWallpaper extends WallpaperService {
             if (mTouchX >=0 && mTouchY >= 0) {
                 c.drawCircle(mTouchX, mTouchY, 80, mPaint);
             }
+        }
+        
+        void drawTestEntity(Canvas c){
+        	c.save();
+            if(isFrameChangeTime()){
+            	testEntity.nextFrame();
+            } //else display same as last loop
+        	c.translate(mCenterX, mCenterY);
+        	testEntity.draw(c);
+        	c.restore();
         }
         
         void drawTestSprite(Canvas c){
