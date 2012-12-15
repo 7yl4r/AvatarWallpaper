@@ -225,7 +225,12 @@ public class avatarWallpaper extends WallpaperService {
             
           //TODO set up the scene
             setupTestScene();
+            setupMainScene();
 
+        }
+        
+        public void setupMainScene(){
+         	mainScene.addEntity(theAvatar);
         }
         
         public void setupTestScene(){
@@ -321,7 +326,7 @@ public class avatarWallpaper extends WallpaperService {
             mWidth = width;
             //TODO: MOVE THIS:
             float s = Math.min(mHeight/160,mWidth/160);
-            theAvatar.setScaler(s);
+            theAvatar.setScale(s);
             /*
             float hScaler = mHeight/theAvatar.maxH();
             float wScaler = mWidth/theAvatar.maxW();
@@ -329,7 +334,9 @@ public class avatarWallpaper extends WallpaperService {
             	theAvatar.setScaler(wScaler);
             } else theAvatar.setScaler(hScaler);
             */
-            drawFrame();
+		   if(isFrameChangeTime()){
+			   drawFrame();
+		   } //else display same as last loop
         }
 
         @Override
@@ -378,18 +385,21 @@ public class avatarWallpaper extends WallpaperService {
             try {
                 c = holder.lockCanvas();
                 if (c != null) {
+				   	//mainScene.nextFrame();	//TODO why does this break the code? avatar not properly set up i guess, but still shouldn't crash.
+				   	testScene.nextFrame();
+				   	
                 	drawBG(c);
                     //drawTouchPoint(c);
                     //drawAvatar(c);
                     drawFPS(c);
                     
                     drawTestScene(c);
+                    drawMainScene(c);
                     /*
                     drawTestSprite(c);
                     drawTestAnimation(c);
                     drawTestEntity(c);
                     */
-                    
                 }
             } finally {
                 if (c != null) holder.unlockCanvasAndPost(c);
@@ -409,12 +419,16 @@ public class avatarWallpaper extends WallpaperService {
             }
         }
         
+        void drawMainScene(Canvas c){
+        	c.save();
+        	c.translate(mCenterX, mCenterY);
+        	mainScene.draw(c);
+        	c.restore();
+        }
+        
         void drawTestScene(Canvas c){
         	c.save();
         	c.translate(mCenterX, mCenterY);
-            if(isFrameChangeTime()){
-            	testScene.nextFrame();
-            } //else display same as last loop
         	testScene.draw(c);
         	c.restore();
         }

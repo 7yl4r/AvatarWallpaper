@@ -20,17 +20,17 @@ public class Scene {
 	}
 	
 	public void draw(Canvas c){
-		if(sprites!=null){	//do nothing if no sprites in list
+		if(!sprites.isEmpty()){	//do nothing if no sprites in list
 			for (Sprite s : sprites){	//for each sprite 's' in spriteList
 				s.draw(c);	//TODO add entity location 
 			}
 		}
-		if(animations!=null){//same for animations
+		if(!animations.isEmpty()){//same for animations
 			for (Animation a : animations){	
 				a.draw(c);	
 			}
 		}
-		if(animations!=null){//same for entities
+		if(!animations.isEmpty()){//same for entities
 			for (Entity e : entities){	
 				e.draw(c);	
 			}
@@ -38,12 +38,12 @@ public class Scene {
 	}
 	
 	public void nextFrame(){
-		if(entities  !=null){	//do nothing if empty list
-			for (Entity e : entities){ //for each enitity
+		if(!entities.isEmpty()){	//do nothing if empty list
+			for (Entity e : entities){ //for each entity
 				e.nextFrame();
 			}
 		}
-		if(animations!=null){	//do nothing if nothing in list
+		if(!animations.isEmpty()){	//do nothing if nothing in list
 			for (Animation a : animations){	//for each animation
 				a.nextFrame();
 			}

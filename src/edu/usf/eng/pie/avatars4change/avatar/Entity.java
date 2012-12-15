@@ -34,12 +34,12 @@ public class Entity {
 	
 	// draw method draws all base sprites in their relative locations
 	public void draw(Canvas c){
-		if(sprites!=null){	//do nothing if no sprites in list
+		if(!sprites.isEmpty()){	//do nothing if no sprites in list
 			for (Sprite s : sprites){	//for each sprite 's' in spriteList
 				s.draw(c);	//TODO add entity location 
 			}
 		}
-		if(animations!=null){//same for animations
+		if(!animations.isEmpty()){//same for animations
 			for (Animation a : animations){	
 				a.draw(c);	
 			}
@@ -48,8 +48,8 @@ public class Entity {
 	
 	//moves animation to the next frame by incrementing currentFrame
 	public void nextFrame(){
-		if(animations!=null){	//do nothing if no sprites in list
-			for (Animation a : animations){	//for each sprite 's' in spriteList
+		if(!animations.isEmpty()){	//do nothing if empty list
+			for (Animation a : animations){	//for each animation
 				a.nextFrame();
 			}
 		}

@@ -20,14 +20,19 @@ public class Animation {
 	String name = "UNNAMED";
 		
 	//TODO this allocation for frames[] wastes memory, better to get frameCount, then allocate 
+	// ... use something like:
+	//	List<Bitmap> frame = new ArrayList<Bitmap>();
 	Bitmap frame[] = new Bitmap[MAXFRAMES];	//frames in the animation
-//	List<Bitmap> frame = new ArrayList<Bitmap>();
 
 	
 	Location L;
 	
 	//constructor
 	public Animation(String newName, String fDir, Location newLocation) {
+		set(newName,fDir,newLocation);
+	}
+	
+	public void set(String newName, String fDir, Location newLocation){
 		name = newName;
 		fileDir = fDir;	//set file directory
 		L = newLocation;

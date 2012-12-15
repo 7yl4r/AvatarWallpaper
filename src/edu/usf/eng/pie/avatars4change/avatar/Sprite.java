@@ -15,6 +15,10 @@ public class Sprite {
 	
 	//constructor
 	public Sprite(String newName, String fileName, Location newLocation){
+		set(newName,fileName,newLocation);
+	}
+	
+	public void set (String newName, String fileName, Location newLocation){
 		name = newName;
 		loadImage(fileName);
 		L    = newLocation;

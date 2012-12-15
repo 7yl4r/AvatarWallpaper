@@ -1,51 +1,34 @@
 package edu.usf.eng.pie.avatars4change.avatar;
 
-import java.util.Arrays;
-
-
 import android.content.res.Resources;
-import android.graphics.Canvas;
 import android.os.Environment;
 import android.util.Log;
 
-//import edu.usf.PIE.avatars4change.entity;
-
 public class Avatar extends Entity {
-	//--- fields ---------------------------
-	//resource object for loading bitmaps from gen files
 	//values for choosing appropriate animations:
 	private String activityLevel = "sleeping";
 	private String activityName = "inBed";
 	private int realismLevel;
 	
+	float scale;
+	
 	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
 	String spriteDir = baseFileDirectory + "/sprites";
 	
-	
-	float scaler = 1;	//set to actualsize/defaultsizen
-	
-	//entity avatar;
-	/*
-	sprite head = new sprite( baseFileDirectory + "/sprites/face/default/.");		//create sprites
-	sprite body = new sprite( baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/.");
-	//booleans determine if bitmaps are drawn:
-	private boolean bodyOn = false;
-	private boolean faceOn = false;
-	private boolean backgroundOn = false;
-	 */
-	
-	/*
-	location headLoc;
-	String headFile = baseFileDirectory + "/sprites/face/default/.";
+	Location headL, bodyL;
+	String headFile = spriteDir+"/face/default/.0.png";
+	Sprite headSprite;
 	String headName = "head";
-	sprite headSprite = new sprite( headFile, activityLevel, headLoc );		//create sprites
-	avatar.addSprite(headSprite);
-	 */
+	String bodyName = "body";
+	String bodyDir  = spriteDir+"/body/default/.";
+	Animation bodyAnim;
 	
 	//constructor
 	public Avatar(Resources r, int realismL, String activityL) {
 			activityLevel = activityL;
 			realismLevel = realismL;
+			super.addSprite( headSprite );
+			super.addAnimation( bodyAnim );
 			setupAvatar();
 	}
 	
@@ -74,53 +57,9 @@ public class Avatar extends Entity {
 	//sets up the locations and sizes of the images for the avatar. Images are retrieved and drawn in the drawAvatar() method
 	//  must be called whenever activity/realism levels change to update locations and scales of images!
 	private void setupAvatar(){
-		//Log.d("MirrorMe Avatar", "RESOURCES PASSED TO avatarObject: " + res);
 		Log.d("MirrorMe Avatar","R:" + realismLevel + " A:" + activityLevel);
-		switch(realismLevel){	//select for level of realism
-		case 0:	// === stickman ====================================================================
-			//	TEMPORARILY DISABLED
-			//stickman();
-			//break;
-		case 1: // === stickman with user face ========================================================
-			//
-			//stickmanNface();
-			//break;
-		case 2: // === realistic cartoon avatar ============================================================
-			// TEMPORARILY DISABLED
-			//cartoon();
-			//break;
-		case 3: // === realistic cartoon avatar with face =======================================================
-			//bodyOn = true;
-			//faceOn = true;
-			
-			//body bitmap loading done every frame in drawAvatar()
-			//face bitmap loaded in drawAvatar
-			
-			//TODO
-//			loadPositions(getActivityName());	//set positions of sprites
-			
-			break;
-			// TEMPORARILY DISABLED
-		//case 4: // === actual recording of subject=====================================================
-			//bodyOn = false;
-			//faceOn = false;
-			//Log.e("MirrorMe Avatar", "Realism Level 4 not yet implemented");
-			//break;
-		default:
-			Log.e("MirrorMe Avatar", "This Realism level not yet implemented");
-			break;
-		}
-	}
-	
-	
-	//params: canvas upon which to draw set to origin in center, size of surface in X direction, size of surface in Y direction
-	public void drawAvatar(Canvas c, float surfaceX, float surfaceY){
-		//Log.d("MirrorMe Avatar","CURRENTFRAME:" + currentFrame);	//log for debugging
-		
-		//avatar.draw(c);
 		
 	}
-	
 	
 	// === ACTIVITY NAME ===
 	public String getActivityName() {
@@ -199,107 +138,58 @@ public class Avatar extends Entity {
 		}else return false;	//activity level not recognized
 	}	
 	
-	public void setScaler(float newScale){
-		scaler = newScale;
-	}
 	
-	/*
 	//display is 160 display-independent pixels, numerical (non-var) values below can be thought of as pixel values in the 160 pixel display
 	public void loadPositions(String activName){
 		
-		head.load( baseFileDirectory + "/sprites/face/default/.");		//create sprites
-		body.load( baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/.");
-		head.nFrames = 1;
-		Arrays.fill(body.x, 0);	//center?
-		Arrays.fill(body.y, 0);
-		Arrays.fill(body.sx,(int)Math.round(scaler*160));
-		Arrays.fill(body.sy,(int)Math.round(scaler*160));
+		headFile = ( baseFileDirectory + "/sprites/face/default/.0.png");		//create sprites
+		bodyDir = ( baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/.");
+		
+		bodyL.set(0,0,160,0);	//body always in center
 		// === ACTIVE ===
 		if(activName.equals("running")){
 			// === BODY ===
-			body.nFrames = 12;
-			//body loc const
 			// === HEAD ===
-			//head frames const
-			Arrays.fill(head.x, (int)Math.round(scaler*-13));
-			Arrays.fill(head.y, (int)Math.round(scaler*-60));
-			Arrays.fill(head.sx, (int)Math.round(scaler*40));
-			Arrays.fill(head.sy, (int)Math.round(scaler*40));
+			headL.set(-13,-60,40,0);
 		} else if(activName.equals("basketball")){
 			// === BODY ===
-			body.nFrames = 10;
-			//body loc const
 			// === HEAD ===
-			//head frames const
-			Arrays.fill(head.x, (int)Math.round(scaler*8));
-			Arrays.fill(head.y, (int)Math.round(scaler*16));
-			Arrays.fill(head.sx, (int)Math.round(scaler*15));
-			Arrays.fill(head.sy, (int)Math.round(scaler*15));
+			headL.set(8,16,15,0);
 		} else if(activName.equals("bicycling")){
 			// === BODY ===
-			body.nFrames = 9;
-			//body loc const
 			// === HEAD ===
-			//head frames const
-			Arrays.fill(head.x, (int)Math.round(scaler*-20));
-			Arrays.fill(head.y, (int)Math.round(scaler*-60));
-			Arrays.fill(head.sx, (int)Math.round(scaler*40));
-			Arrays.fill(head.sy, (int)Math.round(scaler*40));
+			headL.set(-20,-60,40,0);
 		// === ASLEEP ===
 		} else if(activName.equals("inBed")){
 			// === BODY ===
-			body.nFrames = 10;
-			//body loc const
 			// === HEAD ===
-			//head frames const
-			Arrays.fill(head.x, (int)Math.round(scaler*100));
-			Arrays.fill(head.y, (int)Math.round(scaler*0));
-			Arrays.fill(head.sx, (int)Math.round(scaler*25));
-			Arrays.fill(head.sy, (int)Math.round(scaler*25));
+			headL.set(100,0,25,0);
 		// === PASSIVE ===
 		} else if(activName.equals("onComputer")){
 			// === BODY ===
-			body.nFrames = 6;
-			//body loc const
 			// === HEAD ===
-			//head frames const
-			Arrays.fill(head.x, (int)Math.round(scaler*18));
-			Arrays.fill(head.y, (int)Math.round(scaler*-32));
-			Arrays.fill(head.sx, (int)Math.round(scaler*33));
-			Arrays.fill(head.sy, (int)Math.round(scaler*33));
+			headL.set(18,-32,33,0);
 		} else if(activName.equals("videoGames")){
 			// === BODY ===
-			body.nFrames = 4;
-			//body loc const
 			// === HEAD ===
-			//head frames const
-			Arrays.fill(head.x, (int)Math.round(scaler*57));
-			Arrays.fill(head.y, (int)Math.round(scaler*-23));
-			Arrays.fill(head.sx, (int)Math.round(scaler*17));
-			Arrays.fill(head.sy, (int)Math.round(scaler*17));
+			headL.set(57,-23,17,0);
 		} else if(activName.equals("watchingTV")){
 			// === BODY ===
-			body.nFrames = 10;
-			//body loc const
 			// === HEAD ===
-			//head frames const
-			Arrays.fill(head.x, (int)Math.round(scaler*10));
-			Arrays.fill(head.y, (int)Math.round(scaler*-50));
-			Arrays.fill(head.sx, (int)Math.round(scaler*30));
-			Arrays.fill(head.sy, (int)Math.round(scaler*30));
+			headL.set(10,-50,30,0);
 			// === DEFAULT === 
 		} else {
 			Log.e("MirrorMe sprite","activity name not recognized");
 			// === BODY ===
-			body.nFrames = 0;
-			//body loc const
 			// === HEAD ===
-			//head frames const
-			Arrays.fill(head.x, (int)Math.round(scaler*0));
-			Arrays.fill(head.y, (int)Math.round(scaler*10));
-			Arrays.fill(head.sx, (int)Math.round(scaler*15));
-			Arrays.fill(head.sy, (int)Math.round(scaler*20));
+			headL.set(0,0,100,180);
 		}
+		headL.size = Math.round(headL.size*scale);
+		bodyL.size = Math.round(bodyL.size*scale);
+		headSprite.set(headName, headFile, headL);
+		bodyAnim.set(bodyName, bodyDir, bodyL);
 	}
-	*/
+	public void setScale( float newScale ){
+		scale = newScale;
+	}
 }
