@@ -1,4 +1,7 @@
-package edu.usf.PIE.tylar.MirrorMe.avatar;
+package edu.usf.eng.pie.avatars4change.avatar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -6,7 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
-public class animation {
+public class Animation {
 	int MAXFRAMES = 15;		//maximum number of frames in the sprite
 	
 	//animation frames
@@ -18,11 +21,13 @@ public class animation {
 		
 	//TODO this allocation for frames[] wastes memory, better to get frameCount, then allocate 
 	Bitmap frame[] = new Bitmap[MAXFRAMES];	//frames in the animation
+//	List<Bitmap> frame = new ArrayList<Bitmap>();
+
 	
-	location L;
+	Location L;
 	
 	//constructor
-	public animation(String newName, String fDir, location newLocation) {
+	public Animation(String newName, String fDir, Location newLocation) {
 		name = newName;
 		fileDir = fDir;	//set file directory
 		L = newLocation;

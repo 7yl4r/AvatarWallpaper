@@ -1,6 +1,7 @@
-package edu.usf.PIE.tylar.MirrorMe.avatar;
+package edu.usf.eng.pie.avatars4change.avatar;
 
 import java.util.Arrays;
+
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -9,7 +10,7 @@ import android.util.Log;
 
 //import edu.usf.PIE.avatars4change.entity;
 
-public class avatarObject extends entity {
+public class Avatar extends Entity {
 	//--- fields ---------------------------
 	//resource object for loading bitmaps from gen files
 	//values for choosing appropriate animations:
@@ -42,7 +43,7 @@ public class avatarObject extends entity {
 	 */
 	
 	//constructor
-	public avatarObject(Resources r, int realismL, String activityL) {
+	public Avatar(Resources r, int realismL, String activityL) {
 			activityLevel = activityL;
 			realismLevel = realismL;
 			setupAvatar();

@@ -1,4 +1,4 @@
-package edu.usf.PIE.tylar.MirrorMe.avatar;
+package edu.usf.eng.pie.avatars4change.receivers;
 
 import android.app.Notification;
 import android.app.NotificationManager;

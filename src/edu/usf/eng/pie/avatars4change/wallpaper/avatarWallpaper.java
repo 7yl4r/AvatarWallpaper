@@ -1,4 +1,4 @@
-package edu.usf.PIE.tylar.MirrorMe.avatar;
+package edu.usf.eng.pie.avatars4change.wallpaper;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -9,6 +9,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.TimeZone;
+
+import edu.usf.eng.pie.avatars4change.avatar.Animation;
+import edu.usf.eng.pie.avatars4change.avatar.Avatar;
+import edu.usf.eng.pie.avatars4change.avatar.Location;
+import edu.usf.eng.pie.avatars4change.avatar.Scene;
+import edu.usf.eng.pie.avatars4change.avatar.Sprite;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -66,7 +72,7 @@ public class avatarWallpaper extends WallpaperService {
         //vars for the avatar
     	long lastFrameChange = 0;		//last frame update [ms]
         Resources r = getResources();
-        avatarObject theAvatar = new avatarObject(r, 3, "sleeping");		//create new avatar
+        Avatar theAvatar = new Avatar(r, 3, "sleeping");		//create new avatar
         String selectorMethod = "Constant";
         long lastActivityChange = 0;	//last time activity level was changed [ms]
         long deltaActivityChange = 5*1000;	//60*60*1000;	//desired time between activity level updates [ms]
@@ -97,8 +103,8 @@ public class avatarWallpaper extends WallpaperService {
         private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
 
         //TODO set up the scene
-        scene mainScene = new scene("mainScene");
-        scene testScene = new scene("testScene");
+        Scene mainScene = new Scene("mainScene");
+        Scene testScene = new Scene("testScene");
         
         // === BEGIN TEST CODE SECTION === 
         /*
@@ -230,10 +236,10 @@ public class avatarWallpaper extends WallpaperService {
         	int testAngle= 150;
         	int testX    =  0;
         	int testY    = 50;
-        	location testLoc = new location(testX, testY, testSize, testAngle);
-        	animation tAnimation = new animation("tAnim", testFile, testLoc);
+        	Location testLoc = new Location(testX, testY, testSize, testAngle);
+        	Animation tAnimation = new Animation("tAnim", testFile, testLoc);
          	testScene.addAnimation(tAnimation);
-         	sprite tsprite = new sprite("tSprite", testFile+"3.png", new location(50,100,100,100));
+         	Sprite tsprite = new Sprite("tSprite", testFile+"3.png", new Location(50,100,100,100));
          	testScene.addSprite(tsprite);
         }
 

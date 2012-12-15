@@ -16,7 +16,7 @@
 
         <service
             android:label="@string/wallpaper_avatar"
-            android:name=".avatar.avatarWallpaper"
+            android:name="edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper"
             android:permission="android.permission.BIND_WALLPAPER">
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
@@ -25,7 +25,7 @@
         </service>
         <activity
             android:label="@string/avatar_settings"
-            android:name=".avatar.avatarWallpaperSettings"
+            android:name="edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaperSettings"
             android:theme="@android:style/Theme.Light.WallpaperSettings"
             android:exported="true">
         </activity>
@@ -36,7 +36,7 @@
 		    </intent-filter>
 	    </receiver>
 	        
-		<receiver android:name=".avatar.myTestReceiver" >
+		<receiver android:name="edu.usf.eng.pie.avatars4change.receivers.myTestReceiver" >
 		    <intent-filter>
 		        <action android:name="com.tylar.research.avatars" />
 		    </intent-filter>

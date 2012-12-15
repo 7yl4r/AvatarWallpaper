@@ -1,4 +1,4 @@
-package edu.usf.PIE.tylar.MirrorMe.avatar;
+package edu.usf.eng.pie.avatars4change.wallpaper;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

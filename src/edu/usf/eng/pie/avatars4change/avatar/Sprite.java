@@ -1,4 +1,4 @@
-package edu.usf.PIE.tylar.MirrorMe.avatar;
+package edu.usf.eng.pie.avatars4change.avatar;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -6,15 +6,15 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
-public class sprite {
+public class Sprite {
 	
 	String name = "UNNAMED";
-	location L = new location();
+	Location L = new Location();
 	
 	Bitmap image;
 	
 	//constructor
-	public sprite(String newName, String fileName, location newLocation){
+	public Sprite(String newName, String fileName, Location newLocation){
 		name = newName;
 		loadImage(fileName);
 		L    = newLocation;
