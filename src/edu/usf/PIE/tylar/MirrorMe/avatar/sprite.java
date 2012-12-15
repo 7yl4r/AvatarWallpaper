@@ -43,7 +43,7 @@ public class sprite {
 			w = Math.round( (float)L.size * ((float)image.getWidth()/(float)image.getHeight()) );
 		}
 		dest = new Rect(L.x-w/2, L.y-h/2, L.x+w/2, L.y+h/2);
-		Log.d("sprite","w=" + Integer.toString(w) + " h=" + Integer.toString(h));
+		//Log.v("sprite","w=" + Integer.toString(w) + " h=" + Integer.toString(h));
 		c.rotate(L.rotation);
 		c.drawBitmap(image, source, dest, null);
 		c.rotate(-L.rotation);

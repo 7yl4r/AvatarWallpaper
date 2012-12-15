@@ -97,6 +97,20 @@ public class avatarWallpaper extends WallpaperService {
         private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
         
         
+        //TODO set up the scene
+        String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
+    	String spriteDir = baseFileDirectory + "/sprites";
+    	String testFile = spriteDir + "/body/active/running/.";
+    	int testSize = 100;
+    	int testAngle= -10;
+    	int testX = 0;
+    	int testY = -50;
+    	location testLoc = new location(testX, testY, testSize, testAngle);
+    	animation testAnimation = new animation("test", testFile, testLoc);
+    	
+    	
+        
+        
         private final Runnable mDrawViz = new Runnable() {
             public void run() {
                 //if past bedTime and before wakeTime, sleep
@@ -330,6 +344,12 @@ public class avatarWallpaper extends WallpaperService {
                     //drawTouchPoint(c);
                     drawAvatar(c);
                     //drawFPS(c);
+                    
+                    //TODO remove these:
+                    drawTestSprite(c);
+                    drawTestAnimation(c);
+                    
+                    
                 }
             } finally {
                 if (c != null) holder.unlockCanvasAndPost(c);
@@ -351,35 +371,51 @@ public class avatarWallpaper extends WallpaperService {
             }
         }
         
-        /*draw avatar*/
-        void drawAvatar(Canvas c) {
-        	
-        	// === TEST AREA ===
+        void drawTestSprite(Canvas c){
+        	c.save();
         	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
         	String spriteDir = baseFileDirectory + "/sprites";
         	String spriteFile = spriteDir + "/face/default/.0.png";
-        	int testSize = 100;
+        	int testSize = 50;
         	int testAngle= 45;
-        	int testX = 25;
-        	int testY = 50;
+        	int testX = 100;
+        	int testY = 200;
         	location testLoc = new location(testX, testY, testSize, testAngle);
         	sprite testSprite = new sprite("test",spriteFile, testLoc);
         	c.translate(mCenterX, mCenterY);
         	testSprite.draw(c);
-        	// === END TEST AREA ===
-        			
-        			
-        			
+        	c.restore();
+        }
+
+        void drawTestAnimation(Canvas c){
+        	c.save();
+            if(isFrameChangeTime()){
+            	testAnimation.nextFrame();
+            } //else display same as last loop
+        	c.translate(mCenterX, mCenterY);
+        	testAnimation.draw(c);
+        	c.restore();
+        }
+        
+        /*draw avatar*/
+        void drawAvatar(Canvas c) {        	
+        	c.save();
+             if(isFrameChangeTime()){
+            	 theAvatar.nextFrame();
+             } //else display same as last loop
+        	c.translate(mCenterX, mCenterY);
+        	//theAvatar.drawAvatar(c,mCenterX*2,mCenterY*2);
+            c.restore();
+        }
+        
+        boolean isFrameChangeTime(){
         	//determine if enough time has passed to move to next frame
         	long now = SystemClock.elapsedRealtime();
              if(((float)(now - lastFrameChange)) > (((float)1000)/desiredFPS)){		//if total ms elapsed > desired ms elapsed
-            	 theAvatar.nextFrame();
             	 lastFrameChange = now;
-             } //else display same as last loop
-             
-        	//c.translate(mCenterX, mCenterY);
-        	//theAvatar.drawAvatar(c,mCenterX*2,mCenterY*2);
-            c.restore();
+            	 return true;
+             }
+             else return false;
         }
         
         /*background */
