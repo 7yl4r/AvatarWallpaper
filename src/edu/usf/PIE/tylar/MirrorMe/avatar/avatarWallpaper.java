@@ -97,9 +97,11 @@ public class avatarWallpaper extends WallpaperService {
         private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
 
         //TODO set up the scene
-        
+        scene mainScene = new scene("mainScene");
+        scene testScene = new scene("testScene");
         
         // === BEGIN TEST CODE SECTION === 
+        /*
         //test animation:
         String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
     	String spriteDir = baseFileDirectory + "/sprites";
@@ -117,7 +119,8 @@ public class avatarWallpaper extends WallpaperService {
      	int En_testX    =  33;
      	int En_testY    =  11;
      	location testEntLoc = new location(En_testX, En_testY, En_testSize, En_testAngle);
-     	entity testEntity   = new entity("name",testEntLoc);     	
+     	entity testEntity   = new entity("name",testEntLoc);  
+     	*/   	
     	
     	// === END TEST CODE SECTION === 
         
@@ -215,7 +218,12 @@ public class avatarWallpaper extends WallpaperService {
             setTouchEventsEnabled(true);
             
           //TODO set up the scene
-            String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
+            setupTestScene();
+
+        }
+        
+        public void setupTestScene(){
+        	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
         	String spriteDir = baseFileDirectory + "/sprites";
         	String testFile = spriteDir + "/body/active/basketball/.";
         	int testSize =  100;
@@ -223,9 +231,10 @@ public class avatarWallpaper extends WallpaperService {
         	int testX    =  0;
         	int testY    = 50;
         	location testLoc = new location(testX, testY, testSize, testAngle);
-        	animation tAnimation = new animation("test", testFile, testLoc);
-         	testEntity.addAnimation(tAnimation);
-
+        	animation tAnimation = new animation("tAnim", testFile, testLoc);
+         	testScene.addAnimation(tAnimation);
+         	sprite tsprite = new sprite("tSprite", testFile+"3.png", new location(50,100,100,100));
+         	testScene.addSprite(tsprite);
         }
 
         @Override
@@ -365,14 +374,15 @@ public class avatarWallpaper extends WallpaperService {
                 if (c != null) {
                 	drawBG(c);
                     //drawTouchPoint(c);
-                    drawAvatar(c);
+                    //drawAvatar(c);
                     drawFPS(c);
                     
-                    //TODO remove these:
+                    drawTestScene(c);
+                    /*
                     drawTestSprite(c);
                     drawTestAnimation(c);
                     drawTestEntity(c);
-                    
+                    */
                     
                 }
             } finally {
@@ -386,15 +396,23 @@ public class avatarWallpaper extends WallpaperService {
             }
         }
 
-        /*
-         * Draw a circle around the current touch point, if any.
-         */
+        // Draw a circle around the current touch point, if any.
         void drawTouchPoint(Canvas c) {
             if (mTouchX >=0 && mTouchY >= 0) {
                 c.drawCircle(mTouchX, mTouchY, 80, mPaint);
             }
         }
         
+        void drawTestScene(Canvas c){
+        	c.save();
+        	c.translate(mCenterX, mCenterY);
+            if(isFrameChangeTime()){
+            	testScene.nextFrame();
+            } //else display same as last loop
+        	testScene.draw(c);
+        	c.restore();
+        }
+        /*
         void drawTestEntity(Canvas c){
         	c.save();
             if(isFrameChangeTime()){
@@ -404,7 +422,6 @@ public class avatarWallpaper extends WallpaperService {
         	testEntity.draw(c);
         	c.restore();
         }
-        
         void drawTestSprite(Canvas c){
         	c.save();
         	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
@@ -420,7 +437,6 @@ public class avatarWallpaper extends WallpaperService {
         	testSprite.draw(c);
         	c.restore();
         }
-
         void drawTestAnimation(Canvas c){
         	c.save();
             if(isFrameChangeTime()){
@@ -430,8 +446,11 @@ public class avatarWallpaper extends WallpaperService {
         	testAnimation.draw(c);
         	c.restore();
         }
+        */
         
         /*draw avatar*/
+        
+        /*
         void drawAvatar(Canvas c) {        	
         	c.save();
              if(isFrameChangeTime()){
@@ -441,6 +460,7 @@ public class avatarWallpaper extends WallpaperService {
         	//theAvatar.drawAvatar(c,mCenterX*2,mCenterY*2);
             c.restore();
         }
+        */
         
         boolean isFrameChangeTime(){
         	//determine if enough time has passed to move to next frame
