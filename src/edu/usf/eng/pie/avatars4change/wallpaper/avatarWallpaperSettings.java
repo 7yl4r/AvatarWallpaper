@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.util.Log;
-import edu.usf.PIE.tylar.MirrorMe.R;
+import edu.usf.eng.pie.avatars4change.R;
 
 public class avatarWallpaperSettings extends PreferenceActivity 
     implements SharedPreferences.OnSharedPreferenceChangeListener {

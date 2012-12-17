@@ -7,7 +7,7 @@ import android.util.Log;
 public class Avatar extends Entity {
 	//values for choosing appropriate animations:
 	private String activityLevel = "sleeping";
-	private String activityName = "inBed";
+	private String activityName  = "inBed";
 	private int realismLevel;
 	
 	float scale;
@@ -24,12 +24,12 @@ public class Avatar extends Entity {
 	Animation bodyAnim;
 	
 	//constructor
-	public Avatar(Resources r, int realismL, String activityL) {
-			activityLevel = activityL;
-			realismLevel = realismL;
-			super.addSprite( headSprite );
-			super.addAnimation( bodyAnim );
-			setupAvatar();
+	public Avatar(Location LOC, int realismL, String activityL) {
+		super("AvatarObject",LOC);
+		Log.v("Avatar","new avatar. R:" + realismLevel + " A:" + activityLevel);
+		activityLevel = activityL;
+		realismLevel = realismL;
+		setupAvatar();
 	}
 	
 	// === ACTIVITY LEVEL ===
@@ -38,6 +38,7 @@ public class Avatar extends Entity {
 	}
 	public void setActivityLevel(String newLevel){
 		activityLevel = newLevel;
+		Log.v("Avatar",name+" activity level set to "+activityLevel);
 		if(!this.isOkay()){		//if level does not match activity
 			randomActivity(activityLevel);		//choose random activity in new level
 		}//else don't worry about it
@@ -49,7 +50,7 @@ public class Avatar extends Entity {
 	}
 	public void setRealismLevel(int newLevel){
 		realismLevel = newLevel;
-		Log.d("MirrorMe Avatar", "Realism Level set to " + realismLevel);
+		Log.v("Avatar",name+" activity level set to "+realismLevel);
 		//update bitmaps
 		setupAvatar();
 	}
@@ -57,8 +58,13 @@ public class Avatar extends Entity {
 	//sets up the locations and sizes of the images for the avatar. Images are retrieved and drawn in the drawAvatar() method
 	//  must be called whenever activity/realism levels change to update locations and scales of images!
 	private void setupAvatar(){
-		Log.d("MirrorMe Avatar","R:" + realismLevel + " A:" + activityLevel);
+		Log.v("Avatar","setting up "+name);
+		//TODO set up head...
 		
+		super.addSprite( headSprite );
+		//TODO set up body...
+		
+		super.addAnimation( bodyAnim );
 	}
 	
 	// === ACTIVITY NAME ===
@@ -66,8 +72,8 @@ public class Avatar extends Entity {
 		return activityName;
 	}
 	public void setActivityName(String newName) {
-		//set new activity name
-		activityName = newName;
+		activityName = newName;		//set new activity name
+		Log.v("Avatar",name+" activity set to "+activityName);
 		if(!this.isOkay()){	//change activity level if needed
 			if(newName.equals("basketball") || newName.equals("running") || newName.equals("bicycling")){
 				this.setActivityLevel("active");
@@ -110,7 +116,6 @@ public class Avatar extends Entity {
         } else {	//activity level is probably the default 'sleeping'
         	//TODO: something
         }
-    	Log.v("MirrorMe Avatar", "new activity = " + activity);
     	setActivityName(activity);
 	}
 	
@@ -191,5 +196,6 @@ public class Avatar extends Entity {
 	}
 	public void setScale( float newScale ){
 		scale = newScale;
+		Log.v("Avatar",name+" scale set to "+scale);
 	}
 }

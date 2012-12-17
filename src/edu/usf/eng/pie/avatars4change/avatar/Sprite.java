@@ -33,7 +33,7 @@ public class Sprite {
 	//draws the sprite on given canvas c at object location relative to given location L
 	public void draw(Canvas c){
 		if(image == null){
-			Log.e("sprite","cannot draw sprite, no image!");
+			Log.e("sprite","cannot draw sprite "+name+", no image!");
 			return;	//don't draw if no image
 		}
 		Rect source, dest;

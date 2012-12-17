@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
-import edu.usf.PIE.tylar.MirrorMe.*;	//import for the R object???
+import edu.usf.eng.pie.avatars4change.R;	//import for the R object???
 
 //for receiving the incoming data
 public class mMonitorReceiver extends BroadcastReceiver {

@@ -72,7 +72,7 @@ public class avatarWallpaper extends WallpaperService {
         //vars for the avatar
     	long lastFrameChange = 0;		//last frame update [ms]
         Resources r = getResources();
-        Avatar theAvatar = new Avatar(r, 3, "sleeping");		//create new avatar
+        Avatar theAvatar = new Avatar(new Location(0,0,100,0), 3, "sleeping");		//create new avatar
         String selectorMethod = "Constant";
         long lastActivityChange = 0;	//last time activity level was changed [ms]
         long deltaActivityChange = 5*1000;	//60*60*1000;	//desired time between activity level updates [ms]

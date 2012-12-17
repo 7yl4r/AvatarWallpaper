@@ -1,8 +1,5 @@
 package edu.usf.eng.pie.avatars4change.avatar;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -55,7 +52,7 @@ public class Animation {
 	}
 	
 	public void draw(Canvas c){
-		Log.v("animation", "F:" + Integer.toString(currentFrame) + " nF:" + Integer.toString(nFrames));
+		//Log.v("animation", "F:" + Integer.toString(currentFrame) + " nF:" + Integer.toString(nFrames));
 		c.save();
 		c.translate(L.x, L.y);	//move to location of animation
 		c.rotate(L.rotation);	
@@ -75,7 +72,6 @@ public class Animation {
 			w = Math.round( (float)L.size * ((float)frame[currentFrame].getWidth()/(float)frame[currentFrame].getHeight()) );
 		}
 		Rect dest = new Rect(L.x-w/2, L.y-h/2, L.x+w/2, L.y+h/2);
-		Log.d("sprite","w=" + Integer.toString(w) + " h=" + Integer.toString(h));
 		c.drawBitmap(frame[currentFrame], source, dest, null);
 		c.restore();
 	}

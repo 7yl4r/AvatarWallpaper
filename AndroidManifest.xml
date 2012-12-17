@@ -4,7 +4,7 @@
 -->
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.usf.PIE.tylar.MirrorMe">
+    package="edu.usf.eng.pie.avatars4change">
 
     <uses-sdk android:minSdkVersion="10" />
     <uses-feature android:name="android.software.live_wallpaper" />
@@ -30,7 +30,7 @@
             android:exported="true">
         </activity>
         
-        <receiver android:name=".avatar.mMonitorReceiver" android:enabled="true">
+        <receiver android:name="edu.usf.eng.pie.avatars4change.receivers.mMonitorReceiver" android:enabled="true">
 		    <intent-filter>
 		        <action android:name="com.MILES.MonitoringApp.DailyStateChange" />
 		    </intent-filter>
