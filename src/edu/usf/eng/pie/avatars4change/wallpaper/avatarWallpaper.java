@@ -104,7 +104,7 @@ public class avatarWallpaper extends WallpaperService {
 
         //TODO set up the scene
         Scene mainScene = new Scene("mainScene");
-        Scene testScene = new Scene("testScene");
+        //Scene testScene = new Scene("testScene");
         
         // === BEGIN TEST CODE SECTION === 
         /*
@@ -132,44 +132,44 @@ public class avatarWallpaper extends WallpaperService {
         
         private final Runnable mDrawViz = new Runnable() {
             public void run() {
-            	//check for enough time to change animation
-            	//TODO: change this next if issue#5 persists
-        		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
-                if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
-                	//if past bedTime and before wakeTime, sleep
-                    int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                    //Log.v("Avatars4Change Avatar sleep clock", "current hour:" + currentHour);
-                    if(currentHour >= bedTime || currentHour < wakeTime){
-                    	//draw sleeping
-                    	theAvatar.setActivityLevel("sleeping");
-                    } else {	//awake
-                    	int today = Time.getJulianDay(System.currentTimeMillis(), (long) (TimeZone.getDefault().getRawOffset()/1000.0) ); 	//(new Time()).toMillis(false)
-                    	//Log.v("Avatars4Change day calculator","time:"+System.currentTimeMillis()+"\ttimezone:"+TimeZone.getDefault().getRawOffset()+"\ttoday:"+today);
-    	            	//set active or passive, depending on even or odd julian day
-    	            	if(today%2 == 0){	//if today is even
-    	            		if(activeOnEvens){
-    	            			theAvatar.setActivityLevel("active");
-    	            		}else{
-    	            			theAvatar.setActivityLevel("passive");
-    	            		}
-    	            	}else{	//today is odd
-    	            		if(!activeOnEvens){	//if active on odd days
-    	            			theAvatar.setActivityLevel("active");
-    	            		}else{
-    	            			theAvatar.setActivityLevel("passive");
-    	            		}
-    	            	}
-                    }
-                	//avatar changes activity 
-                	theAvatar.randomActivity(theAvatar.getActivityLevel());
-               	 	lastActivityChange = now;
-               	 	Log.v("mirrorMe Broadcaster","broadcast sent");
-               	 	//test broadcast:
-               	 	Intent intent = new Intent();
-               	 	intent.setAction("com.tylar.research.avatars");
-               	 	sendBroadcast(intent); 
-                }
-                if(isFrameChangeTime()){
+            	if(isFrameChangeTime()){
+	            	//check for enough time to change animation
+	            	//TODO: change this next if issue#5 persists
+	        		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
+	                if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
+	                	//if past bedTime and before wakeTime, sleep
+	                    int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+	                    Log.v("Avatars4Change Avatar sleep clock", "current hour:" + currentHour);
+	                    if(currentHour >= bedTime || currentHour < wakeTime){
+	                    	//draw sleeping
+	                    	theAvatar.setActivityLevel("sleeping");
+	                    } else {	//awake
+	                    	int today = Time.getJulianDay(System.currentTimeMillis(), (long) (TimeZone.getDefault().getRawOffset()/1000.0) ); 	//(new Time()).toMillis(false)
+	                    	Log.v("Avatars4Change day calculator","time:"+System.currentTimeMillis()+"\ttimezone:"+TimeZone.getDefault().getRawOffset()+"\ttoday:"+today);
+	    	            	//set active or passive, depending on even or odd julian day
+	    	            	if(today%2 == 0){	//if today is even
+	    	            		if(activeOnEvens){
+	    	            			theAvatar.setActivityLevel("active");
+	    	            		}else{
+	    	            			theAvatar.setActivityLevel("passive");
+	    	            		}
+	    	            	}else{	//today is odd
+	    	            		if(!activeOnEvens){	//if active on odd days
+	    	            			theAvatar.setActivityLevel("active");
+	    	            		}else{
+	    	            			theAvatar.setActivityLevel("passive");
+	    	            		}
+	    	            	}
+	                    }
+	                	//avatar changes activity 
+	                	theAvatar.randomActivity(theAvatar.getActivityLevel());
+	               	 	lastActivityChange = now;
+	               	 	Log.v("mirrorMe Broadcaster","activity changed; broadcast sent");
+	               	 	//test broadcast:
+	               	 	Intent intent = new Intent();
+	               	 	intent.setAction("com.tylar.research.avatars");
+	               	 	sendBroadcast(intent); 
+	                }
      			   drawFrame();
      		   } //else display same as last loop
             }
@@ -244,15 +244,14 @@ public class avatarWallpaper extends WallpaperService {
 
             loadPrefs();	//load the preferences
           //TODO set up the scene
-            setupTestScene();
+            //setupTestScene();
             setupMainScene();
 
         }
-        
         public void setupMainScene(){
          	mainScene.addEntity(theAvatar);
         }
-        
+        /*
         public void setupTestScene(){
         	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
         	String spriteDir = baseFileDirectory + "/sprites";
@@ -267,6 +266,7 @@ public class avatarWallpaper extends WallpaperService {
          	Sprite tsprite = new Sprite("tSprite", testFile+"3.png", new Location(0,0,1000,0));
          	testScene.addSprite(tsprite);
         }
+        */
 
         @Override
         public void onDestroy() {
@@ -280,7 +280,7 @@ public class avatarWallpaper extends WallpaperService {
             if (visible) {
             	if(isFrameChangeTime()){
      			   drawFrame();
-     		   } //else display same as last loop
+     		    } //else display same as last loop
                 visibilityStart = System.currentTimeMillis();
             } else {
                 mHandler.removeCallbacks(mDrawViz);
@@ -347,15 +347,9 @@ public class avatarWallpaper extends WallpaperService {
             mHeight = height;
             mWidth = width;
             //TODO: MOVE THIS:
-            float s = Math.min(mHeight/100,mWidth/100);
-            theAvatar.setScale(s);
-            /*
-            float hScaler = mHeight/theAvatar.maxH();
-            float wScaler = mWidth/theAvatar.maxW();
-            if(wScaler < hScaler){
-            	theAvatar.setScaler(wScaler);
-            } else theAvatar.setScaler(hScaler);
-            */
+            int s = Math.round(Math.min(mHeight,mWidth)*0.9f);
+            theAvatar.setSize(s);
+            
 		   if(isFrameChangeTime()){
 			   drawFrame();
 		   } //else display same as last loop
@@ -410,13 +404,13 @@ public class avatarWallpaper extends WallpaperService {
                 c = holder.lockCanvas();
                 if (c != null) {
 				   	mainScene.nextFrame();
-				   	testScene.nextFrame();
+				   	//testScene.nextFrame();
 				   	
                 	drawBG(c);
                     //drawTouchPoint(c);
                     drawFPS(c);
                     
-                    drawTestScene(c);
+                    //drawTestScene(c);
                     drawMainScene(c);
                     /*
                     drawTestSprite(c);
@@ -449,12 +443,14 @@ public class avatarWallpaper extends WallpaperService {
         	c.restore();
         }
         
+        /*
         void drawTestScene(Canvas c){
         	c.save();
         	c.translate(mCenterX, mCenterY);
         	testScene.draw(c);
         	c.restore();
         }
+        */
         /*
         void drawTestEntity(Canvas c){
         	c.save();

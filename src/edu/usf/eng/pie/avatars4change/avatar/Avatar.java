@@ -9,20 +9,18 @@ public class Avatar extends Entity {
 	private String activityName  = "inBed";
 	private int realismLevel = 111;
 	
-	float scale = 1.0f;
-	
 	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
 	String spriteDir = baseFileDirectory + "/sprites";
 	
 	String headName = "head";
 	Location headL = new Location();
 	String headFile = spriteDir+"/face/default/.0.png";
-	Sprite headSprite = new Sprite(headName,headFile,headL);
+//	Sprite headSprite = new Sprite(headName,headFile,headL);
 
 	String bodyName = "body";
 	Location bodyL = new Location();
 	String bodyDir  = spriteDir+"/body/default/.";
-	Animation bodyAnim = new Animation(bodyName,bodyDir,bodyL);
+//	Animation bodyAnim = new Animation(bodyName,bodyDir,bodyL);
 	
 	//constructor
 	public Avatar(Location LOC, int realismL, String activityL) {
@@ -34,17 +32,15 @@ public class Avatar extends Entity {
 		Log.v("Avatar","setting up "+name);
 		// set up head
 		headFile = ( baseFileDirectory + "/sprites/face/default/.0.png");		//create sprites
-		setHeadLocation(headSprite);
+		headL = loadHeadLocation();
 		//reloadHeadFiles()
-		headSprite.set(headName, headFile, headL);
-		super.addSprite( headSprite );
+		super.addSprite( headName, headFile, headL );
 		
 		// set up body
 		bodyDir = ( baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/.");
-		setBodyLocation(bodyAnim);
+		bodyL = loadBodyLocation();
 		reloadBodyFiles();
-		bodyAnim.set(bodyName, bodyDir, bodyL);
-		super.addAnimation( bodyAnim );
+		super.addAnimation( bodyName, bodyDir, bodyL );
 	}
 	
 	// === ACTIVITY LEVEL ===
@@ -70,54 +66,52 @@ public class Avatar extends Entity {
 	
 	//sets up the locations and sizes of the images for the avatar. Images are retrieved and drawn in the drawAvatar() method
 	//  must be called whenever activity/realism levels change to update locations and scales of images!
-	
-	private void setHeadLocation(Sprite head){
+	private Location loadHeadLocation(){
+		Location LOC = new Location();
 		// === ACTIVE ===
 		if(activityName.equals("running")){
 			// === BODY ===
 			// === HEAD ===
-			headL.set(-13,-60,40,0);
+			LOC.set(-13,-60,40,0);
 		} else if(activityName.equals("basketball")){
 			// === BODY ===
 			// === HEAD ===
-			headL.set(8,16,15,0);
+			LOC.set(8,16,15,0);
 		} else if(activityName.equals("bicycling")){
 			// === BODY ===
 			// === HEAD ===
-			headL.set(-20,-60,40,0);
+			LOC.set(-20,-60,40,0);
 		// === ASLEEP ===
 		} else if(activityName.equals("inBed")){
 			// === BODY ===
 			// === HEAD ===
-			headL.set(100,0,25,0);
+			LOC.set(100,0,25,0);
 		// === PASSIVE ===
 		} else if(activityName.equals("onComputer")){
 			// === BODY ===
 			// === HEAD ===
-			headL.set(18,-32,33,0);
+			LOC.set(18,-32,33,0);
 		} else if(activityName.equals("videoGames")){
 			// === BODY ===
 			// === HEAD ===
-			headL.set(57,-23,17,0);
+			LOC.set(57,-23,17,0);
 		} else if(activityName.equals("watchingTV")){
 			// === BODY ===
 			// === HEAD ===
-			headL.set(10,-50,30,0);
+			LOC.set(10,-50,30,0);
 			// === DEFAULT === 
 		} else {
 			Log.e("MirrorMe sprite","activity name not recognized");
 			// === BODY ===
 			// === HEAD ===
-			headL.set(0,0,100,180);
+			LOC.set(0,0,100,180);
 		}
-		headL.size = Math.round(headL.size*scale);
-		head.setLocation(headL);
+		return new Location(scaleValueFromPercent(LOC.x),scaleValueFromPercent(LOC.y),scaleValueFromPercent(LOC.size),LOC.rotation);
 	}
 	
-	private void setBodyLocation(Animation body){
-		bodyL.set(0,0,160,0);	//body always in center
-		bodyL.size = Math.round(bodyL.size*scale);
-		body.setLocation(bodyL);
+	private Location loadBodyLocation(){
+		//TODO: this is a hack-y fix. percent of total entity size should be 100% instead of 50%
+		return new Location(0,0,scaleValueFromPercent(50),0);//body always in center, full size of entity
 	}
 	
 	private void reloadBodyFiles(){
@@ -159,7 +153,7 @@ public class Avatar extends Entity {
 			// === HEAD ===
 			bodyDir = spriteDir+"/body/default/.";
 		}
-		bodyAnim.set(bodyName, bodyDir, bodyL);
+		setAnimationDir( bodyName, bodyDir);
 	}
 	
 	// === ACTIVITY NAME ===
@@ -182,6 +176,7 @@ public class Avatar extends Entity {
 			}
 		}
 		reloadBodyFiles();
+		headL = loadHeadLocation();
 	}
 	
 	//sets random activity name in the level passed
@@ -236,11 +231,5 @@ public class Avatar extends Entity {
 				return true;
 			}else return false;
 		}else return false;	//activity level not recognized
-	}
-	
-	//display is 160 display-independent pixels, numerical (non-var) values below can be thought of as pixel values in the 160 pixel display
-	public void setScale( float newScale ){
-		scale = 1;//newScale;
-		Log.v("Avatar",name+" scale set to "+scale);
 	}
 }

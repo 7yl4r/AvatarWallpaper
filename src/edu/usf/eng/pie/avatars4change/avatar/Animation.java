@@ -71,9 +71,8 @@ public class Animation {
 		}
 		//Rect dest = new Rect(L.x-w/2, L.y-h/2, L.x+w/2, L.y+h/2);
 		c.translate(L.x, -L.y);
-		Rect dest = new Rect(0,-h,w,0);
 		c.rotate(L.rotation);
-		c.translate(-w/2, h/2);
+		Rect dest = new Rect(-w/2,-h/2,w/2,h/2);
 		c.drawBitmap(frame[currentFrame], source, dest, null);
 		c.restore();
 	}

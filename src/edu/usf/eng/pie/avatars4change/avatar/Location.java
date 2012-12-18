@@ -8,7 +8,7 @@ public class Location {
 	public Location(){	//set defaults values (only used for debugging)
 		x        = 0;
 		y        = 0;
-		size     = 1000;
+		size     = 100;
 		rotation = 0;
 	}
 	public Location(int nx, int ny, int ns, int nr){
@@ -18,6 +18,9 @@ public class Location {
 		x        = nx;
 		y        = ny;
 		size     = ns;
-		rotation = nr;
+		setRotation(nr);
+	}
+	public void setRotation(int newR){
+		rotation = newR%360;
 	}
 }
