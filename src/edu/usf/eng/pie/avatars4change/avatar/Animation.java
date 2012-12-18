@@ -49,14 +49,12 @@ public class Animation {
 		}while(frame[count-1] != null);
 		Log.v("animation load",fileDir+Integer.toString(count)+".png" + " not found, stopping file setup");
 		nFrames = count-2;//at loop exit, count is 1 too large (counting from 0)
+		Log.v("animation load",Integer.toString(count)+" frames loaded into animation "+name);
 	}
 	
 	public void draw(Canvas c){
 		//Log.v("animation", "F:" + Integer.toString(currentFrame) + " nF:" + Integer.toString(nFrames));
 		c.save();
-		c.translate(L.x, L.y);	//move to location of animation
-		c.rotate(L.rotation);	
-
 		if(frame[currentFrame] == null){
 			Log.e("sprite","cannot draw sprite frame "+Integer.toString(currentFrame)+" in "+fileDir+", no image!");
 			return;	//don't draw if no image
@@ -71,7 +69,11 @@ public class Animation {
 			h = L.size;
 			w = Math.round( (float)L.size * ((float)frame[currentFrame].getWidth()/(float)frame[currentFrame].getHeight()) );
 		}
-		Rect dest = new Rect(L.x-w/2, L.y-h/2, L.x+w/2, L.y+h/2);
+		//Rect dest = new Rect(L.x-w/2, L.y-h/2, L.x+w/2, L.y+h/2);
+		c.translate(L.x, -L.y);
+		Rect dest = new Rect(0,-h,w,0);
+		c.rotate(L.rotation);
+		c.translate(-w/2, h/2);
 		c.drawBitmap(frame[currentFrame], source, dest, null);
 		c.restore();
 	}
@@ -80,5 +82,9 @@ public class Animation {
 		currentFrame++;
 		if( currentFrame > nFrames )	//reset if out of frames
 			currentFrame = 0;
+	}
+	
+	public void setLocation(Location newLoc){
+		L = newLoc;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 public class Scene {
 	String name = "UNNAMED";	//scene name
@@ -20,6 +21,10 @@ public class Scene {
 	}
 	
 	public void draw(Canvas c){
+//		Log.v("entity draw","drawing "+Integer.toString(sprites.size())+" sprites, "
+//			      +Integer.toString(animations.size())+" animations, "
+//				  +Integer.toString(entities.size())+" entities in scene "+this.name);
+		
 		if(!sprites.isEmpty()){	//do nothing if no sprites in list
 			for (Sprite s : sprites){	//for each sprite 's' in spriteList
 				s.draw(c);	//TODO add entity location 
@@ -30,7 +35,7 @@ public class Scene {
 				a.draw(c);	
 			}
 		}
-		if(!animations.isEmpty()){//same for entities
+		if(!entities.isEmpty()){//same for entities
 			for (Entity e : entities){	
 				e.draw(c);	
 			}

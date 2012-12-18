@@ -41,7 +41,6 @@
 		        <action android:name="com.tylar.research.avatars" />
 		    </intent-filter>
 	    </receiver>
-        
     </application>
         
 </manifest>

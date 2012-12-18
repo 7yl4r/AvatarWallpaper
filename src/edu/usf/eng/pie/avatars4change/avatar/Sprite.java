@@ -23,6 +23,10 @@ public class Sprite {
 		loadImage(fileName);
 		L    = newLocation;
 	}
+	
+	public void setLocation(Location newLoc){
+		L = newLoc;
+	}
 
 	public void loadImage(String fName){
 		//image = BitmapFactory.decodeFile(fileDir+currentFrame+".png");
@@ -32,6 +36,7 @@ public class Sprite {
 	
 	//draws the sprite on given canvas c at object location relative to given location L
 	public void draw(Canvas c){
+		c.save();
 		if(image == null){
 			Log.e("sprite","cannot draw sprite "+name+", no image!");
 			return;	//don't draw if no image
@@ -46,10 +51,15 @@ public class Sprite {
 			h = L.size;
 			w = Math.round( (float)L.size * ((float)image.getWidth()/(float)image.getHeight()) );
 		}
+		/*
 		dest = new Rect(L.x-w/2, L.y-h/2, L.x+w/2, L.y+h/2);
 		//Log.v("sprite","w=" + Integer.toString(w) + " h=" + Integer.toString(h));
+		 */
+		c.translate(L.x, -L.y);
+		dest = new Rect(0,-h,w,0);
 		c.rotate(L.rotation);
+		c.translate(-w/2, h/2);
 		c.drawBitmap(image, source, dest, null);
-		c.rotate(-L.rotation);
+		c.restore();
 	}
 }

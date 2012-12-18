@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 //import edu.usf.pie.avatars4change.sprite
 
@@ -34,6 +35,8 @@ public class Entity {
 	
 	// draw method draws all base sprites in their relative locations
 	public void draw(Canvas c){
+//		Log.v("entity draw","drawing "+Integer.toString(sprites.size())+" sprites, and "
+//		      +Integer.toString(animations.size())+" animations in entity "+this.name);
 		if(!sprites.isEmpty()){	//do nothing if no sprites in list
 			for (Sprite s : sprites){	//for each sprite 's' in spriteList
 				s.draw(c);	//TODO add entity location 
