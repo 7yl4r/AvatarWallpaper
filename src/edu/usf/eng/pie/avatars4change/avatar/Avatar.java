@@ -72,15 +72,15 @@ public class Avatar extends Entity {
 		if(activityName.equals("running")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(-13,-60,40,0);
+			LOC.set(-9,42,30,0);
 		} else if(activityName.equals("basketball")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(8,16,15,0);
+			LOC.set(6,-15,12,0);
 		} else if(activityName.equals("bicycling")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(-20,-60,40,0);
+			LOC.set(-13,42,30,-10);
 		// === ASLEEP ===
 		} else if(activityName.equals("inBed")){
 			// === BODY ===
@@ -90,15 +90,15 @@ public class Avatar extends Entity {
 		} else if(activityName.equals("onComputer")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(18,-32,33,0);
+			LOC.set(13,26,33,-5);
 		} else if(activityName.equals("videoGames")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(57,-23,17,0);
+			LOC.set(37,17,17,0);
 		} else if(activityName.equals("watchingTV")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(10,-50,30,0);
+			LOC.set(9,39,30,0);
 			// === DEFAULT === 
 		} else {
 			Log.e("MirrorMe sprite","activity name not recognized");
@@ -177,6 +177,7 @@ public class Avatar extends Entity {
 		}
 		reloadBodyFiles();
 		headL = loadHeadLocation();
+		setSpriteLocation(headName,headL);
 	}
 	
 	//sets random activity name in the level passed

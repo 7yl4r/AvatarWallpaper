@@ -43,6 +43,19 @@ public class Entity {
 		animations.add( new Animation(animName, animFile, animLoc));
 	}
 	
+	public void setSpriteLocation(String spriteName, Location newLoc){
+		int i = spriteIndex(spriteName);
+//		Log.v("entity","animations size = "+animations.size());
+		if ( (i >= 0) && (i < sprites.size()) ){
+			Sprite temp = sprites.get(i);
+			temp.L = newLoc;
+			sprites.set( i , temp );
+		}else{
+			Log.e("entity","sprite location cannot be set, invalid index: "+Integer.toString(i));
+		}
+	}
+	
+	
 	//sets animation with specified name to given 
 	public void setAnimationDir(String animName, String newDir){
 		int i = animationIndex(animName);
@@ -53,8 +66,20 @@ public class Entity {
 			animations.set( i , temp );
 			animations.get(i).load();
 		}else{
-			Log.e("entity","animation cannot be set, invalid index: "+Integer.toString(i));
+			Log.e("entity","animation fileDir cannot be set, invalid index: "+Integer.toString(i));
 		}
+	}
+	
+	private int spriteIndex(String spriteName){
+		int index = 0;
+		for( Sprite s : sprites ){
+			if (s.name.equals(spriteName)){
+				return index;
+			}
+			index++;
+		}
+		Log.i("entity","cannot get index, sprite "+spriteName+" not found. -1 returned.");
+		return -1;
 	}
 	
 	private int animationIndex(String animName){
@@ -65,7 +90,7 @@ public class Entity {
 			}
 			index++;
 		}
-		Log.i("entity","cannot get index, animation "+animName+" not found.");
+		Log.i("entity","cannot get index, animation "+animName+" not found. -1 returned.");
 		return -1;
 	}
 	
