@@ -1,5 +1,6 @@
 package edu.usf.eng.pie.avatars4change.avatar;
 
+import android.graphics.Canvas;
 import android.os.Environment;
 import android.util.Log;
 
@@ -72,46 +73,46 @@ public class Avatar extends Entity {
 		if(activityName.equals("running")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(-9,42,30,0);
+			LOC.set(-9,42,LOC.zorder,30,0);
 		} else if(activityName.equals("basketball")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(6,-15,12,0);
+			LOC.set(6,-15,LOC.zorder,12,0);
 		} else if(activityName.equals("bicycling")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(-13,42,30,-10);
+			LOC.set(-13,42,LOC.zorder,30,-10);
 		// === ASLEEP ===
 		} else if(activityName.equals("inBed")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(100,0,25,0);
+			LOC.set(100,0,LOC.zorder,25,0);
 		// === PASSIVE ===
 		} else if(activityName.equals("onComputer")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(13,26,33,-5);
+			LOC.set(13,26,LOC.zorder,33,-5);
 		} else if(activityName.equals("videoGames")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(37,17,17,0);
+			LOC.set(37,17,LOC.zorder,17,0);
 		} else if(activityName.equals("watchingTV")){
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(9,39,30,0);
+			LOC.set(9,39,LOC.zorder,30,0);
 			// === DEFAULT === 
 		} else {
 			Log.e("MirrorMe sprite","activity name not recognized");
 			// === BODY ===
 			// === HEAD ===
-			LOC.set(0,0,100,180);
+			LOC.set(0,0,LOC.zorder,100,180);
 		}
-		return new Location(scaleValueFromPercent(LOC.x),scaleValueFromPercent(LOC.y),scaleValueFromPercent(LOC.size),LOC.rotation);
+		return new Location(scaleValueFromPercent(LOC.x),scaleValueFromPercent(LOC.y),LOC.zorder,scaleValueFromPercent(LOC.size),LOC.rotation);
 	}
 	
 	private Location loadBodyLocation(){
 		//TODO: this is a hack-y fix. percent of total entity size should be 100% instead of 50%
-		return new Location(0,0,scaleValueFromPercent(50),0);//body always in center, full size of entity
+		return new Location(0,0,0,scaleValueFromPercent(50),0);//body always in center, full size of entity
 	}
 	
 	private void reloadBodyFiles(){
@@ -153,7 +154,11 @@ public class Avatar extends Entity {
 			// === HEAD ===
 			bodyDir = spriteDir+"/body/default/.";
 		}
-		setAnimationDir( bodyName, bodyDir);
+		super.setAnimationDir( bodyName, bodyDir);
+	}
+	
+	private void reloadHeadFiles(){
+		super.setSpriteFile(headName, headFile);
 	}
 	
 	// === ACTIVITY NAME ===
@@ -232,5 +237,11 @@ public class Avatar extends Entity {
 				return true;
 			}else return false;
 		}else return false;	//activity level not recognized
+	}
+	
+	@Override
+	public void draw(Canvas c){
+		reloadHeadFiles();	//need to reload head sprite in case it has changed
+		super.draw(c);
 	}
 }

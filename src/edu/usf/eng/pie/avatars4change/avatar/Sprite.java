@@ -9,7 +9,7 @@ import android.util.Log;
 public class Sprite {
 	
 	String name = "UNNAMED";
-	Location L = new Location();
+	Location location = new Location();
 	
 	Bitmap image;
 	
@@ -21,11 +21,11 @@ public class Sprite {
 	public void set (String newName, String fileName, Location newLocation){
 		name = newName;
 		loadImage(fileName);
-		L    = newLocation;
+		location    = newLocation;
 	}
 	
 	public void setLocation(Location newLoc){
-		L = newLoc;
+		location = newLoc;
 	}
 
 	public void loadImage(String fName){
@@ -45,19 +45,19 @@ public class Sprite {
 		source = new Rect(0, 0, image.getWidth(), image.getHeight());//TODO to use sprite sheet, adjust this to select part of image
 		int w = 0,h = 0;	//image width & height (actually radius of image)
 		if(image.getWidth()>image.getHeight()){ 
-			w = L.size;
-			h = Math.round( (float)L.size * ((float)image.getHeight()/(float)image.getWidth()) );
+			w = location.size;
+			h = Math.round( (float)location.size * ((float)image.getHeight()/(float)image.getWidth()) );
 		} else {
-			h = L.size;
-			w = Math.round( (float)L.size * ((float)image.getWidth()/(float)image.getHeight()) );
+			h = location.size;
+			w = Math.round( (float)location.size * ((float)image.getWidth()/(float)image.getHeight()) );
 		}
 		/*
 		dest = new Rect(L.x-w/2, L.y-h/2, L.x+w/2, L.y+h/2);
 		//Log.v("sprite","w=" + Integer.toString(w) + " h=" + Integer.toString(h));
 		 */
-		c.translate(L.x, -L.y);
+		c.translate(location.x, -location.y);
 		dest = new Rect(0,-h,w,0);
-		c.rotate(L.rotation);
+		c.rotate(location.rotation);
 		c.translate(-w/2, h/2);
 		c.drawBitmap(image, source, dest, null);
 		c.restore();

@@ -2,10 +2,7 @@ package edu.usf.eng.pie.avatars4change.avatar;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 import android.graphics.Canvas;
-import android.util.Log;
 
 public class Scene {
 	String name = "UNNAMED";	//scene name
@@ -24,21 +21,26 @@ public class Scene {
 //		Log.v("entity draw","drawing "+Integer.toString(sprites.size())+" sprites, "
 //			      +Integer.toString(animations.size())+" animations, "
 //				  +Integer.toString(entities.size())+" entities in scene "+this.name);
-		
-		if(!sprites.isEmpty()){	//do nothing if no sprites in list
+		//TODO: add scene location
+		int objectsLeft = animations.size() + sprites.size() + entities.size();
+		int z = 0;
+		while(objectsLeft > 0){
 			for (Sprite s : sprites){	//for each sprite 's' in spriteList
-				s.draw(c);	//TODO add entity location 
+				if(s.location.zorder==z){
+					s.draw(c); 
+					objectsLeft--;
+				}
 			}
-		}
-		if(!animations.isEmpty()){//same for animations
 			for (Animation a : animations){	
-				a.draw(c);	
-			}
-		}
-		if(!entities.isEmpty()){//same for entities
+				if(a.location.zorder==z){
+					a.draw(c); 
+					objectsLeft--;
+				}			}
 			for (Entity e : entities){	
-				e.draw(c);	
-			}
+				if(e.location.zorder==z){
+					e.draw(c);
+					objectsLeft--;
+				}			}
 		}
 	}
 	

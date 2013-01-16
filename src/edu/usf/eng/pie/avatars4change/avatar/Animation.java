@@ -22,7 +22,7 @@ public class Animation {
 	Bitmap frame[] = new Bitmap[MAXFRAMES];	//frames in the animation
 
 	
-	Location L;
+	Location location;
 	
 	//constructor
 	public Animation(String newName, String fDir, Location newLocation) {
@@ -32,7 +32,7 @@ public class Animation {
 	public void set(String newName, String fDir, Location newLocation){
 		name = newName;
 		fileDir = fDir;	//set file directory
-		L = newLocation;
+		location = newLocation;
 		this.load();	//frameCount is set by load()
 		//allocate space for arrays???
 		//set up spriteSheet???
@@ -63,15 +63,15 @@ public class Animation {
 		Rect source = new Rect(0, 0, frame[currentFrame].getWidth(), frame[currentFrame].getHeight());		
 		int w = 0,h = 0;	//image width & height (actually radius of image)
 		if(frame[currentFrame].getWidth()>frame[currentFrame].getHeight()){ 
-			w = L.size;
-			h = Math.round( (float)L.size * ((float)frame[currentFrame].getHeight()/(float)frame[currentFrame].getWidth()) );
+			w = location.size;
+			h = Math.round( (float)location.size * ((float)frame[currentFrame].getHeight()/(float)frame[currentFrame].getWidth()) );
 		} else {
-			h = L.size;
-			w = Math.round( (float)L.size * ((float)frame[currentFrame].getWidth()/(float)frame[currentFrame].getHeight()) );
+			h = location.size;
+			w = Math.round( (float)location.size * ((float)frame[currentFrame].getWidth()/(float)frame[currentFrame].getHeight()) );
 		}
 		//Rect dest = new Rect(L.x-w/2, L.y-h/2, L.x+w/2, L.y+h/2);
-		c.translate(L.x, -L.y);
-		c.rotate(L.rotation);
+		c.translate(location.x, -location.y);
+		c.rotate(location.rotation);
 		Rect dest = new Rect(-w/2,-h/2,w/2,h/2);
 		c.drawBitmap(frame[currentFrame], source, dest, null);
 		c.restore();
@@ -84,6 +84,6 @@ public class Animation {
 	}
 	
 	public void setLocation(Location newLoc){
-		L = newLoc;
+		location = newLoc;
 	}
 }
