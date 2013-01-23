@@ -1,0 +1,5 @@
+Drawings are constrained to the 'bounding box' of 300x300 px. Measurements and locations given in the drawings files are based on this assumption. 
+
+Frames can be composed of multiple layers. Layers are named by frame number, then sub-number based on the zorder. 
+
+The frameNumber.f layer indicates the zorder of the face and the associated location information.
