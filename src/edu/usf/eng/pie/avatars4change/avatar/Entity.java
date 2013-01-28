@@ -24,7 +24,11 @@ public class Entity {
 		name = NAME;
 		location = LOCATION;
 	}
-	private int spriteIndex(String spriteName){
+	private int getSpriteIndex(String spriteName){
+		if(sprites.isEmpty()){
+			Log.i("entity","cannot get index, no sprites in entity. -1 returned.");
+			return -1;
+		}
 		int index = 0;
 		for( Sprite s : sprites ){
 			if (s.name.equals(spriteName)){
@@ -35,28 +39,28 @@ public class Entity {
 		Log.i("entity spriteIndex","cannot get index, animation "+spriteName+" not found. -1 returned.");
 		return -1;
 	}
-	//add a new sprite, location is in percent of entity size (except rotation)
+	//add a new sprite
 	public void addSprite(String spriteName, String imageFile, Location relativeLoc){
-		Location spriteLoc = new Location(scaleValueFromPercent(relativeLoc.x),
-				                          scaleValueFromPercent(relativeLoc.y),
+		Location spriteLoc = new Location(relativeLoc.x,
+				                          relativeLoc.y,
 				                          relativeLoc.zorder,
-				                          scaleValueFromPercent(relativeLoc.size),
+				                          relativeLoc.size,
 				                          relativeLoc.rotation);
 		sprites.add( new Sprite(spriteName, imageFile, spriteLoc) );
 	}
 	
 	//add a new sprite, location is in percent of entity size (except rotation)
 	public void addAnimation(String animName, String animFile, Location relativeLoc){
-		Location animLoc = new Location(scaleValueFromPercent(relativeLoc.x),
-                                        scaleValueFromPercent(relativeLoc.y),
+		Location animLoc = new Location(relativeLoc.x,
+                                        (relativeLoc.y),
                                         relativeLoc.zorder,
-                                        scaleValueFromPercent(relativeLoc.size),
+                                        (relativeLoc.size),
                                         relativeLoc.rotation);
 		animations.add( new Animation(animName, animFile, animLoc));
 	}
 	
 	public void setSpriteLocation(String spriteName, Location newLoc){
-		int i = spriteIndex(spriteName);
+		int i = getSpriteIndex(spriteName);
 //		Log.v("entity","animations size = "+animations.size());
 		if ( (i >= 0) && (i < sprites.size()) ){
 			Sprite temp = sprites.get(i);
@@ -69,7 +73,7 @@ public class Entity {
 	
 	//sets animation with specified name to given 
 	public void setAnimationDir(String animName, String newDir){
-		int i = animationIndex(animName);
+		int i = getAnimationIndex(animName);
 //		Log.v("entity","animations size = "+animations.size());
 		if ( (i >= 0) && (i <= animations.size()) ){
 			Animation temp = animations.get(i);
@@ -82,7 +86,7 @@ public class Entity {
 	}
 	
 	public void setSpriteFile(String spriteName, String newFile){
-		int i = spriteIndex(spriteName);
+		int i = getSpriteIndex(spriteName);
 		if ( (i >= 0) && (i <= sprites.size()) ){
 			sprites.get(i).loadImage(newFile);
 //			Sprite temp = sprites.get(i);
@@ -93,7 +97,21 @@ public class Entity {
 		}
 	}
 	
-	private int animationIndex(String animName){
+	public Animation getAnimation(String animName){
+		int index = getAnimationIndex(animName);
+		if (index >= 0){
+			return animations.get(index);
+		}else{
+			Log.e("entity","animation " + animName + " not found");
+			return null;
+		}
+	}
+	
+	private int getAnimationIndex(String animName){
+		if(animations.isEmpty()){
+			Log.i("entity","cannot get index, no animations in entity. -1 returned.");
+			return -1;
+		}
 		int index = 0;
 		for( Animation a : animations ){
 			if (a.name.equals(animName)){
@@ -106,9 +124,11 @@ public class Entity {
 	}
 	
 	// scale given percent of total width value, and return scaled absolute value
+	/*
 	public int scaleValueFromPercent(int percent){
-		return (int) Math.round(percent*location.size/100.0f);
+		return (int) Math.round(percent*location.size/300.0f);
 	}
+	*/
 	
 	// draw method draws all base sprites in their relative locations
 	//order drawn is animations followed by sprites in the order that they are in their respective arrays
@@ -131,6 +151,7 @@ public class Entity {
 					objectsLeft--;
 				}
 			}
+			z++;
 		}
 	}
 	
@@ -144,8 +165,16 @@ public class Entity {
 		//do nothing with sprites
 	}
 	
+	public void resetFrameCount(){
+		if(!animations.isEmpty()){	//do nothing if empty list
+			for (Animation a : animations){	//for each animation
+				a.resetFrameCount();
+			}
+		}
+	}
+	
 	public void setSize(int newSize){
-		location.size = newSize;
-		Log.v("entity","size set to "+location.size);
+		//location.size = newSize;
+		//Log.v("entity","size set to "+location.size);
 	}
 }

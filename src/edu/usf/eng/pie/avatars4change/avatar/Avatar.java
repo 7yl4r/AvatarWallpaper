@@ -15,12 +15,14 @@ public class Avatar extends Entity {
 	
 	String headName = "head";
 	Location headL = new Location();
-	String headFile = spriteDir+"/face/default/.0.png";
+	String headFile = spriteDir+"/face/default/0.png";
 //	Sprite headSprite = new Sprite(headName,headFile,headL);
 
-	String bodyName = "body";
+	String bodyTopName = "bodyTop";
+	String bodyBottomName="bodyBottom";
 	Location bodyL = new Location();
-	String bodyDir  = spriteDir+"/body/default/.";
+	String bodyDirBottom  = spriteDir+"/body/default/";
+	String bodyDirTop  = bodyDirBottom;
 //	Animation bodyAnim = new Animation(bodyName,bodyDir,bodyL);
 	
 	//constructor
@@ -32,16 +34,29 @@ public class Avatar extends Entity {
 		
 		Log.v("Avatar","setting up "+name);
 		// set up head
-		headFile = ( baseFileDirectory + "/sprites/face/default/.0.png");		//create sprites
-		headL = loadHeadLocation();
+		headFile = ( baseFileDirectory + "/sprites/face/default/0.png");		//create sprites
+		loadHeadLocation();
 		//reloadHeadFiles()
 		super.addSprite( headName, headFile, headL );
 		
-		// set up body
-		bodyDir = ( baseFileDirectory + "/sprites/body/" + activityLevel + "/" + activityName + "/.");
-		bodyL = loadBodyLocation();
 		reloadBodyFiles();
-		super.addAnimation( bodyName, bodyDir, bodyL );
+		
+		// set up body
+		bodyL = loadBodyLocation();
+		bodyDirBottom = loadBodyDir("bottom");	//bottom layer
+		bodyL.zorder = 0;
+		super.addAnimation( bodyBottomName, bodyDirBottom, bodyL );
+
+		//face layer is in middle
+
+		bodyDirTop = loadBodyDir("top");
+		bodyL.zorder = 2;
+		super.addAnimation( bodyTopName, bodyDirTop, bodyL );		
+	}
+	
+	private String loadBodyDir(String layerName){
+		return ( baseFileDirectory + "/sprites/body/" + activityLevel + 
+				"/" + activityName + "/"+layerName);
 	}
 	
 	// === ACTIVITY LEVEL ===
@@ -67,94 +82,124 @@ public class Avatar extends Entity {
 	
 	//sets up the locations and sizes of the images for the avatar. Images are retrieved and drawn in the drawAvatar() method
 	//  must be called whenever activity/realism levels change to update locations and scales of images!
-	private Location loadHeadLocation(){
-		Location LOC = new Location();
+	private void loadHeadLocation(){
+		//this location should not show, and is a bit odd for easy debug
+		Location LOC = new Location(0,0,1,30,180);	//center, layer 1, size 30, upside-down;
+		int thisFrame = 0;
+		if (super.getAnimation(bodyBottomName)!=null){
+			thisFrame = super.getAnimation(bodyBottomName).currentFrame;
+		}
 		// === ACTIVE ===
 		if(activityName.equals("running")){
-			// === BODY ===
-			// === HEAD ===
-			LOC.set(-9,42,LOC.zorder,30,0);
+			//LOC.set(-9,42,LOC.zorder,30,0);		//old used location
+			LOC.set(-32, 106, LOC.zorder, 84, 0);
+			//static location for all frames
 		} else if(activityName.equals("basketball")){
-			// === BODY ===
-			// === HEAD ===
-			LOC.set(6,-15,LOC.zorder,12,0);
+			//load location based on current frame of body animation
+			//find body animation
+			thisFrame++; 	// frame number mysteriously lags by 1 for this animation
+			switch (thisFrame){
+				case 10:	//this frame is not real, but needed to account for lag fix
+				case 0:
+				case 1:
+				case 2:
+					LOC.set(20,-31,LOC.zorder,40,0);
+					break;
+				case 3:
+					LOC.set(20,-21,LOC.zorder,40,0);
+					break;
+				case 4:
+					LOC.set(21,-16,LOC.zorder,40,-10);
+					break;
+				case 5:
+					LOC.set(20,-21,LOC.zorder,40,0);
+					break;
+				case 6:
+					LOC.set(21,-29,LOC.zorder,40,0);
+					break;
+				case 7:
+				case 8:
+				case 9:
+					LOC.set(21,-29,LOC.zorder,40,0);	
+					break;
+				default:
+					Log.d("avatar head location", "bad frame number "+Integer.toString(thisFrame)+" for activity "+activityName);
+					//LOC.set(6,-15,LOC.zorder,12,0);	//this is the old location	
+					break;
+			}
+			
 		} else if(activityName.equals("bicycling")){
-			// === BODY ===
-			// === HEAD ===
-			LOC.set(-13,42,LOC.zorder,30,-10);
+			LOC.set(-33,90,LOC.zorder,90,-7);	//static
+			//LOC.set(-13,42,LOC.zorder,30,-10);	//old
 		// === ASLEEP ===
 		} else if(activityName.equals("inBed")){
-			// === BODY ===
-			// === HEAD ===
-			LOC.set(100,0,LOC.zorder,25,0);
+			LOC.set(0,0,LOC.zorder,0,0);	//size 0 so it won't show
+			//LOC.set(100,0,LOC.zorder,25,0);	//old
 		// === PASSIVE ===
 		} else if(activityName.equals("onComputer")){
-			// === BODY ===
-			// === HEAD ===
-			LOC.set(13,26,LOC.zorder,33,-5);
+			LOC.set(37, 62, LOC.zorder, 79, 0);	//static
+			//LOC.set(13,26,LOC.zorder,33,-5);	//old
 		} else if(activityName.equals("videoGames")){
-			// === BODY ===
-			// === HEAD ===
-			LOC.set(37,17,LOC.zorder,17,0);
+			LOC.set(108,50,LOC.zorder,50,0);	//static
+			//LOC.set(37,17,LOC.zorder,17,0);	//old
 		} else if(activityName.equals("watchingTV")){
-			// === BODY ===
-			// === HEAD ===
-			LOC.set(9,39,LOC.zorder,30,0);
+			LOC.set(26,107,LOC.zorder,84,0);	//static
+			//LOC.set(9,39,LOC.zorder,30,0);//old
+			
 			// === DEFAULT === 
 		} else {
 			Log.e("MirrorMe sprite","activity name not recognized");
-			// === BODY ===
-			// === HEAD ===
 			LOC.set(0,0,LOC.zorder,100,180);
 		}
-		return new Location(scaleValueFromPercent(LOC.x),scaleValueFromPercent(LOC.y),LOC.zorder,scaleValueFromPercent(LOC.size),LOC.rotation);
+		headL = LOC;
+		setSpriteLocation(headName,headL);
 	}
 	
 	private Location loadBodyLocation(){
 		//TODO: this is a hack-y fix. percent of total entity size should be 100% instead of 50%
-		return new Location(0,0,0,scaleValueFromPercent(50),0);//body always in center, full size of entity
+		return new Location(0,0,0,300,0);//body always in center, full size of entity
 	}
 	
+	//sets up new activity 
 	private void reloadBodyFiles(){
 		// === ACTIVE ===
 		if(activityName.equals("running")){
-			// === BODY ===
-			// === HEAD ===
-			bodyDir = spriteDir+"/body/active/running/.";
+
+			bodyDirTop = null;
+			bodyDirBottom = spriteDir+"/body/active/running/";
+
 		} else if(activityName.equals("basketball")){
-			// === BODY ===
-			// === HEAD ===
-			bodyDir = spriteDir+"/body/active/basketball/.";
+			bodyDirTop = spriteDir+"/body/active/basketball/top/";
+			bodyDirBottom = spriteDir+"/body/active/basketball/bottom/";
 		} else if(activityName.equals("bicycling")){
-			// === BODY ===
-			// === HEAD ===
-			bodyDir = spriteDir+"/body/active/bicycling/.";
+			bodyDirTop = spriteDir+"/body/active/bicycling/top/";
+			bodyDirBottom = spriteDir+"/body/active/bicycling/bottom/";
 		// === ASLEEP ===
 		} else if(activityName.equals("inBed")){
-			// === BODY ===
-			// === HEAD ===
-			bodyDir = spriteDir+"/body/sleeping/inBed/.";
+
+			bodyDirBottom = spriteDir+"/body/sleeping/inBed/";
+			bodyDirTop    = null;
 		// === PASSIVE ===
 		} else if(activityName.equals("onComputer")){
-			// === BODY ===
-			// === HEAD ===
-			bodyDir = spriteDir+"/body/passive/onComputer/.";
+			bodyDirTop = null;
+			bodyDirBottom = spriteDir+"/body/passive/onComputer/";
+			
 		} else if(activityName.equals("videoGames")){
-			// === BODY ===
-			// === HEAD ===
-			bodyDir = spriteDir+"/body/passive/videoGames/.";
+			bodyDirTop = null;
+			bodyDirBottom = spriteDir+"/body/passive/videoGames/";
 		} else if(activityName.equals("watchingTV")){
-			// === BODY ===
-			// === HEAD ===
-			bodyDir = spriteDir+"/body/passive/watchingTV/.";
+			bodyDirTop = null;
+			bodyDirBottom = spriteDir+"/body/passive/watchingTV/";
 			// === DEFAULT === 
 		} else {
 			Log.e("MirrorMe sprite","activity name not recognized");
-			// === BODY ===
-			// === HEAD ===
-			bodyDir = spriteDir+"/body/default/.";
+	
+			bodyDirTop = null;
+			bodyDirBottom = spriteDir+"/body/default/";
 		}
-		super.setAnimationDir( bodyName, bodyDir);
+		super.setAnimationDir( bodyTopName, bodyDirTop);
+		super.setAnimationDir( bodyBottomName, bodyDirBottom);
+		super.resetFrameCount();
 	}
 	
 	private void reloadHeadFiles(){
@@ -181,8 +226,7 @@ public class Avatar extends Entity {
 			}
 		}
 		reloadBodyFiles();
-		headL = loadHeadLocation();
-		setSpriteLocation(headName,headL);
+		loadHeadLocation();
 	}
 	
 	//sets random activity name in the level passed
@@ -240,8 +284,17 @@ public class Avatar extends Entity {
 	}
 	
 	@Override
+	public void nextFrame(){
+		loadHeadLocation();
+		super.nextFrame();
+	}
+	
+	@Override
 	public void draw(Canvas c){
 		reloadHeadFiles();	//need to reload head sprite in case it has changed
+		
+		//TODO: set the location of the head based on the frame number and the animation type
+		
 		super.draw(c);
 	}
 }

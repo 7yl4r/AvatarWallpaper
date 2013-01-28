@@ -48,8 +48,8 @@ public class Animation {
 			count++;
 		}while(frame[count-1] != null);
 		Log.v("animation load",fileDir+Integer.toString(count)+".png" + " not found, stopping file setup");
-		nFrames = count-2;//at loop exit, count is 1 too large (counting from 0)
-		Log.v("animation load",Integer.toString(count)+" frames loaded into animation "+name);
+		nFrames = count-2;//at loop exit, count is 1 too large (acounting from 0)
+		Log.v("animation load",Integer.toString(count-1)+" frames loaded into animation "+name);
 	}
 	
 	public void draw(Canvas c){
@@ -81,6 +81,10 @@ public class Animation {
 		currentFrame++;
 		if( currentFrame > nFrames )	//reset if out of frames
 			currentFrame = 0;
+	}
+	
+	public void resetFrameCount(){
+		currentFrame = 0;
 	}
 	
 	public void setLocation(Location newLoc){

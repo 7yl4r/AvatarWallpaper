@@ -14,7 +14,7 @@
    height="1052.3622047"
    id="svg4936"
    version="1.1"
-   inkscape:version="0.48.2 r9819"
+   inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="bicycling.svg">
   <defs
      id="defs4938" />
@@ -26,15 +26,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="374.54222"
-     inkscape:cy="519.60956"
+     inkscape:cx="205.97079"
+     inkscape:cy="348.18099"
      inkscape:document-units="px"
-     inkscape:current-layer="layer14"
+     inkscape:current-layer="layer15"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1018"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-width="1366"
+     inkscape:window-height="744"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
      inkscape:window-maximized="1">
     <inkscape:grid
        type="xygrid"
@@ -1409,8 +1409,7 @@
      inkscape:groupmode="layer"
      id="layer15"
      inkscape:label="face"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <image
        y="776.31915"
        x="-119.99223"
@@ -1433,7 +1432,7 @@
          sodipodi:role="line"
          x="403.92856"
          y="898.07648"
-         id="tspan3204">x=33</tspan><tspan
+         id="tspan3204">x=-33</tspan><tspan
          sodipodi:role="line"
          x="403.92856"
          y="918.07648"
@@ -1441,7 +1440,7 @@
          sodipodi:role="line"
          x="403.92856"
          y="938.07648"
-         id="tspan3200">r=7</tspan><tspan
+         id="tspan3200">r=-7</tspan><tspan
          sodipodi:role="line"
          x="403.92856"
          y="958.07648"
