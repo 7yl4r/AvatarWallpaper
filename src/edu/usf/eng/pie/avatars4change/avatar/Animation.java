@@ -56,7 +56,7 @@ public class Animation {
 		//Log.v("animation", "F:" + Integer.toString(currentFrame) + " nF:" + Integer.toString(nFrames));
 		c.save();
 		if(frame[currentFrame] == null){
-			Log.e("sprite","cannot draw sprite frame "+Integer.toString(currentFrame)+" in "+fileDir+", no image!");
+			Log.i("sprite","cannot draw sprite frame "+Integer.toString(currentFrame)+" in "+fileDir+", no image!");
 			return;	//don't draw if no image
 		}
 		//set up scaling of image

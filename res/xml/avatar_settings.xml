@@ -22,6 +22,7 @@
 		    android:key="activeOnEvens" 
 		    android:title="Active/Passive Behavior" 
 		    android:defaultValue="true"/>
+		<EditTextPreference android:key="UID" android:dialogMessage="This is a unique id that you don't mind sharing with us" android:dialogTitle="User ID" android:title="User ID"/>
 	</PreferenceCategory>
 		
     <PreferenceCategory 

@@ -56,7 +56,7 @@ public class Avatar extends Entity {
 	
 	private String loadBodyDir(String layerName){
 		return ( baseFileDirectory + "/sprites/body/" + activityLevel + 
-				"/" + activityName + "/"+layerName);
+				"/" + activityName + "/"+layerName+"/");
 	}
 	
 	// === ACTIVITY LEVEL ===

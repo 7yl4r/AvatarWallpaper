@@ -10,6 +10,8 @@ import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import ly.count.android.api.Countly;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -21,6 +23,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
+import android.telephony.TelephonyManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -28,8 +31,6 @@ import android.view.SurfaceHolder;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.avatar.Scene;
-
-import ly.count.android.api.Countly;	//countly API
 
 /*
  * This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
@@ -39,13 +40,14 @@ public class avatarWallpaper extends WallpaperService {
 	public static final String SHARED_PREFS_NAME="avatarsettings";
     private final Handler mHandler = new Handler();
     
+    String USERID = "defaultUID";
+    
     @Override
     public void onCreate() {
     	//set up countly:
     	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
-    	String serverURL     = "http://ec2-50-16-149-124.compute-1.amazonaws.com";
+    	String serverURL     = "http://ec2-50-17-108-9.compute-1.amazonaws.com";
     	Countly.sharedInstance().init(getApplicationContext(), serverURL, appKey);
-    	
     	
     	SetDirectory();
     	super.onCreate();
@@ -76,6 +78,10 @@ public class avatarWallpaper extends WallpaperService {
     	
         //vars for the avatar
     	long lastFrameChange = 0;		//last frame update [ms]
+    	long lastUserStatusUpdate = 0;
+    	
+    	long UPDATE_FREQUENCY = 1000 * 10; 	//once per UPDATE_FREQUENCY; e.g. once/10s * 1s/1000ms
+    	
         Resources r = getResources();
         Avatar theAvatar = new Avatar(new Location(0,0,0,300,0), 3, "sleeping");		//create new avatar
         String selectorMethod = "Constant";
@@ -136,52 +142,79 @@ public class avatarWallpaper extends WallpaperService {
     	// === END TEST CODE SECTION === 
         
         private final Runnable mDrawViz = new Runnable() {
+        	private void updateSceneBehavior(){
+        		//check for enough time to change animation
+            	//TODO: change this next if issue#5 persists
+        		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
+                if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
+                	//if past bedTime and before wakeTime, sleep
+                    int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                    Log.v("Avatars4Change Avatar sleep clock", "current hour:" + currentHour);
+                    if(currentHour >= bedTime || currentHour < wakeTime){
+                    	//draw sleeping
+                    	theAvatar.setActivityLevel("sleeping");
+                    } else {	//awake
+                    	int today = Time.getJulianDay(System.currentTimeMillis(), (long) (TimeZone.getDefault().getRawOffset()/1000.0) ); 	//(new Time()).toMillis(false)
+                    	Log.v("Avatars4Change day calculator","time:"+System.currentTimeMillis()+"\ttimezone:"+TimeZone.getDefault().getRawOffset()+"\ttoday:"+today);
+    	            	//set active or passive, depending on even or odd julian day
+    	            	if(today%2 == 0){	//if today is even
+    	            		if(activeOnEvens){
+    	            			theAvatar.setActivityLevel("active");
+    	            		}else{
+    	            			theAvatar.setActivityLevel("passive");
+    	            		}
+    	            	}else{	//today is odd
+    	            		if(!activeOnEvens){	//if active on odd days
+    	            			theAvatar.setActivityLevel("active");
+    	            		}else{
+    	            			theAvatar.setActivityLevel("passive");
+    	            		}
+    	            	}
+                    }
+                	//avatar changes activity 
+                	theAvatar.randomActivity(theAvatar.getActivityLevel());
+               	 	lastActivityChange = now;
+                }
+        	}
+        	
+        	private void testBroadcast(){
+        		//test broadcast:
+           	 	Intent intent = new Intent();
+           	 	intent.setAction("com.tylar.research.avatars");
+           	 	sendBroadcast(intent); 
+        	}
+        	
+        	private int getActivityLevel(){
+        		//TODO: replace this with the receiver
+            	return (int) Math.round(Math.random()*100.0f);
+        	}
+        	
+        	private boolean isGetActivityLevelTime(){
+            	//determine if enough time has passed to move to next frame
+            	long now = SystemClock.elapsedRealtime();
+                if(((float)(now - lastUserStatusUpdate)) > (UPDATE_FREQUENCY)){		//if total ms elapsed > desired ms elapsed
+                	 lastUserStatusUpdate = now;
+                	 return true;
+                }
+                else return false;
+                 
+                 
+        	}
+        	
             public void run() {
             	if(isFrameChangeTime()){
-                	Countly.sharedInstance().onStart();// in onStart.
-                	int activityLevel = (int) Math.random()*10;
-                	Countly.sharedInstance().recordEvent("physicalAcitivtyLevel", activityLevel);
-                	Countly.sharedInstance().onStop(); // in onStop.
-            		
-            		
-	            	//check for enough time to change animation
-	            	//TODO: change this next if issue#5 persists
-	        		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
-	                if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
-	                	//if past bedTime and before wakeTime, sleep
-	                    int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-	                    Log.v("Avatars4Change Avatar sleep clock", "current hour:" + currentHour);
-	                    if(currentHour >= bedTime || currentHour < wakeTime){
-	                    	//draw sleeping
-	                    	theAvatar.setActivityLevel("sleeping");
-	                    } else {	//awake
-	                    	int today = Time.getJulianDay(System.currentTimeMillis(), (long) (TimeZone.getDefault().getRawOffset()/1000.0) ); 	//(new Time()).toMillis(false)
-	                    	Log.v("Avatars4Change day calculator","time:"+System.currentTimeMillis()+"\ttimezone:"+TimeZone.getDefault().getRawOffset()+"\ttoday:"+today);
-	    	            	//set active or passive, depending on even or odd julian day
-	    	            	if(today%2 == 0){	//if today is even
-	    	            		if(activeOnEvens){
-	    	            			theAvatar.setActivityLevel("active");
-	    	            		}else{
-	    	            			theAvatar.setActivityLevel("passive");
-	    	            		}
-	    	            	}else{	//today is odd
-	    	            		if(!activeOnEvens){	//if active on odd days
-	    	            			theAvatar.setActivityLevel("active");
-	    	            		}else{
-	    	            			theAvatar.setActivityLevel("passive");
-	    	            		}
-	    	            	}
-	                    }
-	                	//avatar changes activity 
-	                	theAvatar.randomActivity(theAvatar.getActivityLevel());
-	               	 	lastActivityChange = now;
-	               	 	Log.v("mirrorMe Broadcaster","activity changed; broadcast sent");
-	               	 	//test broadcast:
-	               	 	Intent intent = new Intent();
-	               	 	intent.setAction("com.tylar.research.avatars");
-	               	 	sendBroadcast(intent); 
-	                }
-     			   drawFrame();
+                	
+                	if(isGetActivityLevelTime()){
+                		int level = getActivityLevel();
+                		Log.v("MirrorMe Countly Event","queuing event physicalAcitivtyLevel = " + Integer.toString(level));
+                    	Countly.sharedInstance().recordEvent(USERID, level);
+                	}
+               	 	Log.v("mirrorMe Broadcaster","activity changed; broadcast sent");
+               	 	testBroadcast();
+                	
+            		updateSceneBehavior();
+                	drawFrame();
+                	
      		   } //else display same as last loop
             }
         };
@@ -206,6 +239,17 @@ public class avatarWallpaper extends WallpaperService {
             onSharedPreferenceChanged(mPrefs, null);
         }
         
+        private boolean isFrameChangeTime(){
+        	//determine if enough time has passed to move to next frame
+        	long now = SystemClock.elapsedRealtime();
+             if(((float)(now - lastFrameChange)) > (((float)1000)/desiredFPS)){		//if total ms elapsed > desired ms elapsed
+            	 lastFrameChange = now;
+            	 return true;
+             }
+             else return false;
+        }
+    	
+        
         private void loadPrefs(){
 			Log.d("MirrorMe Avatar", "loading preferences");
 				String key;
@@ -221,6 +265,8 @@ public class avatarWallpaper extends WallpaperService {
 					//Log.d("MirrorMe Avatar", "keepLogs=" + String.valueOf(keepLogs));
 				key="activeOnEvens";
 					activeOnEvens = mPrefs.getBoolean(key, activeOnEvens);
+				key="UID";
+					USERID = mPrefs.getString(key,"defaultUserID");
         }
         
 		@Override
@@ -281,6 +327,7 @@ public class avatarWallpaper extends WallpaperService {
 
         @Override
         public void onDestroy() {
+        	//TODO: save prefs here
             super.onDestroy();
             mHandler.removeCallbacks(mDrawViz);
         }
@@ -289,11 +336,17 @@ public class avatarWallpaper extends WallpaperService {
         public void onVisibilityChanged(boolean visible) {
             mVisible = visible;
             if (visible) {
+            	
+            	Countly.sharedInstance().onStart();// in onStart.
+
             	if(isFrameChangeTime()){
      			   drawFrame();
      		    } //else display same as last loop
                 visibilityStart = System.currentTimeMillis();
             } else {
+            	
+            	Countly.sharedInstance().onStop(); // in onStop.
+            	
                 mHandler.removeCallbacks(mDrawViz);
                 Long visibilityEnd = System.currentTimeMillis();
                 long visibleTime = visibilityEnd - visibilityStart;
@@ -498,16 +551,6 @@ public class avatarWallpaper extends WallpaperService {
         }
         */
         
-        boolean isFrameChangeTime(){
-        	//determine if enough time has passed to move to next frame
-        	long now = SystemClock.elapsedRealtime();
-             if(((float)(now - lastFrameChange)) > (((float)1000)/desiredFPS)){		//if total ms elapsed > desired ms elapsed
-            	 lastFrameChange = now;
-            	 return true;
-             }
-             else return false;
-        }
-        
         /*background */
         void drawBG(Canvas c){
         	//CALCULATE BACKGROUND LOCATION BASED ON OFFSET:
@@ -598,12 +641,12 @@ public class avatarWallpaper extends WallpaperService {
             try {
                 in = assetManager.open(prefix + fileName);
             } catch(Exception e){	//failed file open means listing is a directory
-            	//Log.v("MirrorMe Avatar", files[i] + " is directory");
+            	Log.v("MirrorMe Avatar", files[i] + " is directory");
             	copier(prefix + fileName,extStorageDir);	//add dir name to prefix
             	continue;
             }
             //implied else
-            //Log.v("MirrorMe Avatar", files[i] + " is file");
+            Log.v("MirrorMe Avatar", files[i] + " is file");
             
             File fDir = new File (extStorageDir + "/" + prefix);	//file object for mkdirs
             fDir.mkdirs();	//create directory
