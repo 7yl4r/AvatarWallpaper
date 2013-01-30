@@ -46,6 +46,7 @@ public class avatarWallpaper extends WallpaperService {
     	String serverURL     = "http://ec2-50-16-149-124.compute-1.amazonaws.com";
     	Countly.sharedInstance().init(getApplicationContext(), serverURL, appKey);
     	
+    	
     	SetDirectory();
     	super.onCreate();
     }
