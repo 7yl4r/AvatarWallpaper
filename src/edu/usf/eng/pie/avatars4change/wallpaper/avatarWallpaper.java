@@ -10,12 +10,6 @@ import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import edu.usf.eng.pie.avatars4change.avatar.Animation;
-import edu.usf.eng.pie.avatars4change.avatar.Avatar;
-import edu.usf.eng.pie.avatars4change.avatar.Location;
-import edu.usf.eng.pie.avatars4change.avatar.Scene;
-import edu.usf.eng.pie.avatars4change.avatar.Sprite;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -31,6 +25,11 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import edu.usf.eng.pie.avatars4change.avatar.Avatar;
+import edu.usf.eng.pie.avatars4change.avatar.Location;
+import edu.usf.eng.pie.avatars4change.avatar.Scene;
+
+import ly.count.android.api.Countly;	//countly API
 
 /*
  * This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
@@ -42,6 +41,11 @@ public class avatarWallpaper extends WallpaperService {
     
     @Override
     public void onCreate() {
+    	//set up countly:
+    	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
+    	String serverURL     = "http://ec2-50-16-149-124.compute-1.amazonaws.com";
+    	Countly.sharedInstance().init(getApplicationContext(), serverURL, appKey);
+    	
     	SetDirectory();
     	super.onCreate();
     }
@@ -133,6 +137,12 @@ public class avatarWallpaper extends WallpaperService {
         private final Runnable mDrawViz = new Runnable() {
             public void run() {
             	if(isFrameChangeTime()){
+                	Countly.sharedInstance().onStart();// in onStart.
+                	int activityLevel = (int) Math.random()*10;
+                	Countly.sharedInstance().recordEvent("physicalAcitivtyLevel", activityLevel);
+                	Countly.sharedInstance().onStop(); // in onStop.
+            		
+            		
 	            	//check for enough time to change animation
 	            	//TODO: change this next if issue#5 persists
 	        		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
