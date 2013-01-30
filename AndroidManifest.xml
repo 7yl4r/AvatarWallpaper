@@ -9,7 +9,17 @@
     <uses-sdk android:minSdkVersion="10" />
     <uses-feature android:name="android.software.live_wallpaper" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
 	
+	<!-- for countly: -->
+	<pre class="prettyprint">
+		&lt;service android:name=&quot;org.openudid.OpenUDID_service&quot;&gt;
+		    &lt;intent-filter&gt;
+		        &lt;action android:name=&quot;org.openudid.GETUDID&quot; /&gt;
+		    &lt;/intent-filter&gt;
+		&lt;/service&gt;
+	</pre>
+
     <application
         android:label="@string/wallpapers"
         android:icon="@drawable/ic_launcher_wallpaper">
