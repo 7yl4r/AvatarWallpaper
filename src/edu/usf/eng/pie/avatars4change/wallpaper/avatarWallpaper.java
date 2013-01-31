@@ -46,7 +46,7 @@ public class avatarWallpaper extends WallpaperService {
     public void onCreate() {
     	//set up countly:
     	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
-    	String serverURL     = "http://ec2-50-17-108-9.compute-1.amazonaws.com";
+    	String serverURL     = "http://testSubDomain.socialvinesolutions.com";
     	Countly.sharedInstance().init(getApplicationContext(), serverURL, appKey);
     	
     	SetDirectory();
@@ -233,7 +233,22 @@ public class avatarWallpaper extends WallpaperService {
 
             mStartTime = System.currentTimeMillis();	//set app start time
             lastActivityLevelChangeDay = Time.getJulianDay(mStartTime, TimeZone.getDefault().getRawOffset()); 	//initialize to app start
+            
             mPrefs = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
+            
+            // check if UID has been manually set, or if the default value needs to be set
+            String theID = mPrefs.getString("UID", "default");
+            if(theID.equals("default")){
+            	//get better default UID
+            	TelephonyManager tManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+            	String deviceID = tManager.getDeviceId();
+            	//set default UID
+            	SharedPreferences settings = getSharedPreferences(avatarWallpaper.SHARED_PREFS_NAME, MODE_PRIVATE);
+            	SharedPreferences.Editor editor = settings.edit();
+            	editor.putString("UID", deviceID);
+            	editor.commit();
+            }//else{//pre-existing user-set or device id; leave alone}
+            
             //register reciever for changed settings:
             mPrefs.registerOnSharedPreferenceChangeListener(this);
             onSharedPreferenceChanged(mPrefs, null);
