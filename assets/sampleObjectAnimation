@@ -1,0 +1,27 @@
+; end all lines with a semi-colon. everything after the semi-colon is treated as a comment.
+
+; these two lines must come first:
+number_of_frames=5;
+number_of_connect_points=2;
+
+; location is x,y,size,rotation
+; default image for connect point?
+; connect point name?
+
+; head location
+set_connect_point=
+-100,200,10,0,
+101,-201,10,0,
+102,-202,10,0,
+110,-210,10,0,
+120,-220,10,0;
+
+; another point
+set_connect_point=
+1,1,1,30,
+2,2,2,60,
+3,3,3,90,
+4,4,4,120,
+5,5,5,180;
+
+; NOTE: number of positions must match the number of frames
