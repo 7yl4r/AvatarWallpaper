@@ -31,6 +31,7 @@ import android.view.SurfaceHolder;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.avatar.Scene;
+import edu.usf.eng.pie.avatars4change.userData.userData;
 
 /*
  * This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
@@ -40,15 +41,13 @@ public class avatarWallpaper extends WallpaperService {
 	public static final String SHARED_PREFS_NAME="avatarsettings";
     private final Handler mHandler = new Handler();
     
-    String USERID = "defaultUID";
-    
     @Override
     public void onCreate() {
     	//set up countly:
     	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
     	String serverURL     = "http://testSubDomain.socialvinesolutions.com";
     	Countly.sharedInstance().init(getApplicationContext(), serverURL, appKey);
-    	
+   
     	SetDirectory();
     	super.onCreate();
     }
@@ -184,33 +183,8 @@ public class avatarWallpaper extends WallpaperService {
            	 	sendBroadcast(intent); 
         	}
         	
-        	private int getActivityLevel(){
-        		//TODO: replace this with the receiver
-            	return (int) Math.round(Math.random()*100.0f);
-        	}
-        	
-        	private boolean isGetActivityLevelTime(){
-            	//determine if enough time has passed to move to next frame
-            	long now = SystemClock.elapsedRealtime();
-                if(((float)(now - lastUserStatusUpdate)) > (UPDATE_FREQUENCY)){		//if total ms elapsed > desired ms elapsed
-                	 lastUserStatusUpdate = now;
-                	 return true;
-                }
-                else return false;
-                 
-                 
-        	}
-        	
             public void run() {
             	if(isFrameChangeTime()){
-                	
-                	if(isGetActivityLevelTime()){
-                		int level = getActivityLevel();
-                		Log.v("MirrorMe Countly Event","queuing event physicalAcitivtyLevel = " + Integer.toString(level));
-                    	Countly.sharedInstance().recordEvent(USERID, level);
-                	}
-               	 	Log.v("mirrorMe Broadcaster","activity changed; broadcast sent");
-               	 	testBroadcast();
                 	
             		updateSceneBehavior();
                 	drawFrame();
@@ -218,6 +192,8 @@ public class avatarWallpaper extends WallpaperService {
      		   } //else display same as last loop
             }
         };
+        
+        
         
         private boolean mVisible;
         private SharedPreferences mPrefs;
@@ -281,7 +257,7 @@ public class avatarWallpaper extends WallpaperService {
 				key="activeOnEvens";
 					activeOnEvens = mPrefs.getBoolean(key, activeOnEvens);
 				key="UID";
-					USERID = mPrefs.getString(key,"defaultUserID");
+					userData.USERID = mPrefs.getString(key,"defaultUserID");
         }
         
 		@Override

@@ -54,6 +54,12 @@
 		        <action android:name="com.tylar.research.avatars" />
 		    </intent-filter>
 	    </receiver>
+	    
+		<receiver android:name="edu.usf.eng.pie.avatars4change.receivers.myRunsDataCollectorReceiver">
+		    <intent-filter>
+		        <action android:name="SOME_ACTION" />
+		    </intent-filter>
+		</receiver>
     </application>
         
 </manifest>
