@@ -133,8 +133,7 @@ public class avatarWallpaper extends WallpaperService {
     	// === END TEST CODE SECTION === 
         
         private final Runnable mDrawViz = new Runnable() {
-        	private void updateSceneBehavior(){
-        		//check for enough time to change animation
+        	private void proteusStudySceneUpdater(){
             	//TODO: change this next if issue#5 persists
         		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
                 if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
@@ -167,19 +166,14 @@ public class avatarWallpaper extends WallpaperService {
                	 	lastActivityChange = now;
                 }
         	}
-        	
-        	private int getActivityLevel(){
-        		//TODO: replace this with the receiver
-            	return (int) Math.round(Math.random()*100.0f);
+
+        	private void updateSceneBehavior(){
+        		proteusStudySceneUpdater();
         	}
         	
-        	
-        	
             public void run() {
-            	if(isFrameChangeTime()){
             		updateSceneBehavior();
                 	drawFrame();      	
-     		   } //else display same as last loop
             }
         };
         
@@ -205,6 +199,7 @@ public class avatarWallpaper extends WallpaperService {
             onSharedPreferenceChanged(mPrefs, null);
         }
         
+        /*
         private boolean isFrameChangeTime(){
         	//determine if enough time has passed to move to next frame
         	long now = SystemClock.elapsedRealtime();
@@ -214,6 +209,7 @@ public class avatarWallpaper extends WallpaperService {
              }
              else return false;
         }
+        */
     	
         
         private void loadPrefs(){
@@ -300,9 +296,7 @@ public class avatarWallpaper extends WallpaperService {
         public void onVisibilityChanged(boolean visible) {
             mVisible = visible;
             if (visible) {
-            	if(isFrameChangeTime()){
-     			   drawFrame();
-     		    } //else display same as last loop
+     			drawFrame();
                 visibilityStart = System.currentTimeMillis();
             } else {            	
                 mHandler.removeCallbacks(mDrawViz);
@@ -372,9 +366,7 @@ public class avatarWallpaper extends WallpaperService {
             int s = Math.round(Math.min(mHeight,mWidth)*0.9f);
             theAvatar.setSize(s);
             
-		   if(isFrameChangeTime()){
-			   drawFrame();
-		   } //else display same as last loop
+			drawFrame();
         }
 
         @Override
@@ -393,9 +385,6 @@ public class avatarWallpaper extends WallpaperService {
         public void onOffsetsChanged(float xOffset, float yOffset,
                 float xStep, float yStep, int xPixels, int yPixels) {
             mOffset = xOffset;
-            if(isFrameChangeTime()){
- 			   drawFrame();
- 		   } //else display same as last loop
         }
 
         /*
@@ -447,7 +436,8 @@ public class avatarWallpaper extends WallpaperService {
             // Reschedule the next redraw
             mHandler.removeCallbacks(mDrawViz);
             if (mVisible) {
-                mHandler.postDelayed(mDrawViz, 1000 / 25);
+            	int timeUntilNextFrameDraw = Math.round(1000.0f/desiredFPS);
+                mHandler.postDelayed(mDrawViz, timeUntilNextFrameDraw);
             }
         }
 
