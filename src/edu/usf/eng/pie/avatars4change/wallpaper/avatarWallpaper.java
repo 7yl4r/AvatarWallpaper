@@ -10,10 +10,6 @@ import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import edu.usf.eng.pie.avatars4change.avatar.Avatar;
-import edu.usf.eng.pie.avatars4change.avatar.Location;
-import edu.usf.eng.pie.avatars4change.avatar.Scene;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -29,6 +25,9 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import edu.usf.eng.pie.avatars4change.avatar.Avatar;
+import edu.usf.eng.pie.avatars4change.avatar.Location;
+import edu.usf.eng.pie.avatars4change.avatar.Scene;
 
 /*
  * This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
@@ -37,9 +36,10 @@ public class avatarWallpaper extends WallpaperService {
 
 	public static final String SHARED_PREFS_NAME="avatarsettings";
     private final Handler mHandler = new Handler();
-    
+        
     @Override
     public void onCreate() {
+    	
     	SetDirectory();
     	super.onCreate();
     }
@@ -69,6 +69,10 @@ public class avatarWallpaper extends WallpaperService {
     	
         //vars for the avatar
     	long lastFrameChange = 0;		//last frame update [ms]
+    	long lastUserStatusUpdate = 0;
+    	
+    	long UPDATE_FREQUENCY = 1000 * 10; 	//once per UPDATE_FREQUENCY; e.g. once/10s * 1s/1000ms
+    	
         Resources r = getResources();
         Avatar theAvatar = new Avatar(new Location(0,0,0,300,0), 3, "sleeping");		//create new avatar
         String selectorMethod = "Constant";
@@ -97,9 +101,7 @@ public class avatarWallpaper extends WallpaperService {
         int lastActivityLevelChangeDay;
         String lastActivityLevel = "active";
         private long lastTime = 0;	//time measurement for calculating deltaT and thus fps
-        
-        private float desiredFPS =10;
-        
+        private float desiredFPS =15;
         private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
 
         //TODO set up the scene
@@ -131,7 +133,8 @@ public class avatarWallpaper extends WallpaperService {
     	// === END TEST CODE SECTION === 
         
         private final Runnable mDrawViz = new Runnable() {
-            public void run() {
+        	private void updateSceneBehavior(){
+        		//check for enough time to change animation
             	//TODO: change this next if issue#5 persists
         		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
                 if((now - lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
@@ -162,13 +165,21 @@ public class avatarWallpaper extends WallpaperService {
                 	//avatar changes activity 
                 	theAvatar.randomActivity(theAvatar.getActivityLevel());
                	 	lastActivityChange = now;
-               	 	Log.v("mirrorMe Broadcaster","activity changed; broadcast sent");
-               	 	//test broadcast:
-               	 	Intent intent = new Intent();
-               	 	intent.setAction("com.tylar.research.avatars");
-               	 	sendBroadcast(intent); 
                 }
- 			   drawFrame();
+        	}
+        	
+        	private int getActivityLevel(){
+        		//TODO: replace this with the receiver
+            	return (int) Math.round(Math.random()*100.0f);
+        	}
+        	
+        	
+        	
+            public void run() {
+            	if(isFrameChangeTime()){
+            		updateSceneBehavior();
+                	drawFrame();      	
+     		   } //else display same as last loop
             }
         };
         
@@ -186,11 +197,24 @@ public class avatarWallpaper extends WallpaperService {
 
             mStartTime = System.currentTimeMillis();	//set app start time
             lastActivityLevelChangeDay = Time.getJulianDay(mStartTime, TimeZone.getDefault().getRawOffset()); 	//initialize to app start
+            
             mPrefs = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
+            
             //register reciever for changed settings:
             mPrefs.registerOnSharedPreferenceChangeListener(this);
             onSharedPreferenceChanged(mPrefs, null);
         }
+        
+        private boolean isFrameChangeTime(){
+        	//determine if enough time has passed to move to next frame
+        	long now = SystemClock.elapsedRealtime();
+             if(((float)(now - lastFrameChange)) > (((float)1000)/desiredFPS)){		//if total ms elapsed > desired ms elapsed
+            	 lastFrameChange = now;
+            	 return true;
+             }
+             else return false;
+        }
+    	
         
         private void loadPrefs(){
 			Log.d("MirrorMe Avatar", "loading preferences");
@@ -243,7 +267,7 @@ public class avatarWallpaper extends WallpaperService {
           //TODO set up the scene
             //setupTestScene();
             setupMainScene();
-            drawFrame();
+
         }
         public void setupMainScene(){
          	mainScene.addEntity(theAvatar);
@@ -267,6 +291,7 @@ public class avatarWallpaper extends WallpaperService {
 
         @Override
         public void onDestroy() {
+        	//TODO: save prefs here
             super.onDestroy();
             mHandler.removeCallbacks(mDrawViz);
         }
@@ -275,9 +300,11 @@ public class avatarWallpaper extends WallpaperService {
         public void onVisibilityChanged(boolean visible) {
             mVisible = visible;
             if (visible) {
-               visibilityStart = System.currentTimeMillis();
-               drawFrame();
-            } else {
+            	if(isFrameChangeTime()){
+     			   drawFrame();
+     		    } //else display same as last loop
+                visibilityStart = System.currentTimeMillis();
+            } else {            	
                 mHandler.removeCallbacks(mDrawViz);
                 Long visibilityEnd = System.currentTimeMillis();
                 long visibleTime = visibilityEnd - visibilityStart;
@@ -342,9 +369,13 @@ public class avatarWallpaper extends WallpaperService {
             mHeight = height;
             mWidth = width;
             //TODO: MOVE THIS:
-            int s = Math.round(Math.min(mHeight,mWidth));
+            int s = Math.round(Math.min(mHeight,mWidth)*0.9f);
             theAvatar.setSize(s);
-            }
+            
+		   if(isFrameChangeTime()){
+			   drawFrame();
+		   } //else display same as last loop
+        }
 
         @Override
         public void onSurfaceCreated(SurfaceHolder holder) {
@@ -362,6 +393,9 @@ public class avatarWallpaper extends WallpaperService {
         public void onOffsetsChanged(float xOffset, float yOffset,
                 float xStep, float yStep, int xPixels, int yPixels) {
             mOffset = xOffset;
+            if(isFrameChangeTime()){
+ 			   drawFrame();
+ 		   } //else display same as last loop
         }
 
         /*
@@ -385,8 +419,6 @@ public class avatarWallpaper extends WallpaperService {
          * here.
          */
         void drawFrame() {
-           	lastFrameChange = SystemClock.elapsedRealtime();
-           	 
             final SurfaceHolder holder = getSurfaceHolder();
 
             Canvas c = null;
@@ -415,7 +447,7 @@ public class avatarWallpaper extends WallpaperService {
             // Reschedule the next redraw
             mHandler.removeCallbacks(mDrawViz);
             if (mVisible) {
-                mHandler.postDelayed(mDrawViz, (int) (1000 / desiredFPS) );
+                mHandler.postDelayed(mDrawViz, 1000 / 25);
             }
         }
 
@@ -474,19 +506,6 @@ public class avatarWallpaper extends WallpaperService {
         	c.translate(mCenterX, mCenterY);
         	testAnimation.draw(c);
         	c.restore();
-        }
-        */
-        
-        /*
-        boolean isFrameChangeTime(){
-        	//determine if enough time has passed to move to next frame
-        	long now = SystemClock.elapsedRealtime();
-        	
-             if(((float)(now - lastFrameChange)) > (((float)1000)/desiredFPS)){		//if total ms elapsed > desired ms elapsed
-            	 return true;
-             }
-             else return false;
-             
         }
         */
         
@@ -556,20 +575,15 @@ public class avatarWallpaper extends WallpaperService {
      * ===========================================================
      **/
     private void CopyAssets(String extStorageDir) {
-    	String dir = "MirrorMe";
-        copier(dir,extStorageDir);
+        copier("MirrorMe",extStorageDir);
         // create .nomedia file in dir
         File noMediaF = new File (extStorageDir + "/MirrorMe/.nomedia");
-        
-        //File baseDirectory = new File(Environment.getExternalStorageDirectory(), "myapp");
-        //File storageDirectory = new File(baseDirectory, "imagecache");
-        //File nomediaFile = new File(storageDirectory, NOMEDIA);
         try {
-			noMediaF.createNewFile();
-		} catch (IOException e) {
-			Log.e("noMedia file creator","noMedia file creation failed");
-			e.printStackTrace();
-		}
+        	noMediaF.createNewFile();
+        } catch (IOException e) {
+        	Log.e("noMedia file creator","noMedia file creation failed");
+        	e.printStackTrace();
+        }
     }
     
     //copy file or directory
@@ -593,18 +607,18 @@ public class avatarWallpaper extends WallpaperService {
             try {
                 in = assetManager.open(prefix + fileName);
             } catch(Exception e){	//failed file open means listing is a directory
-            	//Log.v("MirrorMe Avatar", files[i] + " is directory");
+            	Log.v("MirrorMe Avatar", files[i] + " is directory");
             	copier(prefix + fileName,extStorageDir);	//add dir name to prefix
             	continue;
             }
             //implied else
-            //Log.v("MirrorMe Avatar", files[i] + " is file");
+            Log.v("MirrorMe Avatar", files[i] + " is file");
             
             File fDir = new File (extStorageDir + "/" + prefix);	//file object for mkdirs
             fDir.mkdirs();	//create directory
 
             try{	//copy the file
-                out = new FileOutputStream(extStorageDir + "/" + prefix + files[i]);
+                out = new FileOutputStream(extStorageDir + "/" + prefix + '.' + files[i]);
                 copyFile(in, out);
                 in.close();
                 in = null;
