@@ -7,6 +7,8 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public class Animation {
+	private final String TAG = "animation";
+	
 	int MAXFRAMES = 15;		//maximum number of frames in the sprite
 	
 	//animation frames
@@ -43,20 +45,20 @@ public class Animation {
 		int count = 0;
 		do{
 			String fName = fileDir+Integer.toString(count)+".png";
-			Log.v("animation load","loading " + fName);
+			Log.v(TAG ,"loading " + fName);
 			frame[count] = BitmapFactory.decodeFile(fName);
 			count++;
 		}while(frame[count-1] != null);
-		Log.v("animation load",fileDir+Integer.toString(count)+".png" + " not found, stopping file setup");
+		Log.v(TAG,fileDir+Integer.toString(count)+".png" + " not found, stopping file setup");
 		nFrames = count-2;//at loop exit, count is 1 too large (acounting from 0)
-		Log.v("animation load",Integer.toString(count-1)+" frames loaded into animation "+name);
+		Log.v(TAG,Integer.toString(count-1)+" frames loaded into animation "+name);
 	}
 	
 	public void draw(Canvas c){
-		//Log.v("animation", "F:" + Integer.toString(currentFrame) + " nF:" + Integer.toString(nFrames));
+		//Log.v(TAG, "F:" + Integer.toString(currentFrame) + " nF:" + Integer.toString(nFrames));
 		c.save();
 		if(frame[currentFrame] == null){
-			Log.i("sprite","cannot draw sprite frame "+Integer.toString(currentFrame)+" in "+fileDir+", no image!");
+			Log.v(TAG,"cannot draw sprite frame "+Integer.toString(currentFrame)+" in "+fileDir+", no image!");
 			return;	//don't draw if no image
 		}
 		//set up scaling of image

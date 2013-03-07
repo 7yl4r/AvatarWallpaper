@@ -38,8 +38,12 @@ public class Sprite {
 	public void draw(Canvas c){
 		c.save();
 		if(image == null){
-			Log.e("sprite","cannot draw sprite "+name+", no image!");
-			return;	//don't draw if no image
+			if(name == null){
+				Log.v("sprite","no image to draw here; move along...");
+			} else {
+				Log.d("sprite","cannot draw sprite "+name+", no image!");
+			}
+			return;	//don't draw if no image or no name
 		}
 		Rect source, dest;
 		source = new Rect(0, 0, image.getWidth(), image.getHeight());//TODO to use sprite sheet, adjust this to select part of image

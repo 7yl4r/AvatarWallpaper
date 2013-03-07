@@ -306,7 +306,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 					  
 					  //////////////BROADCAST/////////////////////////////////////////////////
 					
-					//Log.d(Globals.TAG, "Motion update broadcast sent");
+					Log.v(Globals.TAG, "Motion update broadcast sent");
 					featVect.clear();
 					}
 				} catch(Exception e){

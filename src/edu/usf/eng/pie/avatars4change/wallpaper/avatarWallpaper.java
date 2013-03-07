@@ -19,6 +19,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -31,23 +32,44 @@ import android.view.SurfaceHolder;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.avatar.Scene;
+import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors;
+import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.theCollector;
+import edu.usf.eng.pie.avatars4change.receivers.myRunsDataCollectorReceiver;
 import edu.usf.eng.pie.avatars4change.userData.userData;
 
 /*
  * This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
  */
 public class avatarWallpaper extends WallpaperService {
-
+	private final String TAG = "avatarWallpaper";
 	public static final String SHARED_PREFS_NAME="avatarsettings";
     private final Handler mHandler = new Handler();
+    private Context mContext;
+    private final String[] mLabels = {"still", "walking", "running"};
     
     @Override
     public void onCreate() {
+    	mContext = getApplicationContext();
     	//set up countly:
     	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
     	String serverURL     = "http://testSubDomain.socialvinesolutions.com";
-    	Countly.sharedInstance().init(getApplicationContext(), serverURL, appKey);
-   
+    	Countly.sharedInstance().init(mContext, serverURL, appKey);
+    	
+    	Intent mServiceIntent = new Intent(mContext, ServiceSensors.class);
+   	  
+ 		int activityId = 2;	//TODO: set this to define 'ground truth' stored in file
+ 		String label = mLabels[activityId];
+  
+ 		Bundle extras = new Bundle();
+ 		extras.putString("label", label);
+ 		extras.putString("type", "collecting");
+ 		mServiceIntent.putExtras(extras);
+ 		
+ 		Log.v(TAG, "starting SensorService");
+ 		startService(mServiceIntent); 
+    	
+    	//myRunsDataCollectorReceiver PAreceiver = new myRunsDataCollectorReceiver();	//start up the receiver (this should already be done by the manifest)
+    	
     	SetDirectory();
     	super.onCreate();
     }

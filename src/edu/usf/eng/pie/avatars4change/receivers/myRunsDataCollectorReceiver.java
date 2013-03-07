@@ -38,6 +38,4 @@ public class myRunsDataCollectorReceiver extends BroadcastReceiver {
 		Countly.sharedInstance().recordEvent(userData.USERID, level);
 		
 	}
-
-	
 }
