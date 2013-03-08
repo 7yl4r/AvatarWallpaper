@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -14,26 +12,20 @@ import ly.count.android.api.Countly;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
-import android.telephony.TelephonyManager;
 import android.text.format.Time;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
-import edu.usf.eng.pie.avatars4change.avatar.Scene;
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.Globals;
-import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors;
 import edu.usf.eng.pie.avatars4change.userData.userData;
 import edu.usf.eng.pie.avatars4change.wallpaper.MainLayer;
 
@@ -133,13 +125,13 @@ public class avatarWallpaper extends WallpaperService {
 //        private float mTouchY = -1;
 
     	//vars for offset based on home screen location
-        private float mOffset;
+//        private float mOffset;
         
         //vars for frame rate
-        private long   mStartTime;	//time of app start
-        private int    lastActivityLevelChangeDay;
-        private String lastActivityLevel          = "active";
-        private long   lastTime                   = 0;	//time measurement for calculating deltaT and thus fps
+//        private long   mStartTime;	//time of app start
+//        private int    lastActivityLevelChangeDay;
+//        private String lastActivityLevel          = "active";
+//        private long   lastTime                   = 0;	//time measurement for calculating deltaT and thus fps
         
         private final Runnable mDrawViz = new Runnable() {
         	private void updateSceneBehavior(){
@@ -177,13 +169,6 @@ public class avatarWallpaper extends WallpaperService {
                 }
         	}
         	
-        	private void testBroadcast(){
-        		//test broadcast:
-           	 	Intent intent = new Intent();
-           	 	intent.setAction("com.tylar.research.avatars");
-           	 	sendBroadcast(intent); 
-        	}
-        	
             public void run() {
                 	
             		updateSceneBehavior();
@@ -196,29 +181,14 @@ public class avatarWallpaper extends WallpaperService {
         private SharedPreferences mPrefs;
         
         DrawEngine() {
-            mStartTime = System.currentTimeMillis();	//set app start time
-            lastActivityLevelChangeDay = Time.getJulianDay(mStartTime, TimeZone.getDefault().getRawOffset()); 	//initialize to app start
+//            mStartTime = System.currentTimeMillis();	//set app start time
+//            lastActivityLevelChangeDay = Time.getJulianDay(mStartTime, TimeZone.getDefault().getRawOffset()); 	//initialize to app start
             
             mPrefs = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
-            
-            /*// this should now be taken care of by the AvatarWallpaperSetup class
-            // check if UID has been manually set, or if the default value needs to be set
-            String theID = mPrefs.getString("UID", "default");
-            if(theID.equals("default")){
-            	//get better default UID
-            	TelephonyManager tManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-            	String deviceID = tManager.getDeviceId();
-            	//set default UID
-            	SharedPreferences settings = getSharedPreferences(avatarWallpaper.SHARED_PREFS_NAME, MODE_PRIVATE);
-            	SharedPreferences.Editor editor = settings.edit();
-            	editor.putString("UID", deviceID);
-            	editor.commit();
-            }//else{//pre-existing user-set or device id; leave alone}
             
             //register reciever for changed settings:
             mPrefs.registerOnSharedPreferenceChangeListener(this);
             onSharedPreferenceChanged(mPrefs, null);
-            */
         }
         
         private void loadPrefs(){
@@ -385,13 +355,13 @@ public class avatarWallpaper extends WallpaperService {
         @Override
         public void onOffsetsChanged(float xOffset, float yOffset,
                 float xStep, float yStep, int xPixels, int yPixels) {
-            mOffset = xOffset;
+//            mOffset = xOffset;
         }
 
         /*
          * Store the position of the touch event so we can use it for drawing later
          */
-        @Override
+/*        @Override
         public void onTouchEvent(MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 mTouchX = event.getX();
@@ -402,6 +372,7 @@ public class avatarWallpaper extends WallpaperService {
             }
             super.onTouchEvent(event);
         }
+        */
 
         /*
          * Draw one frame of the animation. This method gets called repeatedly
