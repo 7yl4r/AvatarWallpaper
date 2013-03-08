@@ -5,25 +5,34 @@ import android.os.Environment;
 import android.util.Log;
 
 public class Avatar extends Entity {
+	//avatar properties:
+    public String    behaviorSelectorMethod = "Constant";
+    public long      lastActivityChange     = 0;	//last time activity level was changed [ms]
+    public int       bedTime             = 23;
+    public int       wakeTime            = 5;
+	long lastFrameChange      = 0;		//last frame update [ms]
+	long lastUserStatusUpdate = 0;
+	long UPDATE_FREQUENCY     = 1000 * 10; 	//once per UPDATE_FREQUENCY; e.g. once/10s * 1s/1000ms
+	
 	//values for choosing appropriate animations:
 	private String activityLevel = "sleeping";
 	private String activityName  = "inBed";
 	private int realismLevel = 111;
 	
+	// for finding the files:
 	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
 	String spriteDir = baseFileDirectory + "/sprites";
 	
+	// object declarations for body parts:
 	String headName = "head";
 	Location headL = new Location();
 	String headFile = spriteDir+"/face/default/0.png";
-//	Sprite headSprite = new Sprite(headName,headFile,headL);
 
 	String bodyTopName = "bodyTop";
 	String bodyBottomName="bodyBottom";
 	Location bodyL = new Location();
 	String bodyDirBottom  = spriteDir+"/body/default/";
 	String bodyDirTop  = bodyDirBottom;
-//	Animation bodyAnim = new Animation(bodyName,bodyDir,bodyL);
 	
 	//constructor
 	public Avatar(Location LOC, int realismL, String activityL) {

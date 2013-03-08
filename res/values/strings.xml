@@ -16,6 +16,8 @@
     <!-- Wallpaper showing a cube or dodecahedron, data read from resource -->
     <string name="photoRequest">Does this look right?</string>
     <string name="uidRequest">How would you like your name to appear to the public?</string>
+    <string name="privacyDisclaimer">This wallpaper will track the physical movement of your phone (but not GPS location). From this motion we guess your physical activity. This physical activity data, your chosen user id, and the photo selected for your face will be sent to us and will be publically accessable. If this is not okay with you but you still want to play with our app, please contact us at the USF PIE-lab.</string>
+    <string name="contactemail">usf-pie+avatarApp@gmail.com</string>
    
 
 </resources>

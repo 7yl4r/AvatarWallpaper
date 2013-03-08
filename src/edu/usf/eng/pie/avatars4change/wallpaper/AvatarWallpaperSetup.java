@@ -37,8 +37,21 @@ public class AvatarWallpaperSetup extends Activity{
 		startActivity(new Intent(getApplicationContext(), com.droid4you.util.cropimage.MainActivity.class));
 		// then start up the id name selector
 		idChooser();
+		// lastly, show privacy disclaimer
+		//privacyDisclaimer(); this is called at the end of idChooser
 	}
 
+	private void privacyDisclaimer(){
+		setContentView(R.layout.privacy_disclaimer);
+		// done button
+				Button doneBttn = (Button) findViewById(R.id.btn_done);
+				doneBttn.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				});
+	}
 	private void idChooser(){
 		//get default UID
     	TelephonyManager tManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
@@ -60,7 +73,8 @@ public class AvatarWallpaperSetup extends Activity{
 		    	SharedPreferences.Editor editor = settings.edit();
 		    	editor.putString("UID", userData.USERID);
 		    	editor.commit();
-				finish();
+				
+		    	privacyDisclaimer();
 			}
 		});
 		

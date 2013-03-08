@@ -62,7 +62,7 @@ public class avatarWallpaperSettings extends PreferenceActivity
     
     private void displayContactInfo(){
     	AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-    	dlg.setMessage("For support please contact usfpie+avatarAppSupport@gmail.com\n" +
+    	dlg.setMessage("For support please contact " + R.string.contactemail + "\n"+
     			       "\n" +
     			       "To report issues or for more info please visit our repo " +
     			       "on github.com/7yl4r/AvatarWallpaper");
