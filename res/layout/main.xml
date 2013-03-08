@@ -2,11 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:clipChildren="true"
+    android:gravity="center|fill_horizontal"
     android:orientation="vertical" >
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/hello" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/thumb" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/photoRequest"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_crop"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Select image" />
 
 </LinearLayout>

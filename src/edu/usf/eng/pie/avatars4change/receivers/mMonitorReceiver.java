@@ -1,5 +1,6 @@
 package edu.usf.eng.pie.avatars4change.receivers;
 
+import edu.usf.eng.pie.avatars4change.R;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,7 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
-import edu.usf.eng.pie.avatars4change.R;	//import for the R object???
+//import edu.usf.eng.pie.avatars4change.R;	//import for the R object???
 
 //for receiving the incoming data
 public class mMonitorReceiver extends BroadcastReceiver {
@@ -47,7 +48,8 @@ public class mMonitorReceiver extends BroadcastReceiver {
 		String ns = Context.NOTIFICATION_SERVICE;
 		NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(ns);
 			//initiate the notification
-		int icon = R.drawable.ic_launcher; //(notification icon)
+		int icon = R.drawable.thumb; //(notification icon)
+
 		CharSequence tickerText = "mMonitor's TickerText";
 		long when = System.currentTimeMillis();
 		

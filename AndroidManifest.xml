@@ -47,13 +47,24 @@
             android:exported="true">
         </activity>
         
+        <activity
+            android:label="intialSetup"
+            android:name="com.droid4you.util.cropimage.MainActivity"
+            android:exported="true">
+       </activity>
+       <activity
+            android:name="com.droid4you.util.cropimage.CropImage"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="CropLabel">
+           </activity>
+           
        <activity 
            android:label="PAcollector"
            android:name="edu.usf.eng.pie.avatars4change.myrunsdatacollector.theCollector">
         </activity>
         
       	<!-- ========================= BROADCAST RECEIVERS ========================== -->
-        <receiver android:name="edu.usf.eng.pie.avatars4change.receivers.mMonitorReceiver" android:enabled="true">
+        <receiver android:name="edu.usf.eng.pie.avatars4change.receivers.mMonitorReceiver" >
 		    <intent-filter>
 		        <action android:name="com.MILES.MonitoringApp.DailyStateChange" />
 		    </intent-filter>

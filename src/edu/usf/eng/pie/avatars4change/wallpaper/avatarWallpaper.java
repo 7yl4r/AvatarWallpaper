@@ -66,8 +66,14 @@ public class avatarWallpaper extends WallpaperService {
  		Log.v(TAG, "starting SensorService");
  		startService(mServiceIntent); 
     	    	
- 		//setup the file directory:
-    	SetDirectory();
+ 		//check for first time run (by looking for files?)
+ 		boolean firstTime = true;	//this should be set by some function
+ 		if(firstTime){
+	 		//setup the file directory:
+	    	SetDirectory();
+	    	//run intial setup activity
+	    	
+ 		}
     	
     	super.onCreate();
     }

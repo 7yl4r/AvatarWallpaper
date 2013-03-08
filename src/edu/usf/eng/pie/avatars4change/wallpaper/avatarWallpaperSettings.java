@@ -14,15 +14,13 @@ import edu.usf.eng.pie.avatars4change.R;
 
 public class avatarWallpaperSettings extends PreferenceActivity 
     implements SharedPreferences.OnSharedPreferenceChangeListener {
+	private static final String TAG = "avatarWallpaperSettings";
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        
         getPreferenceManager().setSharedPreferencesName(avatarWallpaper.SHARED_PREFS_NAME);
         addPreferencesFromResource(R.xml.avatar_settings);
-
-    	
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
     
@@ -46,7 +44,7 @@ public class avatarWallpaperSettings extends PreferenceActivity
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    	Log.d("MirroMe Avatar", key + " preference changed");
+    	Log.d(TAG, key + " preference changed");
     }
     
     @Override
@@ -56,7 +54,7 @@ public class avatarWallpaperSettings extends PreferenceActivity
         		displayContactInfo();
         		return true;
             case 1:
-                //startActivity(new Intent(this, avatarWallpaperSetup.class));
+                startActivity(new Intent(getApplicationContext(), com.droid4you.util.cropimage.MainActivity.class));
                 return true;
         }
         return false;
