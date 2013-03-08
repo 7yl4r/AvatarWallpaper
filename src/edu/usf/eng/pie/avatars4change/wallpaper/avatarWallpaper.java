@@ -101,27 +101,26 @@ public class avatarWallpaper extends WallpaperService {
     	implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     	//vars for logging
-    	long visibilityStart;
-    	boolean keepLogs = true;
+    	long    visibilityStart;
+    	boolean keepLogs        = true;
     	
     	//set up the file directory for saving data and retrieving sprites
     	String extStorageDirectory = Environment.getExternalStorageDirectory()+"/MirrorMe";
-    	File fileDirectory = new File (extStorageDirectory);
+    	File   fileDirectory       = new File (extStorageDirectory);
     	
         //vars for the avatar
-    	long lastFrameChange = 0;		//last frame update [ms]
+    	long lastFrameChange      = 0;		//last frame update [ms]
     	long lastUserStatusUpdate = 0;
+    	long UPDATE_FREQUENCY     = 1000 * 10; 	//once per UPDATE_FREQUENCY; e.g. once/10s * 1s/1000ms
     	
-    	long UPDATE_FREQUENCY = 1000 * 10; 	//once per UPDATE_FREQUENCY; e.g. once/10s * 1s/1000ms
-    	
-        Resources r = getResources();
-        Avatar theAvatar = new Avatar(new Location(0,0,0,300,0), 3, "sleeping");		//create new avatar
-        String selectorMethod = "Constant";
-        long lastActivityChange = 0;	//last time activity level was changed [ms]
-        long deltaActivityChange = 5*1000;	//60*60*1000;	//desired time between activity level updates [ms]
-        int bedTime = 23;
-        int wakeTime = 5;
-        boolean activeOnEvens = true;	//active on even days?
+        Resources r                   = getResources();
+        Avatar    theAvatar           = new Avatar(new Location(0,0,0,300,0), 3, "sleeping");		//create new avatar
+        String    selectorMethod      = "Constant";
+        long      lastActivityChange  = 0;	//last time activity level was changed [ms]
+        long      deltaActivityChange = 5*1000;	//60*60*1000;	//desired time between activity level updates [ms]
+        int       bedTime             = 23;
+        int       wakeTime            = 5;
+        boolean   activeOnEvens       = true;	//active on even days?
         
         //vars for canvas
         private float mCenterX;
@@ -129,18 +128,18 @@ public class avatarWallpaper extends WallpaperService {
         private float mHeight;
         private float mWidth;
         
-        //vars for touchPoint circle
-        private float mTouchX = -1;
-        private float mTouchY = -1;
+//        //vars for touchPoint circle
+//        private float mTouchX = -1;
+//        private float mTouchY = -1;
 
     	//vars for offset based on home screen location
         private float mOffset;
         
         //vars for frame rate
-        private long mStartTime;	//time of app start
-        int lastActivityLevelChangeDay;
-        String lastActivityLevel = "active";
-        private long lastTime = 0;	//time measurement for calculating deltaT and thus fps
+        private long   mStartTime;	//time of app start
+        private int    lastActivityLevelChangeDay;
+        private String lastActivityLevel          = "active";
+        private long   lastTime                   = 0;	//time measurement for calculating deltaT and thus fps
         
         private final Runnable mDrawViz = new Runnable() {
         	private void updateSceneBehavior(){
