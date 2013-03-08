@@ -30,7 +30,8 @@ public class Sprite {
 
 	public void loadImage(String fName){
 		//image = BitmapFactory.decodeFile(fileDir+currentFrame+".png");
-		image = BitmapFactory.decodeFile(fName);
+		BitmapFactory.Options options = new BitmapFactory.Options(); options.inPurgeable = true;
+		image = BitmapFactory.decodeFile(fName,options);
 		if(image==null) Log.e("sprite","file " + fName + " failed to load!");
 	}
 	

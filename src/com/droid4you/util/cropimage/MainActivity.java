@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
         intent.setType("image/*");
 
 //mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"tmp_contact_" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
-        mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"/MirrorMe/sprites/face/default/.0" + ".png"));		
+        mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"/MirrorMe/sprites/face/default/0" + ".png"));		
 		intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
 
 		try {
@@ -148,8 +148,7 @@ mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory
 	private void drawSelectedImage(){
 		//selected image display
 		mImageView		= (ImageView) findViewById(R.id.image);
-		//String myJpgPath = "/sdcard/pic.jpg";
-		String imagePath = Environment.getExternalStorageDirectory()+"/MirrorMe/sprites/face/default/.0" + ".png";
+		String imagePath = Environment.getExternalStorageDirectory()+"/MirrorMe/sprites/face/default/0" + ".png";
 		BitmapDrawable d = new BitmapDrawable(getResources(), imagePath);
 		int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 70, getResources().getDisplayMetrics()); // 70 dip
 		Bitmap scaledD = Bitmap.createScaledBitmap(d.getBitmap(), size, size, false);

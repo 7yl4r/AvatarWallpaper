@@ -49,6 +49,22 @@ public class avatarWallpaper extends WallpaperService {
     
     @Override
     public void onCreate() {
+ 		//check for first time run (by looking for files)
+ 		boolean firstTime;
+ 		File file = new File(Environment.getExternalStorageDirectory()+"/MirrorMe/", "dataLog.txt" );
+ 		if (file.exists()) {
+ 			firstTime = false;
+ 		}else{
+ 			firstTime = true;
+ 		}
+ 		if(firstTime){
+ 			Log.v(TAG,"running 1st time setup");
+	    	//run intial setup activity
+ 			Intent i = new Intent(getApplicationContext(), edu.usf.eng.pie.avatars4change.wallpaper.AvatarWallpaperSetup.class);
+ 			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+ 			startActivity(i);
+ 		} //else assume that everything is in working order
+    	
     	mContext = getApplicationContext();
     	//set up countly:
     	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
@@ -65,15 +81,6 @@ public class avatarWallpaper extends WallpaperService {
  		mServiceIntent.putExtras(extras);
  		Log.v(TAG, "starting SensorService");
  		startService(mServiceIntent); 
-    	    	
- 		//check for first time run (by looking for files?)
- 		boolean firstTime = true;	//this should be set by some function
- 		if(firstTime){
-	 		//setup the file directory:
-	    	SetDirectory();
-	    	//run intial setup activity
-	    	
- 		}
     	
     	super.onCreate();
     }
@@ -218,13 +225,12 @@ public class avatarWallpaper extends WallpaperService {
         private SharedPreferences mPrefs;
         
         DrawEngine() {
- 
-
             mStartTime = System.currentTimeMillis();	//set app start time
             lastActivityLevelChangeDay = Time.getJulianDay(mStartTime, TimeZone.getDefault().getRawOffset()); 	//initialize to app start
             
             mPrefs = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
             
+            /*// this should now be taken care of by the AvatarWallpaperSetup class
             // check if UID has been manually set, or if the default value needs to be set
             String theID = mPrefs.getString("UID", "default");
             if(theID.equals("default")){
@@ -241,6 +247,7 @@ public class avatarWallpaper extends WallpaperService {
             //register reciever for changed settings:
             mPrefs.registerOnSharedPreferenceChangeListener(this);
             onSharedPreferenceChanged(mPrefs, null);
+            */
         }
         
         /*
@@ -524,7 +531,7 @@ public class avatarWallpaper extends WallpaperService {
         	c.save();
         	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
         	String spriteDir = baseFileDirectory + "/sprites";
-        	String spriteFile = spriteDir + "/face/default/.0.png";
+        	String spriteFile = spriteDir + "/face/default/0.png";
         	int testSize = 50;
         	int testAngle= 45;
         	int testX = 100;
@@ -558,96 +565,4 @@ public class avatarWallpaper extends WallpaperService {
         }
         
     }
-    
-    /**
-     * -- Check to see if the sdCard is mounted and create a directory w/in it
-     * ========================================================================
-     **/
-    private void SetDirectory() {
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
-
-            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-
-            File txtDirectory = new File(extStorageDirectory);
-            // Create
-            // a
-            // File
-            // object
-            // for
-            // the
-            // parent
-            // directory
-            txtDirectory.mkdirs();// Have the object build the directory
-            // structure, if needed.
-            CopyAssets(extStorageDirectory); // Then run the method to copy the file.
-
-        } else if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED_READ_ONLY)) {
-        	Log.e("MirrorMe Asset Copier", "SD card is missing");
-            //AlertsAndDialogs.sdCardMissing(this);//Or use your own method ie: Toast
-        }
-
-    }
-
-    /**
-     * -- Copy the files from the assets folder to the sdCard
-     * ===========================================================
-     **/
-    private void CopyAssets(String extStorageDir) {
-        copier("MirrorMe",extStorageDir);
-    }
-    
-    //copy file or directory
-    private void copier(String inDir, String extStorageDir){
-    	AssetManager assetManager = getAssets();
-        String[] files = null;
-        Log.v("MirrorMe Avatar", "copying files in " + inDir);
-        try {
-            files = assetManager.list(inDir);
-        } catch (IOException e) {
-            Log.e("MirrorMe asset listing", e.getMessage());
-        }
-        String prefix = inDir;
-    	if(!inDir.equals("")){
-    		prefix += "/";
-    	}
-        for (int i = 0; i < files.length; i++) {
-            InputStream in = null;
-            OutputStream out = null;
-            String fileName = files[i];
-            try {
-                in = assetManager.open(prefix + fileName);
-            } catch(Exception e){	//failed file open means listing is a directory
-            	Log.v("MirrorMe Avatar", files[i] + " is directory");
-            	copier(prefix + fileName,extStorageDir);	//add dir name to prefix
-            	continue;
-            }
-            //implied else
-            Log.v("MirrorMe Avatar", files[i] + " is file");
-            
-            File fDir = new File (extStorageDir + "/" + prefix);	//file object for mkdirs
-            fDir.mkdirs();	//create directory
-
-            try{	//copy the file
-                out = new FileOutputStream(extStorageDir + "/" + prefix + '.' + files[i]);
-                copyFile(in, out);
-                in.close();
-                in = null;
-                out.flush();
-                out.close();
-                out = null;
-            } catch (Exception e) {
-                Log.e("MirrorMe copyfile", e.getMessage());
-            }
-        }
-    }
-
-    //copy file
-    private void copyFile(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
-        }
-    }
-
 }
