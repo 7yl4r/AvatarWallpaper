@@ -35,7 +35,7 @@ import edu.usf.eng.pie.avatars4change.avatar.Scene;
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.Globals;
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors;
 import edu.usf.eng.pie.avatars4change.userData.userData;
-import edu.usf.eng.pie.avatars4change.wallpaper.MainView;
+import edu.usf.eng.pie.avatars4change.wallpaper.MainLayer;
 
 // This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
  
@@ -141,33 +141,6 @@ public class avatarWallpaper extends WallpaperService {
         int lastActivityLevelChangeDay;
         String lastActivityLevel = "active";
         private long lastTime = 0;	//time measurement for calculating deltaT and thus fps
-
-
-        //Scene testScene = new Scene("testScene");
-        
-        // === BEGIN TEST CODE SECTION === 
-        /*
-        //test animation:
-        String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
-    	String spriteDir = baseFileDirectory + "/sprites";
-    	String testFile = spriteDir + "/body/active/running/.";
-    	int testSize =  100;
-    	int testAngle= -10;
-    	int testX    =  0;
-    	int testY    = -50;
-    	location testLoc = new location(testX, testY, testSize, testAngle);
-    	animation testAnimation = new animation("test", testFile, testLoc);
-    	
-    	//test entity
-     	int En_testSize =  200;
-     	int En_testAngle= -150;
-     	int En_testX    =  33;
-     	int En_testY    =  11;
-     	location testEntLoc = new location(En_testX, En_testY, En_testSize, En_testAngle);
-     	entity testEntity   = new entity("name",testEntLoc);  
-     	*/   	
-    	
-    	// === END TEST CODE SECTION === 
         
         private final Runnable mDrawViz = new Runnable() {
         	private void updateSceneBehavior(){
@@ -249,18 +222,6 @@ public class avatarWallpaper extends WallpaperService {
             */
         }
         
-        /*
-        private boolean isFrameChangeTime(){
-        	//determine if enough time has passed to move to next frame
-        	long now = SystemClock.elapsedRealtime();
-             if(((float)(now - lastFrameChange)) > (((float)1000)/desiredFPS)){		//if total ms elapsed > desired ms elapsed
-            	 lastFrameChange = now;
-            	 return true;
-             }
-             else return false;
-        }
-        */
-    	
         private void loadPrefs(){
 			Log.d("MirrorMe Avatar", "loading preferences");
 				String key;
@@ -314,25 +275,8 @@ public class avatarWallpaper extends WallpaperService {
             loadPrefs();
             
             //set up the scene
-            MainView.setup(theAvatar);
+            MainLayer.setup(theAvatar);
         }
-
-        /*
-        public void setupTestScene(){
-        	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
-        	String spriteDir = baseFileDirectory + "/sprites";
-        	String testFile = spriteDir + "/body/active/basketball/.";
-        	int testSize =  150;
-        	int testAngle= -45;
-        	int testX    = -150;
-        	int testY    =  300;
-        	Location testLoc = new Location(testX, testY, testSize, testAngle);
-        	Animation tAnimation = new Animation("tAnim", testFile, testLoc);
-         	testScene.addAnimation(tAnimation);
-         	Sprite tsprite = new Sprite("tSprite", testFile+"3.png", new Location(0,0,1000,0));
-         	testScene.addSprite(tsprite);
-        }
-        */
 
         @Override
         public void onDestroy() {
@@ -474,19 +418,15 @@ public class avatarWallpaper extends WallpaperService {
                 if (c != null) {
                 	desiredFPS = Math.round( (Math.exp(userData.currentActivityLevel))*4-3 );//update frameRate from PA level
                 	
-				   	MainView.nextFrame();
-				   	//testScene.nextFrame();
+				   	MainLayer.nextFrame();
 				   	
                 	drawBG(c);
-                    //drawTouchPoint(c);
-                    
-                    //drawTestScene(c);
-                    drawMainScene(c);
-                    /*
-                    drawTestSprite(c);
-                    drawTestAnimation(c);
-                    drawTestEntity(c);
-                    */
+
+                	c.save();
+                	c.translate(mCenterX, mCenterY);
+                	MainLayer.draw(c);
+                	c.restore();
+
                 }
             } finally {
                 if (c != null) holder.unlockCanvasAndPost(c);
@@ -498,59 +438,6 @@ public class avatarWallpaper extends WallpaperService {
                 mHandler.postDelayed(mDrawViz, Math.round( 1000 / desiredFPS ));
             }
         }
-
-
-        
-        void drawMainScene(Canvas c){
-        	c.save();
-        	c.translate(mCenterX, mCenterY);
-        	MainView.draw(c);
-        	c.restore();
-        }
-        
-        /*
-        void drawTestScene(Canvas c){
-        	c.save();
-        	c.translate(mCenterX, mCenterY);
-        	testScene.draw(c);
-        	c.restore();
-        }
-        */
-        /*
-        void drawTestEntity(Canvas c){
-        	c.save();
-            if(isFrameChangeTime()){
-            	testEntity.nextFrame();
-            } //else display same as last loop
-        	c.translate(mCenterX, mCenterY);
-        	testEntity.draw(c);
-        	c.restore();
-        }
-        void drawTestSprite(Canvas c){
-        	c.save();
-        	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
-        	String spriteDir = baseFileDirectory + "/sprites";
-        	String spriteFile = spriteDir + "/face/default/0.png";
-        	int testSize = 50;
-        	int testAngle= 45;
-        	int testX = 100;
-        	int testY = 200;
-        	location testLoc = new location(testX, testY, testSize, testAngle);
-        	sprite testSprite = new sprite("test",spriteFile, testLoc);
-        	c.translate(mCenterX, mCenterY);
-        	testSprite.draw(c);
-        	c.restore();
-        }
-        void drawTestAnimation(Canvas c){
-        	c.save();
-            if(isFrameChangeTime()){
-            	testAnimation.nextFrame();
-            } //else display same as last loop
-        	c.translate(mCenterX, mCenterY);
-        	testAnimation.draw(c);
-        	c.restore();
-        }
-        */
         
         /*background */
         void drawBG(Canvas c){

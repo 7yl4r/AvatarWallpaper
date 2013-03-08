@@ -7,9 +7,10 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.Log;
 
-public class UserStatusView {
+public class UserStatusLayer {
 	private static String TAG = "UserStatusView";
     private static final Paint mPaint = new Paint();
+    
     public static void setup(){
 	    // Create a Paint to draw on
 	    mPaint.setAntiAlias(true);

@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-public class DebugInfoView {
+public class DebugInfoLayer {
 	private static long lastTime = 0;
 	private static float lastFPS[] = new float[5];	
     private static final Paint mPaint = new Paint();

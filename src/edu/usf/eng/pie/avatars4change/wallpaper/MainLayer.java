@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Scene;
 
-public class MainView {
+public class MainLayer {
 	static Scene avatarScene;
 	
 	public static void setup(Avatar daAvatar){
@@ -12,16 +12,22 @@ public class MainView {
 		avatarScene = new Scene("avatarScene");
        	avatarScene.addEntity(daAvatar);
        	
-       	DebugInfoView.setup();
+       	DebugInfoLayer.setup();
 	}
 	public static void nextFrame(){
 		avatarScene.nextFrame();
-		DebugInfoView.nextFrame();
+		DebugInfoLayer.nextFrame();
 	}
 
 	public static void draw(Canvas c){
+		c.save();
 		avatarScene.draw(c);
-		DebugInfoView.drawFPS(c, avatarWallpaper.desiredFPS);
-		UserStatusView.draw(c);
+		c.restore();
+		c.save();
+		DebugInfoLayer.drawFPS(c, avatarWallpaper.desiredFPS);
+		c.restore();
+		c.save();
+		UserStatusLayer.draw(c);
+		c.restore();
 	}
 }
