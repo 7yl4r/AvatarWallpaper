@@ -49,6 +49,24 @@ public class avatarWallpaper extends WallpaperService {
     
     @Override
     public void onCreate() {
+    	
+    	mContext = getApplicationContext();
+    	//set up countly:
+    	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
+    	String serverURL     = "http://testSubDomain.socialvinesolutions.com";
+    	Countly.sharedInstance().init(mContext, serverURL, appKey);
+    	
+    	//setup the PA collector service:
+    	Intent mServiceIntent = new Intent(mContext, edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors.class);
+ 		int activityId = Globals.SERVICE_TASK_TYPE_CLASSIFY;	//TODO: ?
+ 		String label = mLabels[activityId];
+ 		Bundle extras = new Bundle();
+ 		extras.putString("label", label);
+ 		extras.putString("type", "collecting");
+ 		mServiceIntent.putExtras(extras);
+ 		Log.v(TAG, "starting SensorService");
+ 		startService(mServiceIntent); 
+    	
  		//check for first time run (by looking for files)
  		boolean firstTime;
  		File file = new File(Environment.getExternalStorageDirectory()+"/MirrorMe/", "dataLog.txt" );
@@ -64,24 +82,7 @@ public class avatarWallpaper extends WallpaperService {
  			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
  			startActivity(i);
  		} //else assume that everything is in working order
-    	
-    	mContext = getApplicationContext();
-    	//set up countly:
-    	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
-    	String serverURL     = "http://testSubDomain.socialvinesolutions.com";
-    	Countly.sharedInstance().init(mContext, serverURL, appKey);
-    	
-    	//setup the PA collector service:
-    	Intent mServiceIntent = new Intent(mContext, ServiceSensors.class);
- 		int activityId = Globals.SERVICE_TASK_TYPE_CLASSIFY;	//TODO: ?
- 		String label = mLabels[activityId];
- 		Bundle extras = new Bundle();
- 		extras.putString("label", label);
- 		extras.putString("type", "collecting");
- 		mServiceIntent.putExtras(extras);
- 		Log.v(TAG, "starting SensorService");
- 		startService(mServiceIntent); 
-    	
+ 		
     	super.onCreate();
     }
 
@@ -218,9 +219,7 @@ public class avatarWallpaper extends WallpaperService {
                 	
             }
         };
-        
-        
-        
+            
         private boolean mVisible;
         private SharedPreferences mPrefs;
         
@@ -262,7 +261,6 @@ public class avatarWallpaper extends WallpaperService {
         }
         */
     	
-        
         private void loadPrefs(){
 			Log.d("MirrorMe Avatar", "loading preferences");
 				String key;
@@ -312,12 +310,13 @@ public class avatarWallpaper extends WallpaperService {
             //// By default we don't get touch events, so enable them.
             //setTouchEventsEnabled(true);
 
+            //load the preferences
+            loadPrefs();
+            
             //set up the scene
             MainView.setup(theAvatar);
-            
-          //load the preferences
-            loadPrefs();
         }
+
         /*
         public void setupTestScene(){
         	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
