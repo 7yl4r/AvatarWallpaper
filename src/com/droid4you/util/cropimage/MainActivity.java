@@ -13,10 +13,13 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -36,38 +39,45 @@ public class MainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
-        setContentView(R.layout.main);     
+        setContentView(R.layout.main);
+        //dialog for button click
         final String [] items			= new String [] {"Take a picture", "Select a picture from gallery"};				
 		ArrayAdapter<String> adapter	= new ArrayAdapter<String> (this, android.R.layout.select_dialog_item,items);
 		AlertDialog.Builder builder		= new AlertDialog.Builder(this);
 		builder.setTitle("Select image");	
 		builder.setAdapter( adapter, new DialogInterface.OnClickListener() {
-			
-			public void onClick( DialogInterface dialog, int item ) { //pick from camera
+			public void onClick( DialogInterface selectImageDialog, int item ) { //pick from camera
 				if (item == 0) {
 					doTakePhotoAction();
-					
 				} else { //pick from file
 					doTakePhotoAction1();
-					
 				}
 			}
 		} );
+		final AlertDialog selectImageDialog = builder.create();
 		
-final AlertDialog dialog = builder.create();
+		drawSelectedImage();
 		
-		Button button 	= (Button) findViewById(R.id.btn_crop);
-		mImageView		= (ImageView) findViewById(R.id.iv_icon);
-		
-		button.setOnClickListener(new View.OnClickListener() {	
+		// select new image button
+		Button selectNewBttn 	= (Button) findViewById(R.id.btn_crop);
+		selectNewBttn.setOnClickListener(new View.OnClickListener() {	
 			@Override
 			public void onClick(View v) {
-				dialog.show();
+				selectImageDialog.show();
+			}
+		});
+		
+		// done button
+		Button doneBttn = (Button) findViewById(R.id.btn_done);
+		doneBttn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
 			}
 		});
 	}
 
-	
+	//select an image from the gallery
 	private void doTakePhotoAction1() {
 
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -83,8 +93,10 @@ final AlertDialog dialog = builder.create();
 		} catch (ActivityNotFoundException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
+	//take a photo using the camera
 	private void doTakePhotoAction() {
 
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -122,9 +134,27 @@ mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory
 			intent1.putExtra("image-path", mImageCaptureUri.getPath());
 			intent1.putExtra("scale", true);
 			startActivity(intent1);
-    
 	    	break;	    
 		}
+	}
+	
+	@Override
+	public void onResume(){
+		//redraw the selected image on returning to the activity
+		drawSelectedImage();
+		super.onResume();
+	}
+
+	private void drawSelectedImage(){
+		//selected image display
+		mImageView		= (ImageView) findViewById(R.id.image);
+		//String myJpgPath = "/sdcard/pic.jpg";
+		String imagePath = Environment.getExternalStorageDirectory()+"/MirrorMe/sprites/face/default/.0" + ".png";
+		BitmapDrawable d = new BitmapDrawable(getResources(), imagePath);
+		int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 70, getResources().getDisplayMetrics()); // 70 dip
+		Bitmap scaledD = Bitmap.createScaledBitmap(d.getBitmap(), size, size, false);
+		d = new BitmapDrawable(scaledD);
+		mImageView.setImageDrawable(d);
 	}
 	
 	private void doCrop() {

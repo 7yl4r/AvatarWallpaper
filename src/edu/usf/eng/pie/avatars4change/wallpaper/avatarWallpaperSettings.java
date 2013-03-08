@@ -54,7 +54,7 @@ public class avatarWallpaperSettings extends PreferenceActivity
         		displayContactInfo();
         		return true;
             case 1:
-                startActivity(new Intent(getApplicationContext(), com.droid4you.util.cropimage.MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), edu.usf.eng.pie.avatars4change.wallpaper.AvatarWallpaperSetup.class));
                 return true;
         }
         return false;

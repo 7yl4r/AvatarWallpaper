@@ -2,7 +2,7 @@
 <resources>
 
     <!-- General -->
-	<string name="hello">Hello World, this is your Avatar speaking! I need you to do something for me. Strangely, I cannot seem to remember what our face looks like.</string>
+	<string name="hello">Hello World, this is your Avatar speaking! I need you to do something for me. Strangely, I cannot seem to remember what our face looks like...</string>
 	
     <!-- Application name -->
     <string name="wallpapers">Avatar Wallpaper</string>
@@ -14,7 +14,8 @@
     <string name="avatar_settings">Avatar4Change Settings</string>
 
     <!-- Wallpaper showing a cube or dodecahedron, data read from resource -->
-    <string name="photoRequest">Please select a photo of your face to put on your avatar.</string>
+    <string name="photoRequest">Does this look right?</string>
+    <string name="uidRequest">How would you like your name to appear to the public?</string>
    
 
 </resources>

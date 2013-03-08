@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:clipChildren="true"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/uidRequest"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:typeface="serif" />
+
+    <EditText
+        android:id="@+id/text_uid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/btn_done"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="done" />
+
+</LinearLayout>
