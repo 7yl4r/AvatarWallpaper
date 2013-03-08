@@ -35,16 +35,17 @@ import edu.usf.eng.pie.avatars4change.avatar.Scene;
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.Globals;
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors;
 import edu.usf.eng.pie.avatars4change.userData.userData;
+import edu.usf.eng.pie.avatars4change.wallpaper.MainView;
 
-/*
- * This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
- */
+// This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
+ 
 public class avatarWallpaper extends WallpaperService {
 	private final String TAG = "avatarWallpaper";
 	public static final String SHARED_PREFS_NAME="avatarsettings";
     private final Handler mHandler = new Handler();
     private Context mContext;
     private final String[] mLabels = {"still", "walking", "running"};
+    public static float desiredFPS = 30;
     
     @Override
     public void onCreate() {
@@ -54,22 +55,20 @@ public class avatarWallpaper extends WallpaperService {
     	String serverURL     = "http://testSubDomain.socialvinesolutions.com";
     	Countly.sharedInstance().init(mContext, serverURL, appKey);
     	
+    	//setup the PA collector service:
     	Intent mServiceIntent = new Intent(mContext, ServiceSensors.class);
-   	  
  		int activityId = Globals.SERVICE_TASK_TYPE_CLASSIFY;	//TODO: ?
  		String label = mLabels[activityId];
-  
  		Bundle extras = new Bundle();
  		extras.putString("label", label);
  		extras.putString("type", "collecting");
  		mServiceIntent.putExtras(extras);
- 		
  		Log.v(TAG, "starting SensorService");
  		startService(mServiceIntent); 
-    	
-    	//myRunsDataCollectorReceiver PAreceiver = new myRunsDataCollectorReceiver();	//start up the receiver (this should already be done by the manifest)
-    	
+    	    	
+ 		//setup the file directory:
     	SetDirectory();
+    	
     	super.onCreate();
     }
 
@@ -83,8 +82,7 @@ public class avatarWallpaper extends WallpaperService {
         return new DrawEngine();
     }
 
-    /* All parts needed to draw the output go in this function
-     */
+    // All parts needed to draw the output go in this function
     class DrawEngine extends Engine 
     	implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -112,7 +110,6 @@ public class avatarWallpaper extends WallpaperService {
         boolean activeOnEvens = true;	//active on even days?
         
         //vars for canvas
-        private final Paint mPaint = new Paint();
         private float mCenterX;
         private float mCenterY;
         private float mHeight;
@@ -130,11 +127,8 @@ public class avatarWallpaper extends WallpaperService {
         int lastActivityLevelChangeDay;
         String lastActivityLevel = "active";
         private long lastTime = 0;	//time measurement for calculating deltaT and thus fps
-        private float desiredFPS =30;
-        private float[] lastFPS = {0,0,0,0,0,0,0,0,0,0};	//saved past 10 fps measurements
 
-        //TODO set up the scene
-        Scene mainScene = new Scene("mainScene");
+
         //Scene testScene = new Scene("testScene");
         
         // === BEGIN TEST CODE SECTION === 
@@ -218,13 +212,7 @@ public class avatarWallpaper extends WallpaperService {
         private SharedPreferences mPrefs;
         
         DrawEngine() {
-            // Create a Paint to draw on
-            final Paint paint = mPaint;
-            paint.setColor(Color.GRAY); //0xffffffff);
-            paint.setAntiAlias(true);
-            paint.setStrokeWidth(2);
-            paint.setStrokeCap(Paint.Cap.ROUND);
-            paint.setStyle(Paint.Style.STROKE);
+ 
 
             mStartTime = System.currentTimeMillis();	//set app start time
             lastActivityLevelChangeDay = Time.getJulianDay(mStartTime, TimeZone.getDefault().getRawOffset()); 	//initialize to app start
@@ -311,14 +299,11 @@ public class avatarWallpaper extends WallpaperService {
             //// By default we don't get touch events, so enable them.
             //setTouchEventsEnabled(true);
 
-            loadPrefs();	//load the preferences
-          //TODO set up the scene
-            //setupTestScene();
-            setupMainScene();
-
-        }
-        public void setupMainScene(){
-         	mainScene.addEntity(theAvatar);
+            //set up the scene
+            MainView.setup(theAvatar);
+            
+          //load the preferences
+            loadPrefs();
         }
         /*
         public void setupTestScene(){
@@ -477,12 +462,11 @@ public class avatarWallpaper extends WallpaperService {
                 if (c != null) {
                 	desiredFPS = Math.round( (Math.exp(userData.currentActivityLevel))*4-3 );//update frameRate from PA level
                 	
-				   	mainScene.nextFrame();
+				   	MainView.nextFrame();
 				   	//testScene.nextFrame();
 				   	
                 	drawBG(c);
                     //drawTouchPoint(c);
-                    drawFPS(c);
                     
                     //drawTestScene(c);
                     drawMainScene(c);
@@ -503,17 +487,12 @@ public class avatarWallpaper extends WallpaperService {
             }
         }
 
-        // Draw a circle around the current touch point, if any.
-        void drawTouchPoint(Canvas c) {
-            if (mTouchX >=0 && mTouchY >= 0) {
-                c.drawCircle(mTouchX, mTouchY, 80, mPaint);
-            }
-        }
+
         
         void drawMainScene(Canvas c){
         	c.save();
         	c.translate(mCenterX, mCenterY);
-        	mainScene.draw(c);
+        	MainView.draw(c);
         	c.restore();
         }
         
@@ -572,25 +551,6 @@ public class avatarWallpaper extends WallpaperService {
             //c.restore();
         }
         
-        //draw fps text for debugging
-        void drawFPS(Canvas c){
-        	//calculate current frame rate
-            long thisTime = System.currentTimeMillis();
-            long elapsedTime = thisTime-lastTime;
-            lastTime = thisTime;
-            float FPSsum = 0;
-            for(int i = 9; i > 0; i--){
-            	lastFPS[i] = lastFPS[i-1];
-            	FPSsum += lastFPS[i];
-            }
-        	lastFPS[0] = (float)1000 / ((float)elapsedTime); // 1 frame / <ms passed> * 1000ms/s = frame/s
-        	FPSsum += lastFPS[0];
-        	float fps = FPSsum/(float)10;	// 10 is # of saved previous FPS measures
-        	//draw the frame rate to the screen
-        	mPaint.setColor(Color.BLACK); 
-        	mPaint.setTextSize(20); 
-        	c.drawText("virtual FPS: " + desiredFPS + "    actual FPS: " + fps, 10, 100, mPaint); 
-        }
     }
     
     /**

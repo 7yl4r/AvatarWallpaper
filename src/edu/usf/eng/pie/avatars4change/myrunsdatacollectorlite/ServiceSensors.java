@@ -32,7 +32,7 @@ import android.widget.Toast;
 import com.meapsoft.FFT;
 
 public class ServiceSensors extends Service implements SensorEventListener {
-	
+	private String TAG = "ServiceSensors";
 	private static final int mFeatLen = Globals.ACCELEROMETER_BLOCK_CAPACITY + 2;
 	private int NOTIFICATION_ID =1;
 	private File mFeatureFile;
@@ -74,7 +74,7 @@ public class ServiceSensors extends Service implements SensorEventListener {
 	    mAsyncTask.execute();
 		 
 		Toast.makeText(this, "My Service Created", Toast.LENGTH_LONG).show();
-		Log.d(Globals.TAG, "Service Created");	   
+		Log.d(TAG, "Service Created");	   
 		super.onCreate();		
 	}
 
@@ -97,12 +97,12 @@ public class ServiceSensors extends Service implements SensorEventListener {
 		mLabel = extras.getString("label");
 		
 		Toast.makeText(this, mLabel, Toast.LENGTH_LONG).show();
-		//Log.d(Globals.TAG, "onStartCommand");
+		//Log.d(TAG, "onStartCommand");
 		
 		//mFeatureFile = new File(getExternalFilesDir(null), "features.arff");
 		mFeatureFile= new File(Environment.getExternalStorageDirectory(),"/MirrorMe/sprites/face/default/feature-Still-walking" + ".arff");
 		 
-		//Log.d(Globals.TAG, mFeatureFile.getAbsolutePath());
+		//Log.d(TAG, mFeatureFile.getAbsolutePath());
 		//if the task is data collection create an empty dataset
 		//else (classify in real time), load the classify
 		
@@ -169,7 +169,7 @@ public class ServiceSensors extends Service implements SensorEventListener {
 	  public void onDestroy()
 	  {
 		 Toast.makeText(ServiceSensors.this, "Estoy en destroy", Toast.LENGTH_SHORT).show();
-	        //Log.d(Globals.TAG, "onDestroy");
+	        //Log.d(TAG, "onDestroy");
 	    
 	   if(mAsyncTask != null)
 	    {
@@ -180,7 +180,7 @@ public class ServiceSensors extends Service implements SensorEventListener {
 
 	public void onSensorChanged(SensorEvent event) {
 		//Toast.makeText(this, "Estoy on Sensor Change", Toast.LENGTH_LONG).show();
-		//Log.d(Globals.TAG, "OnSensorChanged");
+		//Log.d(TAG, "OnSensorChanged");
 		
 		//Converting row acceleration to Linear aceleration acording to the example in android developers web page
 		final float alpha = 0.8f;
@@ -216,7 +216,7 @@ double m= Math.sqrt(linear_acceleration[0]*linear_acceleration[0] + linear_accel
 				mAccBuffer.add(new Double(m));
 			} catch (IllegalStateException e) {
 				ArrayBlockingQueue<Double> newBuf = new ArrayBlockingQueue<Double>(mAccBuffer.size()*2);
-				//Log.d(Globals.TAG, "Size of accel buffer increased to: " + newBuf.size());
+				//Log.d(TAG, "Size of accel buffer increased to: " + newBuf.size());
 				mAccBuffer.drainTo(newBuf);
 				mAccBuffer =  newBuf;
 				mAccBuffer.add(new Double(m));
@@ -239,7 +239,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 		
 		//Toast.makeText(ServiceSensors.this, "Estoy classificando", Toast.LENGTH_LONG).show();
 		//Toast.makeText(this, "doInBackground", Toast.LENGTH_LONG).show();
-		//Log.d(Globals.TAG, "doInBackground");
+		//Log.d(TAG, "doInBackground");
 		
 		//Instance inst = new DenseInstance(mFeatLen);
 		//inst.setDataset(mDataset);
@@ -294,7 +294,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 					
 					int classifiedValue = (int) Classifier.classify(featVect.toArray());
 					
-					Log.d("Saliendo", Integer.toHexString(classifiedValue));
+					//Log.d(TAG, Integer.toHexString(classifiedValue));
 			
 					/////////////////BROADCAST/////////////////////////////////////////////////
 					
@@ -306,7 +306,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 					  
 					  //////////////BROADCAST/////////////////////////////////////////////////
 					
-					Log.v(Globals.TAG, "Motion update broadcast sent");
+					Log.v(TAG, "Motion update broadcast sent");
 					featVect.clear();
 					}
 				} catch(Exception e){
@@ -322,7 +322,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 	
 	protected void onCancelled(){
 		Toast.makeText(getApplicationContext(), "Ultimo onCancell", Toast.LENGTH_SHORT).show();
-		Log.d(Globals.TAG, "onCancelled");
+		Log.d(TAG, "onCancelled");
 		String toastDisp;
 		
 		if(mServiceTaskType == Globals.SERVICE_TASK_TYPE_CLASSIFY){
@@ -370,7 +370,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 		//System.out.println(mDataset);
 		toastDisp = "Failed saving the file.  Check your storage.";
 		Toast.makeText(getApplicationContext(), "Que pasa aqui", Toast.LENGTH_SHORT).show();
-		Log.d(Globals.TAG, "onCancelled");
+		Log.d(TAG, "onCancelled");
 		super.onCancelled();		
 	}
 	  }
