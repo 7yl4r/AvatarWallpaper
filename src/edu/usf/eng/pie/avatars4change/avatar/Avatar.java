@@ -6,7 +6,7 @@ import android.util.Log;
 
 public class Avatar extends Entity {
 	//avatar properties:
-    public String    behaviorSelectorMethod = "Constant";
+    public String    behaviorSelectorMethod = "constant";
     public long      lastActivityChange     = 0;	//last time activity level was changed [ms]
     public int       bedTime             = 23;
     public int       wakeTime            = 5;

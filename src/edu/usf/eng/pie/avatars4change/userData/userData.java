@@ -7,5 +7,6 @@ public class userData {
     //user context:
     public static String currentActivity = "???";
     public static int    currentActivityLevel = 0;
+    public static double[] FFT = new double[65];
 	
 }

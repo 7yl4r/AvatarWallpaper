@@ -15,11 +15,6 @@
         <item >"3"</item>
     </string-array>
     
-    <string-array name="activity_level_selector">
-        <item >"Random"</item>
-        <item >"Constant"</item>
-    </string-array>
-    
     <string-array name="current_activity">
         <item >&quot;inBed&quot;</item>
         <item >&quot;onComputer&quot;</item>
@@ -28,6 +23,11 @@
         <item >&quot;basketball&quot;</item>
         <item >&quot;bicycling&quot;</item>
         <item >&quot;running&quot;</item>
+    </string-array>
+    <string-array name="behavior">
+        <item >constant</item>
+        <item >&quot;Proteus Effect Study&quot;</item>
+        <item >&quot;debug&quot;</item>
     </string-array>
     
 </resources>

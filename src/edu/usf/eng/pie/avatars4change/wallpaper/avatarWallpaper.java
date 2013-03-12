@@ -27,7 +27,7 @@ import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.Globals;
 import edu.usf.eng.pie.avatars4change.userData.userData;
-import edu.usf.eng.pie.avatars4change.wallpaper.MainLayer;
+import edu.usf.eng.pie.avatars4change.wallpaper.Layer_Main;
 
 // This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
  
@@ -102,7 +102,7 @@ public class avatarWallpaper extends WallpaperService {
     	
         //vars for the avatar
         Resources r                   = getResources();
-        Avatar    theAvatar           = new Avatar(new Location(0,0,0,300,0), 3, "sleeping");		//create new avatar
+        Avatar    theAvatar           = new Avatar(new Location(0,0,0,300,0), 3, "running");		//create new avatar
 
         
         //vars for canvas
@@ -126,7 +126,7 @@ public class avatarWallpaper extends WallpaperService {
         
         private final Runnable mDrawViz = new Runnable() {
         	private void updateSceneBehavior(){
-        		sceneBehaviors.proteusStudy(theAvatar);
+        		sceneBehaviors.runBehavior(theAvatar);
         	}
         	
             public void run() {
@@ -176,20 +176,20 @@ public class avatarWallpaper extends WallpaperService {
 			if(! (key == null)){	//skip if null
 				if(key.equals("RealismLevel")){
 					theAvatar.setRealismLevel(Integer.parseInt(prefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
-				}
-				if (key.equals("CurrentActivity")){
+				} else if (key.equals("CurrentActivity")){
 					theAvatar.setActivityName(prefs.getString(key, "inBed"));
 					theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
-				}
-				if (key.equals("ActivityLevelSelector")){
+				} else if (key.equals("ActivityLevelSelector")){
 					theAvatar.behaviorSelectorMethod = prefs.getString(key, theAvatar.behaviorSelectorMethod);
-				}
-				if (key.equals("ResetLogs")){
+				} else if (key.equals("ResetLogs")){
 					keepLogs = !prefs.getBoolean(key, keepLogs);
 					//Log.d("MirrorMe Avatar", "keepLogs=" + String.valueOf(keepLogs));
-				}
-				if(key.equals("activeOnEvens")){
+				} else if (key.equals("activeOnEvens")){
 					sceneBehaviors.activeOnEvens = prefs.getBoolean(key, sceneBehaviors.activeOnEvens);
+				} else if (key.equals("behavior")){
+					theAvatar.behaviorSelectorMethod = prefs.getString(key, theAvatar.behaviorSelectorMethod);
+				} else { 
+					Log.e(TAG,"unrecognized pref key: " + key);
 				}
 			}
 		}
@@ -204,7 +204,7 @@ public class avatarWallpaper extends WallpaperService {
             loadPrefs();
             
             //set up the scene
-            MainLayer.setup(theAvatar);
+            Layer_Main.setup(theAvatar);
         }
 
         @Override
@@ -350,13 +350,11 @@ public class avatarWallpaper extends WallpaperService {
                 if (c != null) {
                 	desiredFPS = Math.round( (Math.exp(userData.currentActivityLevel))*4-3 );//update frameRate from PA level
                 	
-				   	MainLayer.nextFrame();
-				   	
-                	drawBG(c);
+				   	Layer_Main.nextFrame();
 
                 	c.save();
                 	c.translate(mCenterX, mCenterY);
-                	MainLayer.draw(c);
+                	Layer_Main.draw(c);
                 	c.restore();
 
                 }
@@ -369,17 +367,6 @@ public class avatarWallpaper extends WallpaperService {
             if (mVisible) {
                 mHandler.postDelayed(mDrawViz, Math.round( 1000 / desiredFPS ));
             }
-        }
-        
-        /*background */
-        void drawBG(Canvas c){
-        	//CALCULATE BACKGROUND LOCATION BASED ON OFFSET:
-        	//float yrot = (0.5f - mOffset) * 2.0f;
-        	//TODO: replace solid color background with image
-            //background
-            c.drawColor(Color.DKGRAY); //(0xff000000);
-            //return canvas to default location
-            //c.restore();
         }
         
     }

@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.Log;
 
-public class UserStatusLayer {
+public class Layer_UserStatus {
 	private static String TAG = "UserStatusView";
     private static final Paint mPaint = new Paint();
     

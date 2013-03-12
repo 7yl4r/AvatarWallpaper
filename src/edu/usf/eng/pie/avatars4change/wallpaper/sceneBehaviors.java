@@ -13,10 +13,23 @@ public class sceneBehaviors {
     public static boolean   activeOnEvens       = true;	//active on even days?
     public static long      deltaActivityChange = 5*1000;	//60*60*1000;	//desired time between activity level updates [ms]
 	
-    public static void constant(Avatar theAvatar){
-    	//do nothing to update the behavior
+    //this method gets a behavior from the Avatar's behavior string (which has been set in the settings)
+    public static void runBehavior(Avatar theAvatar){
+    	if ( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("constant") ){
+    		constant(theAvatar);
+    	}else if( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("Proteus Effect Study")){
+    		proteusStudy(theAvatar);
+    	}else{
+    		debug(theAvatar);	//default method
+    	}
     }
     
+    // avatar behavior does not change; it stays constant as it has been set
+    public static void constant(Avatar theAvatar){
+    	//do nothing to update the behavior, it stays your choice
+    }
+    
+    // avatar behavior designed for use in the Proteus Effect study
 	public static void proteusStudy(Avatar theAvatar){
 		//check for enough time to change animation
     	//TODO: change this next if issue#5 persists
@@ -50,5 +63,11 @@ public class sceneBehaviors {
         	theAvatar.randomActivity(theAvatar.getActivityLevel());
        	 	theAvatar.lastActivityChange = now;
         }
+	}
+
+	// avatar behavior cycles through all behaviors in order on a short interval
+	public static void debug(Avatar theAvatar){
+		//TODO make this happen...
+		constant(theAvatar);
 	}
 }

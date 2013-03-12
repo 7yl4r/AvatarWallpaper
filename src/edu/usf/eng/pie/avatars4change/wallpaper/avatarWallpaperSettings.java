@@ -17,8 +17,8 @@ public class avatarWallpaperSettings extends PreferenceActivity
 	private static final String TAG = "avatarWallpaperSettings";
 
     @Override
-    protected void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         getPreferenceManager().setSharedPreferencesName(avatarWallpaper.SHARED_PREFS_NAME);
         addPreferencesFromResource(R.xml.avatar_settings);
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);

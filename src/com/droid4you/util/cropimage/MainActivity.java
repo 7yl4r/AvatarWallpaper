@@ -41,16 +41,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState); 
         setContentView(R.layout.main);
         //dialog for button click
-        final String [] items			= new String [] {"Take a picture", "Select a picture from gallery"};				
+        final String [] items			= new String [] { "Select a picture from gallery","Take a picture"};				
 		ArrayAdapter<String> adapter	= new ArrayAdapter<String> (this, android.R.layout.select_dialog_item,items);
 		AlertDialog.Builder builder		= new AlertDialog.Builder(this);
 		builder.setTitle("Select image");	
 		builder.setAdapter( adapter, new DialogInterface.OnClickListener() {
-			public void onClick( DialogInterface selectImageDialog, int item ) { //pick from camera
-				if (item == 0) {
-					doTakePhotoAction();
-				} else { //pick from file
+			public void onClick( DialogInterface selectImageDialog, int item ) { 
+				if (item == 0) {	//pick from file 
 					doTakePhotoAction1();
+				} else {			//pick from camera
+					doTakePhotoAction();
 				}
 			}
 		} );

@@ -9,7 +9,7 @@ import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.avatar.Scene;
 import edu.usf.eng.pie.avatars4change.avatar.Sprite;
 
-public class UnitTestMainLayer {
+public class Layer_UnitTestMain {
 	static Scene     testScene;
 	static Animation testAnimation;
 	static Entity    testEntity;
@@ -50,13 +50,13 @@ public class UnitTestMainLayer {
      	testEntLoc = new Location(testX, testY, testZ, testSize, testAngle);
      	testEntity   = new Entity("name",testEntLoc);  	
      	
-       	DebugInfoLayer.setup();
+       	Layer_DebugInfo.setup();
        	
-       	UserStatusLayer.setup();
+       	Layer_UserStatus.setup();
 	}
 	public static void nextFrame(){
 		testScene.nextFrame();
-		DebugInfoLayer.nextFrame();
+		Layer_DebugInfo.nextFrame();
 		//UserStatusLayer doesn't use nextFrame()
 	}
 
@@ -68,10 +68,10 @@ public class UnitTestMainLayer {
 		drawTestSprite(c);
 		drawTestAnimation(c);
 		c.save();
-		DebugInfoLayer.drawFPS(c, avatarWallpaper.desiredFPS);
+		Layer_DebugInfo.drawFPS(c, avatarWallpaper.desiredFPS);
 		c.restore();
 		c.save();
-		UserStatusLayer.draw(c);
+		Layer_UserStatus.draw(c);
 		c.restore();
 	}
 	

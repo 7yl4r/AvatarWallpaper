@@ -31,6 +31,8 @@ import android.widget.Toast;
 
 import com.meapsoft.FFT;
 
+import edu.usf.eng.pie.avatars4change.userData.userData;
+
 public class ServiceSensors extends Service implements SensorEventListener {
 	private String TAG = "ServiceSensors";
 	private static final int mFeatLen = Globals.ACCELEROMETER_BLOCK_CAPACITY + 2;
@@ -166,8 +168,7 @@ public class ServiceSensors extends Service implements SensorEventListener {
 	}
 	
 	 @Override
-	  public void onDestroy()
-	  {
+	  public void onDestroy() {
 		 Toast.makeText(ServiceSensors.this, "Estoy en destroy", Toast.LENGTH_SHORT).show();
 	        //Log.d(TAG, "onDestroy");
 	    
@@ -273,16 +274,21 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 					}
 					fft.fft(re, im);
 					
+					//Log.v(TAG,"FFT len = " + Integer.toString(re.length) );
+					boolean oopsFlag = false; //this flag is to catch the error saving to userData.FFT
 					for(int i=0; i< re.length; i++){
 						double mag = Math.sqrt(re[i]*re[i]+ im[i]*im[i]);
-						
+						if(i < 64){
+							userData.FFT[i] = mag;	//add to userData (just for fun)
+						} else {
+							oopsFlag = true;
+						}
 						//inst.setValue(i, mag);  //Remove as soon as possible
-						
 						featVect.add(new Double(mag)); //New for classification
-						
-						
 						im[i] = .0; //Clear the field
-						
+					}
+					if(oopsFlag){	//print error to debugger
+						Log.e(TAG,"oops! FFT is > 64. FFT.length = " + Integer.toString(re.length) );
 					}
 					
 					//Append max after frequency component
