@@ -45,9 +45,9 @@ public class Layer_DebugInfo {
     }
     
     // Draw a circle around the current touch point, if any.
-    void drawTouchPoint(Canvas c) {
+   // void drawTouchPoint(Canvas c) {
         //if (mTouchX >=0 && mTouchY >= 0) {
         //   c.drawCircle(mTouchX, mTouchY, 80, mPaint);
         //}
-    }
+    //}
 }

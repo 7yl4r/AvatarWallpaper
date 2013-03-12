@@ -167,7 +167,7 @@ public class avatarWallpaper extends WallpaperService {
 				key="activeOnEvens";
 					sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);
 				key="UID";
-					userData.USERID = mPrefs.getString(key,"defaultUserID");
+					userData.USERID = mPrefs.getString(key,userData.USERID);
         }
         
 		@Override
@@ -205,6 +205,9 @@ public class avatarWallpaper extends WallpaperService {
             
             //set up the scene
             Layer_Main.setup(theAvatar);
+            
+            //start up countly
+        	Countly.sharedInstance().onStart();// in onStart.
         }
 
         @Override
@@ -212,22 +215,18 @@ public class avatarWallpaper extends WallpaperService {
         	//TODO: save prefs here
             super.onDestroy();
             mHandler.removeCallbacks(mDrawViz);
+            
+            //shut down countly
+           	Countly.sharedInstance().onStop(); // in onStop.
         }
 
         @Override
         public void onVisibilityChanged(boolean visible) {
             mVisible = visible;
             if (visible) {
-            	
-            	Countly.sharedInstance().onStart();// in onStart.
-
      			drawFrame();
-     			
                 visibilityStart = System.currentTimeMillis();
             } else {
-            	
-            	Countly.sharedInstance().onStop(); // in onStop.
-            	
                 mHandler.removeCallbacks(mDrawViz);
                 Long visibilityEnd = System.currentTimeMillis();
                 long visibleTime = visibilityEnd - visibilityStart;
