@@ -40,7 +40,7 @@ public class myRunsDataCollectorReceiver extends BroadcastReceiver {
     		{url="Running";}
     	//Toast.makeText(context, url, Toast.LENGTH_SHORT).show();	
 
-    	Log.v("Llegando", Integer.toString(levels[levels.length-1]) + "->" + url + "past " + Integer.toString(levels.length) + "sample avg: " + avgLevel);
+    	Log.v("Llegando", Integer.toString(levels[levels.length-1]) + "->" + url + "; past " + Integer.toString(levels.length) + "sample avg: " + avgLevel);
     	
     	userData.currentActivity = url;
     	if(avgLevel != 0){	//do not send zero activity notices to countly (is this a good choice?)

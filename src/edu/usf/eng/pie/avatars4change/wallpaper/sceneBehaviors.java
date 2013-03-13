@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
+import edu.usf.eng.pie.avatars4change.userData.userData;
 
 import android.os.SystemClock;
 import android.text.format.Time;
@@ -11,7 +12,6 @@ import android.util.Log;
 
 public class sceneBehaviors {
     public static boolean   activeOnEvens       = true;	//active on even days?
-    public static long      deltaActivityChange = 5*1000;	//60*60*1000;	//desired time between activity level updates [ms]
 	
     //this method gets a behavior from the Avatar's behavior string (which has been set in the settings)
     public static void runBehavior(Avatar theAvatar){
@@ -33,6 +33,7 @@ public class sceneBehaviors {
     
     // avatar behavior designed for use in the Proteus Effect study
 	public static void proteusStudy(Avatar theAvatar){
+	    long      deltaActivityChange = 5*1000;	//60*60*1000;	//desired time between activity level updates [ms]
 		//check for enough time to change animation
     	//TODO: change this next if issue#5 persists
 		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
@@ -75,6 +76,17 @@ public class sceneBehaviors {
 
 	// avatar shows sedentary behavior for sitting, slow active behavior for walking, fast active behavior for running
 	public static void VRDemo(Avatar theAvatar){
-		constant(theAvatar);
+		String activLvl = theAvatar.getActivityLevel();
+		if(userData.currentActivityLevel > 1){	//if user is walking or greater
+			activLvl = "active";
+		}else{	// user is not active
+			activLvl = "passive";
+		}
+		if(!activLvl.equalsIgnoreCase(theAvatar.getActivityLevel())){	//if level has changed
+			theAvatar.setActivityLevel(activLvl);
+        	//avatar changes activity 
+        	theAvatar.randomActivity(theAvatar.getActivityLevel());
+       	 	theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
+		}
 	}
 }
