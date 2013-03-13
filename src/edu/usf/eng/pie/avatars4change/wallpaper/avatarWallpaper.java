@@ -32,16 +32,17 @@ import edu.usf.eng.pie.avatars4change.wallpaper.Layer_Main;
 // This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
  
 public class avatarWallpaper extends WallpaperService {
-	private final String TAG = "avatarWallpaper";
+	private final String TAG = "avatarWallpaper";	//for logs
 	public static final String SHARED_PREFS_NAME="avatarsettings";
     private final Handler mHandler = new Handler();
-    private Context mContext;
+    public static Context mContext;	//this is needed for countly wifi check
     private final String[] mLabels = {"still", "walking", "running"};
     public static float desiredFPS = 30;
     
+    public static boolean wifiOnly = false;	//enable if program should only use wifi
+    
     @Override
     public void onCreate() {
-    	
     	mContext = getApplicationContext();
     	//set up countly:
     	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
@@ -92,7 +93,7 @@ public class avatarWallpaper extends WallpaperService {
     class DrawEngine extends Engine 
     	implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    	//vars for logging
+    	//vars for background visibility logging
     	long    visibilityStart;
     	boolean keepLogs        = true;
     	
@@ -117,12 +118,6 @@ public class avatarWallpaper extends WallpaperService {
 
     	//vars for offset based on home screen location
 //        private float mOffset;
-        
-        //vars for frame rate
-//        private long   mStartTime;	//time of app start
-//        private int    lastActivityLevelChangeDay;
-//        private String lastActivityLevel          = "active";
-//        private long   lastTime                   = 0;	//time measurement for calculating deltaT and thus fps
         
         private final Runnable mDrawViz = new Runnable() {
         	private void updateSceneBehavior(){
@@ -177,7 +172,7 @@ public class avatarWallpaper extends WallpaperService {
 				if(key.equals("RealismLevel")){
 					theAvatar.setRealismLevel(Integer.parseInt(prefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
 				} else if (key.equals("CurrentActivity")){
-					theAvatar.setActivityName(prefs.getString(key, "inBed"));
+					theAvatar.setActivityName(prefs.getString(key, "running"));
 					theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
 				} else if (key.equals("ActivityLevelSelector")){
 					theAvatar.behaviorSelectorMethod = prefs.getString(key, theAvatar.behaviorSelectorMethod);
@@ -188,6 +183,8 @@ public class avatarWallpaper extends WallpaperService {
 					sceneBehaviors.activeOnEvens = prefs.getBoolean(key, sceneBehaviors.activeOnEvens);
 				} else if (key.equals("behavior")){
 					theAvatar.behaviorSelectorMethod = prefs.getString(key, theAvatar.behaviorSelectorMethod);
+				} else if (key.equals("wifiOnly")){
+					avatarWallpaper.wifiOnly = prefs.getBoolean(key, false);
 				} else { 
 					Log.e(TAG,"unrecognized pref key: " + key);
 				}

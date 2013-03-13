@@ -15,8 +15,12 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper;
+
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -246,28 +250,35 @@ class ConnectionQueue
 							break;						
 						data.replaceFirst("REPLACE_UDID", OpenUDID_manager.getOpenUDID());						
 					}
-					
-					try
-					{
-						DefaultHttpClient httpClient = new DefaultHttpClient();
-						HttpGet method = new HttpGet(new URI(serverURL_ + "/i?" + data));			
-						HttpResponse response = httpClient.execute(method);
-						InputStream input = response.getEntity().getContent();
-						while (input.read() != -1)
-							;
-						httpClient.getConnectionManager().shutdown();
-												
-						Log.d("Countly", "ok ->" + data);
-
-						queue_.poll();
-					}
-					catch (Exception e)
-					{
-						Log.d("Countly", e.toString());
-						Log.d("Countly", "error ->" + data);
-						break;
+					if(avatarWallpaper.wifiOnly && !isOnline(avatarWallpaper.mContext)){
+							Log.d("Countly","wifi not found, no data usage selected. not sending data.");
+					} else {	//send data to server
+						try	{
+							DefaultHttpClient httpClient = new DefaultHttpClient();
+							HttpGet method = new HttpGet(new URI(serverURL_ + "/i?" + data));			
+							HttpResponse response = httpClient.execute(method);
+							InputStream input = response.getEntity().getContent();
+							while (input.read() != -1)
+								;
+							httpClient.getConnectionManager().shutdown();				
+							Log.d("Countly", "ok ->" + data);
+							queue_.poll();
+						} catch (Exception e){
+							Log.d("Countly", e.toString());
+							Log.d("Countly", "error ->" + data);
+							break;
+						}
 					}
 				}
+			}
+			public boolean isOnline(Context context) {
+			    ConnectivityManager cm =
+			        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+			    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			        return true;
+			    }
+			    return false;
 			}
 		};
 
