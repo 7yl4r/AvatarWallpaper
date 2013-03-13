@@ -10,7 +10,7 @@ import edu.usf.eng.pie.avatars4change.userData.*;
 
 
 public class myRunsDataCollectorReceiver extends BroadcastReceiver {
-	private static int[] levels = new int[5];
+	private static int[] levels = new int[20];
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -40,7 +40,7 @@ public class myRunsDataCollectorReceiver extends BroadcastReceiver {
     		{url="Running";}
     	//Toast.makeText(context, url, Toast.LENGTH_SHORT).show();	
 
-    	Log.v("Llegando", Integer.toString(levels[levels.length-1]) + "->" + url + "5sec avg: " + avgLevel);
+    	Log.v("Llegando", Integer.toString(levels[levels.length-1]) + "->" + url + "past " + Integer.toString(levels.length) + " avg: " + avgLevel);
     	
     	userData.currentActivity = url;
     	if(avgLevel != 0){	//do not send zero activity notices to countly (is this a good choice?)

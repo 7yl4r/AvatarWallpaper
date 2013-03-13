@@ -27,8 +27,11 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+
 public class Countly
 {
+	private static int SEC_BETWEEN = 60;
+	
 	private static Countly sharedInstance_;
 	private Timer timer_;
 	private ConnectionQueue queue_;
@@ -57,7 +60,7 @@ public class Countly
 			{
 				onTimer();
 			}
-		}, 30 * 1000,  30 * 1000);
+		}, Countly.SEC_BETWEEN * 1000,  Countly.SEC_BETWEEN * 1000);
 
 		isVisible_ = false;
 		unsentSessionLength_ = 0;
