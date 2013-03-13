@@ -255,6 +255,7 @@ class ConnectionQueue
 					}
 					if(avatarWallpaper.wifiOnly && !isOnline(avatarWallpaper.mContext)){
 							Log.d("Countly","wifi not found, no data usage selected. not sending data.");
+							break;
 					} else {	//send data to server
 						try	{
 							DefaultHttpClient httpClient = new DefaultHttpClient();

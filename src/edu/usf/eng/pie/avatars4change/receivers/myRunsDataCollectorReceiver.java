@@ -29,7 +29,7 @@ public class myRunsDataCollectorReceiver extends BroadcastReceiver {
     	levels[levels.length-1] = Integer.valueOf(url) ;
     	sum += levels[levels.length-1];
 
-    	float avgLevel = sum/levels.length;
+    	float avgLevel = ((float)sum) / ((float)levels.length);
     	userData.currentActivityLevel = avgLevel;
     	
     	if(url.equals("0"))
@@ -40,11 +40,11 @@ public class myRunsDataCollectorReceiver extends BroadcastReceiver {
     		{url="Running";}
     	//Toast.makeText(context, url, Toast.LENGTH_SHORT).show();	
 
-    	Log.v("Llegando", Integer.toString(levels[levels.length-1]) + "->" + url + "past " + Integer.toString(levels.length) + " avg: " + avgLevel);
+    	Log.v("Llegando", Integer.toString(levels[levels.length-1]) + "->" + url + "past " + Integer.toString(levels.length) + "sample avg: " + avgLevel);
     	
     	userData.currentActivity = url;
     	if(avgLevel != 0){	//do not send zero activity notices to countly (is this a good choice?)
-			Log.v("MirrorMe Countly Event","queuing event physicalAcitivtyLevel = " + Float.toString(avgLevel));
+			//Log.v(TAG,"queuing event physicalAcitivtyLevel = " + Float.toString(avgLevel));
 			Countly.sharedInstance().recordEvent(userData.USERID,1, avgLevel);
     	}
 	}

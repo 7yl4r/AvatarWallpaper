@@ -1,3 +1,5 @@
+// This draws a layer showing text user status information such as physical activity level. 
+
 package edu.usf.eng.pie.avatars4change.wallpaper;
 
 import edu.usf.eng.pie.avatars4change.userData.userData;
@@ -27,11 +29,11 @@ public class Layer_UserStatus {
 		mPaint.setTypeface(Typeface.DEFAULT);
 		c.drawText("You are currently", xOffset, yOffset, mPaint); 
 		//set color based on activity level
-		if(userData.currentActivityLevel == 0){
+		if(((int) Math.round(userData.currentActivityLevel)) == 0){
 			mPaint.setColor(Color.RED);
-		}else if(userData.currentActivityLevel ==1){
+		}else if( ((int) Math.round(userData.currentActivityLevel)) == 1){
 			mPaint.setColor(Color.YELLOW);
-		}else if(userData.currentActivityLevel ==2){
+		}else if(((int) Math.round(userData.currentActivityLevel)) ==2){
 			mPaint.setColor(Color.GREEN);
 		}else{
 			mPaint.setColor(Color.CYAN);
