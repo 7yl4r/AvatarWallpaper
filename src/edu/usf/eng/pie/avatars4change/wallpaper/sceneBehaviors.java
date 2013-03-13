@@ -19,6 +19,8 @@ public class sceneBehaviors {
     		constant(theAvatar);
     	}else if( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("Proteus Effect Study")){
     		proteusStudy(theAvatar);
+    	}else if( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("IEEE VR demo")){
+    		VRDemo(theAvatar);
     	}else{
     		debug(theAvatar);	//default method
     	}
@@ -68,6 +70,11 @@ public class sceneBehaviors {
 	// avatar behavior cycles through all behaviors in order on a short interval
 	public static void debug(Avatar theAvatar){
 		//TODO make this happen...
+		constant(theAvatar);
+	}
+
+	// avatar shows sedentary behavior for sitting, slow active behavior for walking, fast active behavior for running
+	public static void VRDemo(Avatar theAvatar){
 		constant(theAvatar);
 	}
 }

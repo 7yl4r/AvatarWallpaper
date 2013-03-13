@@ -29,7 +29,7 @@ public class myRunsDataCollectorReceiver extends BroadcastReceiver {
     	levels[levels.length-1] = Integer.valueOf(url) ;
     	sum += levels[levels.length-1];
 
-    	int avgLevel = Math.round(sum/levels.length);
+    	float avgLevel = sum/levels.length;
     	userData.currentActivityLevel = avgLevel;
     	
     	if(url.equals("0"))
@@ -44,8 +44,8 @@ public class myRunsDataCollectorReceiver extends BroadcastReceiver {
     	
     	userData.currentActivity = url;
     	if(avgLevel != 0){	//do not send zero activity notices to countly (is this a good choice?)
-			Log.v("MirrorMe Countly Event","queuing event physicalAcitivtyLevel = " + Integer.toString(avgLevel*5));
-			Countly.sharedInstance().recordEvent(userData.USERID, avgLevel);
+			Log.v("MirrorMe Countly Event","queuing event physicalAcitivtyLevel = " + Float.toString(avgLevel));
+			Countly.sharedInstance().recordEvent(userData.USERID,1, avgLevel);
     	}
 	}
 }
