@@ -13,6 +13,6 @@ public class userData {
     public static double[] FFT = new double[65];
     
     public static String getFileDir(){
-    	return  avatarWallpaper.mContext.getExternalFilesDir(null).toString()+"/";	//TODO: implement this
+    	return  avatarWallpaper.mContext.getExternalFilesDir(null).toString()+"/MirrorMe/";	//TODO: implement this
     }
 }

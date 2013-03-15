@@ -65,7 +65,7 @@ public class avatarWallpaper extends WallpaperService {
     	
  		//check for first time run (by looking for files)
  		boolean firstTime;
- 		File file = new File(Environment.getExternalStorageDirectory()+"/MirrorMe/", "dataLog.txt" );
+ 		File file = new File(userData.getFileDir(), "dataLog.txt" );
  		if (file.exists()) {
  			firstTime = false;
  		}else{
@@ -103,7 +103,7 @@ public class avatarWallpaper extends WallpaperService {
     	boolean keepLogs        = true;
     	
     	//set up the file directory for saving data and retrieving sprites
-    	String extStorageDirectory = Environment.getExternalStorageDirectory()+"/MirrorMe";
+    	String extStorageDirectory = userData.getFileDir();
     	File   fileDirectory       = new File (extStorageDirectory);
     	
         //vars for the avatar
@@ -152,7 +152,7 @@ public class avatarWallpaper extends WallpaperService {
         }
         
         private void loadPrefs(){
-			Log.d("MirrorMe Avatar", "loading preferences");
+			Log.d(TAG, "loading preferences");
 				String key;
 				key="RealismLevel";
 					theAvatar.setRealismLevel(Integer.parseInt(mPrefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
@@ -163,7 +163,7 @@ public class avatarWallpaper extends WallpaperService {
 					theAvatar.behaviorSelectorMethod = mPrefs.getString(key, theAvatar.behaviorSelectorMethod);
 				key="ResetLogs";
 					keepLogs = !mPrefs.getBoolean(key, keepLogs);
-					//Log.d("MirrorMe Avatar", "keepLogs=" + String.valueOf(keepLogs));
+					//Log.d(TAG, "keepLogs=" + String.valueOf(keepLogs));
 				key="activeOnEvens";
 					sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);
 				key="UID";
@@ -172,7 +172,7 @@ public class avatarWallpaper extends WallpaperService {
         
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-			Log.d("MirrorMe Avatar", "adjusting " + key + " preference");
+			Log.d(TAG, "adjusting " + key + " preference");
 			if(! (key == null)){	//skip if null
 				if(key.equals("RealismLevel")){
 					theAvatar.setRealismLevel(Integer.parseInt(prefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
@@ -183,7 +183,7 @@ public class avatarWallpaper extends WallpaperService {
 					theAvatar.behaviorSelectorMethod = prefs.getString(key, theAvatar.behaviorSelectorMethod);
 				} else if (key.equals("ResetLogs")){
 					keepLogs = !prefs.getBoolean(key, keepLogs);
-					//Log.d("MirrorMe Avatar", "keepLogs=" + String.valueOf(keepLogs));
+					//Log.d(TAG, "keepLogs=" + String.valueOf(keepLogs));
 				} else if (key.equals("activeOnEvens")){
 					sceneBehaviors.activeOnEvens = prefs.getBoolean(key, sceneBehaviors.activeOnEvens);
 				} else if (key.equals("behavior")){
@@ -231,7 +231,7 @@ public class avatarWallpaper extends WallpaperService {
                 
                 if(!fileDirectory.mkdirs()){	//create if directory not exist
                 	//if creation of directory fails
-                	Log.v("MirrorMe Avatar", "creation of directory fails, already exists?");
+                	Log.v(TAG, "creation of directory fails, already exists?");
                 }
                 //create or open dataLog file:
                 FileOutputStream dataFileOut = null;
@@ -253,7 +253,7 @@ public class avatarWallpaper extends WallpaperService {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						Log.d("MirrorMe Avatar", "New dataLog file has been created");
+						Log.d(TAG, "New dataLog file has been created");
 						keepLogs = true;
 					} catch (FileNotFoundException e) {
 						// TODO
@@ -265,7 +265,7 @@ public class avatarWallpaper extends WallpaperService {
                 try {
 					dataOut.writeBytes(String.valueOf(visibilityStart)+","+String.valueOf(visibilityEnd)+","+String.valueOf(visibilityEnd-visibilityStart)+
 							"," + theAvatar.getActivityName() + "\n");
-					Log.d("MirrorMe Avatar", visibleTime + " ms of time added to file");
+					Log.d(TAG, visibleTime + " ms of time added to file");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

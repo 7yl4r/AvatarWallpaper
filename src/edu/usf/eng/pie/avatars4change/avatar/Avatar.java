@@ -1,10 +1,12 @@
 package edu.usf.eng.pie.avatars4change.avatar;
 
+import edu.usf.eng.pie.avatars4change.userData.userData;
 import android.graphics.Canvas;
 import android.os.Environment;
 import android.util.Log;
 
 public class Avatar extends Entity {
+	private final String TAG = "avatar.Avatar";
 	//avatar properties:
     public String    behaviorSelectorMethod = "constant";
     public long      lastActivityChange     = 0;	//last time activity level was changed [ms]
@@ -20,8 +22,8 @@ public class Avatar extends Entity {
 	private int realismLevel = 111;
 	
 	// for finding the files:
-	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
-	String spriteDir = baseFileDirectory + "/sprites";
+	String baseFileDirectory = userData.getFileDir();		//file directory to use on sdcard
+	String spriteDir = baseFileDirectory + "sprites";
 	
 	// object declarations for body parts:
 	String headName = "head";
@@ -43,7 +45,7 @@ public class Avatar extends Entity {
 		
 		Log.v("Avatar","setting up "+name);
 		// set up head
-		headFile = ( baseFileDirectory + "/sprites/face/default/0.png");		//create sprites
+		headFile = ( baseFileDirectory + "sprites/face/default/0.png");		//create sprites
 		loadHeadLocation();
 		//reloadHeadFiles()
 		super.addSprite( headName, headFile, headL );
@@ -64,7 +66,7 @@ public class Avatar extends Entity {
 	}
 	
 	private String loadBodyDir(String layerName){
-		return ( baseFileDirectory + "/sprites/body/" + activityLevel + 
+		return ( baseFileDirectory + "sprites/body/" + activityLevel + 
 				"/" + activityName + "/"+layerName+"/");
 	}
 	
@@ -157,7 +159,7 @@ public class Avatar extends Entity {
 			
 			// === DEFAULT === 
 		} else {
-			Log.e("MirrorMe sprite","activity name not recognized");
+			Log.e(TAG,"activity name not recognized");
 			LOC.set(0,0,LOC.zorder,100,180);
 		}
 		headL = LOC;
@@ -201,7 +203,7 @@ public class Avatar extends Entity {
 			bodyDirBottom = spriteDir+"/body/passive/watchingTV/";
 			// === DEFAULT === 
 		} else {
-			Log.e("MirrorMe sprite","activity name not recognized");
+			Log.e(TAG,"activity name not recognized");
 	
 			bodyDirTop = null;
 			bodyDirBottom = spriteDir+"/body/default/";

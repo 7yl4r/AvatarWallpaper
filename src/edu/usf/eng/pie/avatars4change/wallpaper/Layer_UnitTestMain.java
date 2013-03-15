@@ -8,6 +8,7 @@ import edu.usf.eng.pie.avatars4change.avatar.Entity;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.avatar.Scene;
 import edu.usf.eng.pie.avatars4change.avatar.Sprite;
+import edu.usf.eng.pie.avatars4change.userData.userData;
 
 public class Layer_UnitTestMain {
 	static Scene     testScene;
@@ -18,7 +19,7 @@ public class Layer_UnitTestMain {
 	public static void setup(Avatar daAvatar){
 		//setup Scene
         testScene = new Scene("testScene");
-    	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
+    	String baseFileDirectory = userData.getFileDir();		//file directory to use on sdcard
     	String spriteDir = baseFileDirectory + "/sprites";
     	String testFile = spriteDir + "/body/active/basketball/.";
     	int testSize =  150;
@@ -83,7 +84,7 @@ public class Layer_UnitTestMain {
     }
     private static void drawTestSprite(Canvas c){
     	c.save();
-    	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
+    	String baseFileDirectory = userData.getFileDir();		//file directory to use on sdcard
     	String spriteDir = baseFileDirectory + "/sprites";
     	String spriteFile = spriteDir + "/face/default/0.png";
     	int testSize = 50;

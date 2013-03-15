@@ -149,7 +149,7 @@ mImageCaptureUri = Uri.fromFile(new File(userData.getFileDir(),"sprites/face/def
 	private void drawSelectedImage(){
 		//selected image display
 		mImageView		= (ImageView) findViewById(R.id.image);
-		String imagePath = userData.getFileDir()+"sprites/face/default/0" + ".png";
+		String imagePath = userData.getFileDir()+"sprites/face/default/0.png";
 		BitmapDrawable d = new BitmapDrawable(getResources(), imagePath);
 		int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 70, getResources().getDisplayMetrics()); // 70 dip
 		Bitmap scaledD = Bitmap.createScaledBitmap(d.getBitmap(), size, size, false);

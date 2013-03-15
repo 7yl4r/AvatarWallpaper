@@ -102,7 +102,7 @@ public class ServiceSensors extends Service implements SensorEventListener {
 		//Log.d(TAG, "onStartCommand");
 		
 		//mFeatureFile = new File(getExternalFilesDir(null), "features.arff");
-		mFeatureFile= new File(Environment.getExternalStorageDirectory(),"/MirrorMe/sprites/face/default/feature-Still-walking" + ".arff");
+		mFeatureFile= new File(userData.getFileDir(),"sprites/face/default/feature-Still-walking" + ".arff");
 		 
 		//Log.d(TAG, mFeatureFile.getAbsolutePath());
 		//if the task is data collection create an empty dataset
@@ -155,7 +155,7 @@ public class ServiceSensors extends Service implements SensorEventListener {
 		  // try{
 			//   saver.setFile(mFeatureFile);
 			   //saver.setFile(new File("./data/test.arff"));
-			   //saver.setFile(new File(Environment.getExternalStorageDirectory(),"/MirrorMe/sprites/face/default/feature" + ".arff"));
+			   //saver.setFile(new File(userData.getFileDir(),"sprites/face/default/feature" + ".arff"));
 			//   saver.writeBatch();
 			   
 			//   } catch (IOException e){
@@ -256,7 +256,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 		
 		//boolean flag1= true;
 		
-		mResults= new File(Environment.getExternalStorageDirectory(),"/MirrorMe/sprites/face/default/mResults" + ".txt");
+		mResults= new File(userData.getFileDir(),"sprites/face/default/mResults" + ".txt");
 		while(true){
 			try{  if(isCancelled()){break;}
 				 

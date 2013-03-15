@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AvatarWallpaperSetup extends Activity{
+	private final String TAG = "AvatarWallpaperSetup";
 	private static TextView uidBox;
 	
 	@Override
@@ -52,6 +53,7 @@ public class AvatarWallpaperSetup extends Activity{
 					}
 				});
 	}
+
 	private void idChooser(){
 		//get default UID
     	TelephonyManager tManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
@@ -87,7 +89,7 @@ public class AvatarWallpaperSetup extends Activity{
     private void SetDirectory() {
         if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
 
-            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+            String extStorageDirectory = userData.getFileDir().substring(0,userData.getFileDir().length() - 10);
 
             File txtDirectory = new File(extStorageDirectory);
             // Create
@@ -103,7 +105,7 @@ public class AvatarWallpaperSetup extends Activity{
             CopyAssets(extStorageDirectory); // Then run the method to copy the file.
             
             //lastly, add .nomedia file
-            File nomediaFile = new File(extStorageDirectory + "/MirrorMe/", ".nomedia");
+            File nomediaFile = new File(extStorageDirectory, ".nomedia");
             try {
 				nomediaFile.createNewFile();
 			} catch (IOException e) {
@@ -111,7 +113,7 @@ public class AvatarWallpaperSetup extends Activity{
 			}
 
         } else if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED_READ_ONLY)) {
-        	Log.e("MirrorMe Asset Copier", "SD card is missing");
+        	Log.e(TAG, "SD card is missing");
             //AlertsAndDialogs.sdCardMissing(this);//Or use your own method ie: Toast
         }
     }
@@ -128,11 +130,11 @@ public class AvatarWallpaperSetup extends Activity{
     private void copier(String inDir, String extStorageDir){
     	AssetManager assetManager = getAssets();
         String[] files = null;
-        Log.v("MirrorMe Avatar", "copying files in " + inDir);
+        Log.v(TAG, "copying files in " + inDir);
         try {
             files = assetManager.list(inDir);
         } catch (IOException e) {
-            Log.e("MirrorMe asset listing", e.getMessage());
+            Log.e(TAG+" asset listing", e.getMessage());
         }
         String prefix = inDir;
     	if(!inDir.equals("")){
@@ -145,12 +147,12 @@ public class AvatarWallpaperSetup extends Activity{
             try {
                 in = assetManager.open(prefix + fileName);
             } catch(Exception e){	//failed file open means listing is a directory
-            	Log.v("MirrorMe Avatar", files[i] + " is directory");
+            	Log.v(TAG, files[i] + " is directory");
             	copier(prefix + fileName,extStorageDir);	//add dir name to prefix
             	continue;
             }
             //implied else
-            Log.v("MirrorMe Avatar", files[i] + " is file");
+            Log.v(TAG, files[i] + " is file");
             
             File fDir = new File (extStorageDir + "/" + prefix);	//file object for mkdirs
             fDir.mkdirs();	//create directory
@@ -164,7 +166,7 @@ public class AvatarWallpaperSetup extends Activity{
                 out.close();
                 out = null;
             } catch (Exception e) {
-                Log.e("MirrorMe copyfile", e.getMessage());
+                Log.e(TAG+" copyfile", e.getMessage());
             }
         }
     }
