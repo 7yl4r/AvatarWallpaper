@@ -15,7 +15,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper;
+import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper; //TODO: 
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -30,7 +30,7 @@ import android.view.WindowManager;
 
 public class Countly
 {
-	private static int SEC_BETWEEN = 60;
+	private static int SEC_BETWEEN = 30;
 	
 	private static Countly sharedInstance_;
 	private Timer timer_;

@@ -49,6 +49,9 @@ public class avatarWallpaper extends WallpaperService {
     	String serverURL     = "http://testSubDomain.socialvinesolutions.com";
     	Countly.sharedInstance().init(mContext, serverURL, appKey);
     	
+        //start up countly
+    	Countly.sharedInstance().onStart();// in onStart.
+    	
     	//setup the PA collector service:
     	Intent mServiceIntent = new Intent(mContext, edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors.class);
  		int activityId = Globals.SERVICE_TASK_TYPE_CLASSIFY;	//TODO: ?
@@ -82,6 +85,8 @@ public class avatarWallpaper extends WallpaperService {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        //shut down countly
+       	Countly.sharedInstance().onStop(); // in onStop.
     }
 
     @Override
@@ -203,8 +208,6 @@ public class avatarWallpaper extends WallpaperService {
             //set up the scene
             Layer_Main.setup(theAvatar);
             
-            //start up countly
-        	Countly.sharedInstance().onStart();// in onStart.
         }
 
         @Override
@@ -212,9 +215,6 @@ public class avatarWallpaper extends WallpaperService {
         	//TODO: save prefs here
             super.onDestroy();
             mHandler.removeCallbacks(mDrawViz);
-            
-            //shut down countly
-           	Countly.sharedInstance().onStop(); // in onStop.
         }
 
         @Override
@@ -338,6 +338,7 @@ public class avatarWallpaper extends WallpaperService {
          * here.
          */
         void drawFrame() {
+        	
             final SurfaceHolder holder = getSurfaceHolder();
 
             Canvas c = null;
