@@ -41,7 +41,7 @@ public class Layer_DebugInfo {
     	mPaint.setColor(Color.BLACK); 
     	mPaint.setTextSize(20); 
     	int xOffset = -200, yOffset = -200;
-    	c.drawText("virtual FPS: " + desiredFPS + "    actual FPS: " + fps, xOffset, yOffset, mPaint); 
+    	c.drawText("avatar speed: " + desiredFPS + "     est. FPS: " + fps, xOffset, yOffset, mPaint); 
     }
     
     // Draw a circle around the current touch point, if any.

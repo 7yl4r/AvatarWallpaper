@@ -28,20 +28,42 @@ public class Layer_UserStatus {
 		//mPaint.setStrokeWidth(2);
 		mPaint.setTypeface(Typeface.DEFAULT);
 		c.drawText("You are currently", xOffset, yOffset, mPaint); 
-		//set color based on activity level
-		if(((int) Math.round(userData.currentActivityLevel)) == 0){
-			mPaint.setColor(Color.RED);
-		}else if( ((int) Math.round(userData.currentActivityLevel)) == 1){
-			mPaint.setColor(Color.YELLOW);
-		}else if(((int) Math.round(userData.currentActivityLevel)) ==2){
-			mPaint.setColor(Color.GREEN);
-		}else{
-			mPaint.setColor(Color.CYAN);
-			Log.d(TAG,"unkown activityLevel encountered");
+		//set color from activity level
+		int colorValue = Math.round(userData.currentActivityLevel * 255.0f/2.0f);
+		mPaint.setColor(Color.rgb(colorValue, 80, 255 - colorValue));
+		mPaint.setTextSize(50);
+		mPaint.setTypeface(Typeface.DEFAULT_BOLD);
+		yOffset += 40; xOffset += 50;
+		String statusText = "???";
+		/*
+		if(userData.currentActivity.equals("Standing")){
+			statusText = "sedentary";
+		} else if (userData.currentActivity.equals("Walking")){
+			statusText = "active";
+		} else if (userData.currentActivity.equals("Running")){
+			statusText = "SUPER active!";
+		} else {
+			mPaint.setTextSize(30);
+			statusText = "??? - please reset app.";
 		}
+		*/
+		//set text based on activity level
+		if(((int) Math.round(userData.currentActivityLevel)) == 0){
+			statusText = "sedentary";
+		}else if( ((int) Math.round(userData.currentActivityLevel)) == 1){
+			statusText = "active";
+		}else if(((int) Math.round(userData.currentActivityLevel)) ==2){
+			statusText = "SUPER active!";
+		}else{
+			mPaint.setTextSize(30);
+			statusText = "? - please reset app.";
+		}
+		c.drawText(statusText, xOffset, yOffset, mPaint);
+		/*
 		mPaint.setTextSize(50);
 		mPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		yOffset += 40; xOffset += 50;
 		c.drawText(userData.currentActivity,xOffset,yOffset,mPaint);
+		*/
 	}
 }
