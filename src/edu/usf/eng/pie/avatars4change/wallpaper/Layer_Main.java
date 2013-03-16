@@ -1,6 +1,7 @@
 package edu.usf.eng.pie.avatars4change.wallpaper;
 
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Scene;
 
@@ -23,19 +24,19 @@ public class Layer_Main {
 		Layer_DebugInfo.nextFrame();
 	}
 
-	public static void draw(Canvas c){
+	public static void draw(Canvas c, Rect frame){
 		Layer_Background.draw(c);
 		
 		c.save();
-		avatarScene.draw(c);
+		avatarScene.draw(c);	//this should already be scaled correctly
 		c.restore();
 		
 		c.save();
-		Layer_DebugInfo.drawFPS(c, avatarWallpaper.desiredFPS);
+		Layer_DebugInfo.drawFPS(c, avatarWallpaper.desiredFPS, frame);
 		c.restore();
 		
 		c.save();
-		Layer_UserStatus.draw(c);
+		Layer_UserStatus.draw(c, frame);
 		c.restore();
 	}
 }

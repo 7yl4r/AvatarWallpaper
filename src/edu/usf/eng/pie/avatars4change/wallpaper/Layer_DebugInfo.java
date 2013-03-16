@@ -3,6 +3,7 @@ package edu.usf.eng.pie.avatars4change.wallpaper;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 public class Layer_DebugInfo {
 	private static long lastTime = 0;
@@ -24,7 +25,7 @@ public class Layer_DebugInfo {
     }
 	    
     //draw fps text for debugging
-    public static void drawFPS(Canvas c, float desiredFPS){
+    public static void drawFPS(Canvas c, float desiredFPS, Rect frame){
     	//calculate current frame rate
         long thisTime = System.currentTimeMillis();
         long elapsedTime = thisTime-lastTime;
@@ -40,7 +41,7 @@ public class Layer_DebugInfo {
     	//draw the frame rate to the screen
     	mPaint.setColor(Color.BLACK); 
     	mPaint.setTextSize(20); 
-    	int xOffset = -200, yOffset = -200;
+    	int xOffset = -frame.right/3 , yOffset = -frame.bottom/4;
     	c.drawText("avatar speed: " + desiredFPS + "     est. FPS: " + fps, xOffset, yOffset, mPaint); 
     }
     

@@ -299,11 +299,11 @@ public class avatarWallpaper extends WallpaperService {
             mHeight = height;
             mWidth = width;
             //TODO: MOVE THIS:
-            int s = Math.round(Math.min(mHeight,mWidth)*0.9f);
+            int s = Math.round(Math.min(mHeight,mWidth)*0.8f);
+        	//Log.d(TAG,"onSurfaceChanged makes avatar size " + theAvatar.);
             theAvatar.setSize(s);
             
-
-		   drawFrame();
+            drawFrame();
 
         }
 
@@ -357,12 +357,12 @@ public class avatarWallpaper extends WallpaperService {
                 c = holder.lockCanvas();
                 if (c != null) {
                 	desiredFPS = Math.round( (Math.exp(userData.currentActivityLevel))*4-3 );//update frameRate from PA level
-                	
+
 				   	Layer_Main.nextFrame();
 
                 	c.save();
                 	c.translate(mCenterX, mCenterY);
-                	Layer_Main.draw(c);
+                	Layer_Main.draw(c, holder.getSurfaceFrame());
                 	c.restore();
 
                 }

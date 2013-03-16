@@ -15,6 +15,13 @@ public class Location {
 	public Location(int nx, int ny, int nz, int ns, int nr){
 		set(nx,ny,nz,ns,nr);
 	}
+	public void set(Location L){
+		x        = L.x;
+		y        = L.y;
+		zorder   = L.zorder;
+		size     = L.size;
+		setRotation(L.rotation);
+	}
 	public void set(int nx, int ny, int nz, int ns, int nr){
 		x        = nx;
 		y        = ny;

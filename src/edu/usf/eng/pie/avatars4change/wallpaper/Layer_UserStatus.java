@@ -6,6 +6,7 @@ import edu.usf.eng.pie.avatars4change.userData.userData;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.Log;
 
@@ -21,8 +22,8 @@ public class Layer_UserStatus {
 	    
     }
 	
-	public static void draw(Canvas c){
-		int xOffset = -200, yOffset = 200;
+	public static void draw(Canvas c, Rect frame){
+		int xOffset = -frame.right/3 , yOffset = frame.bottom/4;
 		mPaint.setColor(Color.BLACK); 
 		mPaint.setTextSize(20); 
 		//mPaint.setStrokeWidth(2);

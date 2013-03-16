@@ -68,12 +68,14 @@ public class Layer_UnitTestMain {
 		drawTestEntity(c);
 		drawTestSprite(c);
 		drawTestAnimation(c);
+		/*
 		c.save();
 		Layer_DebugInfo.drawFPS(c, avatarWallpaper.desiredFPS);
 		c.restore();
 		c.save();
 		Layer_UserStatus.draw(c);
 		c.restore();
+		*/
 	}
 	
     private static void drawTestEntity(Canvas c){
