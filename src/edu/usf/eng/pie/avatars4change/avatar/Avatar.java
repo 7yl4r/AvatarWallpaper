@@ -8,7 +8,7 @@ import android.util.Log;
 public class Avatar extends Entity {
 	private final String TAG = "avatar.Avatar";
 	//avatar properties:
-    public String    behaviorSelectorMethod = "constant";
+    public String    behaviorSelectorMethod;
     public long      lastActivityChange     = 0;	//last time activity level was changed [ms]
     public int       bedTime             = 23;
     public int       wakeTime            = 5;
@@ -17,8 +17,8 @@ public class Avatar extends Entity {
 	long UPDATE_FREQUENCY     = 1000 * 10; 	//once per UPDATE_FREQUENCY; e.g. once/10s * 1s/1000ms
 	
 	//values for choosing appropriate animations:
-	private String activityLevel = "sleeping";
-	private String activityName  = "inBed";
+	private String activityLevel;
+	private String activityName;
 	private int realismLevel = 111;
 	
 	// for finding the files:
@@ -94,6 +94,10 @@ public class Avatar extends Entity {
 	//sets up the locations and sizes of the images for the avatar. Images are retrieved and drawn in the drawAvatar() method
 	//  must be called whenever activity/realism levels change to update locations and scales of images!
 	private void loadHeadLocation(){
+		if(activityName == null){
+			Log.e(TAG,"activityName = null; cannot get location");
+			return; //don't mess with null names
+		}
 		//this location should not show, and is a bit odd for easy debug
 		Location LOC = new Location(0,0,1,30,180);	//center, layer 1, size 30, upside-down;
 		int thisFrame = 0;
@@ -173,6 +177,10 @@ public class Avatar extends Entity {
 	
 	//sets up new activity 
 	private void reloadBodyFiles(){
+		if(activityName == null){
+			Log.e(TAG, "activityName = null; cannot load body files");
+			return;	//skip over null names
+		}
 		// === ACTIVE ===
 		if(activityName.equals("running")){
 

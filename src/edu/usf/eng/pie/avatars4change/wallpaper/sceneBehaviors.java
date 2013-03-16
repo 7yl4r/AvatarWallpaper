@@ -11,10 +11,16 @@ import android.text.format.Time;
 import android.util.Log;
 
 public class sceneBehaviors {
+	private static final String TAG = "sceneBehavior";
     public static boolean   activeOnEvens       = true;	//active on even days?
 	
     //this method gets a behavior from the Avatar's behavior string (which has been set in the settings)
     public static void runBehavior(Avatar theAvatar){
+    	if( theAvatar.behaviorSelectorMethod == null){
+    		Log.e(TAG,"behaviorSelectorMethod = null; cannot run Behavior");
+    		return;
+    	}
+    	Log.v(TAG,"updating scene via " + theAvatar.behaviorSelectorMethod);
     	if ( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("constant") ){
     		constant(theAvatar);
     	}else if( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("Proteus Effect Study")){
@@ -22,6 +28,7 @@ public class sceneBehaviors {
     	}else if( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("IEEE VR demo")){
     		VRDemo(theAvatar);
     	}else{
+    		Log.e(TAG, "unrecognized scene behavior " + theAvatar.behaviorSelectorMethod);
     		debug(theAvatar);	//default method
     	}
     }
@@ -77,15 +84,17 @@ public class sceneBehaviors {
 	// avatar shows sedentary behavior for sitting, slow active behavior for walking, fast active behavior for running
 	public static void VRDemo(Avatar theAvatar){
 		String activLvl = theAvatar.getActivityLevel();
-		if(userData.currentActivityLevel > 1){	//if user is walking or greater
+		if(userData.currentActivityLevel > .5){	//if user is walking or greater
 			activLvl = "active";
+		} else if(userData.currentActivityLevel < .1){		//if user not moving at all
+			activLvl = "sleeping";
 		}else{	// user is not active
 			activLvl = "passive";
 		}
-		if(!activLvl.equalsIgnoreCase(theAvatar.getActivityLevel())){	//if level has changed
-			theAvatar.setActivityLevel(activLvl);
-        	//avatar changes activity 
-        	theAvatar.randomActivity(theAvatar.getActivityLevel());
+		if(! activLvl.equalsIgnoreCase(theAvatar.getActivityLevel())){	//if level has changed
+			theAvatar.setActivityLevel(activLvl);	//set new level
+			//should be implied:
+        	//theAvatar.randomActivity(theAvatar.getActivityLevel());
        	 	theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
 		}
 	}

@@ -32,6 +32,8 @@ public class AvatarWallpaperSetup extends Activity{
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		//setup default preferences
+		loadDefaultSettings();
  		//setup the file directory:
     	SetDirectory();
 		// start up the face selector
@@ -42,6 +44,19 @@ public class AvatarWallpaperSetup extends Activity{
 		//privacyDisclaimer(); this is called at the end of idChooser
 	}
 
+	private void loadDefaultSettings(){
+		//these are defined in the avatar_settings xml
+		/*
+    	SharedPreferences settings = getSharedPreferences(avatarWallpaper.SHARED_PREFS_NAME, MODE_PRIVATE);
+    	SharedPreferences.Editor editor = settings.edit();
+    	editor.putString("UID", userData.USERID);
+    	editor.putBoolean("wifiOnly",false);
+    	editor.putString("CurrentActivity","running");
+    	editor.putString("behavior", "VRDemo");
+    	editor.commit();
+    	*/
+	}
+	
 	private void privacyDisclaimer(){
 		setContentView(R.layout.privacy_disclaimer);
 		// done button

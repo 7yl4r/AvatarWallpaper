@@ -156,16 +156,21 @@ public class avatarWallpaper extends WallpaperService {
 				String key;
 				key="RealismLevel";
 					theAvatar.setRealismLevel(Integer.parseInt(mPrefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
+					
 				key="CurrentActivity";
-					theAvatar.setActivityName(mPrefs.getString(key, "inBed"));
+					theAvatar.setActivityName(mPrefs.getString(key, "running"));
 					theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
+					
 				key="ActivityLevelSelector";
-					theAvatar.behaviorSelectorMethod = mPrefs.getString(key, theAvatar.behaviorSelectorMethod);
+					theAvatar.behaviorSelectorMethod = mPrefs.getString(key, "IEEE VR demo");
+					
 				key="ResetLogs";
 					keepLogs = !mPrefs.getBoolean(key, keepLogs);
 					//Log.d(TAG, "keepLogs=" + String.valueOf(keepLogs));
+					
 				key="activeOnEvens";
 					sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);
+					
 				key="UID";
 					userData.USERID = mPrefs.getString(key,userData.USERID);
         }
@@ -176,19 +181,25 @@ public class avatarWallpaper extends WallpaperService {
 			if(! (key == null)){	//skip if null
 				if(key.equals("RealismLevel")){
 					theAvatar.setRealismLevel(Integer.parseInt(prefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
-				} else if (key.equals("CurrentActivity")){
+				} else 
+					if (key.equals("CurrentActivity")){
 					theAvatar.setActivityName(prefs.getString(key, "running"));
 					theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
-				} else if (key.equals("ActivityLevelSelector")){
+				} else 
+					if (key.equals("ActivityLevelSelector")){
 					theAvatar.behaviorSelectorMethod = prefs.getString(key, theAvatar.behaviorSelectorMethod);
-				} else if (key.equals("ResetLogs")){
+				} else 
+					if (key.equals("ResetLogs")){
 					keepLogs = !prefs.getBoolean(key, keepLogs);
 					//Log.d(TAG, "keepLogs=" + String.valueOf(keepLogs));
-				} else if (key.equals("activeOnEvens")){
+				} else 
+					if (key.equals("activeOnEvens")){
 					sceneBehaviors.activeOnEvens = prefs.getBoolean(key, sceneBehaviors.activeOnEvens);
-				} else if (key.equals("behavior")){
+				} else 
+					if (key.equals("behavior")){
 					theAvatar.behaviorSelectorMethod = prefs.getString(key, theAvatar.behaviorSelectorMethod);
-				} else if (key.equals("wifiOnly")){
+				} else 
+					if (key.equals("wifiOnly")){
 					avatarWallpaper.wifiOnly = prefs.getBoolean(key, false);
 				} else { 
 					Log.e(TAG,"unrecognized pref key: " + key);
