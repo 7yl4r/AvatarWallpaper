@@ -17,7 +17,7 @@
     <string name="photoRequest">Does this look right?</string>
     <string name="uidRequest">How would you like your name to appear to the public?</string>
     <string name="privacyDisclaimer">This wallpaper will track the physical movement of your phone (but not GPS location). From this motion we guess your physical activity. This data, your chosen user id, and your selected photo will be sent to us and will be publically accessable. If this is not okay with you but you still want to play with our app, please contact us at the USF PIE-lab or edit the app settings.</string>
-    <string name="contactemail">usf-pie+avatarApp@gmail.com</string>
+    <string name="contactemail">&quot;usf-pie+avatarApp@gmail.com&quot;</string>
    
 
 </resources>
