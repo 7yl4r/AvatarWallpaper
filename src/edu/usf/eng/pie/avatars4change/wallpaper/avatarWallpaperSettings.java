@@ -45,6 +45,9 @@ public class avatarWallpaperSettings extends PreferenceActivity
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
     	Log.d(TAG, key + " preference changed");
+    	if(key.equals("killMe")){
+    		android.os.Process.killProcess(android.os.Process.myPid());
+    	}
     }
     
     @Override

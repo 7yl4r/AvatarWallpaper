@@ -23,6 +23,8 @@
 	</PreferenceCategory>
 		
     
-	<PreferenceCategory android:title="pros only" android:key="admin_options"><CheckBoxPreference android:key="ResetLogs" android:summaryOn="DataLogs will be reset" android:summaryOff="DataLogs will be kept" android:title="Reset View Logs?" android:defaultValue="false" /><CheckBoxPreference android:summaryOff="active on odd julian days" android:summaryOn="active on even julian days" android:key="activeOnEvens" android:title="Active/Passive Behavior" android:defaultValue="true"/></PreferenceCategory>
+	<PreferenceCategory android:title="pros only" android:key="admin_options"><CheckBoxPreference android:key="ResetLogs" android:summaryOn="DataLogs will be reset" android:summaryOff="DataLogs will be kept" android:title="Reset View Logs?" android:defaultValue="false" /><CheckBoxPreference android:summaryOff="active on odd julian days" android:summaryOn="active on even julian days" android:key="activeOnEvens" android:title="Active/Passive Behavior" android:defaultValue="true"/>
+	<CheckBoxPreference android:title="button of death" android:key="killMe" android:defaultValue="false" android:summary="kill the app process to unfreeze FFT &amp; sensorListener"/>
+</PreferenceCategory>
 	
 </PreferenceScreen>
