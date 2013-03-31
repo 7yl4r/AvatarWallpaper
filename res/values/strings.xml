@@ -2,7 +2,7 @@
 <resources>
 
     <!-- General -->
-	<string name="hello">Hello World, this is your Avatar speaking!</string>
+	<string name="hello">Hello World, this is your Avatar speaking! I need you to do something for me. Strangely, I cannot seem to remember what our face looks like...</string>
 	
     <!-- Application name -->
     <string name="wallpapers">Avatar Wallpaper</string>
@@ -14,6 +14,10 @@
     <string name="avatar_settings">Avatar4Change Settings</string>
 
     <!-- Wallpaper showing a cube or dodecahedron, data read from resource -->
+    <string name="photoRequest">Does this look right?</string>
+    <string name="uidRequest">How would you like your name to appear to the public?</string>
+    <string name="privacyDisclaimer">This wallpaper will track the physical movement of your phone (but not GPS location). From this motion we guess your physical activity. This data, your chosen user id, and your selected photo will be sent to us and will be publically accessable. If this is not okay with you but you still want to play with our app, please contact us at the USF PIE-lab or edit the app settings.</string>
+    <string name="contactemail">&quot;usf-pie+avatarApp@gmail.com&quot;</string>
    
 
 </resources>

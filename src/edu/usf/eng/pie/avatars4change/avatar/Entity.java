@@ -10,6 +10,7 @@ import android.util.Log;
 //import edu.usf.pie.avatars4change.sprite
 
 public class Entity {
+	private final float ASSUMED_ENTITY_SIZE = 300.0f;	//because this is the size of the png
 	String name = "UNNAMED";
 	Location location  = new Location();
 
@@ -39,23 +40,25 @@ public class Entity {
 		Log.i("entity spriteIndex","cannot get index, animation "+spriteName+" not found. -1 returned.");
 		return -1;
 	}
-	//add a new sprite
+	//add a new sprite, location is in percent of entity size (except rotation)
 	public void addSprite(String spriteName, String imageFile, Location relativeLoc){
-		Location spriteLoc = new Location(relativeLoc.x,
-				                          relativeLoc.y,
+		Location spriteLoc = scaleLocFromPercent(
+				             new Location(relativeLoc.x ,
+				                          relativeLoc.y ,
 				                          relativeLoc.zorder,
-				                          relativeLoc.size,
-				                          relativeLoc.rotation);
+				                          relativeLoc.size ,
+				                          relativeLoc.rotation));
 		sprites.add( new Sprite(spriteName, imageFile, spriteLoc) );
 	}
 	
-	//add a new sprite, location is in percent of entity size (except rotation)
+	//add a new animation, location is in percent of entity size (except rotation)
 	public void addAnimation(String animName, String animFile, Location relativeLoc){
-		Location animLoc = new Location(relativeLoc.x,
-                                        (relativeLoc.y),
+		Location animLoc = scaleLocFromPercent(
+				           new Location(relativeLoc.x ,
+                                        relativeLoc.y ,
                                         relativeLoc.zorder,
-                                        (relativeLoc.size),
-                                        relativeLoc.rotation);
+                                        (relativeLoc.size ),
+                                        relativeLoc.rotation));
 		animations.add( new Animation(animName, animFile, animLoc));
 	}
 	
@@ -123,13 +126,6 @@ public class Entity {
 		return -1;
 	}
 	
-	// scale given percent of total width value, and return scaled absolute value
-	/*
-	public int scaleValueFromPercent(int percent){
-		return (int) Math.round(percent*location.size/300.0f);
-	}
-	*/
-	
 	// draw method draws all base sprites in their relative locations
 	//order drawn is animations followed by sprites in the order that they are in their respective arrays
 	public void draw(Canvas c){
@@ -174,7 +170,26 @@ public class Entity {
 	}
 	
 	public void setSize(int newSize){
-		//location.size = newSize;
+		location.size = newSize;
+		
 		//Log.v("entity","size set to "+location.size);
+		//scale each item in the entity
+		for (Animation a : animations){	
+			a.location.set(scaleLocFromPercent(a.location));
+		}
+		for (Sprite s : sprites){	//for each sprite 's' in spriteList
+			s.location.set(scaleLocFromPercent(s.location));
+		}
+		
+	}
+	// scale location as percent of total width value, and return scaled absolute location
+	public Location scaleLocFromPercent(Location percentLoc){
+		Location absLoc = new Location();
+		absLoc.x = (int) Math.round(percentLoc.x*((float)this.location.size)/ASSUMED_ENTITY_SIZE);
+		absLoc.y = (int) Math.round(percentLoc.y*((float)this.location.size)/ASSUMED_ENTITY_SIZE); 
+		absLoc.zorder = percentLoc.zorder;
+		absLoc.size = (int) Math.round(percentLoc.size*this.location.size/ASSUMED_ENTITY_SIZE); 
+		absLoc.rotation = percentLoc.rotation; 
+		 return absLoc;
 	}
 }

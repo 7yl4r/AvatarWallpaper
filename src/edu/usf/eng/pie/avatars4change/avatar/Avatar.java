@@ -1,29 +1,40 @@
 package edu.usf.eng.pie.avatars4change.avatar;
 
+import edu.usf.eng.pie.avatars4change.userData.userData;
 import android.graphics.Canvas;
 import android.os.Environment;
 import android.util.Log;
 
 public class Avatar extends Entity {
+	private final String TAG = "avatar.Avatar";
+	//avatar properties:
+    public String    behaviorSelectorMethod;
+    public long      lastActivityChange     = 0;	//last time activity level was changed [ms]
+    public int       bedTime             = 23;
+    public int       wakeTime            = 5;
+	long lastFrameChange      = 0;		//last frame update [ms]
+	long lastUserStatusUpdate = 0;
+	long UPDATE_FREQUENCY     = 1000 * 10; 	//once per UPDATE_FREQUENCY; e.g. once/10s * 1s/1000ms
+	
 	//values for choosing appropriate animations:
-	private String activityLevel = "sleeping";
-	private String activityName  = "inBed";
+	private String activityLevel;
+	private String activityName;
 	private int realismLevel = 111;
 	
-	String baseFileDirectory = (Environment.getExternalStorageDirectory()).getAbsolutePath() + "/MirrorMe";		//file directory to use on sdcard
-	String spriteDir = baseFileDirectory + "/sprites";
+	// for finding the files:
+	String baseFileDirectory = userData.getFileDir();		//file directory to use on sdcard
+	String spriteDir = baseFileDirectory + "sprites";
 	
+	// object declarations for body parts:
 	String headName = "head";
 	Location headL = new Location();
 	String headFile = spriteDir+"/face/default/0.png";
-//	Sprite headSprite = new Sprite(headName,headFile,headL);
 
 	String bodyTopName = "bodyTop";
 	String bodyBottomName="bodyBottom";
 	Location bodyL = new Location();
 	String bodyDirBottom  = spriteDir+"/body/default/";
 	String bodyDirTop  = bodyDirBottom;
-//	Animation bodyAnim = new Animation(bodyName,bodyDir,bodyL);
 	
 	//constructor
 	public Avatar(Location LOC, int realismL, String activityL) {
@@ -34,7 +45,7 @@ public class Avatar extends Entity {
 		
 		Log.v("Avatar","setting up "+name);
 		// set up head
-		headFile = ( baseFileDirectory + "/sprites/face/default/0.png");		//create sprites
+		headFile = ( baseFileDirectory + "sprites/face/default/0.png");		//create sprites
 		loadHeadLocation();
 		//reloadHeadFiles()
 		super.addSprite( headName, headFile, headL );
@@ -55,8 +66,8 @@ public class Avatar extends Entity {
 	}
 	
 	private String loadBodyDir(String layerName){
-		return ( baseFileDirectory + "/sprites/body/" + activityLevel + 
-				"/" + activityName + "/"+layerName);
+		return ( baseFileDirectory + "sprites/body/" + activityLevel + 
+				"/" + activityName + "/"+layerName+"/");
 	}
 	
 	// === ACTIVITY LEVEL ===
@@ -83,6 +94,10 @@ public class Avatar extends Entity {
 	//sets up the locations and sizes of the images for the avatar. Images are retrieved and drawn in the drawAvatar() method
 	//  must be called whenever activity/realism levels change to update locations and scales of images!
 	private void loadHeadLocation(){
+		if(activityName == null){
+			Log.e(TAG,"activityName = null; cannot get location");
+			return; //don't mess with null names
+		}
 		//this location should not show, and is a bit odd for easy debug
 		Location LOC = new Location(0,0,1,30,180);	//center, layer 1, size 30, upside-down;
 		int thisFrame = 0;
@@ -148,10 +163,10 @@ public class Avatar extends Entity {
 			
 			// === DEFAULT === 
 		} else {
-			Log.e("MirrorMe sprite","activity name not recognized");
+			Log.e(TAG,"activity name not recognized");
 			LOC.set(0,0,LOC.zorder,100,180);
 		}
-		headL = LOC;
+		headL = scaleLocFromPercent(LOC);
 		setSpriteLocation(headName,headL);
 	}
 	
@@ -162,6 +177,10 @@ public class Avatar extends Entity {
 	
 	//sets up new activity 
 	private void reloadBodyFiles(){
+		if(activityName == null){
+			Log.e(TAG, "activityName = null; cannot load body files");
+			return;	//skip over null names
+		}
 		// === ACTIVE ===
 		if(activityName.equals("running")){
 
@@ -192,7 +211,7 @@ public class Avatar extends Entity {
 			bodyDirBottom = spriteDir+"/body/passive/watchingTV/";
 			// === DEFAULT === 
 		} else {
-			Log.e("MirrorMe sprite","activity name not recognized");
+			Log.e(TAG,"activity name not recognized");
 	
 			bodyDirTop = null;
 			bodyDirBottom = spriteDir+"/body/default/";

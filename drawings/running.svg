@@ -14,7 +14,7 @@
    height="1052.3622047"
    id="svg4936"
    version="1.1"
-   inkscape:version="0.48.2 r9819"
+   inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="running.svg">
   <defs
      id="defs4938" />
@@ -26,15 +26,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="488.44546"
-     inkscape:cy="818.86286"
+     inkscape:cx="250.04946"
+     inkscape:cy="253.17744"
      inkscape:document-units="px"
-     inkscape:current-layer="layer16"
+     inkscape:current-layer="layer3"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1018"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-width="1366"
+     inkscape:window-height="744"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
      inkscape:window-maximized="1">
     <inkscape:grid
        type="xygrid"
@@ -56,7 +56,7 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="boundingBox"
-     style="display:inline">
+     style="display:none">
     <rect
        style="opacity:0.46333331;fill:#ff6600;fill-opacity:1;stroke:#ffffff;stroke-width:0.31249985;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
        id="rect4901-5-48-5-1-5-2-8"
@@ -79,15 +79,10 @@
        inkscape:connector-curvature="0" />
   </g>
   <g
-     inkscape:label="OLD"
-     inkscape:groupmode="layer"
-     id="layer1"
-     style="display:inline" />
-  <g
      inkscape:groupmode="layer"
      id="layer14"
      inkscape:label="11.0"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#d38d5f;stroke:#000000;stroke-width:0.84505111px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
        d="m 140.71684,825.11307 -7.69525,-7.42029 -10.16863,9.06913 5.49638,9.34405 9.34413,-2.4732 z"
@@ -185,7 +180,7 @@
      inkscape:groupmode="layer"
      id="layer13"
      inkscape:label="10.0"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#d38d5f;stroke:#000000;stroke-width:0.84446234px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
        d="m 141.24876,825.01368 -7.68987,-7.41529 -10.16134,9.06301 5.49281,9.33753 9.33731,-2.47182 z"
@@ -283,7 +278,7 @@
      inkscape:groupmode="layer"
      id="layer12"
      inkscape:label="9.0"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#d38d5f;stroke:#000000;stroke-width:0.84505153px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
        d="m 141.26477,825.37642 -7.69515,-7.42029 -10.16857,9.06913 5.49654,9.34406 9.34423,-2.47335 z"
@@ -381,7 +376,7 @@
      inkscape:groupmode="layer"
      id="layer11"
      inkscape:label="8.0"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#d38d5f;stroke:#000000;stroke-width:0.84505153px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
        d="m 140.93701,825.42263 -7.69506,-7.42011 -10.16848,9.06896 5.4963,9.34404 9.34423,-2.47336 z"
@@ -479,7 +474,7 @@
      inkscape:groupmode="layer"
      id="layer10"
      inkscape:label="7.0"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#d38d5f;stroke:#000000;stroke-width:0.84505111px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
        d="m 141.13881,825.3845 -7.69501,-7.42029 -10.16839,9.06914 5.49635,9.34404 9.34388,-2.47353 z"
@@ -577,7 +572,7 @@
      inkscape:groupmode="layer"
      id="layer9"
      inkscape:label="6.0"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#d38d5f;stroke:#000000;stroke-width:0.84505153px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
        d="m 141.238,825.34479 -7.69502,-7.42031 -10.16856,9.06933 5.49654,9.34387 9.34387,-2.47337 z"
@@ -773,7 +768,7 @@
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="4.0"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#d38d5f;stroke:#000000;stroke-width:0.84505111px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
        d="m 141.37552,825.53505 -7.69513,-7.4201 -10.16842,9.06914 5.49654,9.34401 9.34382,-2.47352 z"
@@ -871,7 +866,7 @@
      inkscape:groupmode="layer"
      id="layer6"
      inkscape:label="3.0"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#d38d5f;stroke:#000000;stroke-width:0.84505111px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
        d="m 140.88833,824.84943 -7.69499,-7.4203 -10.16856,9.06932 5.49652,9.34387 9.34399,-2.47337 z"
@@ -967,7 +962,7 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="2.0"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#d38d5f;stroke:#000000;stroke-width:0.84505111px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
        d="m 140.89591,824.8646 -7.69514,-7.4203 -10.16841,9.06896 5.49637,9.34423 9.34407,-2.47337 z"
@@ -1063,7 +1058,7 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="1.0"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#d38d5f;stroke:#000000;stroke-width:0.84505111px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
        d="m 140.92177,825.2358 -7.69519,-7.42028 -10.16855,9.06932 5.49653,9.34387 9.34406,-2.47337 z"
@@ -1159,7 +1154,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="0.0"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#d38d5f;stroke:#000000;stroke-width:0.84505111px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline"
        d="m 140.80986,825.14679 -7.69517,-7.42028 -10.16838,9.06932 5.49653,9.34403 9.34405,-2.47353 z"
@@ -1866,7 +1861,7 @@
      inkscape:groupmode="layer"
      id="layer16"
      inkscape:label="face"
-     style="display:inline">
+     style="display:none">
     <image
        style="display:inline"
        y="752.36218"

@@ -3,7 +3,7 @@
 <resources>
 
     <string-array name="avatar_Realisms">
-        <item>&quot;0 - Stickman&quot;</item>
+        <item>0 - Stickman</item>
         <item>"1 - Stickman + Face"</item>
         <item>"2 - Cartoon"</item>
         <item>"3 - Cartoon + Face"</item>
@@ -15,19 +15,20 @@
         <item >"3"</item>
     </string-array>
     
-    <string-array name="activity_level_selector">
-        <item >"Random"</item>
-        <item >"Constant"</item>
-    </string-array>
-    
     <string-array name="current_activity">
-        <item >&quot;inBed&quot;</item>
-        <item >&quot;onComputer&quot;</item>
-        <item >&quot;videoGames&quot;</item>
-        <item >&quot;watchingTV&quot;</item>
-        <item >&quot;basketball&quot;</item>
-        <item >&quot;bicycling&quot;</item>
-        <item >&quot;running&quot;</item>
+        <item >inBed</item>
+        <item >onComputer</item>
+        <item >videoGames</item>
+        <item >watchingTV</item>
+        <item >basketball</item>
+        <item >bicycling</item>
+        <item >running</item>
+    </string-array>
+    <string-array name="behavior">
+        <item >constant</item>
+        <item >Proteus Effect Study</item>
+        <item >debug</item>
+        <item >IEEE VR demo</item>
     </string-array>
     
 </resources>
