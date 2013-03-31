@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import ly.count.android.api.Countly;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,7 +25,6 @@ import android.view.SurfaceHolder;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.avatar.Scene;
-import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.Globals;
 import edu.usf.eng.pie.avatars4change.userData.userData;
 import edu.usf.eng.pie.avatars4change.wallpaper.Layer_Main;
 
@@ -45,24 +43,6 @@ public class avatarWallpaper extends WallpaperService {
     @Override
     public void onCreate() {
     	mContext = getApplicationContext();
-    	//set up countly:
-    	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
-    	String serverURL     = "http://testSubDomain.socialvinesolutions.com";
-    	Countly.sharedInstance().init(mContext, serverURL, appKey);
-    	
-        //start up countly
-    	Countly.sharedInstance().onStart();// in onStart.
-    	
-    	//setup the PA collector service:
-    	Intent mServiceIntent = new Intent(mContext, edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors.class);
- 		int activityId = Globals.SERVICE_TASK_TYPE_CLASSIFY;	//TODO: ?
- 		String label = mLabels[activityId];
- 		Bundle extras = new Bundle();
- 		extras.putString("label", label);
- 		extras.putString("type", "collecting");
- 		mServiceIntent.putExtras(extras);
- 		Log.v(TAG, "starting SensorService");
- 		startService(mServiceIntent); 
     	
  		//check for first time run (by looking for files)
  		boolean firstTime;
@@ -86,8 +66,6 @@ public class avatarWallpaper extends WallpaperService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //shut down countly
-       	Countly.sharedInstance().onStop(); // in onStop.
     }
 
     @Override

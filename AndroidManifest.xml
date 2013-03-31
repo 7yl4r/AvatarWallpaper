@@ -6,7 +6,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.usf.eng.pie.avatars4change"
     	android:versionCode="1"
-      	android:versionName="1.1.4">
+      	android:versionName="1.1.proteus">
 
     <uses-sdk android:minSdkVersion="8"
               android:targetSdkVersion="17"/>
@@ -19,14 +19,6 @@
 	<uses-feature android:name="android.hardware.sensor.accelerometer"
               android:required="true" />
 	
-	<!-- for countly: -->
-	<pre class="prettyprint">
-		&lt;service android:name=&quot;org.openudid.OpenUDID_service&quot;&gt;
-		    &lt;intent-filter&gt;
-		        &lt;action android:name=&quot;org.openudid.GETUDID&quot; /&gt;
-		    &lt;/intent-filter&gt;
-		&lt;/service&gt;
-	</pre>
 
     <application
         android:label="@string/wallpapers"
@@ -68,29 +60,6 @@
             android:label="CropLabel">
            </activity>
            
-       <activity 
-           android:label="PAcollector"
-           android:name="edu.usf.eng.pie.avatars4change.myrunsdatacollector.theCollector">
-        </activity>
-        
-      	<!-- ========================= BROADCAST RECEIVERS ========================== -->
-        <receiver android:name="edu.usf.eng.pie.avatars4change.receivers.mMonitorReceiver" >
-		    <intent-filter>
-		        <action android:name="com.MILES.MonitoringApp.DailyStateChange" />
-		    </intent-filter>
-	    </receiver>
-	        
-		<receiver android:name="edu.usf.eng.pie.avatars4change.receivers.myTestReceiver" >
-		    <intent-filter>
-		        <action android:name="com.tylar.research.avatars" />
-		    </intent-filter>
-	    </receiver>
-	    
-		<receiver android:name="edu.usf.eng.pie.avatars4change.receivers.myRunsDataCollectorReceiver">
-		    <intent-filter>
-		        <action android:name="SOME_ACTION" />
-		    </intent-filter>
-		</receiver>
     </application>
         
 </manifest>
