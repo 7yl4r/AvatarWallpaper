@@ -1,5 +1,7 @@
 package edu.usf.eng.pie.avatars4change.receivers;
 
+import java.util.HashMap;
+
 import ly.count.android.api.Countly;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -45,7 +47,9 @@ public class myRunsDataCollectorReceiver extends BroadcastReceiver {
     	userData.currentActivity = url;
     	if(avgLevel != 0){	//do not send zero activity notices to countly (is this a good choice?)
 			//Log.v(TAG,"queuing event physicalAcitivtyLevel = " + Float.toString(avgLevel));
-			Countly.sharedInstance().recordEvent(userData.USERID,1, avgLevel);
+    		HashMap<String, String> segmentation = new HashMap<String,String>();
+    		segmentation.put("UID",userData.USERID);
+			Countly.sharedInstance().recordEvent("physicalActivity",segmentation,1, avgLevel);
     	}
 	}
 }
