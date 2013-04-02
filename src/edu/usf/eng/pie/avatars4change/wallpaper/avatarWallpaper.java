@@ -350,13 +350,12 @@ public class avatarWallpaper extends WallpaperService {
             try {
                 c = holder.lockCanvas();
                 if (c != null) {
-                	desiredFPS = Math.round( (Math.exp(userData.currentActivityLevel))*4-3 );//update frameRate from PA level
 
 				   	Layer_Main.nextFrame();
 
                 	c.save();
                 	c.translate(mCenterX, mCenterY);
-                	Layer_Main.draw(c, holder.getSurfaceFrame());
+                	Layer_Main.draw(c, holder.getSurfaceFrame(),theAvatar);
                 	c.restore();
 
                 }
