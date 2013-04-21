@@ -27,14 +27,13 @@ import edu.usf.eng.pie.avatars4change.wallpaper.Layer_Main;
 // This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
  
 public class avatarWallpaper extends WallpaperService {
-	private final String TAG = "avatarWallpaper";	//for logs
+	private final String TAG                    = "avatarWallpaper";	//for logs
 	public static final String SHARED_PREFS_NAME="avatarsettings";
-    private final Handler mHandler = new Handler();
+    private final Handler mHandler              = new Handler();
+    private final String[] mLabels              = {"still", "walking", "running"};
+    public static float desiredFPS              = 30;
     public static Context mContext;	//this is needed for countly wifi check
-    private final String[] mLabels = {"still", "walking", "running"};
-    public static float desiredFPS = 30;
-    
-    public static boolean wifiOnly = false;	//enable if program should only use wifi
+    public static boolean wifiOnly              = false;	//enable if program should only use wifi
     
     @Override
     public void onCreate() {
@@ -95,15 +94,15 @@ public class avatarWallpaper extends WallpaperService {
 
     	//vars for background visibility logging
     	long    visibilityStart;
-    	boolean keepLogs        = true;
+    	boolean keepLogs           = true;
     	
     	//set up the file directory for saving data and retrieving sprites
     	String extStorageDirectory = userData.getFileDir();
     	File   fileDirectory       = new File (extStorageDirectory);
     	
         //vars for the avatar
-        Resources r                   = getResources();
-        Avatar    theAvatar           = new Avatar(new Location(0,0,0,300,0), 3, "running");		//create new avatar
+        Resources r                = getResources();
+        Avatar    theAvatar        = new Avatar(new Location(0,0,0,300,0), 3, "running");		//create new avatar
         
         //vars for canvas
         private float mCenterX;
@@ -145,41 +144,31 @@ public class avatarWallpaper extends WallpaperService {
             onSharedPreferenceChanged(mPrefs, null);
         }
         
-        /*
-        private boolean isFrameChangeTime(){
-        	//determine if enough time has passed to move to next frame
-        	long now = SystemClock.elapsedRealtime();
-             if(((float)(now - lastFrameChange)) > (((float)1000)/desiredFPS)){		//if total ms elapsed > desired ms elapsed
-            	 lastFrameChange = now;
-            	 return true;
-             }
-             else return false;
-        }
-        */
-    	
-        
         private void loadPrefs(){
 			Log.d(TAG, "loading preferences");
-				String key;
-				key="RealismLevel";
-					theAvatar.setRealismLevel(Integer.parseInt(mPrefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
-					
-				key="CurrentActivity";
-					theAvatar.setActivityName(mPrefs.getString(key, "running"));
-					theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
-					
-				key="ActivityLevelSelector";
-					theAvatar.behaviorSelectorMethod = mPrefs.getString(key, "IEEE VR demo");
-					
-				key="ResetLogs";
-					keepLogs = !mPrefs.getBoolean(key, keepLogs);
-					//Log.d(TAG, "keepLogs=" + String.valueOf(keepLogs));
-					
-				key="activeOnEvens";
-					sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);
-					
-				key="UID";
-					userData.USERID = mPrefs.getString(key,userData.USERID);
+            mPrefs = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
+
+            //TODO: is this needed? I'm not sure it is...
+			String key;
+			key="RealismLevel";
+				theAvatar.setRealismLevel(Integer.parseInt(mPrefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
+				
+			key="CurrentActivity";
+				theAvatar.setActivityName(mPrefs.getString(key, "running"));
+				theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
+				
+			key="ActivityLevelSelector";
+				theAvatar.behaviorSelectorMethod = mPrefs.getString(key, "IEEE VR demo");
+				
+			key="ResetLogs";
+				keepLogs = !mPrefs.getBoolean(key, keepLogs);
+				//Log.d(TAG, "keepLogs=" + String.valueOf(keepLogs));
+				
+			key="activeOnEvens";
+				sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);
+				
+			key="UID";
+				userData.USERID = mPrefs.getString(key,userData.USERID);
         }
         
 		@Override
