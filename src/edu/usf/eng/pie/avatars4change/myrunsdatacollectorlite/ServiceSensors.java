@@ -256,7 +256,10 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 		
 		//boolean flag1= true;
 		
-		mResults= new File(userData.getFileDir(),"sprites/face/default/mResults" + ".txt");
+    	Boolean SDpresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+    	if(SDpresent){
+			mResults= new File(userData.getFileDir(),"mResults" + ".txt");
+    	} //TODO: else???
 		while(true){
 			try{  if(isCancelled()){break;}
 				 

@@ -12,6 +12,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -221,49 +224,53 @@ public class avatarWallpaper extends WallpaperService {
                 	//if creation of directory fails
                 	Log.v(TAG, "creation of directory fails, already exists?");
                 }
-                //create or open dataLog file:
-                FileOutputStream dataFileOut = null;
-                if(keepLogs){
-					try {
-						dataFileOut = new FileOutputStream(dataLogFile, true);	//append
-					} catch (FileNotFoundException e) {
-						// TODO
-						e.printStackTrace();
-					}
-                } else {
-                	try {
-						dataFileOut = new FileOutputStream(dataLogFile, false);	//do not append
-						DataOutputStream dataOut = new DataOutputStream(dataFileOut);
-						//print header on data file
+                
+            	Boolean SDpresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+            	if(SDpresent){
+	                //create or open dataLog file:
+	                FileOutputStream dataFileOut = null;
+	                if(keepLogs){
 						try {
-							dataOut.writeBytes("StartVisible,EndVisible,ViewTime,animationName\n");
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
+							dataFileOut = new FileOutputStream(dataLogFile, true);	//append
+						} catch (FileNotFoundException e) {
+							// TODO
 							e.printStackTrace();
 						}
-						Log.d(TAG, "New dataLog file has been created");
-						keepLogs = true;
-					} catch (FileNotFoundException e) {
-						// TODO
+	                } else {
+	                	try {
+							dataFileOut = new FileOutputStream(dataLogFile, false);	//do not append
+							DataOutputStream dataOut = new DataOutputStream(dataFileOut);
+							//print header on data file
+							try {
+								dataOut.writeBytes("StartVisible,EndVisible,ViewTime,animationName\n");
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							Log.d(TAG, "New dataLog file has been created");
+							keepLogs = true;
+						} catch (FileNotFoundException e) {
+							// TODO
+							e.printStackTrace();
+						}
+	                }
+					DataOutputStream dataOut = new DataOutputStream(dataFileOut);
+					//write time viewed to file
+	                try {
+						dataOut.writeBytes(String.valueOf(visibilityStart)+","+String.valueOf(visibilityEnd)+","+String.valueOf(visibilityEnd-visibilityStart)+
+								"," + theAvatar.getActivityName() + "\n");
+						Log.d(TAG, visibleTime + " ms of time added to file");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-                }
-				DataOutputStream dataOut = new DataOutputStream(dataFileOut);
-				//write time viewed to file
-                try {
-					dataOut.writeBytes(String.valueOf(visibilityStart)+","+String.valueOf(visibilityEnd)+","+String.valueOf(visibilityEnd-visibilityStart)+
-							"," + theAvatar.getActivityName() + "\n");
-					Log.d(TAG, visibleTime + " ms of time added to file");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                try {
-					dataOut.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+	                try {
+						dataOut.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+            	}
             }
         }
 
@@ -281,7 +288,6 @@ public class avatarWallpaper extends WallpaperService {
             theAvatar.setSize(s);
             
             drawFrame();
-
         }
 
         @Override
@@ -326,20 +332,33 @@ public class avatarWallpaper extends WallpaperService {
          * here.
          */
         void drawFrame() {
-
             final SurfaceHolder holder = getSurfaceHolder();
 
             Canvas c = null;
             try {
                 c = holder.lockCanvas();
                 if (c != null) {
-
-				   	Layer_Main.nextFrame();
-
-                	c.save();
-                	c.translate(mCenterX, mCenterY);
-                	Layer_Main.draw(c, holder.getSurfaceFrame(),theAvatar);
-                	c.restore();
+                	
+                	Boolean SDPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+                	if(SDPresent){
+					   	Layer_Main.nextFrame();
+	
+	                	c.save();
+	                	c.translate(mCenterX, mCenterY);
+	                	Layer_Main.draw(c, holder.getSurfaceFrame(),theAvatar);
+	                	c.restore();
+                	}else{//SDcard not present
+                		c.save();
+                		Layer_Background.draw(c);
+	                	c.translate(mCenterX, mCenterY);
+                	    Paint mPaint = new Paint();
+                	    mPaint.setColor(Color.BLACK); 
+                		mPaint.setTextSize(30); 
+                		//mPaint.setStrokeWidth(2);
+                		mPaint.setTypeface(Typeface.DEFAULT);
+                		c.drawText("cannot detect SD card", -90, 90, mPaint); 
+                		c.restore();
+                	}
 
                 }
             } finally {
