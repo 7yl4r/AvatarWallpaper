@@ -130,19 +130,6 @@ public class avatarWallpaper extends WallpaperService {
             onSharedPreferenceChanged(mPrefs, null);
         }
         
-        /*
-        private boolean isFrameChangeTime(){
-        	//determine if enough time has passed to move to next frame
-        	long now = SystemClock.elapsedRealtime();
-             if(((float)(now - lastFrameChange)) > (((float)1000)/desiredFPS)){		//if total ms elapsed > desired ms elapsed
-            	 lastFrameChange = now;
-            	 return true;
-             }
-             else return false;
-        }
-        */
-    	
-        
         private void loadPrefs(){
 			Log.d(TAG, "loading preferences");
 				String key;
