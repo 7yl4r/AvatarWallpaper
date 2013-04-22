@@ -8,26 +8,18 @@ import android.preference.PreferenceActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import edu.usf.eng.pie.avatars4change.R;
 
-public class avatarWallpaperSettings extends PreferenceActivity {
+public class avatarWallpaperSettings extends PreferenceActivity 
+    implements SharedPreferences.OnSharedPreferenceChangeListener {
 	private static final String TAG = "avatarWallpaperSettings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Add a button to the header list.
-        if (hasHeaders()) {
-            Button button = new Button(this);
-            button.setText("Some action");
-            setListFooter(button);
-        }
-        /*
         getPreferenceManager().setSharedPreferencesName(avatarWallpaper.SHARED_PREFS_NAME);
         addPreferencesFromResource(R.xml.avatar_settings);
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-		*/
     }
     
     @Override
