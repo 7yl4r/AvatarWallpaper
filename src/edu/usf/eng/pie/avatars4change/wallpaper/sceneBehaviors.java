@@ -19,7 +19,7 @@ public class sceneBehaviors {
     	if( theAvatar.behaviorSelectorMethod == null){
     		Log.e(TAG,"behaviorSelectorMethod = null; cannot run Behavior");
     		return;
-    	}
+    	}	//implied ELSE
     	Log.v(TAG,"updating scene via " + theAvatar.behaviorSelectorMethod);
     	if ( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("constant") ){
     		constant(theAvatar);
@@ -39,7 +39,8 @@ public class sceneBehaviors {
     }
     
     // avatar behavior designed for use in the Proteus Effect study
-	public static void proteusStudy(Avatar theAvatar){
+	public static void proteusStudy(Avatar theAvatar){		
+		avatarWallpaper.desiredFPS = 30;//update frameRate from PA level
 	    long      deltaActivityChange = 5*1000;	//60*60*1000;	//desired time between activity level updates [ms]
 		//check for enough time to change animation
     	//TODO: change this next if issue#5 persists
@@ -83,6 +84,7 @@ public class sceneBehaviors {
 
 	// avatar shows sedentary behavior for sitting, slow active behavior for walking, fast active behavior for running
 	public static void VRDemo(Avatar theAvatar){
+		avatarWallpaper.desiredFPS = Math.round( (Math.exp(userData.currentActivityLevel))*4-3 );//update frameRate from PA level
 		String activLvl = theAvatar.getActivityLevel();
 		if(userData.currentActivityLevel > .5){	//if user is walking or greater
 			activLvl = "active";
