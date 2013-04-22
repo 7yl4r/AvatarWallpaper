@@ -137,13 +137,19 @@ public class Entity {
 		while(objectsLeft > 0){
 			for (Animation a : animations){	
 				if(a.location.zorder==z){
+					Location temp = a.location;	//hold on to the % location
+					a.location = this.scaleLocFromPercent(a.location);
 					a.draw(c);
+					a.location = temp;	//reset % location
 					objectsLeft--;
 				}
 			}
 			for (Sprite s : sprites){	//for each sprite 's' in spriteList
 				if(s.location.zorder==z){
+					Location temp = s.location;	//hold on to the % location
+					s.location = this.scaleLocFromPercent(s.location);
 					s.draw(c);	 
+					s.location = temp;	//reset % location
 					objectsLeft--;
 				}
 			}
@@ -172,14 +178,15 @@ public class Entity {
 	public void setSize(int newSize){
 		location.size = newSize;
 		
+		//NOPE: THIS SIZE IS DETERMINED AT DRAW-TIME
 		//Log.v("entity","size set to "+location.size);
 		//scale each item in the entity
-		for (Animation a : animations){	
-			a.location.set(scaleLocFromPercent(a.location));
-		}
-		for (Sprite s : sprites){	//for each sprite 's' in spriteList
-			s.location.set(scaleLocFromPercent(s.location));
-		}
+//		for (Animation a : animations){	
+//			a.location.set(scaleLocFromPercent(a.location));
+//		}
+//		for (Sprite s : sprites){	//for each sprite 's' in spriteList
+//			s.location.set(scaleLocFromPercent(s.location));
+//		}
 		
 	}
 	// scale location as percent of total width value, and return scaled absolute location
@@ -188,7 +195,7 @@ public class Entity {
 		absLoc.x = (int) Math.round(percentLoc.x*((float)this.location.size)/ASSUMED_ENTITY_SIZE);
 		absLoc.y = (int) Math.round(percentLoc.y*((float)this.location.size)/ASSUMED_ENTITY_SIZE); 
 		absLoc.zorder = percentLoc.zorder;
-		absLoc.size = (int) Math.round(percentLoc.size*this.location.size/ASSUMED_ENTITY_SIZE); 
+		absLoc.size = (int) Math.round(percentLoc.size*((float)this.location.size/ASSUMED_ENTITY_SIZE)); 
 		absLoc.rotation = percentLoc.rotation; 
 		 return absLoc;
 	}

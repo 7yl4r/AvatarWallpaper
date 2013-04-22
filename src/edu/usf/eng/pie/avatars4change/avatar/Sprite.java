@@ -13,7 +13,12 @@ public class Sprite {
 	
 	Bitmap image;
 	
-	//constructor
+	//constructors
+	public Sprite(Sprite toCopy){
+		this.name     = toCopy.name;
+		this.image    = toCopy.image;
+		this.location = toCopy.location;
+	}
 	public Sprite(String newName, String fileName, Location newLocation){
 		set(newName,fileName,newLocation);
 	}

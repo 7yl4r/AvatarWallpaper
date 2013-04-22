@@ -166,7 +166,7 @@ public class Avatar extends Entity {
 			Log.e(TAG,"activity name not recognized");
 			LOC.set(0,0,LOC.zorder,100,180);
 		}
-		headL = scaleLocFromPercent(LOC);
+		headL = LOC;
 		setSpriteLocation(headName,headL);
 	}
 	

@@ -5,6 +5,7 @@ public class Location {
 	int size;	//'size' is in number of 'display-independent-pixels'(dip) from center point to farthest side
 	int rotation;
 	
+	//constructors:
 	public Location(){	//set defaults values (only used for debugging)
 		x        = 0;
 		y        = 0;

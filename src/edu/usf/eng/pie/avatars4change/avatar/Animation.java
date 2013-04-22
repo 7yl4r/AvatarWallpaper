@@ -26,9 +26,12 @@ public class Animation {
 	
 	Location location;
 	
-	//constructor
+	//constructors
 	public Animation(String newName, String fDir, Location newLocation) {
 		set(newName,fDir,newLocation);
+	}
+	public Animation(Animation toCopy){
+		set(toCopy.name,toCopy.fileDir,toCopy.location);
 	}
 	
 	public void set(String newName, String fDir, Location newLocation){
@@ -36,8 +39,8 @@ public class Animation {
 		fileDir = fDir;	//set file directory
 		location = newLocation;
 		this.load();	//frameCount is set by load()
-		//allocate space for arrays???
-		//set up spriteSheet???
+		//TODO: allocate space for arrays???
+		//TODO: set up spriteSheet???
 	}
 	
 	//loads current animation image

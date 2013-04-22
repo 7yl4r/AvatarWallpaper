@@ -18,7 +18,6 @@ import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.Globals;
@@ -276,9 +275,8 @@ public class avatarWallpaper extends WallpaperService {
             mCenterY = height/2.0f;
             mHeight = height;
             mWidth = width;
-            //TODO: MOVE THIS:
 
-            int s = Math.round(Math.min(mHeight,mWidth)*0.8f);
+            int s = Math.round(Math.min(mHeight,mWidth)*0.9f);
         	//Log.d(TAG,"onSurfaceChanged makes avatar size " + theAvatar.);
             theAvatar.setSize(s);
             
