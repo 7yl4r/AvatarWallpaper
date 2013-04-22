@@ -5,26 +5,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
-import edu.usf.eng.pie.avatars4change.avatar.Scene;
 import edu.usf.eng.pie.avatars4change.userData.userData;
 import edu.usf.eng.pie.avatars4change.wallpaper.Layer_Main;
 

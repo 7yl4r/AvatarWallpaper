@@ -26,6 +26,7 @@ public class avatarWallpaperSettings extends PreferenceActivity
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
+    	addPreferencesFromResource(R.xml.avatar_settings);
     	//       groupID  ,itemID,order, title
     	menu.add(Menu.NONE,0     ,0    , "Support");
     	menu.add(Menu.NONE,1     ,1    , "initialSetup");
