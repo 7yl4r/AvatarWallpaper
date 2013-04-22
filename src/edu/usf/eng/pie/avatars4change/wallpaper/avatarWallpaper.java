@@ -18,6 +18,7 @@ import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.SurfaceHolder;
+import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.Globals;
@@ -28,16 +29,27 @@ import edu.usf.eng.pie.avatars4change.wallpaper.Layer_Main;
  
 public class avatarWallpaper extends WallpaperService {
 	private final String TAG                    = "avatarWallpaper";	//for logs
-	public static final String SHARED_PREFS_NAME="avatarsettings";
+	public static final String SHARED_PREFS_NAME="avatar_settings";
     private final Handler mHandler              = new Handler();
     private final String[] mLabels              = {"still", "walking", "running"};
     public static float desiredFPS              = 30;
     public static Context mContext;	//this is needed for countly wifi check
     public static boolean wifiOnly              = false;	//enable if program should only use wifi
+
+    public static Avatar    theAvatar;
+    private SharedPreferences mPrefs;
+
+	//vars for background visibility logging
+	long    visibilityStart;
+	public static boolean keepLogs              = true;
     
     @Override
     public void onCreate() {
     	mContext = getApplicationContext();
+    	loadPrefs();
+        //set up the avatar
+        theAvatar = new Avatar(new Location(0,0,0,300,0), 3, "running");		//create new avatar
+    	
     	//set up countly:
     	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
     	String serverURL     = "http://testSubDomain.socialvinesolutions.com";
@@ -87,14 +99,14 @@ public class avatarWallpaper extends WallpaperService {
     public Engine onCreateEngine() {
         return new DrawEngine();
     }
+    
+    private void loadPrefs(){
+		Log.d(TAG, "loading preferences");
+        mPrefs = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
+    }
 
     // All parts needed to draw the output go in this function
-    class DrawEngine extends Engine 
-    	implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-    	//vars for background visibility logging
-    	long    visibilityStart;
-    	boolean keepLogs           = true;
+    class DrawEngine extends Engine {
     	
     	//set up the file directory for saving data and retrieving sprites
     	String extStorageDirectory = userData.getFileDir();
@@ -102,7 +114,6 @@ public class avatarWallpaper extends WallpaperService {
     	
         //vars for the avatar
         Resources r                = getResources();
-        Avatar    theAvatar        = new Avatar(new Location(0,0,0,300,0), 3, "running");		//create new avatar
         
         //vars for canvas
         private float mCenterX;
@@ -130,78 +141,16 @@ public class avatarWallpaper extends WallpaperService {
         };
             
         private boolean mVisible;
-        private SharedPreferences mPrefs;
         
         DrawEngine() {
 
 //            mStartTime = System.currentTimeMillis();	//set app start time
 //            lastActivityLevelChangeDay = Time.getJulianDay(mStartTime, TimeZone.getDefault().getRawOffset()); 	//initialize to app start
-            
-            mPrefs = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
-            
-            //register reciever for changed settings:
-            mPrefs.registerOnSharedPreferenceChangeListener(this);
-            onSharedPreferenceChanged(mPrefs, null);
+                        
+//            //register reciever for changed settings:
+//            mPrefs.registerOnSharedPreferenceChangeListener(this);
+//            onSharedPreferenceChanged(mPrefs, null);
         }
-        
-        private void loadPrefs(){
-			Log.d(TAG, "loading preferences");
-            mPrefs = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
-
-            //TODO: is this needed? I'm not sure it is...
-			String key;
-			key="RealismLevel";
-				theAvatar.setRealismLevel(Integer.parseInt(mPrefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
-				
-			key="CurrentActivity";
-				theAvatar.setActivityName(mPrefs.getString(key, "running"));
-				theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
-				
-			key="ActivityLevelSelector";
-				theAvatar.behaviorSelectorMethod = mPrefs.getString(key, "IEEE VR demo");
-				
-			key="ResetLogs";
-				keepLogs = !mPrefs.getBoolean(key, keepLogs);
-				//Log.d(TAG, "keepLogs=" + String.valueOf(keepLogs));
-				
-			key="activeOnEvens";
-				sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);
-				
-			key="UID";
-				userData.USERID = mPrefs.getString(key,userData.USERID);
-        }
-        
-		@Override
-		public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-			Log.d(TAG, "adjusting " + key + " preference");
-			if(! (key == null)){	//skip if null
-				if(key.equals("RealismLevel")){
-					theAvatar.setRealismLevel(Integer.parseInt(prefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
-				} else 
-					if (key.equals("CurrentActivity")){
-					theAvatar.setActivityName(prefs.getString(key, "running"));
-					theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
-				} else 
-					if (key.equals("ActivityLevelSelector")){
-					theAvatar.behaviorSelectorMethod = prefs.getString(key, theAvatar.behaviorSelectorMethod);
-				} else 
-					if (key.equals("ResetLogs")){
-					keepLogs = !prefs.getBoolean(key, keepLogs);
-					//Log.d(TAG, "keepLogs=" + String.valueOf(keepLogs));
-				} else 
-					if (key.equals("activeOnEvens")){
-					sceneBehaviors.activeOnEvens = prefs.getBoolean(key, sceneBehaviors.activeOnEvens);
-				} else 
-					if (key.equals("behavior")){
-					theAvatar.behaviorSelectorMethod = prefs.getString(key, theAvatar.behaviorSelectorMethod);
-				} else 
-					if (key.equals("wifiOnly")){
-					avatarWallpaper.wifiOnly = prefs.getBoolean(key, false);
-				} else { 
-					Log.e(TAG,"unrecognized pref key: " + key);
-				}
-			}
-		}
 
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {

@@ -4,15 +4,20 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import edu.usf.eng.pie.avatars4change.R;
+import edu.usf.eng.pie.avatars4change.userData.userData;
+
+import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 
 public class avatarWallpaperSettings extends PreferenceActivity 
     implements SharedPreferences.OnSharedPreferenceChangeListener {
 	private static final String TAG = "avatarWallpaperSettings";
+    static SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +47,23 @@ public class avatarWallpaperSettings extends PreferenceActivity
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    	Log.d(TAG, key + " preference changed");
+    	Log.d(TAG, key + " preference changed...");
     	if(key.equals("killMe")){
     		android.os.Process.killProcess(android.os.Process.myPid());
+    	}else if(key.equals("RealismLevel")){
+			avatarWallpaper.theAvatar.setRealismLevel(Integer.parseInt(mPrefs.getString(key, Integer.toString(avatarWallpaper.theAvatar.getRealismLevel()))));
+    	}else if(key.equals("CurrentActivity")){
+			avatarWallpaper.theAvatar.setActivityName(mPrefs.getString(key, "running"));
+			avatarWallpaper.theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
+    	}else if (key.equals("ActivityLevelSelector")){
+			avatarWallpaper.theAvatar.behaviorSelectorMethod = mPrefs.getString(key, "IEEE VR demo");
+    	}else if (key.equals("ResetLogs")){
+			avatarWallpaper.keepLogs = !mPrefs.getBoolean(key, avatarWallpaper.keepLogs);
+			//Log.d(TAG, "keepLogs=" + String.valueOf(keepLogs));
+    	}else if (key.equals("activeOnEvens")){
+			sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);
+    	}else if (key.equals("UID")){
+			userData.USERID = mPrefs.getString(key,userData.USERID);
     	}
     }
     
