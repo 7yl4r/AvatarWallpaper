@@ -1,27 +1,33 @@
 package edu.usf.eng.pie.avatars4change.wallpaper;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import edu.usf.eng.pie.avatars4change.R;
 
-public class avatarWallpaperSettings extends PreferenceActivity 
-    implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class avatarWallpaperSettings extends PreferenceActivity {
 	private static final String TAG = "avatarWallpaperSettings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Add a button to the header list.
+        if (hasHeaders()) {
+            Button button = new Button(this);
+            button.setText("Some action");
+            setListFooter(button);
+        }
+        /*
         getPreferenceManager().setSharedPreferencesName(avatarWallpaper.SHARED_PREFS_NAME);
         addPreferencesFromResource(R.xml.avatar_settings);
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+		*/
     }
     
     @Override
