@@ -7,8 +7,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import ly.count.android.api.Countly;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -21,6 +23,7 @@ import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.SurfaceHolder;
+import android.widget.Toast;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.Globals;
@@ -37,7 +40,8 @@ public class avatarWallpaper extends WallpaperService {
     public static float desiredFPS              = 30;
     public static Context mContext;	//this is needed for countly wifi check
     public static boolean wifiOnly              = false;	//enable if program should only use wifi
-
+    public static boolean sdPresent             = false;
+    
     public static Avatar    theAvatar;
     private static SharedPreferences mPrefs;
 
@@ -47,7 +51,21 @@ public class avatarWallpaper extends WallpaperService {
     
     @Override
     public void onCreate() {
+    	super.onCreate();
     	mContext = getApplicationContext();
+    	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+		//delay if no sdCard
+		while(!sdPresent){
+			Log.d(TAG,"waiting for sdCard...");
+			Toast.makeText(mContext, "avatarWallpaper searching for sdCard", Toast.LENGTH_SHORT).show();
+	    	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+			try {
+				Thread.sleep(750);		//TODO: wow, this is ugly...
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
         mPrefs   = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
 
         //set up the avatar
@@ -89,8 +107,30 @@ public class avatarWallpaper extends WallpaperService {
  			startActivity(i);
  		} //else assume that everything is in working order
  		
-    	super.onCreate();
+ 		//register sdCard connect receiver
+ 		IntentFilter conFilter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED); 
+ 		conFilter.addDataScheme("file"); 
+ 		registerReceiver(this.SDconnReceiver, new IntentFilter(conFilter));
+ 		//register sdCard remove receiver
+ 		IntentFilter remFilter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED); 
+ 		remFilter.addDataScheme("file"); 
+ 		registerReceiver(this.SDremovReceiver, new IntentFilter(remFilter));
     }
+    
+    //SD card connected receiver
+    private BroadcastReceiver SDconnReceiver = new BroadcastReceiver(){
+        @Override
+        public void onReceive(Context arg0, Intent intent) {
+        sdPresent = true;
+        }
+     }; 
+     //SD card removed receiver
+     private BroadcastReceiver SDremovReceiver = new BroadcastReceiver(){
+         @Override
+         public void onReceive(Context arg0, Intent intent) {
+         sdPresent = false;
+         }
+      }; 
 
     @Override
     public void onDestroy() {
@@ -101,7 +141,7 @@ public class avatarWallpaper extends WallpaperService {
 
     @Override
     public Engine onCreateEngine() {
-        return new DrawEngine();
+		return new DrawEngine();
     }
     
     public static void loadPrefs(){
@@ -338,9 +378,8 @@ public class avatarWallpaper extends WallpaperService {
             try {
                 c = holder.lockCanvas();
                 if (c != null) {
-                	
-                	Boolean SDPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-                	if(SDPresent){
+                	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+                	if(sdPresent){
 					   	Layer_Main.nextFrame();
 	
 	                	c.save();

@@ -15,8 +15,7 @@ public class userData {
     public static double[] FFT = new double[65];
     
     public static String getFileDir(){
-    	Boolean SDpresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-    	if(SDpresent){
+    	if(avatarWallpaper.sdPresent){
     		return  avatarWallpaper.mContext.getExternalFilesDir(null).toString()+"/MirrorMe/";	//TODO: implement this
     	}else{
     		Log.e(TAG,"attempt to access SDcard when no SDcard present!");

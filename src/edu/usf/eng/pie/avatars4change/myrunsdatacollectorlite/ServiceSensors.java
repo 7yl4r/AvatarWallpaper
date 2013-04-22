@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.meapsoft.FFT;
 
 import edu.usf.eng.pie.avatars4change.userData.userData;
+import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper;
 
 public class ServiceSensors extends Service implements SensorEventListener {
 	private String TAG = "ServiceSensors";
@@ -256,10 +257,12 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 		
 		//boolean flag1= true;
 		
-    	Boolean SDpresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-    	if(SDpresent){
+    	if(avatarWallpaper.sdPresent){
 			mResults= new File(userData.getFileDir(),"mResults" + ".txt");
-    	} //TODO: else???
+    	} else {
+    		Log.e(TAG,"no sdCard! uh oh...");
+    		//TODO: ???
+    	}
 		while(true){
 			try{  if(isCancelled()){break;}
 				 

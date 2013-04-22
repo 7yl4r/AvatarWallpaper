@@ -102,7 +102,7 @@ public class AvatarWallpaperSetup extends Activity{
      * ========================================================================
      **/
     private void SetDirectory() {
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+        if (avatarWallpaper.sdPresent) {
 
             String extStorageDirectory = userData.getFileDir().substring(0,userData.getFileDir().length() - 10);
 
@@ -127,7 +127,7 @@ public class AvatarWallpaperSetup extends Activity{
 				e.printStackTrace();
 			}
 
-        } else if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED_READ_ONLY)) {
+        } else {
         	Log.e(TAG, "SD card is missing");
             //AlertsAndDialogs.sdCardMissing(this);//Or use your own method ie: Toast
         }
