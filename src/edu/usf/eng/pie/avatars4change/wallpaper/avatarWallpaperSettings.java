@@ -50,7 +50,9 @@ public class avatarWallpaperSettings extends PreferenceActivity
     	Log.d(TAG, key + " preference changed...");
     	if(key.equals("killMe")){
     		android.os.Process.killProcess(android.os.Process.myPid());
-    	}else if(key.equals("RealismLevel")){
+    	} //IMPLIED ELSE 
+    	avatarWallpaper.loadPrefs();
+    	/*else if(key.equals("RealismLevel")){
 			avatarWallpaper.theAvatar.setRealismLevel(Integer.parseInt(mPrefs.getString(key, Integer.toString(avatarWallpaper.theAvatar.getRealismLevel()))));
     	}else if(key.equals("CurrentActivity")){
 			avatarWallpaper.theAvatar.setActivityName(mPrefs.getString(key, "running"));
@@ -64,7 +66,7 @@ public class avatarWallpaperSettings extends PreferenceActivity
 			sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);
     	}else if (key.equals("UID")){
 			userData.USERID = mPrefs.getString(key,userData.USERID);
-    	}
+    	}*/
     }
     
     @Override

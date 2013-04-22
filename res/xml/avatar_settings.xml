@@ -9,22 +9,22 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="avatar wallpaper settings"
     android:key="avatar_settings">
-    <PreferenceCategory android:key="user_prefs" android:title="preferences"><CheckBoxPreference android:summaryOff="data may be sent over any connection (usage  rates may apply)" android:summaryOn="data will only be sent over wifi" android:title="Use only wifi for data?" android:key="wifiOnly" android:defaultValue="false"/></PreferenceCategory><PreferenceCategory android:title="avatar options" android:key="debug_avatar_settings">
+    <PreferenceCategory android:key="user_prefs" android:title="preferences"><CheckBoxPreference android:summaryOff="data may be sent over any connection (usage  rates may apply)" android:summaryOn="data will only be sent over wifi" android:title="Use only wifi for data?" android:key="wifiOnly"/></PreferenceCategory><PreferenceCategory android:title="avatar options" android:key="debug_avatar_settings">
 		<!-- opens a subscreen of settings -->
 <!--     <PreferenceScreen
 	        android:key="debug_pref_key"
 	        android:title="Debug Settings"
 	        android:persistent="false">
 -->
-			<ListPreference android:entries="@array/current_activity" android:key="CurrentActivity" android:entryValues="@array/current_activity" android:summary="NOTE: avatar behavior can override this choice" android:title="Avatar Animation" android:defaultValue="running" />
+			<ListPreference android:entries="@array/current_activity" android:key="CurrentActivity" android:entryValues="@array/current_activity" android:summary="NOTE: avatar behavior can override this choice" android:title="Avatar Animation"/>
 <!-- 	</PreferenceScreen>		-->
-			<ListPreference android:entries="@array/behavior" android:entryValues="@array/behavior" android:key="behavior" android:title="animation behavior" android:summary="select the way avatar animations change" android:defaultValue='IEEE VR demo'/>
+			<ListPreference android:entries="@array/behavior" android:entryValues="@array/behavior" android:key="behaviorSelector" android:title="animation behavior" android:summary="select the way avatar animations change"/>
 			
 	</PreferenceCategory>
 		
     
-	<PreferenceCategory android:title="pros only" android:key="admin_options"><CheckBoxPreference android:key="ResetLogs" android:summaryOn="DataLogs will be reset" android:summaryOff="DataLogs will be kept" android:title="Reset View Logs?" android:defaultValue="false" /><CheckBoxPreference android:summaryOff="active on odd julian days" android:summaryOn="active on even julian days" android:key="activeOnEvens" android:title="Active/Passive Behavior" android:defaultValue="true"/>
-	<CheckBoxPreference android:title="button of death" android:key="killMe" android:defaultValue="false" android:summary="kill the app process to unfreeze FFT &amp; sensorListener"/>
+	<PreferenceCategory android:title="pros only" android:key="admin_options"><CheckBoxPreference android:key="ResetLogs" android:summaryOn="DataLogs will be reset" android:summaryOff="DataLogs will be kept" android:title="Reset View Logs?"/><CheckBoxPreference android:summaryOff="active on odd julian days" android:summaryOn="active on even julian days" android:key="activeOnEvens" android:title="Active/Passive Behavior"/>
+	<CheckBoxPreference android:title="button of death" android:key="killMe" android:summary="kill the app process to unfreeze FFT &amp; sensorListener"/>
 </PreferenceCategory>
 	
 </PreferenceScreen>

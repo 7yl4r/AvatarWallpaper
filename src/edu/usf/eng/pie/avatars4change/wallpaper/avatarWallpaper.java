@@ -28,7 +28,7 @@ import edu.usf.eng.pie.avatars4change.wallpaper.Layer_Main;
 // This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
  
 public class avatarWallpaper extends WallpaperService {
-	private final String TAG                    = "avatarWallpaper";	//for logs
+	private static final String TAG                    = "avatarWallpaper";	//for logs
 	public static final String SHARED_PREFS_NAME="avatar_settings";
     private final Handler mHandler              = new Handler();
     private final String[] mLabels              = {"still", "walking", "running"};
@@ -37,7 +37,7 @@ public class avatarWallpaper extends WallpaperService {
     public static boolean wifiOnly              = false;	//enable if program should only use wifi
 
     public static Avatar    theAvatar;
-    private SharedPreferences mPrefs;
+    private static SharedPreferences mPrefs;
 
 	//vars for background visibility logging
 	long    visibilityStart;
@@ -46,9 +46,11 @@ public class avatarWallpaper extends WallpaperService {
     @Override
     public void onCreate() {
     	mContext = getApplicationContext();
-    	loadPrefs();
+        mPrefs   = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
+
         //set up the avatar
         theAvatar = new Avatar(new Location(0,0,0,300,0), 3, "running");		//create new avatar
+    	loadPrefs();
     	
     	//set up countly:
     	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
@@ -100,9 +102,39 @@ public class avatarWallpaper extends WallpaperService {
         return new DrawEngine();
     }
     
-    private void loadPrefs(){
+    public static void loadPrefs(){
 		Log.d(TAG, "loading preferences");
-        mPrefs = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
+        String key;
+		key="RealismLevel";
+			theAvatar.setRealismLevel(Integer.parseInt(mPrefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
+			Log.d(TAG, "RealismLevel:"+theAvatar.getRealismLevel());
+		
+		key="CurrentActivity";
+			theAvatar.setActivityName(mPrefs.getString(key, theAvatar.getActivityName()));
+			theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
+			Log.d(TAG, "CurrentActivity:"+theAvatar.getActivityName());
+		
+		key="behaviorSelector";
+			theAvatar.behaviorSelectorMethod = mPrefs.getString(key, theAvatar.behaviorSelectorMethod);
+			Log.d(TAG, "behaviorSelector:"+theAvatar.behaviorSelectorMethod);
+		
+		key="ResetLogs";
+			keepLogs = !mPrefs.getBoolean(key, keepLogs);
+			//Log.d(TAG, "keepLogs=" + String.valueOf(keepLogs));
+			Log.d(TAG, "keepLogs?:"+keepLogs);
+			
+		key="activeOnEvens";
+			sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);
+			Log.d(TAG,"activeOnEvens:"+sceneBehaviors.activeOnEvens);
+			
+		key="UID";
+			userData.USERID = mPrefs.getString(key,userData.USERID);
+			Log.d(TAG,"UID:"+userData.USERID);
+		
+		key="wifiOnly";
+			wifiOnly = mPrefs.getBoolean(key,wifiOnly);
+			Log.d(TAG,"wifiOnly:"+wifiOnly);
+			
     }
 
     // All parts needed to draw the output go in this function
