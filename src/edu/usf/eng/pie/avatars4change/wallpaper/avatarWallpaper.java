@@ -11,13 +11,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.userData.userData;
@@ -29,7 +27,6 @@ public class avatarWallpaper extends WallpaperService {
 	private static final String TAG                    = "avatarWallpaper";	//for logs
 	public static final String SHARED_PREFS_NAME="avatar_settings";
     private final Handler mHandler              = new Handler();
-    private final String[] mLabels              = {"still", "walking", "running"};
     public static float desiredFPS              = 30;
     public static Context mContext;	//this is needed for countly wifi check
     public static boolean wifiOnly              = false;	//enable if program should only use wifi
