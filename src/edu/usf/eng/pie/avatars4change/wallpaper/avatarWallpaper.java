@@ -27,7 +27,7 @@ public class avatarWallpaper extends WallpaperService {
 	private static final String TAG                    = "avatarWallpaper";	//for logs
 	public static final String SHARED_PREFS_NAME="avatar_settings";
     private final Handler mHandler              = new Handler();
-    public static float desiredFPS              = 30;
+    public static float desiredFPS              = 6;
     public static Context mContext;	//this is needed for countly wifi check
     public static boolean wifiOnly              = false;	//enable if program should only use wifi
 

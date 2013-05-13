@@ -33,10 +33,11 @@ public class Layer_Main {
 		avatarScene.draw(c);	//this should already be scaled correctly
 		c.restore();
 		
-		c.save();
+		//DEBUG:
+/*		c.save();
 		Layer_DebugInfo.drawFPS(c, avatarWallpaper.desiredFPS, frame);
 		c.restore();
-		
+*/		
 		//settings-dependent draw:
 		if ( daAvatar.behaviorSelectorMethod.equalsIgnoreCase("constant") ){
     		

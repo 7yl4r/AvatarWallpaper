@@ -8,13 +8,13 @@ import android.util.Log;
 public class Avatar extends Entity {
 	private final String TAG = "avatar.Avatar";
 	//avatar properties:
-    public String    behaviorSelectorMethod;
+    public String    behaviorSelectorMethod = "Proteus Effect Study";
     public long      lastActivityChange     = 0;	//last time activity level was changed [ms]
     public int       bedTime             = 23;
     public int       wakeTime            = 5;
 	long lastFrameChange      = 0;		//last frame update [ms]
 	long lastUserStatusUpdate = 0;
-	long UPDATE_FREQUENCY     = 1000 * 10; 	//once per UPDATE_FREQUENCY; e.g. once/10s * 1s/1000ms
+	public long UPDATE_FREQUENCY     = 1000 * 60 * 1; 	//once per UPDATE_FREQUENCY; e.g. 60s/min *10min * 1000ms/s
 	
 	//values for choosing appropriate animations:
 	private String activityLevel;
