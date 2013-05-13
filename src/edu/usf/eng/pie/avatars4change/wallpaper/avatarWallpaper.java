@@ -37,7 +37,7 @@ public class avatarWallpaper extends WallpaperService {
 	public static final String SHARED_PREFS_NAME="avatar_settings";
     private final Handler mHandler              = new Handler();
     private final String[] mLabels              = {"still", "walking", "running"};
-    public static float desiredFPS              = 30;
+    public static float desiredFPS              = 10;
     public static Context mContext;	//this is needed for countly wifi check
     public static boolean wifiOnly              = false;	//enable if program should only use wifi
     public static boolean sdPresent             = false;

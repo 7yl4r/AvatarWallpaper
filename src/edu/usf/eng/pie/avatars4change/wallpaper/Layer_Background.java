@@ -19,7 +19,7 @@ public class Layer_Background {
 	public static void draw(Canvas c){
 		plainBG(c);
 
-		fftBG(c);
+		//fftBG(c);
 	}
 	
     /*background */

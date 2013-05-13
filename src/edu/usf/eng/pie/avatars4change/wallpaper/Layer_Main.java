@@ -33,10 +33,6 @@ public class Layer_Main {
 		avatarScene.draw(c);	//this should already be scaled correctly
 		c.restore();
 		
-		c.save();
-		Layer_DebugInfo.drawFPS(c, avatarWallpaper.desiredFPS, frame);
-		c.restore();
-		
 		//settings-dependent draw:
 		if ( daAvatar.behaviorSelectorMethod.equalsIgnoreCase("constant") ){
     		
@@ -49,5 +45,12 @@ public class Layer_Main {
     	}else{
     		Log.e(TAG, "unrecognized scene behavior " + daAvatar.behaviorSelectorMethod);
     	}
+		
+		//DEBUG layers:
+		/*
+		c.save();
+		Layer_DebugInfo.drawFPS(c, avatarWallpaper.desiredFPS, frame);
+		c.restore();
+		*/
 	}
 }

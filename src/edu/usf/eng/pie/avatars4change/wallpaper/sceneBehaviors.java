@@ -40,8 +40,8 @@ public class sceneBehaviors {
     
     // avatar behavior designed for use in the Proteus Effect study
 	public static void proteusStudy(Avatar theAvatar){		
-		avatarWallpaper.desiredFPS = 30;//update frameRate from PA level
-	    long      deltaActivityChange = 5*1000;	//60*60*1000;	//desired time between activity level updates [ms]
+		avatarWallpaper.desiredFPS = 10;//update frameRate from PA level
+	    long      deltaActivityChange = 60*1000;	//60*60*1000;	//desired time between activity level updates [ms]
 		//check for enough time to change animation
     	//TODO: change this next if issue#5 persists
 		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 

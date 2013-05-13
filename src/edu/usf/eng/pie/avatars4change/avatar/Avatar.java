@@ -8,7 +8,7 @@ import android.util.Log;
 public class Avatar extends Entity {
 	private final String TAG = "avatar.Avatar";
 	//avatar properties:
-    public String    behaviorSelectorMethod;
+    public String    behaviorSelectorMethod = "Proteus Effect Study";
     public long      lastActivityChange     = 0;	//last time activity level was changed [ms]
     public int       bedTime             = 23;
     public int       wakeTime            = 5;
@@ -163,7 +163,7 @@ public class Avatar extends Entity {
 			
 			// === DEFAULT === 
 		} else {
-			Log.e(TAG,"activity name not recognized");
+			Log.e(TAG,"activity name '" + activityName+ "' not recognized");
 			LOC.set(0,0,LOC.zorder,100,180);
 		}
 		headL = LOC;
@@ -231,6 +231,11 @@ public class Avatar extends Entity {
 	}
 	public void setActivityName(String newName) {
 		activityName = newName;		//set new activity name
+		if(activityName == null ){
+			Log.w(TAG, "activityName is NULL! setting to sleeping for now");
+			newName = "inBed";
+			activityName = newName;
+		} 
 		Log.v("Avatar",name+" activity set to "+activityName);
 		if(!this.isOkay()){	//change activity level if needed
 			if(newName.equals("basketball") || newName.equals("running") || newName.equals("bicycling")){
