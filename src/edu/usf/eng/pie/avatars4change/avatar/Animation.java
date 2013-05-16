@@ -77,6 +77,7 @@ public class Animation {
 		Rect dest = new Rect(-w/2,-h/2,w/2,h/2);
 		c.drawBitmap(frame[currentFrame], source, dest, null);
 		c.restore();
+		Log.v(TAG,w+"x"+h+" animation @ frame "+currentFrame+" drawn at "+location.x+","+location.y);
 	}
 	
 	public void nextFrame(){

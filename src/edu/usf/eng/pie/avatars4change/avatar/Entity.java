@@ -74,6 +74,18 @@ public class Entity {
 		}
 	}
 	
+	public void setAnimationLocation(String animName, Location newLoc){
+		int i = getAnimationIndex(animName);
+//		Log.v("entity","animations size = "+animations.size());
+		if ( (i >= 0) && (i < animations.size()) ){
+			Animation temp = animations.get(i);
+			temp.location = newLoc;
+			animations.set( i , temp );
+		}else{
+			Log.e("entity","animation location cannot be set, invalid index: "+Integer.toString(i));
+		}
+	}
+	
 	//sets animation with specified name to given 
 	public void setAnimationDir(String animName, String newDir){
 		int i = getAnimationIndex(animName);
@@ -188,8 +200,8 @@ public class Entity {
 		absLoc.x = (int) Math.round(percentLoc.x*((float)this.location.size)/ASSUMED_ENTITY_SIZE);
 		absLoc.y = (int) Math.round(percentLoc.y*((float)this.location.size)/ASSUMED_ENTITY_SIZE); 
 		absLoc.zorder = percentLoc.zorder;
-		absLoc.size = (int) Math.round(percentLoc.size*this.location.size/ASSUMED_ENTITY_SIZE); 
+		absLoc.size = (int) Math.round(percentLoc.size*((float)this.location.size/ASSUMED_ENTITY_SIZE)); 
 		absLoc.rotation = percentLoc.rotation; 
-		 return absLoc;
+		return absLoc;
 	}
 }

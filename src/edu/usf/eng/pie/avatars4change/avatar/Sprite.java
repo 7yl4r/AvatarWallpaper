@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public class Sprite {
+	String TAG = "avatar.Sprite";
 	
 	String name = "UNNAMED";
 	Location location = new Location();
@@ -46,7 +47,8 @@ public class Sprite {
 			}
 			return;	//don't draw if no image or no name
 		}
-		Rect source, dest;
+		// assume given size is size of largest edge
+		Rect source;
 		source = new Rect(0, 0, image.getWidth(), image.getHeight());//TODO to use sprite sheet, adjust this to select part of image
 		int w = 0,h = 0;	//image width & height (actually radius of image)
 		if(image.getWidth()>image.getHeight()){ 
@@ -61,10 +63,10 @@ public class Sprite {
 		//Log.v("sprite","w=" + Integer.toString(w) + " h=" + Integer.toString(h));
 		 */
 		c.translate(location.x, -location.y);
-		dest = new Rect(0,-h,w,0);
 		c.rotate(location.rotation);
-		c.translate(-w/2, h/2);
+		Rect dest = new Rect(-w/2,-h/2,w/2,h/2);
 		c.drawBitmap(image, source, dest, null);
 		c.restore();
+		Log.v(TAG,w+"x"+h+" sprite drawn at "+location.x+","+location.y);
 	}
 }

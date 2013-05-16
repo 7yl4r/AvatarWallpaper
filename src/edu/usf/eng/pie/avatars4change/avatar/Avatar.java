@@ -30,9 +30,11 @@ public class Avatar extends Entity {
 	Location headL = new Location();
 	String headFile = spriteDir+"/face/default/0.png";
 
+	// top and bottom locations are switched... as in the top is actually the bottom and the bottom is actually the top... sorry about that.
 	String bodyTopName = "bodyTop";
 	String bodyBottomName="bodyBottom";
-	Location bodyL = new Location();
+	Location bodyLtop = new Location(0,0,2,300,0);//body always in center, full size of entity
+	Location bodyLbottom = new Location(0,0,0,300,0);
 	String bodyDirBottom  = spriteDir+"/body/default/";
 	String bodyDirTop  = bodyDirBottom;
 	
@@ -53,16 +55,13 @@ public class Avatar extends Entity {
 		reloadBodyFiles();
 		
 		// set up body
-		bodyL = loadBodyLocation();
+		loadBodyLocation();
+		
 		bodyDirBottom = loadBodyDir("bottom");	//bottom layer
-		bodyL.zorder = 0;
-		super.addAnimation( bodyBottomName, bodyDirBottom, bodyL );
-
+		super.addAnimation( bodyBottomName, bodyDirBottom, bodyLbottom );
 		//face layer is in middle
-
 		bodyDirTop = loadBodyDir("top");
-		bodyL.zorder = 2;
-		super.addAnimation( bodyTopName, bodyDirTop, bodyL );		
+		super.addAnimation( bodyTopName, bodyDirTop, bodyLtop );		
 	}
 	
 	private String loadBodyDir(String layerName){
@@ -170,9 +169,12 @@ public class Avatar extends Entity {
 		setSpriteLocation(headName,headL);
 	}
 	
-	private Location loadBodyLocation(){
-		//TODO: this is a hack-y fix. percent of total entity size should be 100% instead of 50%
-		return new Location(0,0,0,300,0);//body always in center, full size of entity
+	private void loadBodyLocation(){
+		//body location is constant, else do something like:
+	//	bodyLtop = new Location(0,0,0,300,0);//body always in center, full size of entity
+	//	bodyLbottom = new Location(0,0,2,300,0);
+		setAnimationLocation(bodyTopName,bodyLtop);
+		setAnimationLocation(bodyBottomName,bodyLbottom);
 	}
 	
 	//sets up new activity 
@@ -304,7 +306,8 @@ public class Avatar extends Entity {
 	
 	@Override
 	public void nextFrame(){
-		loadHeadLocation();
+		loadHeadLocation();	//TODO: this is not ideal, but trying to do this in onSurfaceChanged seems to break a lot
+		loadBodyLocation();
 		super.nextFrame();
 	}
 	
