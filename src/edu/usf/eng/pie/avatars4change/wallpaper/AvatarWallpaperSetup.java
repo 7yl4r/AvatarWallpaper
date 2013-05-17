@@ -32,6 +32,7 @@ public class AvatarWallpaperSetup extends Activity{
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		avatarWallpaper.mContext = getApplicationContext();	//set application context
 		//setup default preferences
 		loadDefaultSettings();
  		//setup the file directory:
@@ -104,7 +105,7 @@ public class AvatarWallpaperSetup extends Activity{
     private void SetDirectory() {
         if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
 
-            String extStorageDirectory = userData.getFileDir().substring(0,userData.getFileDir().length() - 10);
+            String extStorageDirectory = userData.getFileDir(getBaseContext()).substring(0,userData.getFileDir(getBaseContext()).length() - 10);
 
             File txtDirectory = new File(extStorageDirectory);
             // Create

@@ -28,7 +28,7 @@ public class avatarWallpaper extends WallpaperService {
 	public static final String SHARED_PREFS_NAME="avatar_settings";
     private final Handler mHandler              = new Handler();
     public static float desiredFPS              = 6;
-    public static Context mContext;	//this is needed for countly wifi check
+    public static Context mContext;	//this is needed for countly wifi check and file dir
     public static boolean wifiOnly              = false;	//enable if program should only use wifi
 
     public static Avatar    theAvatar;
@@ -44,12 +44,12 @@ public class avatarWallpaper extends WallpaperService {
         mPrefs   = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
 
         //set up the avatar
-        theAvatar = new Avatar(new Location(0,0,0,300,0), 3, "running");		//create new avatar
+        theAvatar = new Avatar(new Location(0,0,0,300,0), 3, "running",getBaseContext());		//create new avatar
     	loadPrefs();
     	
  		//check for first time run (by looking for files)
  		boolean firstTime;
- 		File file = new File(userData.getFileDir(), "dataLog.txt" );
+ 		File file = new File(userData.getFileDir(getBaseContext()), "dataLog.txt" );
  		if (file.exists()) {
  			firstTime = false;
  		}else{
@@ -80,11 +80,11 @@ public class avatarWallpaper extends WallpaperService {
 		Log.d(TAG, "loading preferences");
         String key;
 		key="RealismLevel";
-			theAvatar.setRealismLevel(Integer.parseInt(mPrefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
+			theAvatar.setRealismLevel(Integer.parseInt(mPrefs.getString(key, Integer.toString(theAvatar.defaultRealismLevel))));
 			Log.d(TAG, "RealismLevel:"+theAvatar.getRealismLevel());
 		
 		key="CurrentActivity";
-			theAvatar.setActivityName(mPrefs.getString(key, theAvatar.getActivityName()));
+			theAvatar.setActivityName(mPrefs.getString(key, theAvatar.defaultActivity));
 			theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
 			Log.d(TAG, "CurrentActivity:"+theAvatar.getActivityName());
 		
@@ -115,7 +115,7 @@ public class avatarWallpaper extends WallpaperService {
     class DrawEngine extends Engine {
     	
     	//set up the file directory for saving data and retrieving sprites
-    	String extStorageDirectory = userData.getFileDir();
+    	String extStorageDirectory = userData.getFileDir(getBaseContext());
     	File   fileDirectory       = new File (extStorageDirectory);
     	
         //vars for the avatar

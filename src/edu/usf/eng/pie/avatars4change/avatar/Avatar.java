@@ -1,11 +1,15 @@
 package edu.usf.eng.pie.avatars4change.avatar;
 
 import edu.usf.eng.pie.avatars4change.userData.userData;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Environment;
 import android.util.Log;
 
 public class Avatar extends Entity {
+	public final String defaultActivity = "running";
+	public final int defaultRealismLevel = 1;
+	
 	private final String TAG = "avatar.Avatar";
 	//avatar properties:
     public String    behaviorSelectorMethod = "Proteus Effect Study";
@@ -22,25 +26,32 @@ public class Avatar extends Entity {
 	private int realismLevel = 111;
 	
 	// for finding the files:
-	String baseFileDirectory = userData.getFileDir();		//file directory to use on sdcard
-	String spriteDir = baseFileDirectory + "sprites";
+	String baseFileDirectory;		//file directory to use on sdcard
+	String spriteDir ;
 	
 	// object declarations for body parts:
 	String headName = "head";
 	Location headL = new Location();
-	String headFile = spriteDir+"/face/default/0.png";
+	String headFile ;
 
 	// top and bottom locations are switched... as in the top is actually the bottom and the bottom is actually the top... sorry about that.
 	String bodyTopName = "bodyTop";
 	String bodyBottomName="bodyBottom";
 	Location bodyLtop = new Location(0,0,2,300,0);//body always in center, full size of entity
 	Location bodyLbottom = new Location(0,0,0,300,0);
-	String bodyDirBottom  = spriteDir+"/body/default/";
-	String bodyDirTop  = bodyDirBottom;
+	String bodyDirBottom ;
+	String bodyDirTop ;
 	
 	//constructor
-	public Avatar(Location LOC, int realismL, String activityL) {
+	public Avatar(Location LOC, int realismL, String activityL, Context context) {
 		super("AvatarObject",LOC);
+		baseFileDirectory = userData.getFileDir(context);
+		spriteDir = baseFileDirectory + "sprites";
+		//set default image locations
+		headFile = spriteDir+"/face/default/0.png";
+		bodyDirBottom  = spriteDir+"/body/default/";
+		bodyDirTop  = bodyDirBottom;
+		
 		Log.v("Avatar","new avatar. R:" + realismLevel + " A:" + activityLevel);
 		activityLevel = activityL;
 		realismLevel = realismL;
