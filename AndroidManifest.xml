@@ -48,11 +48,12 @@
             android:name="edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaperSettings"
             android:theme="@android:style/Theme.Light.WallpaperSettings"
             android:exported="true">
-            <!-- this is untested code!!! keep it? idk... -->
+            <!-- this is untested code!!! keep it? idk... 
 			<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
         </activity>
         
         <activity
