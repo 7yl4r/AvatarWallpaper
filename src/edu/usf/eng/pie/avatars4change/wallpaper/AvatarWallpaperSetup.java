@@ -32,7 +32,6 @@ public class AvatarWallpaperSetup extends Activity{
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		avatarWallpaper.mContext = getApplicationContext();	//set application context
 		//setup default preferences
 		loadDefaultSettings();
  		//setup the file directory:
@@ -103,35 +102,28 @@ public class AvatarWallpaperSetup extends Activity{
      * ========================================================================
      **/
     private void SetDirectory() {
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+        String extStorageDirectory = userData.getFileDir(getApplicationContext());
 
-            String extStorageDirectory = userData.getFileDir(getBaseContext()).substring(0,userData.getFileDir(getBaseContext()).length() - 10);
-
-            File txtDirectory = new File(extStorageDirectory);
-            // Create
-            // a
-            // File
-            // object
-            // for
-            // the
-            // parent
-            // directory
-            txtDirectory.mkdirs();// Have the object build the directory
-            // structure, if needed.
-            CopyAssets(extStorageDirectory); // Then run the method to copy the file.
-            
-            //lastly, add .nomedia file
-            File nomediaFile = new File(extStorageDirectory, ".nomedia");
-            try {
-				nomediaFile.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-        } else if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED_READ_ONLY)) {
-        	Log.e(TAG, "SD card is missing");
-            //AlertsAndDialogs.sdCardMissing(this);//Or use your own method ie: Toast
-        }
+        File txtDirectory = new File(extStorageDirectory);
+        // Create
+        // a
+        // File
+        // object
+        // for
+        // the
+        // parent
+        // directory
+        txtDirectory.mkdirs();// Have the object build the directory
+        // structure, if needed.
+        CopyAssets(extStorageDirectory); // Then run the method to copy the file.
+        
+        //lastly, add .nomedia file
+        File nomediaFile = new File(extStorageDirectory, ".nomedia");
+        try {
+			nomediaFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -139,7 +131,7 @@ public class AvatarWallpaperSetup extends Activity{
      * ===========================================================
      **/
     private void CopyAssets(String extStorageDir) {
-        copier("MirrorMe",extStorageDir);
+        copier("sprites",extStorageDir);
     }
     
     //copy file or directory
@@ -156,10 +148,11 @@ public class AvatarWallpaperSetup extends Activity{
     	if(!inDir.equals("")){
     		prefix += "/";
     	}
+    	Log.d(TAG,"files.length="+files.length);
         for (int i = 0; i < files.length; i++) {
             InputStream in = null;
             OutputStream out = null;
-            String fileName = files[i];
+            String fileName = files[i];//
             try {
                 in = assetManager.open(prefix + fileName);
             } catch(Exception e){	//failed file open means listing is a directory
@@ -168,13 +161,13 @@ public class AvatarWallpaperSetup extends Activity{
             	continue;
             }
             //implied else
-            Log.v(TAG, files[i] + " is file");
+            Log.v(TAG, files[i] + " copied to " + extStorageDir + prefix);
             
-            File fDir = new File (extStorageDir + "/" + prefix);	//file object for mkdirs
+            File fDir = new File (extStorageDir + prefix);	//file object for mkdirs
             fDir.mkdirs();	//create directory
 
             try{	//copy the file
-                out = new FileOutputStream(extStorageDir + "/" + prefix + files[i]);
+                out = new FileOutputStream(extStorageDir + prefix + files[i]);
                 copyFile(in, out);
                 in.close();
                 in = null;

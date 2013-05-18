@@ -1,6 +1,5 @@
 package edu.usf.eng.pie.avatars4change.userData;
 
-import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,7 +28,7 @@ public class userData {
     	//hang here until storage is ready
     	waitForStorageIsReady(context);
     	//return storage location
-    	String result = avatarWallpaper.mContext.getExternalFilesDir(null).toString()+"/MirrorMe/";	//TODO: implement this
+    	String result = context.getExternalFilesDir(null).toString()+"/";	//TODO: implement this
     	Log.v(TAG,"fDir="+result);
     	return result;
 

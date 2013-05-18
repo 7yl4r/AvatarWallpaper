@@ -34,6 +34,7 @@ public class Sprite {
 		BitmapFactory.Options options = new BitmapFactory.Options(); options.inPurgeable = true;
 		image = BitmapFactory.decodeFile(fName,options);
 		if(image==null) Log.e("sprite","file " + fName + " failed to load!");
+		else Log.v(TAG,"sprite file '"+fName+"' loaded");
 	}
 	
 	//draws the sprite on given canvas c at object location relative to given location L
@@ -46,7 +47,7 @@ public class Sprite {
 				Log.d("sprite","cannot draw sprite "+name+", no image!");
 			}
 			return;	//don't draw if no image or no name
-		}
+		}	//implied else
 		// assume given size is size of largest edge
 		Rect source;
 		source = new Rect(0, 0, image.getWidth(), image.getHeight());//TODO to use sprite sheet, adjust this to select part of image

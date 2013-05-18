@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -20,6 +21,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	private final String TAG = "droid4you.cropImage";
+
 	private Uri mImageCaptureUri;
 	private ImageView mImageView;
 	
@@ -85,7 +89,7 @@ public class MainActivity extends Activity {
         intent.setType("image/*");
 
 //mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"tmp_contact_" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
-        mImageCaptureUri = Uri.fromFile(new File(userData.getFileDir(getBaseContext()),"sprites/face/default/0.png"));		
+        mImageCaptureUri = Uri.fromFile(new File(userData.getFileDir(getApplicationContext()),"sprites/face/default/0.png"));		
 		intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
 
 		try {
@@ -104,7 +108,7 @@ public class MainActivity extends Activity {
 
   //mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
 				//"tmp_contact_" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
-mImageCaptureUri = Uri.fromFile(new File(userData.getFileDir(getBaseContext()),"sprites/face/default/facedetect" + String.valueOf(System.currentTimeMillis()) + ".png"));		
+mImageCaptureUri = Uri.fromFile(new File(userData.getFileDir(getApplicationContext()),"sprites/face/default/facedetect" + String.valueOf(System.currentTimeMillis()) + ".png"));		
 		
 
 		intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
@@ -149,11 +153,15 @@ mImageCaptureUri = Uri.fromFile(new File(userData.getFileDir(getBaseContext()),"
 	private void drawSelectedImage(){
 		//selected image display
 		mImageView		= (ImageView) findViewById(R.id.image);
-		String imagePath = userData.getFileDir(getBaseContext())+"sprites/face/default/0.png";
+		File imageFile = new File(userData.getFileDir(getApplicationContext())+"sprites/face/default/0.png");
+		mImageCaptureUri = Uri.fromFile(imageFile);
+		String imagePath = imageFile.getAbsolutePath();
+		Log.d(TAG,"imagePath="+imagePath);
 		BitmapDrawable d = new BitmapDrawable(getResources(), imagePath);
 		int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 70, getResources().getDisplayMetrics()); // 70 dip
+		Log.d(TAG,"d="+d+", size="+size);
 		Bitmap scaledD = Bitmap.createScaledBitmap(d.getBitmap(), size, size, false);
-		d = new BitmapDrawable(scaledD);
+		d = new BitmapDrawable(getApplicationContext().getResources(),scaledD);
 		mImageView.setImageDrawable(d);
 	}
 	
