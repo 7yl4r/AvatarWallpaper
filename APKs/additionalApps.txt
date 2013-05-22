@@ -1,3 +1,0 @@
-The following apps are installed from the app store and the apks are not stored in this directory
-* GPSlogger
-* 
