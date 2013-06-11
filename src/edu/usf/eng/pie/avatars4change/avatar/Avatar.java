@@ -3,7 +3,6 @@ package edu.usf.eng.pie.avatars4change.avatar;
 import edu.usf.eng.pie.avatars4change.userData.userData;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.os.Environment;
 import android.util.Log;
 
 public class Avatar extends Entity {

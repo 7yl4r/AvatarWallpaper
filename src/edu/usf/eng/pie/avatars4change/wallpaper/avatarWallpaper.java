@@ -248,13 +248,14 @@ public class avatarWallpaper extends WallpaperService {
             // store the center of the surface, so we can draw in the right spot
             mCenterX = width/2.0f;
             mCenterY = height/2.0f;
+            /*
+             * size is now constant
             mHeight = height;
-            mWidth = width;
-            //TODO: MOVE THIS:
-
+            mWidth = width; 
             int s = Math.round(Math.min(mHeight,mWidth)*0.8f);
         	//Log.d(TAG,"onSurfaceChanged makes avatar size " + theAvatar.);
             theAvatar.setSize(s);
+            */
             
             drawFrame();
 

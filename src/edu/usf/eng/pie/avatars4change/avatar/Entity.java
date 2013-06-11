@@ -180,7 +180,8 @@ public class Entity {
 			}
 		}
 	}
-	
+
+	/*
 	public void setSize(int newSize){
 		location.size = newSize;
 		
@@ -192,8 +193,9 @@ public class Entity {
 		for (Sprite s : sprites){	//for each sprite 's' in spriteList
 			s.location.set(scaleLocFromPercent(s.location));
 		}
-		
 	}
+	*/
+	
 	// scale location as percent of total width value, and return scaled absolute location
 	public Location scaleLocFromPercent(Location percentLoc){
 		Location absLoc = new Location();
