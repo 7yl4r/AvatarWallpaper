@@ -9,7 +9,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="avatar wallpaper settings"
     android:key="avatar_settings">
-    <PreferenceCategory android:key="user_prefs" android:title="preferences"></PreferenceCategory><PreferenceCategory android:title="avatar options" android:key="debug_avatar_settings">
+    <PreferenceCategory android:key="user_prefs" android:title="preferences">
+        <ListPreference android:key="scale" android:entries="@array/scaleNames" android:entryValues="@array/scaleValues" android:title="Avatar Size"/>
+    </PreferenceCategory><PreferenceCategory android:title="avatar options" android:key="debug_avatar_settings">
 		<!-- opens a subscreen of settings -->
 <!--     <PreferenceScreen
 	        android:key="debug_pref_key"

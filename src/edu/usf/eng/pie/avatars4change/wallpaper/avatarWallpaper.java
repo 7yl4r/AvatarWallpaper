@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +16,7 @@ import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
@@ -37,6 +40,7 @@ public class avatarWallpaper extends WallpaperService {
 	//vars for background visibility logging
 	long    visibilityStart;
 	public static boolean keepLogs              = true;
+	public static long lastLogTime = 0;
     
     @Override
     public void onCreate() {
@@ -109,6 +113,10 @@ public class avatarWallpaper extends WallpaperService {
 			wifiOnly = mPrefs.getBoolean(key,wifiOnly);
 			Log.d(TAG,"wifiOnly:"+wifiOnly);
 			
+		key="scale";
+			theAvatar.scaler = Float.parseFloat(mPrefs.getString(key, "1.0f"));
+			Log.d(TAG, "RealismLevel:"+theAvatar.getRealismLevel());
+			
     }
 
     // All parts needed to draw the output go in this function
@@ -137,7 +145,7 @@ public class avatarWallpaper extends WallpaperService {
         
         private final Runnable mDrawViz = new Runnable() {
         	private void updateSceneBehavior(){
-        		sceneBehaviors.runBehavior(theAvatar);
+        		sceneBehaviors.runBehavior(getApplicationContext(),theAvatar);
         	}
         	
             public void run() {
@@ -229,6 +237,7 @@ public class avatarWallpaper extends WallpaperService {
 					dataOut.writeBytes(String.valueOf(visibilityStart)+","+String.valueOf(visibilityEnd)+","+String.valueOf(visibilityEnd-visibilityStart)+
 							"," + theAvatar.getActivityName() + "\n");
 					Log.d(TAG, visibleTime + " ms of time added to file");
+					lastLogTime = SystemClock.elapsedRealtime();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

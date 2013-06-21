@@ -30,5 +30,17 @@
         <item >debug</item>
         <item >IEEE VR demo</item>
     </string-array>
+    <string-array name="scaleNames">
+        <item >0.5</item>
+        <item >1</item>
+        <item >2</item>
+        <item >3</item>
+    </string-array>
+    <string-array name="scaleValues">
+        <item >0.5f</item>
+        <item >1.0f</item>
+        <item >2.0f</item>
+        <item >3.0f</item>
+    </string-array>
     
 </resources>

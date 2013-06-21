@@ -32,4 +32,8 @@ public class Location {
 	public void setRotation(int newR){
 		rotation = newR%360;
 	}
+	//multiply x, y, and size by the given float for scaling; zorder & roation remain unchanged
+	public Location multiply(float scaler){
+		return new Location(Math.round(this.x*scaler),Math.round(this.y*scaler),this.zorder,Math.round(this.size*scaler),this.rotation);
+	}
 }

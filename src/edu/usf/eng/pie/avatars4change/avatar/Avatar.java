@@ -15,9 +15,12 @@ public class Avatar extends Entity {
     public long      lastActivityChange     = 0;	//last time activity level was changed [ms]
     public int       bedTime             = 23;
     public int       wakeTime            = 5;
+	public long UPDATE_FREQUENCY     = 1000 * 60 * 1; 	//once per UPDATE_FREQUENCY; e.g. 60s/min *10min * 1000ms/s
+	
+	public float scaler = 1.0f;	//multiplier for the scale 
+	
 	long lastFrameChange      = 0;		//last frame update [ms]
 	long lastUserStatusUpdate = 0;
-	public long UPDATE_FREQUENCY     = 1000 * 60 * 1; 	//once per UPDATE_FREQUENCY; e.g. 60s/min *10min * 1000ms/s
 	
 	//values for choosing appropriate animations:
 	private String activityLevel;
@@ -176,13 +179,18 @@ public class Avatar extends Entity {
 			LOC.set(0,0,LOC.zorder,100,180);
 		}
 		headL = scaleLocFromPercent(LOC);
+		headL = headL.multiply(scaler);
 		setSpriteLocation(headName,headL);
 	}
 	
 	private void loadBodyLocation(){
 		//body location is constant, else do something like:
-	//	bodyLtop = new Location(0,0,0,300,0);//body always in center, full size of entity
-	//	bodyLbottom = new Location(0,0,2,300,0);
+		bodyLtop = new Location(0,0,2,300,0);//body always in center, full size of entity
+		bodyLbottom = new Location(0,0,0,300,0);
+		
+		bodyLtop = bodyLtop.multiply(scaler);
+		bodyLbottom = bodyLbottom.multiply(scaler);
+		
 		setAnimationLocation(bodyTopName,bodyLtop);
 		setAnimationLocation(bodyBottomName,bodyLbottom);
 	}
