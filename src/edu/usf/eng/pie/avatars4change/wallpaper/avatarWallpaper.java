@@ -6,9 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -16,7 +13,6 @@ import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;

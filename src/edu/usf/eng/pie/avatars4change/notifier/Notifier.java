@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 public class Notifier {
     private static int FM_NOTIFICATION_ID = 17141;	//this is just some random number i picked...
@@ -14,11 +15,12 @@ public class Notifier {
     public static void addNotification(Context context,String message) {
     	NotificationCompat.Builder builder =  
                 new NotificationCompat.Builder(context)  
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle("Notifications Example")  
+                .setSmallIcon(R.drawable.thumb)
+                .setContentTitle("AvatarWallpaper Error!")  
                 .setContentText(message);  
-
-        Intent notificationIntent = new Intent(context, edu.usf.eng.pie.avatars4change.wallpaper.AvatarWallpaperSetup.class);  
+    	//set the intent opened when notification is clicked
+        Intent notificationIntent = new Intent(context, edu.usf.eng.pie.avatars4change.notifier.Notifier.class);  //TODO 2nd class here should be changed to a message display activity
+        notificationIntent.putExtra("message", message);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent,   
                 PendingIntent.FLAG_UPDATE_CURRENT);  
         builder.setContentIntent(contentIntent);  

@@ -21,7 +21,7 @@ public class sceneBehaviors {
 		long now = SystemClock.elapsedRealtime();
 		long timeTillWarning = 1000 * 60 * 24;
         if((now - avatarWallpaper.lastLogTime) > timeTillWarning){   
-        	Notifier.addNotification(context,"avatarApp has collected no view data in the past 24 hours. Please contact the PIE-Lab staff.");
+        	Notifier.addNotification(context,"no data in past 24hrs; contact PIE-Lab staff.");
         }
     	if( theAvatar.behaviorSelectorMethod == null){
         	Log.e(TAG,"behaviorSelectorMethod = null; cannot run Behavior");
