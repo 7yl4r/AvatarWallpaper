@@ -27,26 +27,49 @@ public class userData {
     public static String getFileDir(Context context){
     	//hang here until storage is ready
     	waitForStorageIsReady(context);
-    	//return storage location
-    	String result = context.getExternalFilesDir(null).toString()+"/";	//TODO: implement this
-    	Log.v(TAG,"fDir="+result);
-    	return result;
+    	try{
+	    	//return storage location
+	    	String result = context.getExternalFilesDir(null).toString()+"/";	//TODO: implement this
+	    	Log.v(TAG,"fDir="+result);
+	    	return result;
+    	} catch (NullPointerException e){
+    		Log.e(TAG,"sdCard found, but cannot get internal storage for unknown reason");
+    		try {
+    			showSDcardError(context);
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    		return getFileDir(context);
+    	}
 
     }
     
+    private static void showSDcardError(Context context){
+    	Log.e(TAG,"attempt to access SDcard when no SDcard present!");
+		Toast ERRmessage = Toast.makeText(context, "Avatar App cannot access sdCard!", Toast.LENGTH_SHORT);
+		ERRmessage.show();
+    }
+    
+    //schedules delayed run
     private static void waitForStorageIsReady(final Context context){
     	if(storageReady()){
     		return;
     	} else {
-    		Log.e(TAG,"attempt to access SDcard when no SDcard present!");
-    		Toast ERRmessage = Toast.makeText(context, "Avatar App cannot run without sdCard!", Toast.LENGTH_LONG);
-    		ERRmessage.show();
-    		delayHandle.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					 waitForStorageIsReady(context);
-				}
-			},250);
+    		showSDcardError(context);
+    		try{
+        		delayHandle.postDelayed(new Runnable() {
+    				@Override
+    				public void run() {
+    					 waitForStorageIsReady(context);
+    				}
+    			},500);
+    		}catch(NullPointerException e){
+    			Log.e(TAG,"handler for noSDcardDelay not found; creating new");
+    			delayHandle = new Handler();
+    			waitForStorageIsReady(context); //restart the function
+    		}
     	}
     }
     

@@ -47,13 +47,14 @@ public class avatarWallpaper extends WallpaperService {
     	//mContext = getApplicationContext(); //this should not be used, but instead passed around or found with getContext()
         mPrefs   = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
 
+        Log.d(TAG,"application context =" + getApplicationContext().toString());
         //set up the avatar
         theAvatar = new Avatar(new Location(0,0,0,300,0), 3, "running",getApplicationContext());		//create new avatar
     	loadPrefs();
     	
  		//check for first time run (by looking for files)
  		boolean firstTime;
- 		File file = new File(userData.getFileDir(getBaseContext()), "dataLog.txt" );
+ 		File file = new File(userData.getFileDir(getApplicationContext()), "dataLog.txt" );
  		if (file.exists()) {
  			firstTime = false;
  		}else{
@@ -232,21 +233,25 @@ public class avatarWallpaper extends WallpaperService {
 					}
                 }
 				DataOutputStream dataOut = new DataOutputStream(dataFileOut);
-				//write time viewed to file
-                try {
-					dataOut.writeBytes(String.valueOf(visibilityStart)+","+String.valueOf(visibilityEnd)+","+String.valueOf(visibilityEnd-visibilityStart)+
-							"," + theAvatar.getActivityName() + "\n");
-					Log.d(TAG, visibleTime + " ms of time added to file");
-					lastLogTime = SystemClock.elapsedRealtime();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                try {
-					dataOut.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				try{
+					//write time viewed to file
+	                try {
+						dataOut.writeBytes(String.valueOf(visibilityStart)+","+String.valueOf(visibilityEnd)+","+String.valueOf(visibilityEnd-visibilityStart)+
+								"," + theAvatar.getActivityName() + "\n");
+						Log.d(TAG, visibleTime + " ms of time added to file");
+						lastLogTime = SystemClock.elapsedRealtime();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	                try {
+						dataOut.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} catch (NullPointerException e){
+						Log.w(TAG,"dataStream for writing view data cannot be opened");
 				}
             }
         }
