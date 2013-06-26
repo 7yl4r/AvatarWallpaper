@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.util.Log;
 
 public class Avatar extends Entity {
+	public final String[] ACTIVITY_LEVELS = {"active","passive","sleeping"};
+	
 	public final String defaultActivity = "running";
 	public final int defaultRealismLevel = 1;
 	
@@ -305,8 +307,24 @@ public class Avatar extends Entity {
 		return 200;
 	}
 	
+	// gets a random activity level from the list of possible levels
+	private String randomActivityLevel(){
+		int Min=0, Max=ACTIVITY_LEVELS.length-1;
+		int choice = Min + (int)(Math.random() * ((Max - Min) + 1));
+		return ACTIVITY_LEVELS[choice];
+	}
+	
 	//returns true if current animation name and activity are compatible
 	public boolean isOkay(){
+		if(activityName==null){
+			Log.w(TAG,"activity name is null; using random activity name");
+			randomActivity(activityLevel);
+		}
+		if(activityLevel==null){
+			Log.w(TAG,"activity level is null; using random activity level");
+			activityLevel=randomActivityLevel();
+		}
+		
 		if(activityLevel.equals("sleeping")){
 			if(activityName.equals("inBed")){
 				return true;
