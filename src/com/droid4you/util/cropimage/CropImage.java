@@ -67,6 +67,7 @@ public class CropImage extends MonitoredActivity {
 	private Bitmap mBitmap;
 	private final BitmapManager.ThreadSet mDecodingThreads =
 		new BitmapManager.ThreadSet();
+	
 	HighlightView mCrop;
 
 	private IImage mImage;

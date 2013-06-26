@@ -6,7 +6,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.usf.eng.pie.avatars4change"
     	android:versionCode="1"
-      	android:versionName="1.1.4">
+      	android:versionName="1.2">
 
     <uses-sdk android:minSdkVersion="8"
               android:targetSdkVersion="17"/>
@@ -31,8 +31,11 @@
 
     <application
         android:label="@string/wallpapers"
-        android:icon="@drawable/ic_launcher_wallpaper">
+        android:icon="@drawable/ic_launcher_wallpaper"
+        android:enabled="true"
+        android:allowBackup="true">
 		<!-- ========================= SERVICES ========================== -->
+		<!-- live wallpaper service -->
         <service
             android:label="@string/wallpaper_avatar"
             android:name="edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper"
@@ -40,12 +43,15 @@
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
             </intent-filter>
-            <meta-data android:name="android.service.wallpaper" android:resource="@xml/avatar" />
+            <meta-data 
+		android:name="android.service.wallpaper" 
+		android:resource="@xml/avatar" />
         </service>
         
         <service android:name="edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors" />
         
         <!-- ========================= ACTIVITIES ========================== -->
+        <!-- wallpaper settings -->
         <activity
             android:label="@string/avatar_settings"
             android:name="edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaperSettings"
