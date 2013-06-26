@@ -138,7 +138,7 @@ public class AvatarWallpaperSetup extends Activity{
      * ===========================================================
      **/
     private void CopyAssets(String extStorageDir) {
-        copier("MirrorMe",extStorageDir);
+        copier("sprites",extStorageDir);
     }
     
     //copy file or directory
@@ -155,10 +155,11 @@ public class AvatarWallpaperSetup extends Activity{
     	if(!inDir.equals("")){
     		prefix += "/";
     	}
+    	Log.d(TAG,"files.length="+files.length);
         for (int i = 0; i < files.length; i++) {
             InputStream in = null;
             OutputStream out = null;
-            String fileName = files[i];
+            String fileName = files[i];//
             try {
                 in = assetManager.open(prefix + fileName);
             } catch(Exception e){	//failed file open means listing is a directory
@@ -167,13 +168,13 @@ public class AvatarWallpaperSetup extends Activity{
             	continue;
             }
             //implied else
-            Log.v(TAG, files[i] + " is file");
+            Log.v(TAG, files[i] + " copied to " + extStorageDir + prefix);
             
-            File fDir = new File (extStorageDir + "/" + prefix);	//file object for mkdirs
+            File fDir = new File (extStorageDir + prefix);	//file object for mkdirs
             fDir.mkdirs();	//create directory
 
             try{	//copy the file
-                out = new FileOutputStream(extStorageDir + "/" + prefix + files[i]);
+                out = new FileOutputStream(extStorageDir + prefix + files[i]);
                 copyFile(in, out);
                 in.close();
                 in = null;
@@ -194,5 +195,4 @@ public class AvatarWallpaperSetup extends Activity{
             out.write(buffer, 0, read);
         }
     }
-
 }
