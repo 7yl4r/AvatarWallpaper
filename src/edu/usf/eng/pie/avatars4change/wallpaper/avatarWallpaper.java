@@ -71,8 +71,8 @@ public class avatarWallpaper extends WallpaperService {
 
         Log.d(TAG,"application context =" + getApplicationContext().toString());
         //set up the avatar
-        theAvatar = new Avatar(new Location(0,0,0,300,0), 3,,getApplicationContext());		//create new avatar
-    	loadPrefs();
+        theAvatar = new Avatar(new Location(0,0,0,300,0), 3,"sleeping", getApplicationContext());		//create new avatar
+        loadPrefs();
     	
     	//set up countly:
     	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
@@ -188,7 +188,7 @@ public class avatarWallpaper extends WallpaperService {
     class DrawEngine extends Engine {
     	
     	//set up the file directory for saving data and retrieving sprites
-    	String extStorageDirectory = userData.getFileDir();
+    	String extStorageDirectory = userData.getFileDir(getApplicationContext());
     	File   fileDirectory       = new File (extStorageDirectory);
     	
         //vars for the avatar
@@ -210,7 +210,7 @@ public class avatarWallpaper extends WallpaperService {
         
         private final Runnable mDrawViz = new Runnable() {
         	private void updateSceneBehavior(){
-        		sceneBehaviors.runBehavior(theAvatar);
+        		sceneBehaviors.runBehavior(getApplicationContext(),theAvatar);
         	}
         	
             public void run() {

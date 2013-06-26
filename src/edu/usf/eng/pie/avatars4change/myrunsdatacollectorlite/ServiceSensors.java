@@ -103,7 +103,7 @@ public class ServiceSensors extends Service implements SensorEventListener {
 		//Log.d(TAG, "onStartCommand");
 		
 		//mFeatureFile = new File(getExternalFilesDir(null), "features.arff");
-		mFeatureFile= new File(userData.getFileDir(),"sprites/face/default/feature-Still-walking" + ".arff");
+		mFeatureFile= new File(userData.getFileDir(getApplicationContext()),"sprites/face/default/feature-Still-walking" + ".arff");
 		 
 		//Log.d(TAG, mFeatureFile.getAbsolutePath());
 		//if the task is data collection create an empty dataset
@@ -258,7 +258,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 		//boolean flag1= true;
 		
     	if(avatarWallpaper.sdPresent){
-			mResults= new File(userData.getFileDir(),"mResults" + ".txt");
+			mResults= new File(userData.getFileDir(getApplicationContext()),"mResults" + ".txt");
     	} else {
     		Log.e(TAG,"no sdCard! uh oh...");
     		//TODO: ???
