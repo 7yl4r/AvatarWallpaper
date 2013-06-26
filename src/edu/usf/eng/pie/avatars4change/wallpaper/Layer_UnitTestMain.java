@@ -1,5 +1,6 @@
 package edu.usf.eng.pie.avatars4change.wallpaper;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Environment;
 import edu.usf.eng.pie.avatars4change.avatar.Animation;
@@ -16,10 +17,10 @@ public class Layer_UnitTestMain {
 	static Entity    testEntity;
 	static Location  testEntLoc;
 	
-	public static void setup(Avatar daAvatar){
+	public static void setup(Avatar daAvatar, Context context){
 		//setup Scene
         testScene = new Scene("testScene");
-    	String baseFileDirectory = userData.getFileDir();		//file directory to use on sdcard
+    	String baseFileDirectory = userData.getFileDir(context);		//file directory to use on sdcard
     	String spriteDir = baseFileDirectory + "/sprites";
     	String testFile = spriteDir + "/body/active/basketball/.";
     	int testSize =  150;
@@ -61,12 +62,12 @@ public class Layer_UnitTestMain {
 		//UserStatusLayer doesn't use nextFrame()
 	}
 
-	public static void draw(Canvas c){
+	public static void draw(Canvas c, Context context){
 		c.save();
 		testScene.draw(c);
 		c.restore();
 		drawTestEntity(c);
-		drawTestSprite(c);
+		drawTestSprite(c, context);
 		drawTestAnimation(c);
 		/*
 		c.save();
@@ -84,9 +85,9 @@ public class Layer_UnitTestMain {
     	testEntity.draw(c);
     	c.restore();
     }
-    private static void drawTestSprite(Canvas c){
+    private static void drawTestSprite(Canvas c, Context context){
     	c.save();
-    	String baseFileDirectory = userData.getFileDir();		//file directory to use on sdcard
+    	String baseFileDirectory = userData.getFileDir(context);		//file directory to use on sdcard
     	String spriteDir = baseFileDirectory + "/sprites";
     	String spriteFile = spriteDir + "/face/default/0.png";
     	int testSize = 50;

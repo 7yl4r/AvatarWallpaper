@@ -4,8 +4,10 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
+import edu.usf.eng.pie.avatars4change.notifier.Notifier;
 import edu.usf.eng.pie.avatars4change.userData.userData;
 
+import android.content.Context;
 import android.os.SystemClock;
 import android.text.format.Time;
 import android.util.Log;
@@ -15,9 +17,14 @@ public class sceneBehaviors {
     public static boolean   activeOnEvens       = true;	//active on even days?
 	
     //this method gets a behavior from the Avatar's behavior string (which has been set in the settings)
-    public static void runBehavior(Avatar theAvatar){
+    public static void runBehavior(Context context, Avatar theAvatar){
+		long now = SystemClock.elapsedRealtime();
+		long timeTillWarning = 1000 * 60 * 24;
+        if((now - avatarWallpaper.lastLogTime) > timeTillWarning){   
+        	Notifier.addNotification(context,"no data in past 24hrs; contact PIE-Lab staff.");
+        }
     	if( theAvatar.behaviorSelectorMethod == null){
-    		Log.e(TAG,"behaviorSelectorMethod = null; cannot run Behavior");
+        	Log.e(TAG,"behaviorSelectorMethod = null; cannot run Behavior");
     		return;
     	}	//implied ELSE
     	Log.v(TAG,"updating scene via " + theAvatar.behaviorSelectorMethod);
@@ -34,18 +41,18 @@ public class sceneBehaviors {
     }
     
     // avatar behavior does not change; it stays constant as it has been set
-    public static void constant(Avatar theAvatar){
+    private static void constant(Avatar theAvatar){
     	//do nothing to update the behavior, it stays your choice
     }
     
     // avatar behavior designed for use in the Proteus Effect study
-	public static void proteusStudy(Avatar theAvatar){		
-		avatarWallpaper.desiredFPS = 10;//update frameRate from PA level
-	    long      deltaActivityChange = 60*1000;	//60*60*1000;	//desired time between activity level updates [ms]
+	private static void proteusStudy(Avatar theAvatar){		
+		avatarWallpaper.desiredFPS = 8;//update frameRate from PA level
+	    theAvatar.UPDATE_FREQUENCY = 60*60*1000;	//60*60*1000;	//desired time between activity level updates [ms]
 		//check for enough time to change animation
     	//TODO: change this next if issue#5 persists
 		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
-        if((now - theAvatar.lastActivityChange) > deltaActivityChange){		//if time elapsed > desired time
+        if((now - theAvatar.lastActivityChange) > theAvatar.UPDATE_FREQUENCY){		//if time elapsed > desired time
         	//if past bedTime and before wakeTime, sleep
             int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
             Log.v("Avatars4Change Avatar sleep clock", "current hour:" + currentHour);
@@ -77,13 +84,13 @@ public class sceneBehaviors {
 	}
 
 	// avatar behavior cycles through all behaviors in order on a short interval
-	public static void debug(Avatar theAvatar){
+	private static void debug(Avatar theAvatar){
 		//TODO make this happen...
 		constant(theAvatar);
 	}
 
 	// avatar shows sedentary behavior for sitting, slow active behavior for walking, fast active behavior for running
-	public static void VRDemo(Avatar theAvatar){
+	private static void VRDemo(Avatar theAvatar){
 		avatarWallpaper.desiredFPS = Math.round( (Math.exp(userData.currentActivityLevel))*4-3 );//update frameRate from PA level
 		String activLvl = theAvatar.getActivityLevel();
 		if(userData.currentActivityLevel > .5){	//if user is walking or greater
