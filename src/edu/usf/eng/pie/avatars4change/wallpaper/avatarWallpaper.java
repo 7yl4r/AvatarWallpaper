@@ -48,11 +48,12 @@ public class avatarWallpaper extends WallpaperService {
 	//vars for background visibility logging
 	long    visibilityStart;
 	public static boolean keepLogs              = true;
+	public static long lastLogTime = 0;
     
     @Override
     public void onCreate() {
     	super.onCreate();
-    	mContext = getApplicationContext();
+    	mContext = getApplicationContext();//TODO: this should not be used, but instead passed around or found with getContext()
     	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 		//delay if no sdCard
 		while(!sdPresent){
@@ -68,8 +69,9 @@ public class avatarWallpaper extends WallpaperService {
 		}
         mPrefs   = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
 
+        Log.d(TAG,"application context =" + getApplicationContext().toString());
         //set up the avatar
-        theAvatar = new Avatar(new Location(0,0,0,300,0), 3, "running");		//create new avatar
+        theAvatar = new Avatar(new Location(0,0,0,300,0), 3,,getApplicationContext());		//create new avatar
     	loadPrefs();
     	
     	//set up countly:
@@ -93,7 +95,7 @@ public class avatarWallpaper extends WallpaperService {
     	
  		//check for first time run (by looking for files)
  		boolean firstTime;
- 		File file = new File(userData.getFileDir(), "dataLog.txt" );
+ 		File file = new File(userData.getFileDir(getApplicationContext()), "dataLog.txt" );
  		if (file.exists()) {
  			firstTime = false;
  		}else{
@@ -177,6 +179,9 @@ public class avatarWallpaper extends WallpaperService {
 			wifiOnly = mPrefs.getBoolean(key,wifiOnly);
 			Log.d(TAG,"wifiOnly:"+wifiOnly);
 			
+		key="scale";
+			theAvatar.scaler = Float.parseFloat(mPrefs.getString(key, "1.0f"));
+			Log.d(TAG, "RealismLevel:"+theAvatar.getRealismLevel());
     }
 
     // All parts needed to draw the output go in this function
@@ -262,7 +267,7 @@ public class avatarWallpaper extends WallpaperService {
                 
                 if(!fileDirectory.mkdirs()){	//create if directory not exist
                 	//if creation of directory fails
-                	Log.v(TAG, "creation of directory fails, already exists?");
+                	Log.v(TAG, "creation of directory '"+ fileDirectory +"' fails, already exists?");
                 }
                 
             	Boolean SDpresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
@@ -320,12 +325,14 @@ public class avatarWallpaper extends WallpaperService {
             // store the center of the surface, so we can draw in the right spot
             mCenterX = width/2.0f;
             mCenterY = height/2.0f;
+            /*
+             * size is now constant
             mHeight = height;
-            mWidth = width;
-
-            int s = Math.round(Math.min(mHeight,mWidth)*0.9f);
+            mWidth = width; 
+            int s = Math.round(Math.min(mHeight,mWidth)*0.8f);
         	//Log.d(TAG,"onSurfaceChanged makes avatar size " + theAvatar.);
             theAvatar.setSize(s);
+            */
             
             drawFrame();
         }
@@ -380,7 +387,7 @@ public class avatarWallpaper extends WallpaperService {
                 if (c != null) {
                 	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
                 	if(sdPresent){
-					   	Layer_Main.nextFrame();
+				Layer_Main.nextFrame();
 	
 	                	c.save();
 	                	c.translate(mCenterX, mCenterY);
@@ -398,7 +405,6 @@ public class avatarWallpaper extends WallpaperService {
                 		c.drawText("cannot detect SD card", -90, 90, mPaint); 
                 		c.restore();
                 	}
-
                 }
             } finally {
                 if (c != null) holder.unlockCanvasAndPost(c);
