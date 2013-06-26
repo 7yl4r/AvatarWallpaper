@@ -2,7 +2,6 @@ package edu.usf.eng.pie.avatars4change.wallpaper;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.os.Environment;
 import edu.usf.eng.pie.avatars4change.avatar.Animation;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Entity;

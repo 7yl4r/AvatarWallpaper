@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 public class Notifier {
     private static int FM_NOTIFICATION_ID = 17141;	//this is just some random number i picked...

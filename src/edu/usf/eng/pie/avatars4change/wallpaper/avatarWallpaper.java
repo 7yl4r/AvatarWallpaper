@@ -53,6 +53,7 @@ public class avatarWallpaper extends WallpaperService {
     @Override
     public void onCreate() {
     	super.onCreate();
+        mPrefs   = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
     	mContext = getApplicationContext();//TODO: this should not be used, but instead passed around or found with getContext()
     	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 		//delay if no sdCard
@@ -67,8 +68,6 @@ public class avatarWallpaper extends WallpaperService {
 				e.printStackTrace();
 			}
 		}
-        mPrefs   = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
-
         Log.d(TAG,"application context =" + getApplicationContext().toString());
         //set up the avatar
         theAvatar = new Avatar(new Location(0,0,0,300,0), 3,"sleeping", getApplicationContext());		//create new avatar
@@ -197,8 +196,9 @@ public class avatarWallpaper extends WallpaperService {
         //vars for canvas
         private float mCenterX;
         private float mCenterY;
-        private float mHeight;
-        private float mWidth;
+// height&width are const now...
+//        private float mHeight;
+//        private float mWidth;
         
 //        //vars for touchPoint circle
 //        private float mTouchX = -1;
