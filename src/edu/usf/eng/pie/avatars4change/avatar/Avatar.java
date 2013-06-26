@@ -1,20 +1,26 @@
 package edu.usf.eng.pie.avatars4change.avatar;
 
 import edu.usf.eng.pie.avatars4change.userData.userData;
+import android.content.Context;
 import android.graphics.Canvas;
-import android.os.Environment;
 import android.util.Log;
 
 public class Avatar extends Entity {
+	public final String defaultActivity = "running";
+	public final int defaultRealismLevel = 1;
+	
 	private final String TAG = "avatar.Avatar";
 	//avatar properties:
     public String    behaviorSelectorMethod = "Proteus Effect Study";
     public long      lastActivityChange     = 0;	//last time activity level was changed [ms]
     public int       bedTime             = 23;
     public int       wakeTime            = 5;
+	public long UPDATE_FREQUENCY     = 1000 * 60 * 1; 	//once per UPDATE_FREQUENCY; e.g. 60s/min *10min * 1000ms/s
+	
+	public float scaler = 1.0f;	//multiplier for the scale 
+	
 	long lastFrameChange      = 0;		//last frame update [ms]
 	long lastUserStatusUpdate = 0;
-	long UPDATE_FREQUENCY     = 1000 * 10; 	//once per UPDATE_FREQUENCY; e.g. once/10s * 1s/1000ms
 	
 	//values for choosing appropriate animations:
 	private String activityLevel;
@@ -22,23 +28,32 @@ public class Avatar extends Entity {
 	private int realismLevel = 111;
 	
 	// for finding the files:
-	String baseFileDirectory = userData.getFileDir();		//file directory to use on sdcard
-	String spriteDir = baseFileDirectory + "sprites";
+	String baseFileDirectory;		//file directory to use on sdcard
+	String spriteDir ;
 	
 	// object declarations for body parts:
 	String headName = "head";
 	Location headL = new Location();
-	String headFile = spriteDir+"/face/default/0.png";
+	String headFile ;
 
+	// top and bottom locations are switched... as in the top is actually the bottom and the bottom is actually the top... sorry about that.
 	String bodyTopName = "bodyTop";
 	String bodyBottomName="bodyBottom";
-	Location bodyL = new Location();
-	String bodyDirBottom  = spriteDir+"/body/default/";
-	String bodyDirTop  = bodyDirBottom;
+	Location bodyLtop = new Location(0,0,2,300,0);//body always in center, full size of entity
+	Location bodyLbottom = new Location(0,0,0,300,0);
+	String bodyDirBottom ;
+	String bodyDirTop ;
 	
 	//constructor
-	public Avatar(Location LOC, int realismL, String activityL) {
+	public Avatar(Location LOC, int realismL, String activityL, Context context) {
 		super("AvatarObject",LOC);
+		baseFileDirectory = userData.getFileDir(context);
+		spriteDir = baseFileDirectory + "sprites";
+		//set default image locations
+		headFile = spriteDir+"/face/default/0.png";
+		bodyDirBottom  = spriteDir+"/body/default/";
+		bodyDirTop  = bodyDirBottom;
+		
 		Log.v("Avatar","new avatar. R:" + realismLevel + " A:" + activityLevel);
 		activityLevel = activityL;
 		realismLevel = realismL;
@@ -53,16 +68,13 @@ public class Avatar extends Entity {
 		reloadBodyFiles();
 		
 		// set up body
-		bodyL = loadBodyLocation();
+		loadBodyLocation();
+		
 		bodyDirBottom = loadBodyDir("bottom");	//bottom layer
-		bodyL.zorder = 0;
-		super.addAnimation( bodyBottomName, bodyDirBottom, bodyL );
-
+		super.addAnimation( bodyBottomName, bodyDirBottom, bodyLbottom );
 		//face layer is in middle
-
 		bodyDirTop = loadBodyDir("top");
-		bodyL.zorder = 2;
-		super.addAnimation( bodyTopName, bodyDirTop, bodyL );		
+		super.addAnimation( bodyTopName, bodyDirTop, bodyLtop );		
 	}
 	
 	private String loadBodyDir(String layerName){
@@ -163,16 +175,24 @@ public class Avatar extends Entity {
 			
 			// === DEFAULT === 
 		} else {
-			Log.e(TAG,"activity name '" + activityName+ "' not recognized");
+			Log.e(TAG,"activity name not recognized");
 			LOC.set(0,0,LOC.zorder,100,180);
 		}
-		headL = LOC;
+		headL = scaleLocFromPercent(LOC);
+		headL = headL.multiply(scaler);
 		setSpriteLocation(headName,headL);
 	}
 	
-	private Location loadBodyLocation(){
-		//TODO: this is a hack-y fix. percent of total entity size should be 100% instead of 50%
-		return new Location(0,0,0,300,0);//body always in center, full size of entity
+	private void loadBodyLocation(){
+		//body location is constant, else do something like:
+		bodyLtop = new Location(0,0,2,300,0);//body always in center, full size of entity
+		bodyLbottom = new Location(0,0,0,300,0);
+		
+		bodyLtop = bodyLtop.multiply(scaler);
+		bodyLbottom = bodyLbottom.multiply(scaler);
+		
+		setAnimationLocation(bodyTopName,bodyLtop);
+		setAnimationLocation(bodyBottomName,bodyLbottom);
 	}
 	
 	//sets up new activity 
@@ -231,11 +251,6 @@ public class Avatar extends Entity {
 	}
 	public void setActivityName(String newName) {
 		activityName = newName;		//set new activity name
-		if(activityName == null ){
-			Log.w(TAG, "activityName is NULL! setting to sleeping for now");
-			newName = "inBed";
-			activityName = newName;
-		} 
 		Log.v("Avatar",name+" activity set to "+activityName);
 		if(!this.isOkay()){	//change activity level if needed
 			if(newName.equals("basketball") || newName.equals("running") || newName.equals("bicycling")){
@@ -309,7 +324,8 @@ public class Avatar extends Entity {
 	
 	@Override
 	public void nextFrame(){
-		loadHeadLocation();
+		loadHeadLocation();	//TODO: this is not ideal, but trying to do this in onSurfaceChanged seems to break a lot
+		loadBodyLocation();
 		super.nextFrame();
 	}
 	

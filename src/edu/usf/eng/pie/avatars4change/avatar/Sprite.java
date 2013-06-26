@@ -7,18 +7,14 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public class Sprite {
+	String TAG = "avatar.Sprite";
 	
 	String name = "UNNAMED";
 	Location location = new Location();
 	
 	Bitmap image;
 	
-	//constructors
-	public Sprite(Sprite toCopy){
-		this.name     = toCopy.name;
-		this.image    = toCopy.image;
-		this.location = toCopy.location;
-	}
+	//constructor
 	public Sprite(String newName, String fileName, Location newLocation){
 		set(newName,fileName,newLocation);
 	}
@@ -38,6 +34,7 @@ public class Sprite {
 		BitmapFactory.Options options = new BitmapFactory.Options(); options.inPurgeable = true;
 		image = BitmapFactory.decodeFile(fName,options);
 		if(image==null) Log.e("sprite","file " + fName + " failed to load!");
+		else Log.v(TAG,"sprite file '"+fName+"' loaded");
 	}
 	
 	//draws the sprite on given canvas c at object location relative to given location L
@@ -50,8 +47,9 @@ public class Sprite {
 				Log.d("sprite","cannot draw sprite "+name+", no image!");
 			}
 			return;	//don't draw if no image or no name
-		}
-		Rect source, dest;
+		}	//implied else
+		// assume given size is size of largest edge
+		Rect source;
 		source = new Rect(0, 0, image.getWidth(), image.getHeight());//TODO to use sprite sheet, adjust this to select part of image
 		int w = 0,h = 0;	//image width & height (actually radius of image)
 		if(image.getWidth()>image.getHeight()){ 
@@ -66,10 +64,10 @@ public class Sprite {
 		//Log.v("sprite","w=" + Integer.toString(w) + " h=" + Integer.toString(h));
 		 */
 		c.translate(location.x, -location.y);
-		dest = new Rect(0,-h,w,0);
 		c.rotate(location.rotation);
-		c.translate(-w/2, h/2);
+		Rect dest = new Rect(-w/2,-h/2,w/2,h/2);
 		c.drawBitmap(image, source, dest, null);
 		c.restore();
+		Log.v(TAG,w+"x"+h+" sprite drawn at "+location.x+","+location.y);
 	}
 }

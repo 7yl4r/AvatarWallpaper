@@ -5,7 +5,6 @@ public class Location {
 	int size;	//'size' is in number of 'display-independent-pixels'(dip) from center point to farthest side
 	int rotation;
 	
-	//constructors:
 	public Location(){	//set defaults values (only used for debugging)
 		x        = 0;
 		y        = 0;
@@ -32,5 +31,9 @@ public class Location {
 	}
 	public void setRotation(int newR){
 		rotation = newR%360;
+	}
+	//multiply x, y, and size by the given float for scaling; zorder & roation remain unchanged
+	public Location multiply(float scaler){
+		return new Location(Math.round(this.x*scaler),Math.round(this.y*scaler),this.zorder,Math.round(this.size*scaler),this.rotation);
 	}
 }

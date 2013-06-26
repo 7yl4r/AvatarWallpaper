@@ -74,6 +74,18 @@ public class Entity {
 		}
 	}
 	
+	public void setAnimationLocation(String animName, Location newLoc){
+		int i = getAnimationIndex(animName);
+//		Log.v("entity","animations size = "+animations.size());
+		if ( (i >= 0) && (i < animations.size()) ){
+			Animation temp = animations.get(i);
+			temp.location = newLoc;
+			animations.set( i , temp );
+		}else{
+			Log.e("entity","animation location cannot be set, invalid index: "+Integer.toString(i));
+		}
+	}
+	
 	//sets animation with specified name to given 
 	public void setAnimationDir(String animName, String newDir){
 		int i = getAnimationIndex(animName);
@@ -137,19 +149,13 @@ public class Entity {
 		while(objectsLeft > 0){
 			for (Animation a : animations){	
 				if(a.location.zorder==z){
-					Location temp = a.location;	//hold on to the % location
-					a.location = this.scaleLocFromPercent(a.location);
 					a.draw(c);
-					a.location = temp;	//reset % location
 					objectsLeft--;
 				}
 			}
 			for (Sprite s : sprites){	//for each sprite 's' in spriteList
 				if(s.location.zorder==z){
-					Location temp = s.location;	//hold on to the % location
-					s.location = this.scaleLocFromPercent(s.location);
 					s.draw(c);	 
-					s.location = temp;	//reset % location
 					objectsLeft--;
 				}
 			}
@@ -174,21 +180,22 @@ public class Entity {
 			}
 		}
 	}
-	
+
+	/*
 	public void setSize(int newSize){
 		location.size = newSize;
 		
-		//NOPE: THIS SIZE IS DETERMINED AT DRAW-TIME
 		//Log.v("entity","size set to "+location.size);
 		//scale each item in the entity
-//		for (Animation a : animations){	
-//			a.location.set(scaleLocFromPercent(a.location));
-//		}
-//		for (Sprite s : sprites){	//for each sprite 's' in spriteList
-//			s.location.set(scaleLocFromPercent(s.location));
-//		}
-		
+		for (Animation a : animations){	
+			a.location.set(scaleLocFromPercent(a.location));
+		}
+		for (Sprite s : sprites){	//for each sprite 's' in spriteList
+			s.location.set(scaleLocFromPercent(s.location));
+		}
 	}
+	*/
+	
 	// scale location as percent of total width value, and return scaled absolute location
 	public Location scaleLocFromPercent(Location percentLoc){
 		Location absLoc = new Location();
@@ -197,6 +204,6 @@ public class Entity {
 		absLoc.zorder = percentLoc.zorder;
 		absLoc.size = (int) Math.round(percentLoc.size*((float)this.location.size/ASSUMED_ENTITY_SIZE)); 
 		absLoc.rotation = percentLoc.rotation; 
-		 return absLoc;
+		return absLoc;
 	}
 }
