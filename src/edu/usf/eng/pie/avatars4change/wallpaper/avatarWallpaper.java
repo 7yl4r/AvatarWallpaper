@@ -24,6 +24,7 @@ import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.widget.Toast;
+import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.Globals;
@@ -34,16 +35,13 @@ import edu.usf.eng.pie.avatars4change.wallpaper.Layer_Main;
  
 public class avatarWallpaper extends WallpaperService {
 	private static final String TAG                    = "avatarWallpaper";	//for logs
-	public static final String SHARED_PREFS_NAME="avatar_settings";
     private final Handler mHandler              = new Handler();
     private final String[] mLabels              = {"still", "walking", "running"};
     public static float desiredFPS              = 10;
-    public static Context mContext;	//this is needed for countly wifi check
     public static boolean wifiOnly              = false;	//enable if program should only use wifi
     public static boolean sdPresent             = false;
     
     public static Avatar    theAvatar;
-    private static SharedPreferences mPrefs;
 
 	//vars for background visibility logging
 	long    visibilityStart;
@@ -53,13 +51,11 @@ public class avatarWallpaper extends WallpaperService {
     @Override
     public void onCreate() {
     	super.onCreate();
-        mPrefs   = avatarWallpaper.this.getSharedPreferences(SHARED_PREFS_NAME, 0);	//load settings
-    	mContext = getApplicationContext();//TODO: this should not be used, but instead passed around or found with getContext()
     	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 		//delay if no sdCard
 		while(!sdPresent){
 			Log.d(TAG,"waiting for sdCard...");
-			Toast.makeText(mContext, "avatarWallpaper searching for sdCard", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "avatarWallpaper searching for sdCard", Toast.LENGTH_SHORT).show();
 	    	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 			try {
 				Thread.sleep(750);		//TODO: wow, this is ugly...
@@ -71,18 +67,18 @@ public class avatarWallpaper extends WallpaperService {
         Log.d(TAG,"application context =" + getApplicationContext().toString());
         //set up the avatar
         theAvatar = new Avatar(new Location(0,0,0,300,0), 3,"sleeping", getApplicationContext());		//create new avatar
-        loadPrefs();
+        avatarWallpaperSettings.loadPrefs(avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
     	
     	//set up countly:
     	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
     	String serverURL     = "http://testSubDomain.socialvinesolutions.com";
-    	Countly.sharedInstance().init(mContext, serverURL, appKey);
+    	Countly.sharedInstance().init(getApplicationContext(), serverURL, appKey);
     	
         //start up countly
     	Countly.sharedInstance().onStart();// in onStart.
     	
     	//setup the PA collector service:
-    	Intent mServiceIntent = new Intent(mContext, edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors.class);
+    	Intent mServiceIntent = new Intent(getApplicationContext(), edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors.class);
  		int activityId = Globals.SERVICE_TASK_TYPE_CLASSIFY;	//TODO: ?
  		String label = mLabels[activityId];
  		Bundle extras = new Bundle();
@@ -145,44 +141,6 @@ public class avatarWallpaper extends WallpaperService {
 		return new DrawEngine();
     }
     
-    public static void loadPrefs(){
-		Log.d(TAG, "loading preferences");
-        String key;
-		key="RealismLevel";
-			theAvatar.setRealismLevel(Integer.parseInt(mPrefs.getString(key, Integer.toString(theAvatar.getRealismLevel()))));
-			Log.d(TAG, "RealismLevel:"+theAvatar.getRealismLevel());
-		
-		key="CurrentActivity";
-			theAvatar.setActivityName(mPrefs.getString(key, theAvatar.getActivityName()));
-			theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
-			Log.d(TAG, "CurrentActivity:"+theAvatar.getActivityName());
-		
-		key="behaviorSelector";
-			theAvatar.behaviorSelectorMethod = mPrefs.getString(key, theAvatar.behaviorSelectorMethod);
-			Log.d(TAG, "behaviorSelector:"+theAvatar.behaviorSelectorMethod);
-		
-		key="ResetLogs";
-			keepLogs = !mPrefs.getBoolean(key, keepLogs);
-			//Log.d(TAG, "keepLogs=" + String.valueOf(keepLogs));
-			Log.d(TAG, "keepLogs?:"+keepLogs);
-			
-		key="activeOnEvens";
-			sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);
-			Log.d(TAG,"activeOnEvens:"+sceneBehaviors.activeOnEvens);
-			
-		key="UID";
-			userData.USERID = mPrefs.getString(key,userData.USERID);
-			Log.d(TAG,"UID:"+userData.USERID);
-		
-		key="wifiOnly";
-			wifiOnly = mPrefs.getBoolean(key,wifiOnly);
-			Log.d(TAG,"wifiOnly:"+wifiOnly);
-			
-		key="scale";
-			theAvatar.scaler = Float.parseFloat(mPrefs.getString(key, "1.0f"));
-			Log.d(TAG, "RealismLevel:"+theAvatar.getRealismLevel());
-    }
-
     // All parts needed to draw the output go in this function
     class DrawEngine extends Engine {
     	
@@ -226,9 +184,6 @@ public class avatarWallpaper extends WallpaperService {
 //            mStartTime = System.currentTimeMillis();	//set app start time
 //            lastActivityLevelChangeDay = Time.getJulianDay(mStartTime, TimeZone.getDefault().getRawOffset()); 	//initialize to app start
                         
-//            //register reciever for changed settings:
-//            mPrefs.registerOnSharedPreferenceChangeListener(this);
-//            onSharedPreferenceChanged(mPrefs, null);
         }
 
         @Override
@@ -239,7 +194,7 @@ public class avatarWallpaper extends WallpaperService {
 
 
             //load the preferences
-            loadPrefs();
+            avatarWallpaperSettings.loadPrefs(avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
             
             //set up the scene
             Layer_Main.setup(theAvatar);
@@ -248,7 +203,7 @@ public class avatarWallpaper extends WallpaperService {
 
         @Override
         public void onDestroy() {
-        	//TODO: save prefs here
+        	//TODO: save prefs here?
             super.onDestroy();
             mHandler.removeCallbacks(mDrawViz);
         }

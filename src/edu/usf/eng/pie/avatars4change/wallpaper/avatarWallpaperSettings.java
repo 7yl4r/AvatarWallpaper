@@ -12,17 +12,26 @@ import android.view.MenuItem;
 import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.userData.userData;
 
-import edu.usf.eng.pie.avatars4change.avatar.Avatar;
-
 public class avatarWallpaperSettings extends PreferenceActivity 
     implements SharedPreferences.OnSharedPreferenceChangeListener {
 	private static final String TAG = "avatarWallpaperSettings";
-    static SharedPreferences mPrefs;
-
+	private static final String[] PREFERENCE_KEYS = {
+		"killMe",				//1
+		"RealismLevel",			//2
+		"CurrentActivity",		//3
+		"ActivityLevelSelector",//4 TODO: This is the same as behaviorSelector??? 
+		"ResetLogs",			//5
+		"activeOnEvens",		//6
+		"UID",					//7
+		"behaviorSelector",		//8
+		"wifiOnly",				//9
+		"scale"					//10
+	};	// this is mostly for reference; numbers are for ensuring that all are accounted for in handleKey()
+		
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getPreferenceManager().setSharedPreferencesName(avatarWallpaper.SHARED_PREFS_NAME);
+        super.onCreate(savedInstanceState);		
+        getPreferenceManager().setSharedPreferencesName(getString(R.string.shared_prefs_name));
         addPreferencesFromResource(R.xml.avatar_settings);
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
@@ -46,27 +55,76 @@ public class avatarWallpaperSettings extends PreferenceActivity
         super.onDestroy();
     }
 
+    // preference listener is triggered when a preference changes and responds accordingly
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    	Log.d(TAG, key + " preference changed...");
-    	if(key.equals("killMe")){
+    	avatarWallpaperSettings.handleKey(key,sharedPreferences); 
+    }
+    
+    // load in all preferences
+    public static void loadPrefs(SharedPreferences sharedPreferences){
+		Log.d(TAG, "loading preferences...");
+		for ( int i = 0; i<avatarWallpaperSettings.PREFERENCE_KEYS.length; i++ ){
+			if(avatarWallpaperSettings.PREFERENCE_KEYS[i].equals("killMe")){	//skip over killMe pref
+				continue;
+			}else{	// load preference
+				avatarWallpaperSettings.handleKey(avatarWallpaperSettings.PREFERENCE_KEYS[i],sharedPreferences);
+			}
+		}
+    }
+
+    //  responds to the preference key given accordingly
+    private static void handleKey(String key, SharedPreferences mPrefs){
+    	if(key.equals("killMe")){	//1
     		android.os.Process.killProcess(android.os.Process.myPid());
-    	} //IMPLIED ELSE 
-    	avatarWallpaper.loadPrefs();
-    	/*else if(key.equals("RealismLevel")){
-			avatarWallpaper.theAvatar.setRealismLevel(Integer.parseInt(mPrefs.getString(key, Integer.toString(avatarWallpaper.theAvatar.getRealismLevel()))));
-    	}else if(key.equals("CurrentActivity")){
+    		
+    	}else if(key.equals("RealismLevel")){	//2
+    		//NullPointerException comes out here...
+    		Log.d(TAG,mPrefs.toString());
+    		Log.d(TAG,Integer.toString(avatarWallpaper.theAvatar.getRealismLevel()));
+    		Log.d(TAG,mPrefs.getString(key, Integer.toString(avatarWallpaper.theAvatar.getRealismLevel())));
+			avatarWallpaper.theAvatar.setRealismLevel((int) mPrefs.getLong(key, avatarWallpaper.theAvatar.getRealismLevel()));
+			Log.d(TAG, "RealismLevel:"+avatarWallpaper.theAvatar.getRealismLevel());
+
+    	}else if(key.equals("CurrentActivity")){	//3
 			avatarWallpaper.theAvatar.setActivityName(mPrefs.getString(key, "running"));
 			avatarWallpaper.theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
-    	}else if (key.equals("ActivityLevelSelector")){
+			Log.d(TAG, "CurrentActivity:"+avatarWallpaper.theAvatar.getActivityName());
+			
+// TODO: AcivitiyLevelSelector is the same as behaviorSelector???
+    	}else if (key.equals("ActivityLevelSelector")){	//4
+    		Log.e(TAG,"use of depreciated settings key ActivityLevelSelector; should use behaviorSelector instead");
 			avatarWallpaper.theAvatar.behaviorSelectorMethod = mPrefs.getString(key, "IEEE VR demo");
-    	}else if (key.equals("ResetLogs")){
+			
+    	}else if (key.equals("ResetLogs")){	//5
 			avatarWallpaper.keepLogs = !mPrefs.getBoolean(key, avatarWallpaper.keepLogs);
-			//Log.d(TAG, "keepLogs=" + String.valueOf(keepLogs));
-    	}else if (key.equals("activeOnEvens")){
-			sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);
-    	}else if (key.equals("UID")){
+			Log.d(TAG, "keepLogs?:"+avatarWallpaper.keepLogs);
+			
+    	}else if (key.equals("activeOnEvens")){	//6
+			sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);			
+			Log.d(TAG,"activeOnEvens:"+sceneBehaviors.activeOnEvens);
+			
+    	}else if (key.equals("UID")){	//7
 			userData.USERID = mPrefs.getString(key,userData.USERID);
-    	}*/
+			Log.d(TAG,"UID:"+userData.USERID);
+			
+    	}else if (key.equals("behaviorSelector")){	//8
+			avatarWallpaper.theAvatar.behaviorSelectorMethod = mPrefs.getString(key, avatarWallpaper.theAvatar.behaviorSelectorMethod);
+			Log.d(TAG, "behaviorSelector:"+avatarWallpaper.theAvatar.behaviorSelectorMethod);
+			
+    	}else if (key.equals("wifiOnly")){	//9
+			avatarWallpaper.wifiOnly = mPrefs.getBoolean(key,avatarWallpaper.wifiOnly);
+			Log.d(TAG,"wifiOnly:"+avatarWallpaper.wifiOnly);
+			
+    	}else if (key.equals("scale")){		//10
+			avatarWallpaper.theAvatar.scaler = Float.parseFloat(mPrefs.getString(key, "1.0f"));
+			Log.d(TAG, "RealismLevel:"+avatarWallpaper.theAvatar.getRealismLevel());
+			
+    	}else{	//unknown preference key
+    		Log.e(TAG,"unrecognized preference key '"+key+"'... trying not to panic.");
+    //		TODO: avatarWallpaperSettings.loadPrefs(sharedPreferences);
+    		return;
+    	} 
+    	Log.d(TAG, key + " preference changed..."); //only prints if last 'else' case not triggered
     }
     
     @Override

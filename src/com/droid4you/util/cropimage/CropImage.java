@@ -377,7 +377,11 @@ public class CropImage extends MonitoredActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		mBitmap.recycle();
+		try{
+			mBitmap.recycle();
+		}catch(NullPointerException e){
+			Log.w(TAG,"no bitmap to recycle");
+		}
 	}
 
 	Runnable mRunFaceDetection = new Runnable() {

@@ -253,7 +253,7 @@ class ConnectionQueue
 							break;						
 						data.replaceFirst("REPLACE_UDID", OpenUDID_manager.getOpenUDID());						
 					}
-					if(avatarWallpaper.wifiOnly && !isOnline(avatarWallpaper.mContext)){
+					if(avatarWallpaper.wifiOnly && !isOnline(context_)){
 							Log.d("Countly","wifi not found, no data usage selected. not sending data.");
 							break;
 					} else {	//send data to server

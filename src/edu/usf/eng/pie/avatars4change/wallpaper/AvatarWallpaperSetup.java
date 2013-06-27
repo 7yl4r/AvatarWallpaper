@@ -81,7 +81,7 @@ public class AvatarWallpaperSetup extends Activity{
 			public void onClick(View v) {
 				userData.USERID = uidBox.getText().toString();
 		    	//set new UID
-		    	SharedPreferences settings = getSharedPreferences(avatarWallpaper.SHARED_PREFS_NAME, MODE_PRIVATE);
+		    	SharedPreferences settings = getSharedPreferences(getString(R.string.shared_prefs_name), MODE_PRIVATE);
 		    	SharedPreferences.Editor editor = settings.edit();
 		    	editor.putString("UID", userData.USERID);
 		    	editor.commit();

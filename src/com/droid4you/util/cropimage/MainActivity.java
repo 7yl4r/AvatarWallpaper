@@ -157,12 +157,17 @@ mImageCaptureUri = Uri.fromFile(new File(userData.getFileDir(getApplicationConte
 		mImageCaptureUri = Uri.fromFile(imageFile);
 		String imagePath = imageFile.getAbsolutePath();
 		Log.d(TAG,"imagePath="+imagePath);
-		BitmapDrawable d = new BitmapDrawable(getResources(), imagePath);
+		BitmapDrawable img = new BitmapDrawable(getResources(), imagePath);
 		int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 70, getResources().getDisplayMetrics()); // 70 dip
-		Log.d(TAG,"d="+d+", size="+size);
-		Bitmap scaledD = Bitmap.createScaledBitmap(d.getBitmap(), size, size, false);
-		d = new BitmapDrawable(getApplicationContext().getResources(),scaledD);
-		mImageView.setImageDrawable(d);
+		Log.d(TAG,"img="+img.toString()+", size="+size);
+		try{
+			Bitmap scaledImg = Bitmap.createScaledBitmap(img.getBitmap(), size, size, false);
+			BitmapDrawable IMG = new BitmapDrawable(getApplicationContext().getResources(),scaledImg);
+			mImageView.setImageDrawable(IMG);
+		} catch (NullPointerException e){
+			Log.w(TAG,"img.getBitmap() returns null. I'm not sure what this means, but i guess we can't draw it scaled...");
+		}
+
 	}
 	
 	private void doCrop() {
