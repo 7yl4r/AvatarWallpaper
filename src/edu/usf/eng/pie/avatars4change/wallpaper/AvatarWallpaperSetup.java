@@ -99,7 +99,7 @@ public class AvatarWallpaperSetup extends Activity{
     private void SetDirectory() {
         if (avatarWallpaper.sdPresent) {
 
-            String extStorageDirectory = userData.getFileDir(getApplicationContext()).substring(0,userData.getFileDir(getApplicationContext()).length() - 10);
+            String extStorageDirectory = userData.getFileDir(getApplicationContext());//.substring(0,userData.getFileDir(getApplicationContext()).length() - 10);
 
             File txtDirectory = new File(extStorageDirectory);
             // Create

@@ -2,7 +2,6 @@ package com.droid4you.util.cropimage;
 
 
 import edu.usf.eng.pie.avatars4change.R;
-import android.annotation.TargetApi;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -11,7 +10,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.View;
 
 // This class is used by CropImage to display a highlighted cropping rectangle
@@ -32,7 +30,6 @@ class HighlightView {
 
     public HighlightView(View ctx) {
         mContext = ctx;
-       	configureVersion();
     }
     
     private void init() {
@@ -60,15 +57,6 @@ class HighlightView {
         mHidden = hidden;
     }
 
-    //configure based on android build version
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private void configureVersion() {
-	    //do not accept forced hardware acceleration (fixes unsupported operation crashes on xperia ray Android 4.0)
-	    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
-	    	mContext.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
-	    } //else it should be fine
-    }
-    
     protected void draw(Canvas canvas) {
         if (mHidden) {
             return;
@@ -93,7 +81,6 @@ class HighlightView {
                 path.addRect(new RectF(mDrawRect), Path.Direction.CW);
                 mOutlinePaint.setColor(0xFFFF8A00);
             }
-            
             canvas.clipPath(path, Region.Op.DIFFERENCE);
             canvas.drawRect(viewDrawingRect,
                     hasFocus() ? mFocusPaint : mNoFocusPaint);

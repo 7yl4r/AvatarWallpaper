@@ -1,5 +1,6 @@
 package edu.usf.eng.pie.avatars4change.userData;
 
+import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,6 +12,7 @@ public class userData {
 	private static String TAG = "userData";
 	//user info:
     public static String USERID = "defaultUID";
+    private static Context CONTEXT = null;
     
     //user context:
     public static String currentActivity = "???";
@@ -24,7 +26,31 @@ public class userData {
     	delayHandle = new Handler();
     }
     
+    // method for getting file dir when context is not available...
+    public static String getFileDir(){
+    	if (CONTEXT.equals(null)) {
+    		Log.e(TAG,"cannot get file dir without a context, and unfortunately I don't have one stored...");
+    		String guess = null;
+    		try{
+        		Log.v(TAG,"trying to find sdcard location...");
+    			guess = Environment.getExternalStorageDirectory().getPath()+"Android/data/edu.usf.eng.pie.avatars4change/files/";
+    		} catch (NullPointerException e){
+        		Log.v(TAG,"that didn't work... making hardcoded guess about file dir...");
+        		guess = "/mnt/sdcard/Android/data/edu.usf.eng.pie.avatars4change/files/";
+    		}
+	    	Log.v(TAG,"fDir=?="+guess);
+    		return guess;
+    	}else{
+    		Log.v(TAG,"using previously used context to guess fileDir");
+    		String guess = getFileDir(CONTEXT);
+	    	Log.v(TAG,"fDir=?="+guess);
+    		return guess;
+    	}
+    }
+    
+    // method for getting program file dir
     public static String getFileDir(Context context){
+    	CONTEXT = context; //store the given context in case we need it later
     	//hang here until storage is ready
     	waitForStorageIsReady(context);
     	try{

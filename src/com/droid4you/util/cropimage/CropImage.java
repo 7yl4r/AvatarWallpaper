@@ -67,7 +67,6 @@ public class CropImage extends MonitoredActivity {
 	private Bitmap mBitmap;
 	private final BitmapManager.ThreadSet mDecodingThreads =
 		new BitmapManager.ThreadSet();
-	
 	HighlightView mCrop;
 
 	private IImage mImage;
@@ -377,11 +376,7 @@ public class CropImage extends MonitoredActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		try{
-			mBitmap.recycle();
-		}catch(NullPointerException e){
-			Log.w(TAG,"no bitmap to recycle");
-		}
+		mBitmap.recycle();
 	}
 
 	Runnable mRunFaceDetection = new Runnable() {
