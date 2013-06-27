@@ -19,15 +19,19 @@ public class avatarWallpaperSettings extends PreferenceActivity
 		"killMe",				//1
 		"RealismLevel",			//2
 		"CurrentActivity",		//3
-		"ActivityLevelSelector",//4 TODO: This is the same as behaviorSelector??? 
+		//4 is currently empty
 		"ResetLogs",			//5
 		"activeOnEvens",		//6
 		"UID",					//7
-		"behaviorSelector",		//8
+		"behavior",				//8
 		"wifiOnly",				//9
 		"scale"					//10
 	};	// this is mostly for reference; numbers are for ensuring that all are accounted for in handleKey()
-		
+	//DEPRECIATED KEYS:
+	//		"ActivityLevelSelector" //4
+
+	
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);		
@@ -78,10 +82,6 @@ public class avatarWallpaperSettings extends PreferenceActivity
     		android.os.Process.killProcess(android.os.Process.myPid());
     		
     	}else if(key.equals("RealismLevel")){	//2
-    		//NullPointerException comes out here...
-    		Log.d(TAG,mPrefs.toString());
-    		Log.d(TAG,Integer.toString(avatarWallpaper.theAvatar.getRealismLevel()));
-    		Log.d(TAG,mPrefs.getString(key, Integer.toString(avatarWallpaper.theAvatar.getRealismLevel())));
 			avatarWallpaper.theAvatar.setRealismLevel((int) mPrefs.getLong(key, avatarWallpaper.theAvatar.getRealismLevel()));
 			Log.d(TAG, "RealismLevel:"+avatarWallpaper.theAvatar.getRealismLevel());
 
@@ -90,10 +90,10 @@ public class avatarWallpaperSettings extends PreferenceActivity
 			avatarWallpaper.theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
 			Log.d(TAG, "CurrentActivity:"+avatarWallpaper.theAvatar.getActivityName());
 			
-// TODO: AcivitiyLevelSelector is the same as behaviorSelector???
-    	}else if (key.equals("ActivityLevelSelector")){	//4
+			// AcivitiyLevelSelector is the same as behaviorSelector???
+    	}else if (key.equals("ActivityLevelSelector")){
     		Log.e(TAG,"use of depreciated settings key ActivityLevelSelector; should use behaviorSelector instead");
-			avatarWallpaper.theAvatar.behaviorSelectorMethod = mPrefs.getString(key, "IEEE VR demo");
+			avatarWallpaper.theAvatar.setBehaviorSelectorMethod(mPrefs.getString(key, "IEEE VR demo"));
 			
     	}else if (key.equals("ResetLogs")){	//5
 			avatarWallpaper.keepLogs = !mPrefs.getBoolean(key, avatarWallpaper.keepLogs);
@@ -107,8 +107,8 @@ public class avatarWallpaperSettings extends PreferenceActivity
 			userData.USERID = mPrefs.getString(key,userData.USERID);
 			Log.d(TAG,"UID:"+userData.USERID);
 			
-    	}else if (key.equals("behaviorSelector")){	//8
-			avatarWallpaper.theAvatar.behaviorSelectorMethod = mPrefs.getString(key, avatarWallpaper.theAvatar.behaviorSelectorMethod);
+    	}else if (key.equals("behavior")){	//8
+			avatarWallpaper.theAvatar.setBehaviorSelectorMethod(mPrefs.getString(key, avatarWallpaper.theAvatar.behaviorSelectorMethod));
 			Log.d(TAG, "behaviorSelector:"+avatarWallpaper.theAvatar.behaviorSelectorMethod);
 			
     	}else if (key.equals("wifiOnly")){	//9

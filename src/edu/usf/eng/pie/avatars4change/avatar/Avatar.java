@@ -1,6 +1,7 @@
 package edu.usf.eng.pie.avatars4change.avatar;
 
 import edu.usf.eng.pie.avatars4change.userData.userData;
+import edu.usf.eng.pie.avatars4change.wallpaper.sceneBehaviors;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
@@ -103,6 +104,19 @@ public class Avatar extends Entity {
 		realismLevel = newLevel;
 		Log.v("Avatar",name+" realism level set to "+realismLevel);
 		//TODO reload avatar if needed
+	}
+	
+	public void setBehaviorSelectorMethod(String newMethod){
+		for (int i = 0; i<sceneBehaviors.behaviors.length; i++){
+			if (sceneBehaviors.behaviors[i].equals(newMethod)){
+				// given string is accepted
+				this.behaviorSelectorMethod = newMethod;
+				return;
+			}
+		} // exit of for loop means that newMethod is unrecognized
+		Log.e(TAG,"unrecognized behaviorSelector '"+newMethod+"'! using default 'constant'");
+		this.behaviorSelectorMethod = "constant";
+		return;
 	}
 	
 	//sets up the locations and sizes of the images for the avatar. Images are retrieved and drawn in the drawAvatar() method
@@ -267,7 +281,9 @@ public class Avatar extends Entity {
 			}
 		}
 		reloadBodyFiles();
+		//head files do not need reload; they stay the same
 		loadHeadLocation();
+		loadBodyLocation();
 	}
 	
 	//sets random activity name in the level passed

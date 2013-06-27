@@ -14,6 +14,11 @@ import android.util.Log;
 
 public class sceneBehaviors {
 	private static final String TAG = "sceneBehavior";
+	public static final String[] behaviors = {
+		"constant",
+		"Proteus Effect Study",
+		"IEEE VR demo"
+	};
     public static boolean   activeOnEvens       = true;	//active on even days?
 	
     //this method gets a behavior from the Avatar's behavior string (which has been set in the settings)
