@@ -24,7 +24,7 @@ public class sceneBehaviors {
     //this method gets a behavior from the Avatar's behavior string (which has been set in the settings)
     public static void runBehavior(Context context, Avatar theAvatar){
 		long now = SystemClock.elapsedRealtime();
-		long timeTillWarning = 1000 * 60 * 24;
+		long timeTillWarning = 1000 * 60 * 60 * 24;
         if((now - avatarWallpaper.lastLogTime) > timeTillWarning){   
         	Notifier.addNotification(context,"no data in past 24hrs; contact PIE-Lab staff.");
         }
