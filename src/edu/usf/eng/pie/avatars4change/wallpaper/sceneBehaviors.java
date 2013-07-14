@@ -19,7 +19,15 @@ public class sceneBehaviors {
 		"Proteus Effect Study",
 		"IEEE VR demo"
 	};
-    public static boolean   activeOnEvens       = true;	//active on even days?
+    private static boolean   activeOnEvens       = true;	//active on even days?
+    
+    public static boolean getActiveOnEvens(){
+    	return activeOnEvens;
+    }
+    public static void setActiveOnEvens(final boolean val){	
+        activeOnEvens = val;
+        avatarWallpaper.theAvatar.lastActivityChange = -avatarWallpaper.theAvatar.lastActivityChange;// triggers a scene update 
+    }
 	
     //this method gets a behavior from the Avatar's behavior string (which has been set in the settings)
     public static void runBehavior(Context context, Avatar theAvatar){
@@ -53,11 +61,12 @@ public class sceneBehaviors {
     // avatar behavior designed for use in the Proteus Effect study
 	private static void proteusStudy(Avatar theAvatar){		
 		avatarWallpaper.desiredFPS = 8;//update frameRate from PA level
-	    theAvatar.UPDATE_FREQUENCY = 60*60*1000;	//60*60*1000;	//desired time between activity level updates [ms]
+	    theAvatar.UPDATE_FREQUENCY = 60*60*1000;	//desired time between activity level updates [ms]
 		//check for enough time to change animation
     	//TODO: change this next if issue#5 persists
 		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
         if((now - theAvatar.lastActivityChange) > theAvatar.UPDATE_FREQUENCY){		//if time elapsed > desired time
+        	Log.d(TAG,"updating avatar activity");
         	//if past bedTime and before wakeTime, sleep
             int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
             Log.v("Avatars4Change Avatar sleep clock", "current hour:" + currentHour);
@@ -86,6 +95,7 @@ public class sceneBehaviors {
         	theAvatar.randomActivity(theAvatar.getActivityLevel());
        	 	theAvatar.lastActivityChange = now;
         }
+    	Log.d(TAG,Long.toString(theAvatar.UPDATE_FREQUENCY-(now-theAvatar.lastActivityChange))+"ms to activity change");
 	}
 
 	// avatar behavior cycles through all behaviors in order on a short interval

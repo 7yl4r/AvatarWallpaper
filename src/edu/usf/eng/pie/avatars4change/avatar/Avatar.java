@@ -1,7 +1,6 @@
 package edu.usf.eng.pie.avatars4change.avatar;
 
 import edu.usf.eng.pie.avatars4change.storager.Sdcard;
-import edu.usf.eng.pie.avatars4change.storager.userData;
 import edu.usf.eng.pie.avatars4change.wallpaper.sceneBehaviors;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -16,14 +15,15 @@ public class Avatar extends Entity {
 	private final String TAG = "avatar.Avatar";
 	//avatar properties:
     public String    behaviorSelectorMethod = "Proteus Effect Study";
-    public long      lastActivityChange     = 0;	//last time activity level was changed [ms]
     public int       bedTime             = 23;
     public int       wakeTime            = 5;
 	public long UPDATE_FREQUENCY     = 1000 * 60 * 1; 	//once per UPDATE_FREQUENCY; e.g. 60s/min *10min * 1000ms/s
+    public long      lastActivityChange     = -UPDATE_FREQUENCY;	//last time activity level was changed [ms]
+
 	
 	public float scaler = 1.0f;	//multiplier for the scale 
 	
-	long lastFrameChange      = 0;		//last frame update [ms]
+//	long lastFrameChange      = 0;		//last frame update [ms]
 	long lastUserStatusUpdate = 0;
 	
 	//values for choosing appropriate animations:
@@ -104,7 +104,14 @@ public class Avatar extends Entity {
 	public void setRealismLevel(int newLevel){
 		realismLevel = newLevel;
 		Log.v("Avatar",name+" realism level set to "+realismLevel);
-		//TODO reload avatar if needed
+		reloadAvatar(); // reload avatar if needed
+	}
+	
+	private void reloadAvatar(){
+		reloadBodyFiles();
+		reloadHeadFiles();
+		loadHeadLocation();
+		loadBodyLocation();
 	}
 	
 	public void setBehaviorSelectorMethod(String newMethod){
@@ -112,9 +119,10 @@ public class Avatar extends Entity {
 			if (sceneBehaviors.behaviors[i].equals(newMethod)){
 				// given string is accepted
 				this.behaviorSelectorMethod = newMethod;
+				this.lastActivityChange = -this.UPDATE_FREQUENCY;	// this makes the activity update now to match selection
 				return;
 			}
-		} // exit of for loop means that newMethod is unrecognized
+		} // else: (exit of for loop means that newMethod is unrecognized)
 		Log.e(TAG,"unrecognized behaviorSelector '"+newMethod+"'! using default 'constant'");
 		this.behaviorSelectorMethod = "constant";
 		return;
@@ -266,6 +274,7 @@ public class Avatar extends Entity {
 	public String getActivityName() {
 		return activityName;
 	}
+	
 	public void setActivityName(String newName) {
 		activityName = newName;		//set new activity name
 		Log.v("Avatar",name+" activity set to "+activityName);
@@ -281,10 +290,7 @@ public class Avatar extends Entity {
 				return;
 			}
 		}
-		reloadBodyFiles();
-		//head files do not need reload; they stay the same
-		loadHeadLocation();
-		loadBodyLocation();
+		reloadAvatar();
 	}
 	
 	//sets random activity name in the level passed
@@ -366,10 +372,7 @@ public class Avatar extends Entity {
 	
 	@Override
 	public void draw(Canvas c){
-		reloadHeadFiles();	//need to reload head sprite in case it has changed
-		
-		//TODO: set the location of the head based on the frame number and the animation type
-		
+		reloadHeadFiles();	//need to reload head sprite in case it has changed		
 		super.draw(c);
 	}
 }

@@ -93,15 +93,15 @@ public class avatarWallpaperSettings extends PreferenceActivity
 			// AcivitiyLevelSelector is the same as behaviorSelector???
     	}else if (key.equals("ActivityLevelSelector")){
     		Log.e(TAG,"use of depreciated settings key ActivityLevelSelector; should use behaviorSelector instead");
-			avatarWallpaper.theAvatar.setBehaviorSelectorMethod(mPrefs.getString(key, "IEEE VR demo"));
-			
+    		handleKey("behavior",mPrefs);
+    		
     	}else if (key.equals("ResetLogs")){	//5
 			avatarWallpaper.keepLogs = !mPrefs.getBoolean(key, avatarWallpaper.keepLogs);
 			Log.d(TAG, "keepLogs?:"+avatarWallpaper.keepLogs);
 			
     	}else if (key.equals("activeOnEvens")){	//6
-			sceneBehaviors.activeOnEvens = mPrefs.getBoolean(key, sceneBehaviors.activeOnEvens);			
-			Log.d(TAG,"activeOnEvens:"+sceneBehaviors.activeOnEvens);
+			sceneBehaviors.setActiveOnEvens(mPrefs.getBoolean(key, sceneBehaviors.getActiveOnEvens()));			
+			Log.d(TAG,"activeOnEvens:"+sceneBehaviors.getActiveOnEvens());
 			
     	}else if (key.equals("UID")){	//7
 			userData.USERID = mPrefs.getString(key,userData.USERID);
@@ -121,7 +121,6 @@ public class avatarWallpaperSettings extends PreferenceActivity
 			
     	}else{	//unknown preference key
     		Log.e(TAG,"unrecognized preference key '"+key+"'... trying not to panic.");
-    //		TODO: avatarWallpaperSettings.loadPrefs(sharedPreferences);
     		return;
     	} 
     	Log.d(TAG, key + " preference changed..."); //only prints if last 'else' case not triggered
@@ -151,4 +150,5 @@ public class avatarWallpaperSettings extends PreferenceActivity
     	dlg.setCancelable(true);
     	dlg.create().show();
     }
+
 }
