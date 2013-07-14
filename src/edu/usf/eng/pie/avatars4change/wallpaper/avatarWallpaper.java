@@ -77,8 +77,7 @@ public class avatarWallpaper extends WallpaperService {
 		sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 		//delay if no sdCard
 		while(!sdPresent){
-			Log.d(TAG,"waiting for sdCard...");
-			Toast.makeText(getApplicationContext(), "avatarWallpaper searching for sdCard", Toast.LENGTH_SHORT).show();
+			missingSDcardError();
 	    	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 			try {
 				Thread.sleep(750);		//TODO: wow, this is ugly...
@@ -88,6 +87,46 @@ public class avatarWallpaper extends WallpaperService {
 			}
 		}
 	}
+	
+    //delays the thread & shows toast until sdcard is connected.
+	//additional canvas argument allows for printing a warning to the canvas.
+	private void waitForSDcard(Canvas c){
+		sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+		//delay if no sdCard
+		while(!sdPresent){
+			missingSDcardError(c);
+	    	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+			try {
+				Thread.sleep(750);		//TODO: wow, this is ugly...
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	// tells the user that the sdcard is not reachable.
+	private void missingSDcardError(){
+		Log.d(TAG,"waiting for sdCard...");
+		Toast.makeText(getApplicationContext(), "avatarWallpaper searching for sdCard", Toast.LENGTH_SHORT).show();
+	}
+	
+	// tells the user that the sdcard is not reachable.
+	// extra canvas argument used to print error to canvas.
+    private void missingSDcardError(Canvas c){
+    	missingSDcardError();
+		if (c != null){	// show error on the canvas if given
+			c.save();
+			Layer_Background.draw(c);
+		    Paint mPaint = new Paint();
+		    mPaint.setColor(Color.BLACK); 
+			mPaint.setTextSize(30); 
+			//mPaint.setStrokeWidth(2);
+			mPaint.setTypeface(Typeface.DEFAULT);
+			c.drawText("cannot detect SD card", -90, 90, mPaint); 
+			c.restore();
+		}
+    }
 
 	//sets up the avatar (called in onCreate)
 	private void avatarSetup(){
@@ -220,13 +259,11 @@ public class avatarWallpaper extends WallpaperService {
             //// By default we don't get touch events, so enable them.
             //setTouchEventsEnabled(true);
 
-
             //load the preferences
             avatarWallpaperSettings.loadPrefs(avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
             
             //set up the scene
             Layer_Main.setup(theAvatar);
-            
         }
 
         @Override
@@ -236,9 +273,8 @@ public class avatarWallpaper extends WallpaperService {
             mHandler.removeCallbacks(mDrawViz);
         }
 
-        @Override
-        public void onVisibilityChanged(boolean visible) {
-            mVisible = visible;
+        private void logVisibilityData(final boolean visible){
+        	mVisible = visible;
             if (visible) {
      			drawFrame();
                 visibilityStart = System.currentTimeMillis();
@@ -301,10 +337,20 @@ public class avatarWallpaper extends WallpaperService {
             	}
             }
         }
+        
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+            logVisibilityData(visible);
+        }
 
         @Override
         public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             super.onSurfaceChanged(holder, format, width, height);
+            getSurfaceInfo(height,width);
+            drawFrame();
+        }
+
+        private void getSurfaceInfo(int height, int width){
             // store the center of the surface, so we can draw in the right spot
             mCenterX = width/2.0f;
             mCenterY = height/2.0f;
@@ -316,10 +362,8 @@ public class avatarWallpaper extends WallpaperService {
         	//Log.d(TAG,"onSurfaceChanged makes avatar size " + theAvatar.);
             theAvatar.setSize(s);
             */
-            
-            drawFrame();
         }
-
+        
         @Override
         public void onSurfaceCreated(SurfaceHolder holder) {
             super.onSurfaceCreated(holder);
@@ -355,7 +399,7 @@ public class avatarWallpaper extends WallpaperService {
             super.onTouchEvent(event);
         }
         */
-
+        
         /*
          * Draw one frame of the animation. This method gets called repeatedly
          * by posting a delayed Runnable. You can do any drawing you want in
@@ -368,26 +412,16 @@ public class avatarWallpaper extends WallpaperService {
             try {
                 c = holder.lockCanvas();
                 if (c != null) {
+                	c.save();
+                	c.translate(mCenterX, mCenterY);
                 	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
                 	if(sdPresent){
-				Layer_Main.nextFrame();
-	
-	                	c.save();
-	                	c.translate(mCenterX, mCenterY);
+                		Layer_Main.nextFrame();
 	                	Layer_Main.draw(c, holder.getSurfaceFrame(),theAvatar);
-	                	c.restore();
                 	}else{//SDcard not present
-                		c.save();
-                		Layer_Background.draw(c);
-	                	c.translate(mCenterX, mCenterY);
-                	    Paint mPaint = new Paint();
-                	    mPaint.setColor(Color.BLACK); 
-                		mPaint.setTextSize(30); 
-                		//mPaint.setStrokeWidth(2);
-                		mPaint.setTypeface(Typeface.DEFAULT);
-                		c.drawText("cannot detect SD card", -90, 90, mPaint); 
-                		c.restore();
+                		waitForSDcard(c);
                 	}
+                	c.restore();
                 }
             } finally {
                 if (c != null) holder.unlockCanvasAndPost(c);
