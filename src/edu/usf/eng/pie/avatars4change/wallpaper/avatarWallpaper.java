@@ -44,7 +44,7 @@ public class avatarWallpaper extends WallpaperService {
     	super.onCreate();
         Log.d(TAG,"application started with context =" + getApplicationContext().toString());
 
-    	Sdcard.waitForCard(getApplicationContext());
+    	Sdcard.waitForReady(getApplicationContext());
     	
         avatarSetup();
         countlySetup();
@@ -90,7 +90,7 @@ public class avatarWallpaper extends WallpaperService {
 	//checks for first time run (by looking for files) and runs appropriate setup if needed
 	private void checkForFirstTime(){
  		boolean firstTime;
- 		File file = new File(userData.getFileDir(getApplicationContext()), "dataLog.txt" );
+ 		File file = new File(Sdcard.getFileDir(getApplicationContext()), "dataLog.txt" );
  		if (file.exists()) {
  			firstTime = false;
  		}else{
@@ -183,13 +183,14 @@ public class avatarWallpaper extends WallpaperService {
         private void logVisibilityData(final boolean visible){
         	mVisible = visible;
             if (visible) {
+            	drawFrame();
                 visibilityStart = System.currentTimeMillis();
             } else {
                 mHandler.removeCallbacks(mDrawViz);
                 Long visibilityEnd = System.currentTimeMillis();
                 long visibleTime = visibilityEnd - visibilityStart;
                 
-            	if(Sdcard.isPresent()){
+            	if(Sdcard.storageReady()){
 	                //create or open dataLog file:
 	                DataOutputStream dataOut = null;
 	                if(keepLogs){
@@ -298,7 +299,7 @@ public class avatarWallpaper extends WallpaperService {
                 		Layer_Main.nextFrame();
 	                	Layer_Main.draw(c, holder.getSurfaceFrame(),theAvatar);
                 	}else{//SDcard not present
-                		Sdcard.waitForCard(getApplicationContext(),c);
+                		Sdcard.waitForReady(getApplicationContext(),c);
                 	}
                 	c.restore();
                 }

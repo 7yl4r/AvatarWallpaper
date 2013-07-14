@@ -1,5 +1,6 @@
 package edu.usf.eng.pie.avatars4change.avatar;
 
+import edu.usf.eng.pie.avatars4change.storager.Sdcard;
 import edu.usf.eng.pie.avatars4change.storager.userData;
 import edu.usf.eng.pie.avatars4change.wallpaper.sceneBehaviors;
 import android.content.Context;
@@ -50,7 +51,7 @@ public class Avatar extends Entity {
 	//constructor
 	public Avatar(Location LOC, int realismL, String activityL, Context context) {
 		super("AvatarObject",LOC);
-		baseFileDirectory = userData.getFileDir(context);
+		baseFileDirectory = Sdcard.getFileDir(context);
 		spriteDir = baseFileDirectory + "sprites";
 		//set default image locations
 		headFile = spriteDir+"/face/default/0.png";
