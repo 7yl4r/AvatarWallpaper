@@ -8,7 +8,7 @@ import edu.usf.eng.pie.avatars4change.avatar.Entity;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.avatar.Scene;
 import edu.usf.eng.pie.avatars4change.avatar.Sprite;
-import edu.usf.eng.pie.avatars4change.userData.userData;
+import edu.usf.eng.pie.avatars4change.storager.userData;
 
 public class Layer_UnitTestMain {
 	static Scene     testScene;

@@ -1,4 +1,4 @@
-package edu.usf.eng.pie.avatars4change.userData;
+package edu.usf.eng.pie.avatars4change.storager;
 
 import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper;
 import android.content.Context;

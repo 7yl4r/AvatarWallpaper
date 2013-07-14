@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.usf.eng.pie.avatars4change.R;
-import edu.usf.eng.pie.avatars4change.userData.userData;
+import edu.usf.eng.pie.avatars4change.storager.userData;
 
 import android.app.Activity;
 import android.app.AlertDialog;

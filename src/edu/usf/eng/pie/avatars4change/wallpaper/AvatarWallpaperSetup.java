@@ -7,7 +7,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import edu.usf.eng.pie.avatars4change.R;
-import edu.usf.eng.pie.avatars4change.userData.userData;
+import edu.usf.eng.pie.avatars4change.storager.Sdcard;
+import edu.usf.eng.pie.avatars4change.storager.userData;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -97,7 +98,7 @@ public class AvatarWallpaperSetup extends Activity{
      * ========================================================================
      **/
     private void SetDirectory() {
-        if (avatarWallpaper.sdPresent) {
+        if (Sdcard.isPresent()) {
 
             String extStorageDirectory = userData.getFileDir(getApplicationContext());//.substring(0,userData.getFileDir(getApplicationContext()).length() - 10);
 

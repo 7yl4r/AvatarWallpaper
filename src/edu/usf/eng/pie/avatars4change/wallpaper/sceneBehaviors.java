@@ -5,7 +5,7 @@ import java.util.TimeZone;
 
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.notifier.Notifier;
-import edu.usf.eng.pie.avatars4change.userData.userData;
+import edu.usf.eng.pie.avatars4change.storager.userData;
 
 import android.content.Context;
 import android.os.SystemClock;

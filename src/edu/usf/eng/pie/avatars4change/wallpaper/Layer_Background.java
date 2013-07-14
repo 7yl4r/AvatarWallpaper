@@ -1,6 +1,6 @@
 package edu.usf.eng.pie.avatars4change.wallpaper;
 
-import edu.usf.eng.pie.avatars4change.userData.userData;
+import edu.usf.eng.pie.avatars4change.storager.userData;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;

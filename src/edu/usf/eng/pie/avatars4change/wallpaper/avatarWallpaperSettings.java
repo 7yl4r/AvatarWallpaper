@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import edu.usf.eng.pie.avatars4change.R;
-import edu.usf.eng.pie.avatars4change.userData.userData;
+import edu.usf.eng.pie.avatars4change.storager.userData;
 
 public class avatarWallpaperSettings extends PreferenceActivity 
     implements SharedPreferences.OnSharedPreferenceChangeListener {

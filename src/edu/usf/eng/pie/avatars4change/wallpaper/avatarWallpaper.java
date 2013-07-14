@@ -2,32 +2,26 @@ package edu.usf.eng.pie.avatars4change.wallpaper;
 
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
-import ly.count.android.api.Countly;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.widget.Toast;
+
+import ly.count.android.api.Countly;
+
 import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.Globals;
-import edu.usf.eng.pie.avatars4change.userData.userData;
 import edu.usf.eng.pie.avatars4change.wallpaper.Layer_Main;
+import edu.usf.eng.pie.avatars4change.storager.Sdcard;
+import edu.usf.eng.pie.avatars4change.storager.userData;
 
 // This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
  
@@ -37,7 +31,6 @@ public class avatarWallpaper extends WallpaperService {
     private final String[] mLabels              = {"still", "walking", "running"};
     public static float desiredFPS              = 10;
     public static boolean wifiOnly              = false;	//enable if program should only use wifi
-    public static boolean sdPresent             = false;
     
     public static Avatar    theAvatar;
 
@@ -49,8 +42,9 @@ public class avatarWallpaper extends WallpaperService {
     @Override
     public void onCreate() {
     	super.onCreate();
-    	waitForSDcard();
-        Log.d(TAG,"application context =" + getApplicationContext().toString());
+        Log.d(TAG,"application started with context =" + getApplicationContext().toString());
+
+    	Sdcard.waitForCard(getApplicationContext());
     	
         avatarSetup();
         countlySetup();
@@ -58,75 +52,9 @@ public class avatarWallpaper extends WallpaperService {
 
     	checkForFirstTime();
  		
-    	setupSDcardReceiver();
+    	Sdcard.onStart();
     }
 
-    private void setupSDcardReceiver(){
-		//register sdCard connect receiver
- 		IntentFilter conFilter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED); 
- 		conFilter.addDataScheme("file"); 
- 		registerReceiver(this.SDconnReceiver, new IntentFilter(conFilter));
- 		//register sdCard remove receiver
- 		IntentFilter remFilter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED); 
- 		remFilter.addDataScheme("file"); 
- 		registerReceiver(this.SDremovReceiver, new IntentFilter(remFilter));
-    }
-    
-    //delays the thread & shows toast until sdcard is connected
-	private void waitForSDcard(){
-		sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-		//delay if no sdCard
-		while(!sdPresent){
-			missingSDcardError();
-	    	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-			try {
-				Thread.sleep(750);		//TODO: wow, this is ugly...
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	
-    //delays the thread & shows toast until sdcard is connected.
-	//additional canvas argument allows for printing a warning to the canvas.
-	private void waitForSDcard(Canvas c){
-		sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-		//delay if no sdCard
-		while(!sdPresent){
-			missingSDcardError(c);
-	    	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-			try {
-				Thread.sleep(750);		//TODO: wow, this is ugly...
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	// tells the user that the sdcard is not reachable.
-	private void missingSDcardError(){
-		Log.d(TAG,"waiting for sdCard...");
-		Toast.makeText(getApplicationContext(), "avatarWallpaper searching for sdCard", Toast.LENGTH_SHORT).show();
-	}
-	
-	// tells the user that the sdcard is not reachable.
-	// extra canvas argument used to print error to canvas.
-    private void missingSDcardError(Canvas c){
-    	missingSDcardError();
-		if (c != null){	// show error on the canvas if given
-			c.save();
-			Layer_Background.draw(c);
-		    Paint mPaint = new Paint();
-		    mPaint.setColor(Color.BLACK); 
-			mPaint.setTextSize(30); 
-			//mPaint.setStrokeWidth(2);
-			mPaint.setTypeface(Typeface.DEFAULT);
-			c.drawText("cannot detect SD card", -90, 90, mPaint); 
-			c.restore();
-		}
-    }
 
 	//sets up the avatar (called in onCreate)
 	private void avatarSetup(){
@@ -177,23 +105,6 @@ public class avatarWallpaper extends WallpaperService {
  		} //else assume that everything is in working order
 	}
 	
-    //SD card connected receiver
-    private BroadcastReceiver SDconnReceiver = new BroadcastReceiver(){
-        @Override
-        public void onReceive(Context arg0, Intent intent) {
-        sdPresent = true;
-        }
-    }; 
-
-    //SD card removed receiver
-
-    //SD card removed receiver
-    private BroadcastReceiver SDremovReceiver = new BroadcastReceiver(){
-         @Override
-         public void onReceive(Context arg0, Intent intent) {
-         sdPresent = false;
-         }
-     }; 
 
 
     @Override
@@ -210,11 +121,7 @@ public class avatarWallpaper extends WallpaperService {
     
     // All parts needed to draw the output go in this function
     class DrawEngine extends Engine {
-    	
-    	//set up the file directory for saving data and retrieving sprites
-    	String extStorageDirectory = userData.getFileDir(getApplicationContext());
-    	File   fileDirectory       = new File (extStorageDirectory);
-    	
+        	
         //vars for the avatar
         Resources r                = getResources();
         
@@ -276,50 +183,22 @@ public class avatarWallpaper extends WallpaperService {
         private void logVisibilityData(final boolean visible){
         	mVisible = visible;
             if (visible) {
-     			drawFrame();
                 visibilityStart = System.currentTimeMillis();
             } else {
                 mHandler.removeCallbacks(mDrawViz);
                 Long visibilityEnd = System.currentTimeMillis();
                 long visibleTime = visibilityEnd - visibilityStart;
-                File dataLogFile = new File(fileDirectory, "dataLog.txt");	//create file
                 
-                if(!fileDirectory.mkdirs()){	//create if directory not exist
-                	//if creation of directory fails
-                	Log.v(TAG, "creation of directory '"+ fileDirectory +"' fails, already exists?");
-                }
-                
-            	Boolean SDpresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-            	if(SDpresent){
+            	if(Sdcard.isPresent()){
 	                //create or open dataLog file:
-	                FileOutputStream dataFileOut = null;
+	                DataOutputStream dataOut = null;
 	                if(keepLogs){
-						try {
-							dataFileOut = new FileOutputStream(dataLogFile, true);	//append
-						} catch (FileNotFoundException e) {
-							// TODO
-							e.printStackTrace();
-						}
+						dataOut = Sdcard.getVisibilityLog(getApplicationContext(),true);
 	                } else {
-	                	try {
-							dataFileOut = new FileOutputStream(dataLogFile, false);	//do not append
-							DataOutputStream dataOut = new DataOutputStream(dataFileOut);
-							//print header on data file
-							try {
-								dataOut.writeBytes("StartVisible,EndVisible,ViewTime,animationName\n");
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							Log.d(TAG, "New dataLog file has been created");
-							keepLogs = true;
-						} catch (FileNotFoundException e) {
-							// TODO
-							e.printStackTrace();
-						}
+	                	dataOut = Sdcard.getVisibilityLog(getApplicationContext(),false);
 	                }
-					DataOutputStream dataOut = new DataOutputStream(dataFileOut);
-					//write time viewed to file
+
+	                //write time viewed to file
 	                try {
 						dataOut.writeBytes(String.valueOf(visibilityStart)+","+String.valueOf(visibilityEnd)+","+String.valueOf(visibilityEnd-visibilityStart)+
 								"," + theAvatar.getActivityName() + "\n");
@@ -414,12 +293,12 @@ public class avatarWallpaper extends WallpaperService {
                 if (c != null) {
                 	c.save();
                 	c.translate(mCenterX, mCenterY);
-                	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+                	boolean sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
                 	if(sdPresent){
                 		Layer_Main.nextFrame();
 	                	Layer_Main.draw(c, holder.getSurfaceFrame(),theAvatar);
                 	}else{//SDcard not present
-                		waitForSDcard(c);
+                		Sdcard.waitForCard(getApplicationContext(),c);
                 	}
                 	c.restore();
                 }

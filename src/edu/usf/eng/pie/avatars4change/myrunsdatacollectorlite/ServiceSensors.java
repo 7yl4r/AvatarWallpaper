@@ -31,7 +31,8 @@ import android.widget.Toast;
 
 import com.meapsoft.FFT;
 
-import edu.usf.eng.pie.avatars4change.userData.userData;
+import edu.usf.eng.pie.avatars4change.storager.Sdcard;
+import edu.usf.eng.pie.avatars4change.storager.userData;
 import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper;
 
 public class ServiceSensors extends Service implements SensorEventListener {
@@ -257,7 +258,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 		
 		//boolean flag1= true;
 		
-    	if(avatarWallpaper.sdPresent){
+    	if(Sdcard.isPresent()){
 			mResults= new File(userData.getFileDir(getApplicationContext()),"mResults" + ".txt");
     	} else {
     		Log.e(TAG,"no sdCard! uh oh...");

@@ -8,8 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import edu.usf.eng.pie.avatars4change.userData.*;
-
+import edu.usf.eng.pie.avatars4change.storager.userData;
 
 public class myRunsDataCollectorReceiver extends BroadcastReceiver {
 	private static int[] levels = new int[20];
