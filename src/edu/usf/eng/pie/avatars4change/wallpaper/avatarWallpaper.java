@@ -11,7 +11,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -19,7 +18,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -51,7 +49,32 @@ public class avatarWallpaper extends WallpaperService {
     @Override
     public void onCreate() {
     	super.onCreate();
-    	sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+    	waitForSDcard();
+        Log.d(TAG,"application context =" + getApplicationContext().toString());
+    	
+        avatarSetup();
+        countlySetup();
+    	PAcollectorSetup();
+
+    	checkForFirstTime();
+ 		
+    	setupSDcardReceiver();
+    }
+
+    private void setupSDcardReceiver(){
+		//register sdCard connect receiver
+ 		IntentFilter conFilter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED); 
+ 		conFilter.addDataScheme("file"); 
+ 		registerReceiver(this.SDconnReceiver, new IntentFilter(conFilter));
+ 		//register sdCard remove receiver
+ 		IntentFilter remFilter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED); 
+ 		remFilter.addDataScheme("file"); 
+ 		registerReceiver(this.SDremovReceiver, new IntentFilter(remFilter));
+    }
+    
+    //delays the thread & shows toast until sdcard is connected
+	private void waitForSDcard(){
+		sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 		//delay if no sdCard
 		while(!sdPresent){
 			Log.d(TAG,"waiting for sdCard...");
@@ -64,11 +87,16 @@ public class avatarWallpaper extends WallpaperService {
 				e.printStackTrace();
 			}
 		}
-        Log.d(TAG,"application context =" + getApplicationContext().toString());
-        //set up the avatar
+	}
+
+	//sets up the avatar (called in onCreate)
+	private void avatarSetup(){
         theAvatar = new Avatar(new Location(0,0,0,300,0), 3,"sleeping", getApplicationContext());		//create new avatar
         avatarWallpaperSettings.loadPrefs(avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
-    	
+	}
+	
+	//sets up countly server (called in onCreate)
+	private void countlySetup(){
     	//set up countly:
     	String appKey        = "301238f5cbf557a6d4f80d4bb19b97b3da3a22ca";
     	String serverURL     = "http://testSubDomain.socialvinesolutions.com";
@@ -76,7 +104,10 @@ public class avatarWallpaper extends WallpaperService {
     	
         //start up countly
     	Countly.sharedInstance().onStart();// in onStart.
-    	
+	}
+	
+	//sets up the physical activity collector activity (called in onCreate)
+	private void PAcollectorSetup(){
     	//setup the PA collector service:
     	Intent mServiceIntent = new Intent(getApplicationContext(), edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors.class);
  		int activityId = Globals.SERVICE_TASK_TYPE_CLASSIFY;	//TODO: ?
@@ -87,8 +118,10 @@ public class avatarWallpaper extends WallpaperService {
  		mServiceIntent.putExtras(extras);
  		Log.v(TAG, "starting SensorService");
  		startService(mServiceIntent); 
-    	
- 		//check for first time run (by looking for files)
+	}
+	
+	//checks for first time run (by looking for files) and runs appropriate setup if needed
+	private void checkForFirstTime(){
  		boolean firstTime;
  		File file = new File(userData.getFileDir(getApplicationContext()), "dataLog.txt" );
  		if (file.exists()) {
@@ -98,36 +131,31 @@ public class avatarWallpaper extends WallpaperService {
  		}
  		if(firstTime){
  			Log.v(TAG,"running 1st time setup");
-	    	//run intial setup activity
+	    	//run initial setup activity
  			Intent i = new Intent(getApplicationContext(), edu.usf.eng.pie.avatars4change.wallpaper.AvatarWallpaperSetup.class);
  			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
  			startActivity(i);
  		} //else assume that everything is in working order
- 		
- 		//register sdCard connect receiver
- 		IntentFilter conFilter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED); 
- 		conFilter.addDataScheme("file"); 
- 		registerReceiver(this.SDconnReceiver, new IntentFilter(conFilter));
- 		//register sdCard remove receiver
- 		IntentFilter remFilter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED); 
- 		remFilter.addDataScheme("file"); 
- 		registerReceiver(this.SDremovReceiver, new IntentFilter(remFilter));
-    }
-    
+	}
+	
     //SD card connected receiver
     private BroadcastReceiver SDconnReceiver = new BroadcastReceiver(){
         @Override
         public void onReceive(Context arg0, Intent intent) {
         sdPresent = true;
         }
-     }; 
-     //SD card removed receiver
-     private BroadcastReceiver SDremovReceiver = new BroadcastReceiver(){
+    }; 
+
+    //SD card removed receiver
+
+    //SD card removed receiver
+    private BroadcastReceiver SDremovReceiver = new BroadcastReceiver(){
          @Override
          public void onReceive(Context arg0, Intent intent) {
          sdPresent = false;
          }
-      }; 
+     }; 
+
 
     @Override
     public void onDestroy() {
