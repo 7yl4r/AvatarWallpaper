@@ -183,7 +183,7 @@ public class Sdcard {
 			missingCardError(context);
 			try {
 				Thread.sleep(DELAY_TIME);
-				missingCardError(context);
+				waitForReady(context);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -211,7 +211,7 @@ public class Sdcard {
 			missingCardError(context,canv);
 			try {
 				Thread.sleep(DELAY_TIME);
-				missingCardError(context);
+				waitForReady(context,canv);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
