@@ -81,19 +81,19 @@
         </activity>
         
       	<!-- ========================= BROADCAST RECEIVERS ========================== -->
-        <receiver android:name="edu.usf.eng.pie.avatars4change.receivers.mMonitorReceiver" >
+        <receiver android:name="edu.usf.eng.pie.avatars4change.mMonitorInterface.mMonitorReceiver" >
 		    <intent-filter>
 		        <action android:name="com.MILES.MonitoringApp.DailyStateChange" />
 		    </intent-filter>
 	    </receiver>
 	        
-		<receiver android:name="edu.usf.eng.pie.avatars4change.receivers.myTestReceiver" >
+		<receiver android:name="edu.usf.eng.pie.avatars4change.mMonitorInterface.myTestReceiver" >
 		    <intent-filter>
 		        <action android:name="com.tylar.research.avatars" />
 		    </intent-filter>
 	    </receiver>
 	    
-		<receiver android:name="edu.usf.eng.pie.avatars4change.receivers.myRunsDataCollectorReceiver">
+		<receiver android:name="edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.myRunsDataCollectorReceiver">
 		    <intent-filter>
 		        <action android:name="SOME_ACTION" />
 		    </intent-filter>

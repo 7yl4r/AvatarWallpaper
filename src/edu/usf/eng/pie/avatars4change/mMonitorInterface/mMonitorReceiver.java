@@ -1,4 +1,4 @@
-package edu.usf.eng.pie.avatars4change.receivers;
+package edu.usf.eng.pie.avatars4change.mMonitorInterface;
 
 import edu.usf.eng.pie.avatars4change.R;
 import android.app.Notification;
