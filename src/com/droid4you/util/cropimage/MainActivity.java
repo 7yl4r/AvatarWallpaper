@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.usf.eng.pie.avatars4change.R;
+import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 import edu.usf.eng.pie.avatars4change.storager.Sdcard;
-import edu.usf.eng.pie.avatars4change.storager.userData;
 
 import android.app.Activity;
 import android.app.AlertDialog;

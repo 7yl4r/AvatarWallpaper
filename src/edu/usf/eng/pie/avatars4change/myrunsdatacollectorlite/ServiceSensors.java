@@ -31,8 +31,8 @@ import android.widget.Toast;
 
 import com.meapsoft.FFT;
 
+import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 import edu.usf.eng.pie.avatars4change.storager.Sdcard;
-import edu.usf.eng.pie.avatars4change.storager.userData;
 import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper;
 
 public class ServiceSensors extends Service implements SensorEventListener {
@@ -286,7 +286,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 					for(int i=0; i< re.length; i++){
 						double mag = Math.sqrt(re[i]*re[i]+ im[i]*im[i]);
 						if(i < 64){
-							userData.FFT[i] = mag;	//add to userData (just for fun)
+	//						userData.FFT[i] = mag;	//add to userData (just for fun)
 						} else {
 							oopsFlag = true;
 						}

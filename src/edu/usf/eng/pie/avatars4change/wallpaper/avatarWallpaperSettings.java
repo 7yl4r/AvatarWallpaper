@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import edu.usf.eng.pie.avatars4change.R;
-import edu.usf.eng.pie.avatars4change.storager.userData;
+import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 
 public class avatarWallpaperSettings extends PreferenceActivity 
     implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -19,7 +19,7 @@ public class avatarWallpaperSettings extends PreferenceActivity
 		"killMe",				//1
 		"RealismLevel",			//2
 		"CurrentActivity",		//3
-		//4 is currently empty
+		//4 is currently a duplicate of 8
 		"ResetLogs",			//5
 		"activeOnEvens",		//6
 		"UID",					//7

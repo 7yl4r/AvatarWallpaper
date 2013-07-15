@@ -5,8 +5,8 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.usf.eng.pie.avatars4change"
-    	android:versionCode="1"
-      	android:versionName="1.2">
+    	android:versionCode="2"
+      	android:versionName="2.0-alpha">
 
     <uses-sdk android:minSdkVersion="8"
               android:targetSdkVersion="17"/>
@@ -81,13 +81,13 @@
         </activity>
         
       	<!-- ========================= BROADCAST RECEIVERS ========================== -->
-        <receiver android:name="edu.usf.eng.pie.avatars4change.mMonitorInterface.mMonitorReceiver" >
+        <receiver android:name="edu.usf.eng.pie.avatars4change.dataInterface.mMonitorReceiver" >
 		    <intent-filter>
 		        <action android:name="com.MILES.MonitoringApp.secLevelData" />
 		    </intent-filter>
 	    </receiver>
 	    
-		<receiver android:name="edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.myRunsDataCollectorReceiver">
+		<receiver android:name="edu.usf.eng.pie.avatars4change.dataInterface.myRunsDataCollectorReceiver">
 		    <intent-filter>
 		        <action android:name="SOME_ACTION" />
 		    </intent-filter>

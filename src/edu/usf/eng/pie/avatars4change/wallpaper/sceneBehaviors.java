@@ -4,8 +4,8 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
+import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 import edu.usf.eng.pie.avatars4change.notifier.Notifier;
-import edu.usf.eng.pie.avatars4change.storager.userData;
 
 import android.content.Context;
 import android.os.SystemClock;
@@ -24,6 +24,7 @@ public class sceneBehaviors {
     public static boolean getActiveOnEvens(){
     	return activeOnEvens;
     }
+
     public static void setActiveOnEvens(final boolean val){	
         activeOnEvens = val;
         avatarWallpaper.theAvatar.lastActivityChange = -avatarWallpaper.theAvatar.lastActivityChange;// triggers a scene update 

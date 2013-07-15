@@ -18,10 +18,10 @@ import ly.count.android.api.Countly;
 import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
+import edu.usf.eng.pie.avatars4change.dataInterface.countlyInterface;
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.Globals;
 import edu.usf.eng.pie.avatars4change.wallpaper.Layer_Main;
 import edu.usf.eng.pie.avatars4change.storager.Sdcard;
-import edu.usf.eng.pie.avatars4change.storager.userData;
 
 // This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
  
@@ -47,7 +47,12 @@ public class avatarWallpaper extends WallpaperService {
     	Sdcard.waitForReady(getApplicationContext());
     	
         avatarSetup();
+        
+        //TODO: if setting countlyLogging == true
         countlySetup();
+        
+        //TODO: setting to choose built-in classifier (myRunsDataCollector) or mMonitor here
+        // then do setup for chosen, then register receiver
     	PAcollectorSetup();
 
     	checkForFirstTime();
@@ -71,6 +76,8 @@ public class avatarWallpaper extends WallpaperService {
     	
         //start up countly
     	Countly.sharedInstance().onStart();// in onStart.
+    	
+    	countlyInterface.startSendingData();
 	}
 	
 	//sets up the physical activity collector activity (called in onCreate)
