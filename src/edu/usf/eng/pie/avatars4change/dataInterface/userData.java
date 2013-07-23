@@ -27,8 +27,13 @@ public class userData {
 	private static float min = 100;
 	private static float max = 0;
 	private static int[] activityFrequencies = new int[11];
-	
-	//TODO: make recentAvg private and use instead a personalized scale using past min/max
+		
+	//allows restart of personalization of levels
+	public static void resetPAmeasures(){
+		min = 100;
+		max = 0;
+		for (int i = 0; i < activityFrequencies.length; i++) activityFrequencies[i]=0;
+	}
 
 	public static void appendValueAndRecalc(Context c, Intent i, int newV){
 		appendValueAndRecalc(c,i,(float)newV);

@@ -125,6 +125,7 @@ public class avatarWallpaperSettings extends PreferenceActivity
 			
     	}else if (key.equals(PREFERENCE_KEYS[10])){ //11 = activity monitor selector
     		activityMonitor.setActivityMonitor(ctx,mPrefs.getString(key, avatarWallpaper.theAvatar.behaviorSelectorMethod));
+    		userData.resetPAmeasures();	
 			Log.d(TAG, "activityMonitor:"+activityMonitor.getActivityMonitor());
     		
     	}else{	//unknown preference key
