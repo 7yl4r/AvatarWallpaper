@@ -30,7 +30,7 @@ public class Layer_UserStatus {
 		mPaint.setTypeface(Typeface.DEFAULT);
 		c.drawText("You are currently", xOffset, yOffset, mPaint); 
 		//set color from activity level
-		int colorValue = Math.round(userData.currentActivityLevel * 255.0f/2.0f);
+		int colorValue = Math.round(userData.recentAvgActivityLevel * 255.0f/10.0f);
 		mPaint.setColor(Color.rgb(colorValue, 80, 255 - colorValue));
 		mPaint.setTextSize(50);
 		mPaint.setTypeface(Typeface.DEFAULT_BOLD);
@@ -49,15 +49,18 @@ public class Layer_UserStatus {
 		}
 		*/
 		//set text based on activity level
-		if(((int) Math.round(userData.currentActivityLevel)) == 0){
-			statusText = "sedentary";
-		}else if( ((int) Math.round(userData.currentActivityLevel)) == 1){
-			statusText = "active";
-		}else if(((int) Math.round(userData.currentActivityLevel)) ==2){
-			statusText = "SUPER active!";
-		}else{
+		if( userData.recentAvgActivityLevel < 0){
 			mPaint.setTextSize(30);
-			statusText = "? - please reset app.";
+			statusText = "? - val out of bounds";
+		}else if( userData.recentAvgActivityLevel < 3){ //implied && > 0
+			statusText = "sedentary";
+		}else if( userData.recentAvgActivityLevel < 6){ //implied && > 3
+			statusText = "active";
+		}else if(userData.recentAvgActivityLevel < 10){ //implied && > 6
+			statusText = "SUPER active!";
+		}else{ // > 10 || < 0
+			mPaint.setTextSize(30);
+			statusText = "? - val out of bounds";
 		}
 		c.drawText(statusText, xOffset, yOffset, mPaint);
 		/*

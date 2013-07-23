@@ -42,12 +42,10 @@ public class countlyInterface {
 	}
 	
 	private static void postCountlyData(){
-		if(userData.recentAvg != 0){	//do not send zero activity notices to countly (is this a good choice?)
-			//Log.v(TAG,"queuing event physicalAcitivtyLevel = " + Float.toString(avgLevel));
-			HashMap<String, String> segmentation = new HashMap<String,String>();
-			segmentation.put("UID",userData.USERID);
-			Countly.sharedInstance().recordEvent("physicalActivity",segmentation,1, userData.recentAvg);
-		}
+		//Log.v(TAG,"queuing event physicalAcitivtyLevel = " + Float.toString(avgLevel));
+		HashMap<String, String> segmentation = new HashMap<String,String>();
+		segmentation.put("UID",userData.USERID);
+		Countly.sharedInstance().recordEvent("physicalActivity",segmentation,1, userData.recentAvgActivityLevel);
 	}
 	
 }
