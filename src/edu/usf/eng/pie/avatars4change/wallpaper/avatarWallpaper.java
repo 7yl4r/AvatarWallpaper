@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -26,45 +27,43 @@ import edu.usf.eng.pie.avatars4change.storager.Sdcard;
 // This animated wallpaper draws a virtual avatar animation from png images saved on the sd card
  
 public class avatarWallpaper extends WallpaperService {
-	private static final String TAG                    = "avatarWallpaper";	//for logs
-    private final Handler mHandler              = new Handler();
-    private final String[] mLabels              = {"still", "walking", "running"};
-    public static float desiredFPS              = 10;
-    public static boolean wifiOnly              = false;	//enable if program should only use wifi
+    public static float desiredFPS       = 10;
+    public static boolean wifiOnly       = true; //enabled if program should only use wifi
     
     public static Avatar    theAvatar;
 
 	//vars for background visibility logging
-	long    visibilityStart;
+	public long    visibilityStart;
 	public static boolean keepLogs              = true;
 	public static long lastLogTime = 0;
+    
+	private static final String TAG      = "avatarWallpaper";	//for logs
+    private final Handler mHandler       = new Handler();
     
     @Override
     public void onCreate() {
     	super.onCreate();
         Log.d(TAG,"application started with context =" + getApplicationContext().toString());
-
     	Sdcard.waitForReady(getApplicationContext());
     	
         avatarSetup();
         
-        //TODO: if setting countlyLogging == true
-        countlySetup();
+        avatarWallpaperSettings.loadPrefs(getApplicationContext(),avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
         
-        //TODO: setting to choose built-in classifier (myRunsDataCollector) or mMonitor here
-        // then do setup for chosen, then register receiver
-    	PAcollectorSetup();
+        //TODO: add a setting like countlyLogging == true, then this should be triggered by preferenceChangeListener
+        countlySetup();
 
+//    	PAcollectorSetup(getApplicationContext());
+    	
     	checkForFirstTime();
- 		
     	Sdcard.onStart();
     }
+
 
 
 	//sets up the avatar (called in onCreate)
 	private void avatarSetup(){
         theAvatar = new Avatar(new Location(0,0,0,300,0), 3,"sleeping", getApplicationContext());		//create new avatar
-        avatarWallpaperSettings.loadPrefs(avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
 	}
 	
 	//sets up countly server (called in onCreate)
@@ -78,20 +77,6 @@ public class avatarWallpaper extends WallpaperService {
     	Countly.sharedInstance().onStart();// in onStart.
     	
     	countlyInterface.startSendingData();
-	}
-	
-	//sets up the physical activity collector activity (called in onCreate)
-	private void PAcollectorSetup(){
-    	//setup the PA collector service:
-    	Intent mServiceIntent = new Intent(getApplicationContext(), edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors.class);
- 		int activityId = Globals.SERVICE_TASK_TYPE_CLASSIFY;	//TODO: ?
- 		String label = mLabels[activityId];
- 		Bundle extras = new Bundle();
- 		extras.putString("label", label);
- 		extras.putString("type", "collecting");
- 		mServiceIntent.putExtras(extras);
- 		Log.v(TAG, "starting SensorService");
- 		startService(mServiceIntent); 
 	}
 	
 	//checks for first time run (by looking for files) and runs appropriate setup if needed
@@ -111,8 +96,6 @@ public class avatarWallpaper extends WallpaperService {
  			startActivity(i);
  		} //else assume that everything is in working order
 	}
-	
-
 
     @Override
     public void onDestroy() {
@@ -173,8 +156,8 @@ public class avatarWallpaper extends WallpaperService {
             //// By default we don't get touch events, so enable them.
             //setTouchEventsEnabled(true);
 
-            //load the preferences
-            avatarWallpaperSettings.loadPrefs(avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
+            //load the preferences //TODO: not here, silly!!! remove?!?
+            avatarWallpaperSettings.loadPrefs(getApplicationContext(),avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
             
             //set up the scene
             Layer_Main.setup(theAvatar);

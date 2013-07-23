@@ -7,7 +7,6 @@ import android.util.Log;
 
 
 public class myRunsDataCollectorReceiver extends BroadcastReceiver {
-	
 	@Override
 	public void onReceive(Context context, Intent intent) {	
 		// get the value

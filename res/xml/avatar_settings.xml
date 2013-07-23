@@ -6,9 +6,8 @@
 
 <!-- The attributes in this XML file provide configuration information -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="avatar wallpaper settings"
-    android:key="avatar_settings">
+<PreferenceScreen android:title="avatar wallpaper settings"
+    android:key="avatar_settings" xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:key="user_prefs" android:title="preferences">
         <ListPreference android:key="scale" android:entries="@array/scaleNames" android:entryValues="@array/scaleValues" android:title="Avatar Size"/>
     </PreferenceCategory><PreferenceCategory android:title="avatar options" android:key="debug_avatar_settings">
@@ -21,6 +20,7 @@
 			<ListPreference android:entries="@array/current_activity" android:key="CurrentActivity" android:entryValues="@array/current_activity" android:summary="NOTE: avatar behavior can override this choice" android:title="Avatar Animation" android:defaultValue="running" />
 <!-- 	</PreferenceScreen>		-->
 			<ListPreference android:entries="@array/behavior" android:entryValues="@array/behavior" android:key="behavior" android:title="animation behavior" android:summary="select the way avatar animations change" android:defaultValue='Proteus Effect Study'/>
+			<ListPreference android:entries="@array/activityMonitors" android:entryValues="@array/activityMonitors" android:summary="choose behavior monitoring app" android:title="Behavior Monitor" android:key="activityMonitor"/>
 			
 	</PreferenceCategory>
 		

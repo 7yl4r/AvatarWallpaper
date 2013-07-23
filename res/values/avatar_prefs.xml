@@ -42,5 +42,9 @@
         <item >2.0f</item>
         <item >3.0f</item>
     </string-array>
+    <string-array name="activityMonitors">
+        <item >mMonitor</item>
+        <item >built-in</item>
+    </string-array>
     
 </resources>

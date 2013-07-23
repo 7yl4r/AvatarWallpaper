@@ -33,7 +33,8 @@ public class mMonitorReceiver extends BroadcastReceiver {
 			double value = extras.getDouble(SEC_LEVEL_BROADCAST_NAME);
 			;//Log.d(TAG,"broadcast value = "+Double.toString(value));
 			
-			showDebugNotification(context,intent,value);
+	    	userData.appendValueAndRecalc( (int)Math.round(value) );	//TODO: userData values should be changed to floats instead?
+	//		showDebugNotification(context,intent,value);
 			
 		} else {
 			Toast.makeText(context, "application intent not verified\n",

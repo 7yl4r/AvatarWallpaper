@@ -1,6 +1,7 @@
 package edu.usf.eng.pie.avatars4change.wallpaper;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import edu.usf.eng.pie.avatars4change.R;
+import edu.usf.eng.pie.avatars4change.dataInterface.activityMonitor;
 import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 
 public class avatarWallpaperSettings extends PreferenceActivity 
@@ -19,18 +21,19 @@ public class avatarWallpaperSettings extends PreferenceActivity
 		"killMe",				//1
 		"RealismLevel",			//2
 		"CurrentActivity",		//3
-		//4 is currently a duplicate of 8
+		"ActivityLevelSelector",//4 is duplicate of 8!!!
 		"ResetLogs",			//5
 		"activeOnEvens",		//6
 		"UID",					//7
 		"behavior",				//8
 		"wifiOnly",				//9
-		"scale"					//10
+		"scale",                //10
+		"activityMonitor"       //11
 	};	// this is mostly for reference; numbers are for ensuring that all are accounted for in handleKey()
 	//DEPRECIATED KEYS:
 	//		"ActivityLevelSelector" //4
-
 	
+    public static String currentActivityMonitor = "none"; //name of current activity monitor method used
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,23 +64,23 @@ public class avatarWallpaperSettings extends PreferenceActivity
 
     // preference listener is triggered when a preference changes and responds accordingly
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    	avatarWallpaperSettings.handleKey(key,sharedPreferences); 
+    	avatarWallpaperSettings.handleKey(getApplicationContext(),key,sharedPreferences); 
     }
     
     // load in all preferences
-    public static void loadPrefs(SharedPreferences sharedPreferences){
+    public static void loadPrefs(Context ctx, SharedPreferences sharedPreferences){
 		Log.d(TAG, "loading preferences...");
 		for ( int i = 0; i<avatarWallpaperSettings.PREFERENCE_KEYS.length; i++ ){
 			if(avatarWallpaperSettings.PREFERENCE_KEYS[i].equals("killMe")){	//skip over killMe pref
 				continue;
 			}else{	// load preference
-				avatarWallpaperSettings.handleKey(avatarWallpaperSettings.PREFERENCE_KEYS[i],sharedPreferences);
+				avatarWallpaperSettings.handleKey(ctx, avatarWallpaperSettings.PREFERENCE_KEYS[i],sharedPreferences);
 			}
 		}
     }
 
     //  responds to the preference key given accordingly
-    private static void handleKey(String key, SharedPreferences mPrefs){
+    private static void handleKey(Context ctx, String key, SharedPreferences mPrefs){
     	if(key.equals("killMe")){	//1
     		android.os.Process.killProcess(android.os.Process.myPid());
     		
@@ -93,7 +96,7 @@ public class avatarWallpaperSettings extends PreferenceActivity
 			// AcivitiyLevelSelector is the same as behaviorSelector???
     	}else if (key.equals("ActivityLevelSelector")){
     		Log.e(TAG,"use of depreciated settings key ActivityLevelSelector; should use behaviorSelector instead");
-    		handleKey("behavior",mPrefs);
+    		handleKey(ctx,"behavior",mPrefs);
     		
     	}else if (key.equals("ResetLogs")){	//5
 			avatarWallpaper.keepLogs = !mPrefs.getBoolean(key, avatarWallpaper.keepLogs);
@@ -119,6 +122,10 @@ public class avatarWallpaperSettings extends PreferenceActivity
 			avatarWallpaper.theAvatar.scaler = Float.parseFloat(mPrefs.getString(key, "1.0f"));
 			Log.d(TAG, "RealismLevel:"+avatarWallpaper.theAvatar.getRealismLevel());
 			
+    	}else if (key.equals(PREFERENCE_KEYS[10])){ //11 = activity monitor selector
+    		activityMonitor.setActivityMonitor(ctx,mPrefs.getString(key, avatarWallpaper.theAvatar.behaviorSelectorMethod));
+			Log.d(TAG, "activityMonitor:"+activityMonitor.getActivityMonitor());
+    		
     	}else{	//unknown preference key
     		Log.e(TAG,"unrecognized preference key '"+key+"'... trying not to panic.");
     		return;
@@ -150,5 +157,4 @@ public class avatarWallpaperSettings extends PreferenceActivity
     	dlg.setCancelable(true);
     	dlg.create().show();
     }
-
 }

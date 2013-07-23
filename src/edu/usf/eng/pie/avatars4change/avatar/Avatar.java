@@ -14,11 +14,11 @@ public class Avatar extends Entity {
 	
 	private final String TAG = "avatar.Avatar";
 	//avatar properties:
-    public String    behaviorSelectorMethod = "Proteus Effect Study";
-    public int       bedTime             = 23;
-    public int       wakeTime            = 5;
-	public long UPDATE_FREQUENCY     = 1000 * 60 * 1; 	//once per UPDATE_FREQUENCY; e.g. 60s/min *10min * 1000ms/s
-    public long      lastActivityChange     = -UPDATE_FREQUENCY;	//last time activity level was changed [ms]
+    public String   behaviorSelectorMethod = "Proteus Effect Study";
+    public int      bedTime             = 23;
+    public int      wakeTime            = 5;
+	public long     UPDATE_FREQUENCY     = 1000 * 60 * 1; 	//once per UPDATE_FREQUENCY; e.g. 60s/min *10min * 1000ms/s
+    public long     lastActivityChange     = -UPDATE_FREQUENCY;	//last time activity level was changed [ms]
 
 	
 	public float scaler = 1.0f;	//multiplier for the scale 

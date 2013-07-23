@@ -81,6 +81,7 @@
         </activity>
         
       	<!-- ========================= BROADCAST RECEIVERS ========================== -->
+      	<!-- 
         <receiver android:name="edu.usf.eng.pie.avatars4change.dataInterface.mMonitorReceiver" >
 		    <intent-filter>
 		        <action android:name="com.MILES.MonitoringApp.secLevelData" />
@@ -92,6 +93,7 @@
 		        <action android:name="SOME_ACTION" />
 		    </intent-filter>
 		</receiver>
+		-->
     </application>
         
 </manifest>
