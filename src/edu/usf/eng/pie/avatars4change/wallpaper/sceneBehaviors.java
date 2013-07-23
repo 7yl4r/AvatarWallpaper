@@ -107,9 +107,9 @@ public class sceneBehaviors {
 
 	// avatar shows sedentary behavior for sitting, slow active behavior for walking, fast active behavior for running
 	private static void VRDemo(Avatar theAvatar){
-		avatarWallpaper.desiredFPS = (int)Math.round( (Math.exp(userData.currentActivityLevel))+1.0f );//update frameRate from PA level
+		avatarWallpaper.desiredFPS = (int)Math.round( (Math.exp(userData.currentActivityLevel))*.5f + 1.0f );//update frameRate from PA level
 		String activLvl = theAvatar.getActivityLevel();
-		if(userData.recentAvgActivityLevel > 4){	//if user is walking or greater
+		if(userData.recentAvgActivityLevel > 6){	//if user is walking or greater
 			activLvl = "active";
 		} else if(userData.currentActivityLevel < 1){		//if user not moving at all
 			activLvl = "sleeping";
