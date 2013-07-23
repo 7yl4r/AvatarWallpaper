@@ -155,9 +155,6 @@ public class avatarWallpaper extends WallpaperService {
             super.onCreate(surfaceHolder);
             //// By default we don't get touch events, so enable them.
             //setTouchEventsEnabled(true);
-
-            //load the preferences //TODO: not here, silly!!! remove?!?
-            avatarWallpaperSettings.loadPrefs(getApplicationContext(),avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
             
             //set up the scene
             Layer_Main.setup(theAvatar);
