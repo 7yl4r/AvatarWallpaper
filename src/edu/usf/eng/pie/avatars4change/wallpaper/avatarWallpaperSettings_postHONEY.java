@@ -2,15 +2,17 @@ package edu.usf.eng.pie.avatars4change.wallpaper;
 
 import java.util.List;
 
-import android.support.v4.app.*;
-
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -18,7 +20,8 @@ import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.dataInterface.activityMonitor;
 import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 
-public class avatarWallpaperSettings extends PreferenceActivity 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+public class avatarWallpaperSettings_postHONEY extends PreferenceActivity 
     implements SharedPreferences.OnSharedPreferenceChangeListener {
 	private static final String TAG = "avatarWallpaperSettings";
 	private static final String[] PREFERENCE_KEYS = {
@@ -139,17 +142,17 @@ public class avatarWallpaperSettings extends PreferenceActivity
 
     // preference listener is triggered when a preference changes and responds accordingly
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    	avatarWallpaperSettings.handleKey(getApplicationContext(),key,sharedPreferences); 
+    	avatarWallpaperSettings_postHONEY.handleKey(getApplicationContext(),key,sharedPreferences); 
     }
     
     // load in all preferences
     public static void loadPrefs(Context ctx, SharedPreferences sharedPreferences){
 		Log.d(TAG, "loading preferences...");
-		for ( int i = 0; i<avatarWallpaperSettings.PREFERENCE_KEYS.length; i++ ){
-			if(avatarWallpaperSettings.PREFERENCE_KEYS[i].equals("killMe")){	//skip over killMe pref
+		for ( int i = 0; i<avatarWallpaperSettings_postHONEY.PREFERENCE_KEYS.length; i++ ){
+			if(avatarWallpaperSettings_postHONEY.PREFERENCE_KEYS[i].equals("killMe")){	//skip over killMe pref
 				continue;
 			}else{	// load preference
-				avatarWallpaperSettings.handleKey(ctx, avatarWallpaperSettings.PREFERENCE_KEYS[i],sharedPreferences);
+				avatarWallpaperSettings_postHONEY.handleKey(ctx, avatarWallpaperSettings_postHONEY.PREFERENCE_KEYS[i],sharedPreferences);
 			}
 		}
     }

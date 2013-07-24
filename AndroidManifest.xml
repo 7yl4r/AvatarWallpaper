@@ -44,9 +44,10 @@
             </intent-filter>
             <meta-data 
 		android:name="android.service.wallpaper" 
-		android:resource="@xml/avatar" />
+		android:resource="@xml/avatar_wallpaper" />
         </service>
         
+        <!-- built-in PA monitor service -->
         <service android:name="edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors" />
         
         <!-- ========================= ACTIVITIES ========================== -->

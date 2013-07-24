@@ -14,16 +14,7 @@ import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.dataInterface.activityMonitor;
 import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 
-public class avatarWallpaperSettings extends PreferenceActivity{
-	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.avatar_settings);
-    }
-}
-
-/*
-public class avatarWallpaperSettings extends PreferenceActivity 
+public class avatarWallpaperSettings_preHONEY extends PreferenceActivity 
     implements SharedPreferences.OnSharedPreferenceChangeListener {
 	private static final String TAG = "avatarWallpaperSettings";
 	private static final String[] PREFERENCE_KEYS = {
@@ -75,17 +66,17 @@ public class avatarWallpaperSettings extends PreferenceActivity
 
     // preference listener is triggered when a preference changes and responds accordingly
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    	avatarWallpaperSettings.handleKey(getApplicationContext(),key,sharedPreferences); 
+    	avatarWallpaperSettings_preHONEY.handleKey(getApplicationContext(),key,sharedPreferences); 
     }
     
     // load in all preferences
     public static void loadPrefs(Context ctx, SharedPreferences sharedPreferences){
 		Log.d(TAG, "loading preferences...");
-		for ( int i = 0; i<avatarWallpaperSettings.PREFERENCE_KEYS.length; i++ ){
-			if(avatarWallpaperSettings.PREFERENCE_KEYS[i].equals("killMe")){	//skip over killMe pref
+		for ( int i = 0; i<avatarWallpaperSettings_preHONEY.PREFERENCE_KEYS.length; i++ ){
+			if(avatarWallpaperSettings_preHONEY.PREFERENCE_KEYS[i].equals("killMe")){	//skip over killMe pref
 				continue;
 			}else{	// load preference
-				avatarWallpaperSettings.handleKey(ctx, avatarWallpaperSettings.PREFERENCE_KEYS[i],sharedPreferences);
+				avatarWallpaperSettings_preHONEY.handleKey(ctx, avatarWallpaperSettings_preHONEY.PREFERENCE_KEYS[i],sharedPreferences);
 			}
 		}
     }
@@ -172,4 +163,3 @@ public class avatarWallpaperSettings extends PreferenceActivity
     	dlg.create().show();
     }
 }
-*/
