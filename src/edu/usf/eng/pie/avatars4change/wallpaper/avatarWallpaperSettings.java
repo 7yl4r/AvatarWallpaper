@@ -1,24 +1,40 @@
 package edu.usf.eng.pie.avatars4change.wallpaper;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.preference.PreferenceActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.preference.PreferenceFragment;
 import edu.usf.eng.pie.avatars4change.R;
-import edu.usf.eng.pie.avatars4change.dataInterface.activityMonitor;
-import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 
-public class avatarWallpaperSettings extends PreferenceActivity{
+@SuppressLint("NewApi")
+public class avatarWallpaperSettings extends Activity{
+	
+	public static class SettingsFragment extends PreferenceFragment {
+	    @Override
+	    public void onCreate(Bundle savedInstanceState) {
+	        super.onCreate(savedInstanceState);
+
+	        
+	        // Load the preferences from an XML resource
+	        addPreferencesFromResource(R.xml.avatar_settings);
+	    }
+	}
+	
+	
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.avatar_settings);
+	protected void onCreate(Bundle savedInstanceState) {
+	    super.onCreate(savedInstanceState);
+	    
+	    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+	        // Load the legacy preferences headers
+	        addPreferencesFromResource(R.xml.preference_headers_legacy);
+	    }
+
+        // Display the fragment as the main content.
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
     }
 }
 

@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -48,7 +49,9 @@ public class avatarWallpaper extends WallpaperService {
     	
         avatarSetup();
         
-        avatarWallpaperSettings.loadPrefs(getApplicationContext(),avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
+		//set default preferences (if never set before)
+		PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.avatar_settings, false);
+//        avatarWallpaperSettings.loadPrefs(getApplicationContext(),avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
         
         //TODO: add a setting like countlyLogging == true, then this should be triggered by preferenceChangeListener
         countlySetup();
@@ -90,6 +93,7 @@ public class avatarWallpaper extends WallpaperService {
  		}
  		if(firstTime){
  			Log.v(TAG,"running 1st time setup");
+ 			
 	    	//run initial setup activity
  			Intent i = new Intent(getApplicationContext(), edu.usf.eng.pie.avatars4change.wallpaper.AvatarWallpaperSetup.class);
  			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
