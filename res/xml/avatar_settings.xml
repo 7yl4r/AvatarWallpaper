@@ -10,23 +10,8 @@
     android:key="avatar_settings" xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:key="user_prefs" android:title="preferences">
         <ListPreference android:key="scale" android:entries="@array/scaleNames" android:entryValues="@array/scaleValues" android:title="Avatar Size"/>
-    </PreferenceCategory><PreferenceCategory android:title="avatar options" android:key="debug_avatar_settings">
-		<!-- opens a subscreen of settings -->
-<!--     <PreferenceScreen
-	        android:key="debug_pref_key"
-	        android:title="Debug Settings"
-	        android:persistent="false">
--->
-			<ListPreference android:entries="@array/current_activity" android:key="CurrentActivity" android:entryValues="@array/current_activity" android:summary="NOTE: avatar behavior can override this choice" android:title="Avatar Animation" android:defaultValue="running" />
-<!-- 	</PreferenceScreen>		-->
-			<ListPreference android:entries="@array/behavior" android:entryValues="@array/behavior" android:key="behavior" android:title="animation behavior" android:summary="select the way avatar animations change" android:defaultValue='Proteus Effect Study'/>
-			<ListPreference android:entries="@array/activityMonitors" android:entryValues="@array/activityMonitors" android:summary="choose behavior monitoring app" android:title="Behavior Monitor" android:key="activityMonitor"/>
-			
-	</PreferenceCategory>
-		
-    
-	<PreferenceCategory android:title="pros only" android:key="admin_options"><CheckBoxPreference android:key="ResetLogs" android:summaryOn="DataLogs will be reset" android:summaryOff="DataLogs will be kept" android:title="Reset View Logs?" android:defaultValue="false" /><CheckBoxPreference android:summaryOff="active on odd julian days" android:summaryOn="active on even julian days" android:key="activeOnEvens" android:title="Active/Passive Behavior" android:defaultValue="true"/>
-	<CheckBoxPreference android:title="button of death" android:key="killMe" android:defaultValue="false" android:summary="kill the app process to unfreeze FFT &amp; sensorListener"/>
-</PreferenceCategory>
+        
+        
+    </PreferenceCategory><PreferenceScreen android:title="Enter the forbidden zone" android:summary="(pw required)" android:key="proMode"></PreferenceScreen><Preference android:summary="(pw required)" android:title="enter the forbidden zone" android:key="proMode"/>
 	
 </PreferenceScreen>
