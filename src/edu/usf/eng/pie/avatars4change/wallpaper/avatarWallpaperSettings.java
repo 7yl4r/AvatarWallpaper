@@ -6,33 +6,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.dataInterface.activityMonitor;
 import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 
-public class avatarWallpaperSettings_preHONEY extends PreferenceActivity 
+public class avatarWallpaperSettings extends PreferenceActivity 
     implements SharedPreferences.OnSharedPreferenceChangeListener {
 	private static final String TAG = "avatarWallpaperSettings";
-	private static final String[] PREFERENCE_KEYS = {
-		"killMe",				//1
-		"RealismLevel",			//2
-		"CurrentActivity",		//3
-		"ActivityLevelSelector",//4 is duplicate of 8!!!
-		"ResetLogs",			//5
-		"activeOnEvens",		//6
-		"UID",					//7
-		"behavior",				//8
-		"wifiOnly",				//9
-		"scale",                //10
-		"activityMonitor",       //11
-		"proMode"
-	};	// this is mostly for reference; numbers are for ensuring that all are accounted for in handleKey()
-	//DEPRECIATED KEYS:
-	//		"ActivityLevelSelector" //4
 	
     public static String currentActivityMonitor = "none"; //name of current activity monitor method used
     public static boolean debugMode = true;	//TODO: this is not yet a setting, but should be
@@ -42,9 +32,22 @@ public class avatarWallpaperSettings_preHONEY extends PreferenceActivity
         super.onCreate(savedInstanceState);		
         getPreferenceManager().setSharedPreferencesName(getString(R.string.shared_prefs_name));
         addPreferencesFromResource(R.xml.avatar_settings);
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);        
+        
+        // watch out for admin/debug area access
+        findPreference(getString(R.string.key_adminscreen)).setOnPreferenceClickListener(
+        		new OnPreferenceClickListener(){
+        			@Override
+        			public boolean onPreferenceClick(Preference preference) {
+        	    		Toast.makeText(getApplicationContext(), "study administrators only please.", Toast.LENGTH_LONG).show();
+        	    		Log.d(TAG,"admin settings area accessed");
+        	    		//TODO: access to this area should be logged or restricted
+        				return true; // true return means that the click was handled
+        			}
+        		});
+
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
     	//       groupID  ,itemID,order, title
@@ -60,82 +63,87 @@ public class avatarWallpaperSettings_preHONEY extends PreferenceActivity
 
     @Override
     protected void onDestroy() {
-        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
-    }
-
-    // preference listener is triggered when a preference changes and responds accordingly
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    	avatarWallpaperSettings_preHONEY.handleKey(getApplicationContext(),key,sharedPreferences); 
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
     
-    // load in all preferences
-    public static void loadPrefs(Context ctx, SharedPreferences sharedPreferences){
-		Log.d(TAG, "loading preferences...");
-		for ( int i = 0; i<avatarWallpaperSettings_preHONEY.PREFERENCE_KEYS.length; i++ ){
-			if(avatarWallpaperSettings_preHONEY.PREFERENCE_KEYS[i].equals("killMe")){	//skip over killMe pref
-				continue;
-			}else{	// load preference
-				avatarWallpaperSettings_preHONEY.handleKey(ctx, avatarWallpaperSettings_preHONEY.PREFERENCE_KEYS[i],sharedPreferences);
-			}
-		}
+    // preference listener is triggered when a preference changes and responds accordingly
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    	Log.d(TAG,key+" preference changed");
+    	avatarWallpaperSettings.handleKey(getApplicationContext(),key,sharedPreferences); 
     }
+    
+//    // load in all preferences
+//    public static void loadPrefs(Context ctx, SharedPreferences sharedPreferences){
+//		Log.d(TAG, "loading preferences...");
+//		int n = Integer.parseInt(ctx.getString(R.string.key_count));
+//		for ( int i = 0; i<n; i++ ){
+//			if(avatarWallpaperSettings.PREFERENCE_KEYS[i].equals("killMe")){	//skip over killMe pref
+//				continue;
+//			}else{	// load preference
+//				avatarWallpaperSettings.handleKey(ctx, avatarWallpaperSettings.PREFERENCE_KEYS[i],sharedPreferences);
+//			}
+//		}
+//	}
 
     //  responds to the preference key given accordingly
     private static void handleKey(Context ctx, String key, SharedPreferences mPrefs){
-    	if(key.equals("killMe")){	//1
+    	//check for settings macro change
+    		
+    	//TODO: replace killMe with activity & intent or remove altogether...
+    	if(key.equals(ctx.getString(R.string.key_killme))){	//1
     		android.os.Process.killProcess(android.os.Process.myPid());
     		
-    	}else if(key.equals("RealismLevel")){	//2
+    	}else if(key.equals(ctx.getString(R.string.key_realismlevel))){	//2
 			avatarWallpaper.theAvatar.setRealismLevel((int) mPrefs.getLong(key, avatarWallpaper.theAvatar.getRealismLevel()));
 			Log.d(TAG, "RealismLevel:"+avatarWallpaper.theAvatar.getRealismLevel());
 
-    	}else if(key.equals("CurrentActivity")){	//3
+    	}else if(key.equals(ctx.getString(R.string.key_currentactivity))){	//3
 			avatarWallpaper.theAvatar.setActivityName(mPrefs.getString(key, "running"));
 			avatarWallpaper.theAvatar.lastActivityChange = SystemClock.elapsedRealtime();
 			Log.d(TAG, "CurrentActivity:"+avatarWallpaper.theAvatar.getActivityName());
-			
-			// AcivitiyLevelSelector is the same as behaviorSelector???
-    	}else if (key.equals("ActivityLevelSelector")){
-    		Log.e(TAG,"use of depreciated settings key ActivityLevelSelector; should use behaviorSelector instead");
-    		handleKey(ctx,"behavior",mPrefs);
     		
-    	}else if (key.equals("ResetLogs")){	//5
+			//TODO: replace with log-clearing activity
+    	}else if (key.equals(ctx.getString(R.string.key_resetlogs))){	//5
 			avatarWallpaper.keepLogs = !mPrefs.getBoolean(key, avatarWallpaper.keepLogs);
 			Log.d(TAG, "keepLogs?:"+avatarWallpaper.keepLogs);
 			
-    	}else if (key.equals("activeOnEvens")){	//6
+    	}else if (key.equals(ctx.getString(R.string.key_activeonevens))){	//6
 			sceneBehaviors.setActiveOnEvens(mPrefs.getBoolean(key, sceneBehaviors.getActiveOnEvens()));			
 			Log.d(TAG,"activeOnEvens:"+sceneBehaviors.getActiveOnEvens());
 			
-    	}else if (key.equals("UID")){	//7
+			//TODO: remove & use
+			//    SharedPreferences userDetails = context.getSharedPreferences("userdetails", MODE_PRIVATE);
+			//    String Uname = userDetails.getString("username", "");
+    	}else if (key.equals(ctx.getString(R.string.key_uid))){	//7
 			userData.USERID = mPrefs.getString(key,userData.USERID);
 			Log.d(TAG,"UID:"+userData.USERID);
 			
-    	}else if (key.equals("behavior")){	//8
+    	}else if (key.equals(ctx.getString(R.string.key_configmacro))){	//8
+    		//TODO: load settings values for selected macro
 			avatarWallpaper.theAvatar.setBehaviorSelectorMethod(mPrefs.getString(key, avatarWallpaper.theAvatar.behaviorSelectorMethod));
 			Log.d(TAG, "behaviorSelector:"+avatarWallpaper.theAvatar.behaviorSelectorMethod);
 			
-    	}else if (key.equals("wifiOnly")){	//9
+			//TODO: remove (like above)
+    	}else if (key.equals(ctx.getString(R.string.key_wifionly))){	//9
 			avatarWallpaper.wifiOnly = mPrefs.getBoolean(key,avatarWallpaper.wifiOnly);
 			Log.d(TAG,"wifiOnly:"+avatarWallpaper.wifiOnly);
 			
-    	}else if (key.equals("scale")){		//10
+			//TODO: remove (like above)
+    	}else if (key.equals(ctx.getString(R.string.key_scale))){		//10
 			avatarWallpaper.theAvatar.scaler = Float.parseFloat(mPrefs.getString(key, "1.0f"));
-			Log.d(TAG, "RealismLevel:"+avatarWallpaper.theAvatar.getRealismLevel());
+			Log.d(TAG, "scale:"+Float.toString(avatarWallpaper.theAvatar.scaler));
 			
-    	}else if (key.equals(PREFERENCE_KEYS[10])){ //11 = activity monitor selector
+    	}else if (key.equals(ctx.getString(R.string.key_activitymonitor))){
     		activityMonitor.setActivityMonitor(ctx,mPrefs.getString(key, avatarWallpaper.theAvatar.behaviorSelectorMethod));
     		userData.resetPAmeasures();	
 			Log.d(TAG, "activityMonitor:"+activityMonitor.getActivityMonitor());
-    	}else if (key.equals("proMode")){	//12
-    		//TODO: start activity or something...
-    		Log.d(TAG,"entering proMode");
     	}else{	//unknown preference key
-    		Log.e(TAG,"unrecognized preference key '"+key+"'... trying not to panic.");
+    		Log.d(TAG,"preference "+key+" has no onChanged() call.");
     		return;
     	} 
-    	Log.d(TAG, key + " preference changed..."); //only prints if last 'else' case not triggered
+    	Log.d(TAG, key + " preference onChanged() handled..."); //only prints if last 'else' case not triggered
     }
     
     @Override

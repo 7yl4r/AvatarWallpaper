@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+-->
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="edu.usf.eng.pie.avatars4change"
+    	android:versionCode="3"
+      	android:versionName="2.0">
+
+    <uses-sdk android:minSdkVersion="8"
+              android:targetSdkVersion="17"/>
+    <uses-feature android:name="android.software.live_wallpaper" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<!-- TODO: need get sdcard mounted/removed intent permission? -->
+	
+	<uses-feature android:name="android.hardware.sensor.accelerometer"
+              android:required="true" />
+	
+	<!-- for countly: -->
+	<pre class="prettyprint">
+		&lt;service android:name=&quot;org.openudid.OpenUDID_service&quot;&gt;
+		    &lt;intent-filter&gt;
+		        &lt;action android:name=&quot;org.openudid.GETUDID&quot; /&gt;
+		    &lt;/intent-filter&gt;
+		&lt;/service&gt;
+	</pre>
+
+    <application
+        android:label="@string/wallpapers"
+        android:icon="@drawable/ic_launcher_wallpaper"
+        android:enabled="true"
+        android:allowBackup="true">
+		<!-- ========================= SERVICES ========================== -->
+		<!-- live wallpaper service -->
+        <service
+            android:label="@string/wallpaper_avatar"
+            android:name="edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+            <meta-data 
+		android:name="android.service.wallpaper" 
+		android:resource="@xml/avatar_wallpaper" />
+        </service>
+        
+        <service android:name="edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.ServiceSensors" />
+        
+        <!-- ========================= ACTIVITIES ========================== -->
+        <!-- wallpaper settings -->
+        <activity
+            android:label="@string/avatar_settings"
+            android:name="edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaperSettings"
+            android:exported="true">
+        </activity>
+        
+        <activity
+            android:label="initialSetup"
+            android:name="edu.usf.eng.pie.avatars4change.wallpaper.AvatarWallpaperSetup"
+            android:exported="true">
+       </activity>
+        <activity
+            android:label="photoSelectorSetup"
+            android:name="com.droid4you.util.cropimage.MainActivity"
+            android:exported="true">
+       </activity>
+       <activity
+            android:name="com.droid4you.util.cropimage.CropImage"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="CropLabel">
+           </activity>
+           
+       <activity 
+           android:label="PAcollector"
+           android:name="edu.usf.eng.pie.avatars4change.myrunsdatacollector.theCollector">
+        </activity>
+        
+      	<!-- ========================= BROADCAST RECEIVERS ========================== -->
+      	<!-- 
+        <receiver android:name="edu.usf.eng.pie.avatars4change.dataInterface.mMonitorReceiver" >
+		    <intent-filter>
+		        <action android:name="com.MILES.MonitoringApp.secLevelData" />
+		    </intent-filter>
+	    </receiver>
+	    
+		<receiver android:name="edu.usf.eng.pie.avatars4change.dataInterface.myRunsDataCollectorReceiver">
+		    <intent-filter>
+		        <action android:name="SOME_ACTION" />
+		    </intent-filter>
+		</receiver>
+		-->
+    </application>
+        
+</manifest>

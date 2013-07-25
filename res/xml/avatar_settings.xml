@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/* This file defines the layout of the avatarWallpaper settings screen
+ */
+-->
+
+<!-- The attributes in this XML file provide configuration information -->
+
+<PreferenceScreen android:title="@string/preferencetitle"
+    android:key="@string/key_mainprefscreen" 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:key="@string/key_userprefgroup" 
+        android:title="@string/title_userprefgroup">
+        <ListPreference android:key="@string/key_scale" 
+            android:entries="@array/scaleNames" 
+            android:entryValues="@array/scaleValues" 
+            android:title="Avatar Size" 
+            android:defaultValue="1.0f"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/title_advancedgroup" android:key="@string/key_advancedgroup">
+	    <PreferenceScreen android:title="@string/title_adminprefgroup" android:key="@string/key_adminscreen">
+	        
+	        <PreferenceCategory android:title="@string/title_researchconfiggroup" android:key="@string/key_researchconfiggroup">
+	            <ListPreference android:title="Config Macro" 
+	                android:key="@string/key_configmacro"
+	                android:entries="@array/behavior" 
+				    android:entryValues="@array/behavior" 
+	 			   	android:summary="select the base app behavior" 
+	 			   	android:defaultValue="@string/default_configmacro" />
+	            <PreferenceScreen android:title="Config Customization" android:key="@string/key_researchconfigcustomizationscreen">
+         	        <PreferenceCategory android:title="General">
+		           		<ListPreference android:entries="@array/activityMonitors" 
+						    android:entryValues="@array/activityMonitors" 
+						    android:summary="choose behavior monitoring app" 
+						    android:title="Behavior Monitor" 
+						    android:key="@string/key_activitymonitor" 
+						    android:defaultValue="@string/default_activitymonitor"/>
+		           	</PreferenceCategory>
+	          		<PreferenceCategory android:title="Proteus Study" >
+		           		<CheckBoxPreference android:summaryOff="active on odd julian days" 
+					        android:summaryOn="active on even julian days" 
+					        android:key="@string/key_activeonevens" 
+					        android:title="Active/Passive Behavior" 
+					        android:defaultValue="@string/default_activeonevens"/>
+		           	</PreferenceCategory>
+	            
+	            </PreferenceScreen>
+	        </PreferenceCategory>
+	        <PreferenceCategory android:title="@string/title_debuggroup" android:key="@string/key_debuggroup">
+	            	<ListPreference android:entries="@array/current_activity" 
+					    android:key="@string/key_currentactivity" 
+					    android:entryValues="@array/current_activity" 
+					    android:summary="NOTE: avatar behavior can override this choice" 
+					    android:title="Avatar Animation" 
+					    android:defaultValue="@string/default_currentactivity" />
+	            	<CheckBoxPreference android:key="@string/key_resetlogs" 
+				        android:summaryOn="DataLogs will be reset" 
+				        android:summaryOff="DataLogs will be kept" 
+				        android:title="Reset View Logs?" 
+				        android:defaultValue="@string/default_resetlogs" />
+            		<CheckBoxPreference android:title="button of death" 
+					    android:key="@string/key_killme" 
+					    android:defaultValue="false" 
+					    android:summary="kill the app process to unfreeze FFT &amp; sensorListener"/>
+	        </PreferenceCategory>
+	   </PreferenceScreen>	
+    </PreferenceCategory>
+	
+</PreferenceScreen>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- default values -->
+    <string name="default_configmacro">Proteus Effect Study</string>
+	<string name="default_activitymonitor">built-in</string>
+	<string name="default_currentactivity">running</string>
+	<string name="default_resetlogs">false</string>
+	<string name="default_activeonevens">true</string>
+    
+	<!-- settings keys: -->
+	<string name="key_killme">killMe</string>
+	<string name="key_realismlevel">realismLevel</string>
+	<string name="key_currentactivity">currentActivity</string>
+	<string name="key_resetlogs">resetLogs</string>
+	<string name="key_activeonevens">activeOnEvens</string>
+	<string name="key_uid">UID</string>
+	<string name="key_configmacro">baseConfigMacro</string>
+	<string name="key_wifionly">wifiOnly</string>
+	<string name="key_scale">scale</string>
+	<string name="key_activitymonitor">activityMonitor</string>
+	
+	<!-- settings group / screen keys -->
+	<string name="key_mainprefscreen">mainPrefScreen</string>
+	<string name="key_userprefgroup">userPrefs</string>
+	<string name="key_adminscreen">adminPrefs</string>
+	<string name="key_advancedgroup">advancedSettingsGroup</string>
+	<string name="key_researchconfiggroup">researchConfigGroup</string>
+	<string name="key_debuggroup">debugGroup</string>
+	<string name="key_researchconfigcustomizationscreen">researchConfigCustomizationScreen</string>
+	
+	<!-- settings layout strings -->
+	<string name="preferencetitle">Avatar Wallpaper Settings</string>
+	<string name="title_userprefgroup">User Preferences</string>
+	<string name="title_adminprefgroup">Admin and Debug Settings</string>
+	<string name="title_advancedgroup">Advanced Settings</string>
+	<string name="title_researchconfiggroup">Research Configuration</string>
+	<string name="title_debuggroup">Debug Options</string>
+	
+	<!--  settings value / name pairs -->
+	<string-array name="avatar_Realisms">
+	    <item>0 - Stickman</item>
+	    <item>"1 - Stickman + Face"</item>
+	    <item>"2 - Cartoon"</item>
+	    <item>"3 - Cartoon + Face"</item>
+	</string-array>    
+	<string-array name="avatar_RealismLevels">
+	    <item >"0"</item>
+	    <item >"1"</item>
+	    <item >"2"</item>
+	    <item >"3"</item>
+	</string-array>
+	
+	<string-array name="current_activity">
+	    <item >inBed</item>
+	    <item >onComputer</item>
+	    <item >videoGames</item>
+	    <item >watchingTV</item>
+	    <item >basketball</item>
+	    <item >bicycling</item>
+	    <item >running</item>
+	</string-array>
+	<string-array name="behavior">
+	    <item >constant</item>
+	    <item >Proteus Effect Study</item>
+	    <item >debug</item>
+	    <item >IEEE VR demo</item>
+	</string-array>
+	<string-array name="scaleNames">
+	    <item >0.5</item>
+	    <item >1</item>
+	    <item >1.5</item>
+	    <item >2</item>
+	    <item >3</item>
+	</string-array>
+	<string-array name="scaleValues">
+	    <item >0.5f</item>
+	    <item >1.0f</item>
+	    <item >1.5f</item>
+	    <item >2.0f</item>
+	    <item >3.0f</item>
+	</string-array>
+	<string-array name="activityMonitors">
+	    <item >mMonitor</item>
+	    <item >built-in</item>
+	</string-array>
+    
+</resources>
