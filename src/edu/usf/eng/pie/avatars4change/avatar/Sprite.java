@@ -34,7 +34,7 @@ public class Sprite {
 		BitmapFactory.Options options = new BitmapFactory.Options(); options.inPurgeable = true;
 		image = BitmapFactory.decodeFile(fName,options);
 		if(image==null) Log.e("sprite","file " + fName + " failed to load!");
-		else Log.v(TAG,"sprite file '"+fName+"' loaded");
+		else ; //log.d(TAG,"sprite file '"+fName+"' loaded");
 	}
 	
 	//draws the sprite on given canvas c at object location relative to given location L
@@ -44,7 +44,7 @@ public class Sprite {
 			if(name == null){
 				Log.v("sprite","no image to draw here; move along...");
 			} else {
-				Log.d("sprite","cannot draw sprite "+name+", no image!");
+				Log.e("sprite","cannot draw sprite "+name+", no image!");
 			}
 			return;	//don't draw if no image or no name
 		}	//implied else
@@ -61,13 +61,13 @@ public class Sprite {
 		}
 		/*
 		dest = new Rect(L.x-w/2, L.y-h/2, L.x+w/2, L.y+h/2);
-		//Log.v("sprite","w=" + Integer.toString(w) + " h=" + Integer.toString(h));
+		//Log.d("sprite","w=" + Integer.toString(w) + " h=" + Integer.toString(h));
 		 */
 		c.translate(location.x, -location.y);
 		c.rotate(location.rotation);
 		Rect dest = new Rect(-w/2,-h/2,w/2,h/2);
 		c.drawBitmap(image, source, dest, null);
 		c.restore();
-		Log.v(TAG,w+"x"+h+" sprite drawn at "+location.x+","+location.y);
+		; //log.d(TAG,w+"x"+h+" sprite drawn at "+location.x+","+location.y);
 	}
 }

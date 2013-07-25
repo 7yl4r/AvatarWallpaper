@@ -229,7 +229,7 @@ public class Avatar extends Entity {
 		// === ACTIVE ===
 		if(activityName.equals("running")){
 
-			bodyDirTop = null;
+			bodyDirTop = spriteDir+"/blankImage/";
 			bodyDirBottom = spriteDir+"/body/active/running/";
 
 		} else if(activityName.equals("basketball")){
@@ -242,23 +242,23 @@ public class Avatar extends Entity {
 		} else if(activityName.equals("inBed")){
 
 			bodyDirBottom = spriteDir+"/body/sleeping/inBed/";
-			bodyDirTop    = null;
+			bodyDirTop = spriteDir+"/blankImage/";
 		// === PASSIVE ===
 		} else if(activityName.equals("onComputer")){
-			bodyDirTop = null;
+			bodyDirTop = spriteDir+"/blankImage/";
 			bodyDirBottom = spriteDir+"/body/passive/onComputer/";
 			
 		} else if(activityName.equals("videoGames")){
-			bodyDirTop = null;
+			bodyDirTop = spriteDir+"/blankImage/";
 			bodyDirBottom = spriteDir+"/body/passive/videoGames/";
 		} else if(activityName.equals("watchingTV")){
-			bodyDirTop = null;
+			bodyDirTop = spriteDir+"/blankImage/";
 			bodyDirBottom = spriteDir+"/body/passive/watchingTV/";
 			// === DEFAULT === 
 		} else {
 			Log.e(TAG,"activity name not recognized");
 	
-			bodyDirTop = null;
+			bodyDirTop = spriteDir+"/blankImage/";
 			bodyDirBottom = spriteDir+"/body/default/";
 		}
 		super.setAnimationDir( bodyTopName, bodyDirTop);

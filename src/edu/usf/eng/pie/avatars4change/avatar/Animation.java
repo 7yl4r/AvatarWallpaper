@@ -62,14 +62,14 @@ public class Animation {
 	}
 
 	public void draw(Canvas c) {
-		// Log.v(TAG, "F:" + Integer.toString(currentFrame) + " nF:" +
+		//Log.d(TAG, "F:" + Integer.toString(currentFrame) + " nF:" +
 		// Integer.toString(nFrames));
 		c.save();
 		if (frame[currentFrame] == null) {
-			Log.v(TAG,
+			Log.e(TAG,
 					"cannot draw animation frame# "
-							+ Integer.toString(currentFrame) + " in " + fileDir
-							+ ", no image!");
+							+ Integer.toString(currentFrame) + " in '" + fileDir
+							+ "' for animation '"+this.name+"'; no image!");
 			return; // don't draw if no image
 		}
 		// set up scaling of image
@@ -93,8 +93,8 @@ public class Animation {
 		Rect dest = new Rect(-w / 2, -h / 2, w / 2, h / 2);
 		c.drawBitmap(frame[currentFrame], source, dest, null);
 		c.restore();
-		Log.v(TAG, w + "x" + h + " animation @ frame " + currentFrame
-				+ " drawn at " + location.x + "," + location.y);
+		; //Log.d(TAG, w + "x" + h + " animation @ frame " + currentFrame
+			//	+ " drawn at " + location.x + "," + location.y);
 	}
 
 	public void nextFrame() {

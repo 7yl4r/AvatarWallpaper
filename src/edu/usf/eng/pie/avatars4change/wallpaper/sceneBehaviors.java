@@ -34,14 +34,16 @@ public class sceneBehaviors {
     public static void runBehavior(Context context, Avatar theAvatar){
 		long now = SystemClock.elapsedRealtime();
 		long timeTillWarning = 1000 * 60 * 60 * 24;
-        if((now - avatarWallpaper.lastLogTime) > timeTillWarning){   
-        	Notifier.addNotification(context,"no data in past 24hrs; contact PIE-Lab staff.");
+		long timeSinceLog = now - avatarWallpaper.lastLogTime;
+		Log.d(TAG,"timeTilDataErr="+Long.toString(timeSinceLog));
+        if( timeSinceLog > timeTillWarning){   
+        	Notifier.addNotification(context,"no view data in past 24hrs; contact PIE-Lab staff.");
         }
     	if( theAvatar.behaviorSelectorMethod == null){
         	Log.e(TAG,"behaviorSelectorMethod = null; cannot run Behavior");
     		return;
     	}	//implied ELSE
-    	Log.v(TAG,"updating scene via " + theAvatar.behaviorSelectorMethod);
+    	; //Log.d(TAG,"updating scene via " + theAvatar.behaviorSelectorMethod);
     	if ( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("constant") ){
     		constant(theAvatar);
     	}else if( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("Proteus Effect Study")){
@@ -67,7 +69,7 @@ public class sceneBehaviors {
     	//TODO: change this next if issue#5 persists
 		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
         if((now - theAvatar.lastActivityChange) > theAvatar.UPDATE_FREQUENCY){		//if time elapsed > desired time
-        	Log.d(TAG,"updating avatar activity");
+        	Log.v(TAG,"updating avatar activity");
         	//if past bedTime and before wakeTime, sleep
             int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
             Log.v("Avatars4Change Avatar sleep clock", "current hour:" + currentHour);

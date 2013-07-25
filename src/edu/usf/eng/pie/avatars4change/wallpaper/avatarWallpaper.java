@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
@@ -47,9 +48,8 @@ public class avatarWallpaper extends WallpaperService {
         avatarSetup();
         
         // setup default preferences (if none have been set ever)
-        PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.avatar_settings, false);
-        
-//        avatarWallpaperSettings.loadPrefs(getApplicationContext(),avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
+        PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.avatar_settings, false);        
+        avatarWallpaperSettings.loadPrefs(getApplicationContext(),avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
         
         //TODO: add a setting like countlyLogging == true, then this should be triggered by preferenceChangeListener
         countlySetup();
@@ -192,6 +192,7 @@ public class avatarWallpaper extends WallpaperService {
 						dataOut.writeBytes(String.valueOf(visibilityStart)+","+String.valueOf(visibilityEnd)+","+String.valueOf(visibilityEnd-visibilityStart)+
 								"," + theAvatar.getActivityName() + "\n");
 						Log.d(TAG, visibleTime + " ms of time added to file");
+						avatarWallpaper.lastLogTime = SystemClock.elapsedRealtime();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

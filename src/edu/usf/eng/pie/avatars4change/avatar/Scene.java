@@ -18,7 +18,7 @@ public class Scene {
 	}
 	
 	public void draw(Canvas c){
-//		Log.v("entity draw","drawing "+Integer.toString(sprites.size())+" sprites, "
+//		Log.d("entity draw","drawing "+Integer.toString(sprites.size())+" sprites, "
 //			      +Integer.toString(animations.size())+" animations, "
 //				  +Integer.toString(entities.size())+" entities in scene "+this.name);
 		//TODO: add scene location

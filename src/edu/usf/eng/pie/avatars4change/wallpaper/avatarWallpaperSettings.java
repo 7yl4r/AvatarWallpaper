@@ -74,18 +74,24 @@ public class avatarWallpaperSettings extends PreferenceActivity
     	avatarWallpaperSettings.handleKey(getApplicationContext(),key,sharedPreferences); 
     }
     
-//    // load in all preferences
-//    public static void loadPrefs(Context ctx, SharedPreferences sharedPreferences){
-//		Log.d(TAG, "loading preferences...");
-//		int n = Integer.parseInt(ctx.getString(R.string.key_count));
-//		for ( int i = 0; i<n; i++ ){
-//			if(avatarWallpaperSettings.PREFERENCE_KEYS[i].equals("killMe")){	//skip over killMe pref
-//				continue;
-//			}else{	// load preference
-//				avatarWallpaperSettings.handleKey(ctx, avatarWallpaperSettings.PREFERENCE_KEYS[i],sharedPreferences);
-//			}
-//		}
-//	}
+    // load in all preferences
+    public static void loadPrefs(Context ctx, SharedPreferences sharedPrefs){
+		Log.d(TAG, "loading preferences...");
+		// a list preferences which need to be loaded in manually
+		String PREFERENCE_KEYS[] = {
+				ctx.getString(R.string.key_configmacro),
+				ctx.getString(R.string.key_activeonevens),
+				ctx.getString(R.string.key_activitymonitor),
+				ctx.getString(R.string.key_realismlevel),
+				ctx.getString(R.string.key_scale),
+				ctx.getString(R.string.key_uid),
+				ctx.getString(R.string.key_wifionly)
+				};
+		for ( int i = 0; i<PREFERENCE_KEYS.length; i++ ){
+				// load preference
+				avatarWallpaperSettings.handleKey(ctx, PREFERENCE_KEYS[i],sharedPrefs);
+		}
+	}
 
     //  responds to the preference key given accordingly
     private static void handleKey(Context ctx, String key, SharedPreferences mPrefs){
