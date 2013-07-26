@@ -35,7 +35,6 @@ public class Layer_UserStatus {
 		mPaint.setTextSize(50);
 		mPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		yOffset += 40; xOffset += 50;
-		String statusText = "???";
 		/*
 		if(userData.currentActivity.equals("Standing")){
 			statusText = "sedentary";
@@ -49,19 +48,7 @@ public class Layer_UserStatus {
 		}
 		*/
 		//set text based on activity level
-		if( userData.recentAvgActivityLevel < 0){
-			mPaint.setTextSize(30);
-			statusText = "? - val out of bounds";
-		}else if( userData.recentAvgActivityLevel < 3){ //implied && > 0
-			statusText = "sedentary";
-		}else if( userData.recentAvgActivityLevel < 6){ //implied && > 3
-			statusText = "active";
-		}else if(userData.recentAvgActivityLevel < 10){ //implied && > 6
-			statusText = "SUPER active!";
-		}else{ // > 10 || < 0
-			mPaint.setTextSize(30);
-			statusText = "? - val out of bounds";
-		}
+		String statusText = userData.getPAdescription();
 		c.drawText(statusText, xOffset, yOffset, mPaint);
 		/*
 		mPaint.setTextSize(50);

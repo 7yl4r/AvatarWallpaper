@@ -4,6 +4,7 @@ import edu.usf.eng.pie.avatars4change.storager.Sdcard;
 import edu.usf.eng.pie.avatars4change.wallpaper.sceneBehaviors;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.os.SystemClock;
 import android.util.Log;
 
 public class Avatar extends Entity {
@@ -276,7 +277,8 @@ public class Avatar extends Entity {
 	}
 	
 	public void setActivityName(String newName) {
-		activityName = newName;		//set new activity name
+		this.activityName = newName;		//set new activity name
+   	 	this.lastActivityChange = SystemClock.elapsedRealtime();
 		Log.v("Avatar",name+" activity set to "+activityName);
 		if(!this.isOkay()){	//change activity level if needed
 			if(newName.equals("basketball") || newName.equals("running") || newName.equals("bicycling")){
@@ -307,7 +309,7 @@ public class Avatar extends Entity {
         	}else if(newlevel == 2){
         		activity = "bicycling";
         	}
-        } else if(level.equals("passive")){
+        } else if(level.equals("passive")){	//TODO: this should be sedentary!!!
         	if(newlevel == 0){
         		activity = "watchingTV";
         	}else if(newlevel == 1){

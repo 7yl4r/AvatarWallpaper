@@ -12,6 +12,13 @@ import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaperSettings;
 public class userData {
 	private static final String TAG = "userData";
 	
+	private static final int BOUNDARY_UPPER = 10;
+	private static final int BOUNDARY_VERYACTIVE_TO_ACTIVE = 8;
+	private static final int BOUNDARY_ACTIVE_TO_SEDENTARY = 6;
+	private static final int BOUNDARY_SEDENTARY_TO_IMMOBILE = 1;
+	private static final int BOUNDARY_LOWER = 0;
+
+	
 	// general user info:
     public static String USERID = "defaultUID";
     
@@ -27,6 +34,40 @@ public class userData {
 	private static float min = 100;
 	private static float max = 0;
 	private static int[] activityFrequencies = new int[11];
+	
+	//returns the activity level name consistent with the proteus study activity level names 
+	//    for use like: avatar.setActivityLevel(user.getActivityLevelName())
+	public static String getPAlevelName(){
+		String activLvl = "UKNOWN";
+		if(userData.recentAvgActivityLevel > BOUNDARY_ACTIVE_TO_SEDENTARY){	//if user is walking or greater
+			activLvl = "active";
+		} else if(userData.recentAvgActivityLevel < BOUNDARY_SEDENTARY_TO_IMMOBILE){		//if user not moving at all
+			activLvl = "sleeping";
+		}else{	// user is not active
+			activLvl = "passive";	//TODO: this should be "sedentary" !!!
+		}
+		return activLvl;
+	}
+	
+	//returns a short description of user's physical activity classification for display 
+	//	designed to allow a greater level of detail of description
+	public static String getPAdescription(){
+		String desc = "unknown";
+		if (userData.recentAvgActivityLevel >= BOUNDARY_UPPER){
+			desc = "ERR: exceeds upper bound";
+		} else if(userData.recentAvgActivityLevel > BOUNDARY_VERYACTIVE_TO_ACTIVE){
+			desc = "SUPER active!";
+		} else if(userData.recentAvgActivityLevel > BOUNDARY_ACTIVE_TO_SEDENTARY){
+			desc = "active";
+		} else if(userData.recentAvgActivityLevel > BOUNDARY_SEDENTARY_TO_IMMOBILE){
+			desc = "sedentary";
+		} else if(userData.recentAvgActivityLevel >= BOUNDARY_LOWER){
+			desc = "still";
+		}else{
+			desc = "ERR: exeeds lower bound";
+		}
+		return desc;
+	}
 		
 	//allows restart of personalization of levels
 	public static void resetPAmeasures(){
