@@ -16,6 +16,9 @@
             android:entryValues="@array/scaleValues" 
             android:title="Avatar Size" 
             android:defaultValue="1.0f"/>
+        <EditTextPreference android:key="@string/key_uid"
+            android:title="Public ID">
+        </EditTextPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/title_advancedgroup" android:key="@string/key_advancedgroup">
 	    <PreferenceScreen android:title="@string/title_adminprefgroup" android:key="@string/key_adminscreen">
@@ -63,6 +66,10 @@
 					    android:defaultValue="false" 
 					    android:summary="kill the app process to unfreeze FFT &amp; sensorListener"/>
 	        </PreferenceCategory>
+	        <CheckBoxPreference android:key="@string/key_debugmode" 
+	            android:defaultValue="@string/default_debugmode" 
+	            android:title="Debug Mode" 
+	            android:summary="shows more info for debugging"/>
 	   </PreferenceScreen>	
     </PreferenceCategory>
 	

@@ -13,8 +13,8 @@ public class userData {
 	private static final String TAG = "userData";
 	
 	private static final int BOUNDARY_UPPER = 10;
-	private static final int BOUNDARY_VERYACTIVE_TO_ACTIVE = 8;
-	private static final int BOUNDARY_ACTIVE_TO_SEDENTARY = 6;
+	private static final int BOUNDARY_VERYACTIVE_TO_ACTIVE = 6;
+	private static final int BOUNDARY_ACTIVE_TO_SEDENTARY = 3;
 	private static final int BOUNDARY_SEDENTARY_TO_IMMOBILE = 1;
 	private static final int BOUNDARY_LOWER = 0;
 
@@ -41,7 +41,7 @@ public class userData {
 		String activLvl = "UKNOWN";
 		if(userData.recentAvgActivityLevel > BOUNDARY_ACTIVE_TO_SEDENTARY){	//if user is walking or greater
 			activLvl = "active";
-		} else if(userData.recentAvgActivityLevel < BOUNDARY_SEDENTARY_TO_IMMOBILE){		//if user not moving at all
+		} else if(userData.recentAvgActivityLevel < BOUNDARY_SEDENTARY_TO_IMMOBILE){ //if user not moving at all
 			activLvl = "sleeping";
 		}else{	// user is not active
 			activLvl = "passive";	//TODO: this should be "sedentary" !!!
@@ -103,7 +103,10 @@ public class userData {
 		// compute new recent average
 		recentAvgActivityLevel = ((float)recentSum) / ((float)recentActivityLevels.length);
 		
-		if (avatarWallpaperSettings.debugMode){
+		boolean debug = Boolean.parseBoolean(ctx.getSharedPreferences(ctx.getString(R.string.shared_prefs_name), Context.MODE_PRIVATE)
+			.getString(ctx.getString(R.string.key_debugmode),"true"));
+		
+		if (debug){
 			showDebugNotification(ctx,intnt);
 		}
 	}
