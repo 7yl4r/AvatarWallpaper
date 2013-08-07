@@ -24,8 +24,14 @@
             android:summaryOff="use cell data for best data quality"
             android:defaultValue="false"/>
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/title_advancedgroup" android:key="@string/key_advancedgroup">
-	    <PreferenceScreen android:title="@string/title_adminprefgroup" android:key="@string/key_adminscreen">
+    <PreferenceCategory android:title="@string/title_advancedgroup" 
+        android:key="@string/key_advancedgroup">
+        <PreferenceScreen android:title="Re-run initial setup" 
+	        android:summary="restarts photo-taking activity">
+	        <intent android:action="edu.usf.eng.pie.avatars4change.wallpaper.AvatarWallpaperSetup"/>
+    	</PreferenceScreen>
+	    <PreferenceScreen android:title="@string/title_adminprefgroup" 
+	        android:key="@string/key_adminscreen">
 	        
 	        <PreferenceCategory android:title="@string/title_researchconfiggroup" android:key="@string/key_researchconfiggroup">
 	            <ListPreference android:title="Config Macro" 

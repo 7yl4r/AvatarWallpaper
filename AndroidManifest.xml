@@ -62,6 +62,10 @@
             android:label="initialSetup"
             android:name="edu.usf.eng.pie.avatars4change.wallpaper.AvatarWallpaperSetup"
             android:exported="true">
+            <intent-filter>
+	           <action android:name="edu.usf.eng.pie.avatars4change.wallpaper.AvatarWallpaperSetup" />
+	           <category android:name="android.intent.category.DEFAULT" />
+      	 	</intent-filter>
        </activity>
         <activity
             android:label="photoSelectorSetup"
