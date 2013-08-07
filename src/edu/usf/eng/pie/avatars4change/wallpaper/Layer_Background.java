@@ -15,15 +15,9 @@ public class Layer_Background {
 		//nothing?
 		//userData.FFT is updated by ServiceSensors class...
 	}
-
-	public static void draw(Canvas c){
-		plainBG(c);
-
-		//fftBG(c);
-	}
 	
     /*background */
-    static void plainBG(Canvas c){
+    public static void drawPlainBG(Canvas c){
 		c.save();
     	//CALCULATE BACKGROUND LOCATION BASED ON OFFSET:
     	//float yrot = (0.5f - mOffset) * 2.0f;
@@ -33,24 +27,24 @@ public class Layer_Background {
         c.restore(); //return canvas to default location
     }
 
-    static void fftBG(Canvas c){
+    public static void drawFFT_BG(Canvas c){
+    	drawPlainBG(c);
     	c.save();
 	    // Create a Paint to draw on
 	    Paint paint = new Paint();
 	    paint.setColor(Color.YELLOW);
 	    paint.setStrokeWidth(2);
 	    paint.setStyle(Paint.Style.STROKE);
-	    
-	    for( int i = 0 ; i < 64 ; i++){
+	    //NOTE: only the 1st 1/2 of the array is drawn, since it mirrors over the y axis
+	    for( int i = 0 ; i < 32 ; i++){
 	    	c.drawLine(scaleX(i), scaleY((int)Math.round(userData.FFT[i])), scaleX(i+1) , scaleY((int)Math.round(userData.FFT[i+1])), paint);
 	    }
     	c.restore();
-    	
     }
     
 	private static int scaleX(int x) {
 		
-		return -160 + x * 5;
+		return -160 + x * 10;
 	}
 	
 	private static int scaleY(int y) {

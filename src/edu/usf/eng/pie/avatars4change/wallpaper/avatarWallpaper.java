@@ -286,7 +286,7 @@ public class avatarWallpaper extends WallpaperService {
                 	boolean sdPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
                 	if(sdPresent){
                 		Layer_Main.nextFrame();
-	                	Layer_Main.draw(c, holder.getSurfaceFrame(),theAvatar);
+	                	Layer_Main.draw(getApplicationContext(),c, holder.getSurfaceFrame(),theAvatar);
                 	}else{//SDcard not present
                 		Sdcard.waitForReady(getApplicationContext(),c);
                 	}

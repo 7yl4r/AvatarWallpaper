@@ -286,7 +286,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 					for(int i=0; i< re.length; i++){
 						double mag = Math.sqrt(re[i]*re[i]+ im[i]*im[i]);
 						if(i < 64){
-	//						userData.FFT[i] = mag;	//add to userData (just for fun)
+							userData.FFT[i] = mag;	//add to userData (just for fun)
 						} else {
 							oopsFlag = true;
 						}

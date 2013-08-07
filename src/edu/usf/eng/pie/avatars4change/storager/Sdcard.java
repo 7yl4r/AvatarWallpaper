@@ -93,7 +93,7 @@ public class Sdcard {
     	missingCardError(context);
 		if (c != null){	// show error on the canvas if given
 			c.save();
-			Layer_Background.draw(c);
+			Layer_Background.drawPlainBG(c);
 		    Paint mPaint = new Paint();
 		    mPaint.setColor(Color.BLACK); 
 			mPaint.setTextSize(30); 
