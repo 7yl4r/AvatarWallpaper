@@ -103,8 +103,8 @@ public class userData {
 		// compute new recent average
 		recentAvgActivityLevel = ((float)recentSum) / ((float)recentActivityLevels.length);
 		
-		boolean debug = Boolean.parseBoolean(ctx.getSharedPreferences(ctx.getString(R.string.shared_prefs_name), Context.MODE_PRIVATE)
-			.getString(ctx.getString(R.string.key_debugmode),"true"));
+		boolean debug = ctx.getSharedPreferences(ctx.getString(R.string.shared_prefs_name), Context.MODE_PRIVATE)
+				.getBoolean(ctx.getString(R.string.key_debugmode),true);
 		
 		if (debug){
 			showDebugNotification(ctx,intnt);

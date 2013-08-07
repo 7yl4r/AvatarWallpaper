@@ -66,6 +66,8 @@ public class AvatarWallpaperSetup extends Activity{
 	}
 
 	private void idChooser(){
+		//TODO: change this to use the method outlined here: 
+		// http://stackoverflow.com/questions/552070/android-how-do-i-set-a-preference-in-code
 		//get default UID
     	TelephonyManager tManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
     	userData.USERID = tManager.getDeviceId();
