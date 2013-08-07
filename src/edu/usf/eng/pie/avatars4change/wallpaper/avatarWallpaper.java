@@ -27,7 +27,6 @@ import edu.usf.eng.pie.avatars4change.storager.Sdcard;
  
 public class avatarWallpaper extends WallpaperService {
     public static float desiredFPS       = 10;
-    public static boolean wifiOnly       = true; //enabled if program should only use wifi
     
     public static Avatar    theAvatar;
 

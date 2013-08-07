@@ -59,7 +59,7 @@ public class Layer_Main {
     				.getBoolean(ctx.getString(R.string.key_debugmode),true);
     		String activMonitor = ctx.getSharedPreferences(ctx.getString(R.string.shared_prefs_name), Context.MODE_PRIVATE)
     				.getString(ctx.getString(R.string.key_activitymonitor),"");
-    		if(debug && activMonitor.equals("built-in")){
+    		if(debug && activMonitor.equals("built-in")){	//TODO: this should probably be referenced using R.string
     			Layer_Background.drawFFT_BG(c);
     		} else {
     			Layer_Background.drawPlainBG(c);

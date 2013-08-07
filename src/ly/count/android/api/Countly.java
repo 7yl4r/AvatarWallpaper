@@ -15,6 +15,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper; //TODO: 
 
 import android.content.Context;
@@ -253,7 +254,10 @@ class ConnectionQueue
 							break;						
 						data.replaceFirst("REPLACE_UDID", OpenUDID_manager.getOpenUDID());						
 					}
-					if(avatarWallpaper.wifiOnly && !isOnline(context_)){
+					boolean wifiOnly = context_.getSharedPreferences(context_.getString(R.string.shared_prefs_name,"")
+					                   ,Context.MODE_PRIVATE
+					                   ).getBoolean(context_.getString(R.string.key_wifionly,""),false);
+					if(wifiOnly && !isOnline(context_)){
 							Log.d("Countly","wifi not found, no data usage selected. not sending data.");
 							break;
 					} else {	//send data to server

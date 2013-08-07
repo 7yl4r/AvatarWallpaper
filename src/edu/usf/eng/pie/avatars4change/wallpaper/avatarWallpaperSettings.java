@@ -132,11 +132,6 @@ public class avatarWallpaperSettings extends PreferenceActivity
 			Log.d(TAG, "behaviorSelector:"+avatarWallpaper.theAvatar.behaviorSelectorMethod);
 			
 			//TODO: remove (like above)
-    	}else if (key.equals(ctx.getString(R.string.key_wifionly))){	//9
-			avatarWallpaper.wifiOnly = mPrefs.getBoolean(key,avatarWallpaper.wifiOnly);
-			Log.d(TAG,"wifiOnly:"+avatarWallpaper.wifiOnly);
-			
-			//TODO: remove (like above)
     	}else if (key.equals(ctx.getString(R.string.key_scale))){		//10
 			avatarWallpaper.theAvatar.scaler = Float.parseFloat(mPrefs.getString(key, "1.0f"));
 			Log.d(TAG, "scale:"+Float.toString(avatarWallpaper.theAvatar.scaler));

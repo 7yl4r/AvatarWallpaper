@@ -17,8 +17,12 @@
             android:title="Avatar Size" 
             android:defaultValue="1.0f"/>
         <EditTextPreference android:key="@string/key_uid"
-            android:title="Public ID">
-        </EditTextPreference>
+            android:title="Public ID"/>
+        <CheckBoxPreference android:key="@string/key_wifionly"
+            android:title="Use only wifi?"
+            android:summaryOn="no cell data usage"
+            android:summaryOff="use cell data for best data quality"
+            android:defaultValue="false"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/title_advancedgroup" android:key="@string/key_advancedgroup">
 	    <PreferenceScreen android:title="@string/title_adminprefgroup" android:key="@string/key_adminscreen">
