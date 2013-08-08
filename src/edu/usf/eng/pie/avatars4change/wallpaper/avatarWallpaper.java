@@ -183,11 +183,11 @@ public class avatarWallpaper extends WallpaperService {
             	if(Sdcard.storageReady()){
 	                //create or open dataLog file:
 	                DataOutputStream dataOut = null;
-	                if(keepLogs){
+//	                if(keepLogs){
 						dataOut = Sdcard.getVisibilityLog(getApplicationContext(),true);
-	                } else {
-	                	dataOut = Sdcard.getVisibilityLog(getApplicationContext(),false);
-	                }
+//	                } else {
+//	                	dataOut = Sdcard.getVisibilityLog(getApplicationContext(),false);
+//	                }
 	                try {
 						dataOut.writeBytes(String.valueOf(visibilityStart)+","+String.valueOf(visibilityEnd)+","+String.valueOf(visibilityEnd-visibilityStart)+
 								"," + theAvatar.getActivityName() + "\n");
