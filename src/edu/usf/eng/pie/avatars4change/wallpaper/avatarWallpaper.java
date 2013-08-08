@@ -27,7 +27,6 @@ import edu.usf.eng.pie.avatars4change.storager.Sdcard;
  
 public class avatarWallpaper extends WallpaperService {
     public static float desiredFPS       = 10;
-    
     public static Avatar    theAvatar;
 
 	//vars for background visibility logging
@@ -177,6 +176,10 @@ public class avatarWallpaper extends WallpaperService {
                 Long visibilityEnd = System.currentTimeMillis();
                 long visibleTime = visibilityEnd - visibilityStart;
                 
+                //post time viewed to countly
+                countlyInterface.postCountlyViewData(visibleTime);
+                
+                //write time viewed to file
             	if(Sdcard.storageReady()){
 	                //create or open dataLog file:
 	                DataOutputStream dataOut = null;
@@ -185,8 +188,6 @@ public class avatarWallpaper extends WallpaperService {
 	                } else {
 	                	dataOut = Sdcard.getVisibilityLog(getApplicationContext(),false);
 	                }
-
-	                //write time viewed to file
 	                try {
 						dataOut.writeBytes(String.valueOf(visibilityStart)+","+String.valueOf(visibilityEnd)+","+String.valueOf(visibilityEnd-visibilityStart)+
 								"," + theAvatar.getActivityName() + "\n");

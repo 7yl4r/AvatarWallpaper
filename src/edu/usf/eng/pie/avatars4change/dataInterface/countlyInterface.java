@@ -33,7 +33,7 @@ public class countlyInterface {
 		delayHandle.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				 postCountlyData();
+				 postCountlyPAData();
 				 if (continuePosting){
 					 scheduleDataPost();
 				 }
@@ -41,11 +41,19 @@ public class countlyInterface {
 		},DELAY_TIME);
 	}
 	
-	private static void postCountlyData(){
+	// posts physical activity data to be sent to countly server
+	private static void postCountlyPAData(){
 		//Log.v(TAG,"queuing event physicalAcitivtyLevel = " + Float.toString(avgLevel));
 		HashMap<String, String> segmentation = new HashMap<String,String>();
 		segmentation.put("UID",userData.USERID);
 		Countly.sharedInstance().recordEvent("physicalActivity",segmentation,1, userData.recentAvgActivityLevel);
+	}
+	
+	// posts avatar view data to be sent to countly server
+	public static void postCountlyViewData(final double amount){
+		HashMap<String, String> segmentation = new HashMap<String,String>();
+		segmentation.put("UID",userData.USERID);
+		Countly.sharedInstance().recordEvent("avatarViewTime",segmentation,1, amount);
 	}
 	
 }
