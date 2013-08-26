@@ -10,9 +10,10 @@ public class Sprite {
 	String TAG = "avatar.Sprite";
 	
 	String name = "UNNAMED";
+	String filename = null;
 	Location location = new Location();
 	
-	Bitmap image;
+//	Bitmap image;
 	
 	//constructor
 	public Sprite(String newName, String fileName, Location newLocation){
@@ -21,7 +22,7 @@ public class Sprite {
 	
 	public void set (String newName, String fileName, Location newLocation){
 		name = newName;
-		loadImage(fileName);
+		this.filename = fileName;
 		location    = newLocation;
 	}
 	
@@ -29,16 +30,18 @@ public class Sprite {
 		location = newLoc;
 	}
 
-	public void loadImage(String fName){
+	public Bitmap loadImage(String fName){
 		//image = BitmapFactory.decodeFile(fileDir+currentFrame+".png");
 		BitmapFactory.Options options = new BitmapFactory.Options(); options.inPurgeable = true;
-		image = BitmapFactory.decodeFile(fName,options);
-		if(image==null) Log.e("sprite","file " + fName + " failed to load!");
-		else ; //log.d(TAG,"sprite file '"+fName+"' loaded");
+		Bitmap image = BitmapFactory.decodeFile(fName,options);
+		if(image==null)	Log.e("sprite","file " + fName + " failed to load!");
+		//log.d(TAG,"sprite file '"+fName+"' loaded");
+		return image;
 	}
 	
 	//draws the sprite on given canvas c at object location relative to given location L
 	public void draw(Canvas c){
+		Bitmap image = loadImage(this.filename);
 		c.save();
 		if(image == null){
 			if(name == null){
