@@ -59,12 +59,6 @@ class HighlightView {
     }
 
     protected void draw(Canvas canvas) {
-        // set no hardware acceleration on 4.0+
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-        	   mContext.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        	   
-    	}
-        
         if (mHidden) {
             return;
         }

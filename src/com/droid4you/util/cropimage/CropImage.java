@@ -27,6 +27,7 @@ import android.graphics.RectF;
 import android.graphics.Region;
 import android.media.FaceDetector;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -82,6 +83,10 @@ public class CropImage extends MonitoredActivity {
 		setContentView(R.layout.cropimage);
 
 		mImageView = (CropImageView) findViewById(R.id.image);
+        // set no hardware acceleration on 4.0+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
+        	   this.mImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+    	}
 
 		showStorageToast(this);
 
