@@ -280,7 +280,7 @@ public class avatarWallpaper extends WallpaperService {
 
             Canvas c = null;
             try {
-                c = holder.lockCanvas();
+        		c = holder.lockCanvas();
                 if (c != null) {
                 	c.save();
                 	c.translate(mCenterX, mCenterY);
@@ -293,6 +293,9 @@ public class avatarWallpaper extends WallpaperService {
                 	}
                 	c.restore();
                 }
+            }catch (IllegalArgumentException e){
+        		e.printStackTrace();
+        		// should this unlock and post or no?
             } finally {
                 if (c != null) holder.unlockCanvasAndPost(c);
             }
