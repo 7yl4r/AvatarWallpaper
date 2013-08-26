@@ -44,7 +44,7 @@ public class avatarWallpaper extends WallpaperService {
     	Sdcard.waitForReady(getApplicationContext());
     	
         avatarSetup();
-        
+    	
         // setup default preferences (if none have been set ever)
         PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.avatar_settings, false);        
         avatarWallpaperSettings.loadPrefs(getApplicationContext(),avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
@@ -210,6 +210,7 @@ public class avatarWallpaper extends WallpaperService {
         @Override
         public void onVisibilityChanged(boolean visible) {
             logVisibilityData(visible);
+            if(visible) sceneBehaviors.runBehavior(getApplicationContext(),theAvatar);
         }
 
         @Override

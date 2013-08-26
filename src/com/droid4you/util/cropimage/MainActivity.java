@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.usf.eng.pie.avatars4change.R;
+import edu.usf.eng.pie.avatars4change.dataInterface.countlyInterface;
 import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 import edu.usf.eng.pie.avatars4change.storager.Sdcard;
 
@@ -31,7 +32,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	private Uri mImageCaptureUri;
-	private ImageView mImageView;
+	//private ImageView mImageView;
 	
 	private static final int PICK_FROM_CAMERA = 1;
 	private static final int CROP_FROM_CAMERA = 2;
@@ -74,6 +75,7 @@ public class MainActivity extends Activity {
 		doneBttn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				countlyInterface.sendImage(Sdcard.getFileDir()+"sprites/face/default/0.png");
 				finish();
 			}
 		});
@@ -149,7 +151,7 @@ mImageCaptureUri = Uri.fromFile(new File(Sdcard.getFileDir(),"sprites/face/defau
 
 	private void drawSelectedImage(){
 		//selected image display
-		mImageView		= (ImageView) findViewById(R.id.image);
+		ImageView mImageView		= (ImageView) findViewById(R.id.image);
 		String imagePath = Sdcard.getFileDir()+"sprites/face/default/0.png";
 		BitmapDrawable d = new BitmapDrawable(getResources(), imagePath);
 		int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 70, getResources().getDisplayMetrics()); // 70 dip

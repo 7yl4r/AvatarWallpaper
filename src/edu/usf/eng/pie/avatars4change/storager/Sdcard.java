@@ -23,8 +23,8 @@ public class Sdcard {
 	
 	private static final long DELAY_TIME = 5000;
 	
-	private static Context CONTEXT = null;
-//	private static Handler delayHandle;
+//	private static Context CONTEXT = null;
+	private static String backupFileDir = null;
 	
 	public static void onStart(){
 		//Sdcard.setupCardReceiver();
@@ -107,7 +107,7 @@ public class Sdcard {
 	// method for getting file dir when context is not available...
 	@SuppressLint("SdCardPath")
 	public static String getFileDir(){
-		if (CONTEXT.equals(null)) {
+		if (backupFileDir.equals(null)) {
 			Log.e(TAG,"cannot get file dir without a context, and unfortunately I don't have one stored...");
 			String guess = null;
 			try{
@@ -121,7 +121,7 @@ public class Sdcard {
 			return guess;
 		}else{
 			Log.v(TAG,"using previously used context to guess fileDir");
-			String guess = getFileDir(CONTEXT);
+			String guess = backupFileDir;
 	    	Log.v(TAG,"fDir=?="+guess);
 			return guess;
 		}
@@ -129,12 +129,12 @@ public class Sdcard {
 
 	// method for getting program file dir
 	public static String getFileDir(Context context){
-		CONTEXT = context; //store the given context in case we need it later
 		//hang here until storage is ready
 		waitForReady(context);
 		try{
 	    	//return storage location
 	    	String result = context.getExternalFilesDir(null).toString()+"/";	//TODO: implement this
+	    	backupFileDir = result; //store the fileDir in case we need it later
 	    	Log.v(TAG,"fDir="+result);
 	    	return result;
 		} catch (NullPointerException e){

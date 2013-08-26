@@ -15,11 +15,11 @@ public class Avatar extends Entity {
 	
 	private final String TAG = "avatar.Avatar";
 	//avatar properties:
-    public String   behaviorSelectorMethod = "Proteus Effect Study";
-    public int      bedTime             = 23;
-    public int      wakeTime            = 5;
-	public long     UPDATE_FREQUENCY     = 1000 * 60 * 1; 	//once per UPDATE_FREQUENCY; e.g. 60s/min *10min * 1000ms/s
-    public long     lastActivityChange     = -UPDATE_FREQUENCY;	//last time activity level was changed [ms]
+    public String     behaviorSelectorMethod = "Proteus Effect Study";
+    public int        bedTime                = 23;
+    public int        wakeTime               = 5;
+	public long       UPDATE_FREQUENCY       = 1000 * 1 * 1; 	//once per UPDATE_FREQUENCY; e.g. 60s/min *10min * 1000ms/s
+    public long       lastActivityChange     = -UPDATE_FREQUENCY;	//last time activity level was changed [ms]
 
 	
 	public float scaler = 1.0f;	//multiplier for the scale 
@@ -79,7 +79,7 @@ public class Avatar extends Entity {
 		super.addAnimation( bodyBottomName, bodyDirBottom, bodyLbottom );
 		//face layer is in middle
 		bodyDirTop = loadBodyDir("top");
-		super.addAnimation( bodyTopName, bodyDirTop, bodyLtop );		
+		super.addAnimation( bodyTopName, bodyDirTop, bodyLtop );
 	}
 	
 	private String loadBodyDir(String layerName){
@@ -134,6 +134,7 @@ public class Avatar extends Entity {
 	private void loadHeadLocation(){
 		if(activityName == null){
 			Log.e(TAG,"activityName = null; cannot get location");
+			randomActivity(this.getActivityLevel());
 			return; //don't mess with null names
 		}
 		//this location should not show, and is a bit odd for easy debug
@@ -344,10 +345,13 @@ public class Avatar extends Entity {
 		if(activityName==null){
 			Log.w(TAG,"activity name is null; using random activity name");
 			randomActivity(activityLevel);
+			return isOkay();
 		}
+		
 		if(activityLevel==null){
 			Log.w(TAG,"activity level is null; using random activity level");
 			activityLevel=randomActivityLevel();
+			return isOkay();
 		}
 		
 		if(activityLevel.equals("sleeping")){

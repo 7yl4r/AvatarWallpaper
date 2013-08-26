@@ -29,12 +29,16 @@ public class AvatarWallpaperSetup extends Activity{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		//setup default preferences
+		Log.d(TAG,"loading default settings");
 		loadDefaultSettings();
  		//setup the file directory:
+		Log.d(TAG,"setting up file directory");
     	SetDirectory();
 		// start up the face selector
+    	Log.d(TAG,"starting face selector");
 		startActivity(new Intent(getApplicationContext(), com.droid4you.util.cropimage.MainActivity.class));
 		// then start up the id name selector
+		Log.d(TAG,"starting name selector");
 		idChooser();
 		// lastly, show privacy disclaimer
 		//privacyDisclaimer(); this is called at the end of idChooser

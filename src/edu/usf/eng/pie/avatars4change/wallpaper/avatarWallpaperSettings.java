@@ -125,7 +125,7 @@ public class avatarWallpaperSettings extends PreferenceActivity
     	}else if (key.equals(ctx.getString(R.string.key_uid))){	//7
 			userData.USERID = mPrefs.getString(key,userData.USERID);
 			Log.d(TAG,"UID:"+userData.USERID);
-			
+		
     	}else if (key.equals(ctx.getString(R.string.key_configmacro))){	//8
     		//TODO: load settings values for selected macro
 			avatarWallpaper.theAvatar.setBehaviorSelectorMethod(mPrefs.getString(key, avatarWallpaper.theAvatar.behaviorSelectorMethod));

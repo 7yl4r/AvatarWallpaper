@@ -35,7 +35,7 @@ public class sceneBehaviors {
 		long now = SystemClock.elapsedRealtime();
 		long timeTillWarning = 1000 * 60 * 60 * 24;
 		long timeSinceLog = now - avatarWallpaper.lastLogTime;
-		Log.d(TAG,"timeTilDataErr="+Long.toString(timeSinceLog));
+		//Log.d(TAG,"timeTilDataErr="+Long.toString(timeSinceLog));
         if( timeSinceLog > timeTillWarning){   
         	Notifier.addNotification(context,"no view data in past 24hrs; contact PIE-Lab staff.");
         }
@@ -61,6 +61,34 @@ public class sceneBehaviors {
     	//do nothing to update the behavior, it stays your choice
     }
     
+    //
+    private static String getDesiredProteusLevel(Avatar theAvatar){
+    	//if past bedTime and before wakeTime, sleep
+        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        // Log.d(TAG, "current hour:" + currentHour);
+        if(currentHour >= theAvatar.bedTime || currentHour < theAvatar.wakeTime){
+        	//draw sleeping
+        	return"sleeping";
+        } else {	//awake
+        	int today = Time.getJulianDay(System.currentTimeMillis(), (long) (TimeZone.getDefault().getRawOffset()/1000.0) ); 	//(new Time()).toMillis(false)
+        	// Log.d(TAG,"time:"+System.currentTimeMillis()+"\ttimezone:"+TimeZone.getDefault().getRawOffset()+"\ttoday:"+today);
+        	//set active or passive, depending on even or odd julian day
+        	if(today%2 == 0){	//if today is even
+        		if(activeOnEvens){
+        			return"active";
+        		}else{
+        			return "passive";
+        		}
+        	}else{	//today is odd
+        		if(!activeOnEvens){	//if active on odd days
+        			return "active";
+        		}else{
+        			return "passive";
+        		}
+        	}
+        }
+    }
+    
     // avatar behavior designed for use in the Proteus Effect study
 	private static void proteusStudy(Avatar theAvatar){		
 		avatarWallpaper.desiredFPS = 8;//update frameRate from PA level
@@ -68,37 +96,17 @@ public class sceneBehaviors {
 		//check for enough time to change animation
     	//TODO: change this next if issue#5 persists
 		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
-        if((now - theAvatar.lastActivityChange) > theAvatar.UPDATE_FREQUENCY){		//if time elapsed > desired time
+        if((now - theAvatar.lastActivityChange) > theAvatar.UPDATE_FREQUENCY || //if time elapsed > desired time
+        		getDesiredProteusLevel(theAvatar)!=theAvatar.getActivityLevel()){ //OR if level is not what it should be
         	Log.v(TAG,"updating avatar activity");
-        	//if past bedTime and before wakeTime, sleep
-            int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-            Log.v("Avatars4Change Avatar sleep clock", "current hour:" + currentHour);
-            if(currentHour >= theAvatar.bedTime || currentHour < theAvatar.wakeTime){
-            	//draw sleeping
-            	theAvatar.setActivityLevel("sleeping");
-            } else {	//awake
-            	int today = Time.getJulianDay(System.currentTimeMillis(), (long) (TimeZone.getDefault().getRawOffset()/1000.0) ); 	//(new Time()).toMillis(false)
-            	Log.v("Avatars4Change day calculator","time:"+System.currentTimeMillis()+"\ttimezone:"+TimeZone.getDefault().getRawOffset()+"\ttoday:"+today);
-            	//set active or passive, depending on even or odd julian day
-            	if(today%2 == 0){	//if today is even
-            		if(activeOnEvens){
-            			theAvatar.setActivityLevel("active");
-            		}else{
-            			theAvatar.setActivityLevel("passive");
-            		}
-            	}else{	//today is odd
-            		if(!activeOnEvens){	//if active on odd days
-            			theAvatar.setActivityLevel("active");
-            		}else{
-            			theAvatar.setActivityLevel("passive");
-            		}
-            	}
-            }
+        	
+        	theAvatar.setActivityLevel(getDesiredProteusLevel(theAvatar));
+        	
         	//avatar changes activity 
         	theAvatar.randomActivity(theAvatar.getActivityLevel());
        	 	theAvatar.lastActivityChange = now;
         }
-    	Log.d(TAG,Long.toString(theAvatar.UPDATE_FREQUENCY-(now-theAvatar.lastActivityChange))+"ms to activity change");
+        Log.d(TAG,Long.toString(theAvatar.UPDATE_FREQUENCY-(now-theAvatar.lastActivityChange))+"ms to activity change");
 	}
 
 	// avatar behavior cycles through all behaviors in order on a short interval
