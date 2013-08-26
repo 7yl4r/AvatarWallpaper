@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.View;
 
 // This class is used by CropImage to display a highlighted cropping rectangle
@@ -58,6 +59,12 @@ class HighlightView {
     }
 
     protected void draw(Canvas canvas) {
+        // set no hardware acceleration on 4.0+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
+        	   mContext.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        	   
+    	}
+        
         if (mHidden) {
             return;
         }
