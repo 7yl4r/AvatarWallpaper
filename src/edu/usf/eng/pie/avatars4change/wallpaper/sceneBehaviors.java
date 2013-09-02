@@ -106,7 +106,7 @@ public class sceneBehaviors {
         	theAvatar.randomActivity(theAvatar.getActivityLevel());
        	 	theAvatar.lastActivityChange = now;
         }
-        Log.d(TAG,Long.toString(theAvatar.UPDATE_FREQUENCY-(now-theAvatar.lastActivityChange))+"ms to activity change");
+        ; //Log.d(TAG,Long.toString(theAvatar.UPDATE_FREQUENCY-(now-theAvatar.lastActivityChange))+"ms to activity change");
 	}
 
 	// avatar behavior cycles through all behaviors in order on a short interval
