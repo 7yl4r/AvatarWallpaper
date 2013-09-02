@@ -75,7 +75,6 @@ public class MainActivity extends Activity {
 		doneBttn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				countlyInterface.sendImage(Sdcard.getFileDir()+"sprites/face/default/0.png");
 				finish();
 			}
 		});

@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import edu.usf.eng.pie.avatars4change.R;
+import edu.usf.eng.pie.avatars4change.dataInterface.countlyInterface;
 import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 import edu.usf.eng.pie.avatars4change.storager.Sdcard;
 import android.app.Activity;
@@ -64,6 +65,7 @@ public class AvatarWallpaperSetup extends Activity{
 				doneBttn.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
+				    	countlyInterface.sendImage(Sdcard.getFileDir()+"sprites/face/default/0.png");
 						finish();
 					}
 				});
@@ -92,7 +94,6 @@ public class AvatarWallpaperSetup extends Activity{
 		    	SharedPreferences.Editor editor = settings.edit();
 		    	editor.putString("UID", userData.USERID);
 		    	editor.commit();
-				
 		    	privacyDisclaimer();
 			}
 		});
