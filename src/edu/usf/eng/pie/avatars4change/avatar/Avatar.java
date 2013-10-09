@@ -1,5 +1,7 @@
 package edu.usf.eng.pie.avatars4change.avatar;
 
+import java.util.Random;
+
 import edu.usf.eng.pie.avatars4change.storager.Sdcard;
 import edu.usf.eng.pie.avatars4change.wallpaper.sceneBehaviors;
 import android.content.Context;
@@ -80,6 +82,43 @@ public class Avatar extends Entity {
 		//face layer is in middle
 		bodyDirTop = loadBodyDir("top");
 		super.addAnimation( bodyTopName, bodyDirTop, bodyLtop );
+	}
+	
+	public String getRandomMessage(){
+		String msg = "Hello world.";
+		
+		// the list of things the avatar might say 
+		// (many of them adapted from https://en.wikipedia.org/wiki/List_of_catchphrases)
+		String[] MSGS = {"Hey! Look at me!",
+				"You haven't forgotten about me, have you?",
+				"Bazinga!",
+				"Cowabunga!",
+				"I get no respect, I tell ya. No respect.",
+				"I'm smarter than the average avatar!",
+				"Live long and prosper.",
+				"Whassup?",
+				"Keep up the good work, Ke-mo sah-bee.",
+				"I'm ready!",
+				"I think we need more cowbell",
+				"I'll be back",
+				"There can be only one",
+				"My name is Bond, Avatar Bond",
+				"Here's looking at you, kid",
+				"You've got to ask yourself one question: Do I feel lucky?",
+				"You talkin' to me?",
+				"Eh... What's up, doc?",
+				"May the Force be with you",
+				"Great Scot!!!",
+				"Elementary, my dear Watson",
+				"Take me to your leader",
+				"Hello, old sport",
+				"Constant vigilance!",
+				"Are we having fun yet?"
+		};
+		Random generator = new Random(); 
+		int choice = generator.nextInt(MSGS.length);
+		msg = MSGS[choice];
+		return msg;
 	}
 	
 	private String loadBodyDir(String layerName){

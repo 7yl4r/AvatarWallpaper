@@ -33,8 +33,17 @@ public class sceneBehaviors {
     //this method gets a behavior from the Avatar's behavior string (which has been set in the settings)
     public static void runBehavior(Context context, Avatar theAvatar){
 		long now = SystemClock.elapsedRealtime();
-		long timeTillWarning = 1000 * 60 * 60 * 24;
+		long timeTillWarning = 1000 * 60 * 60 * 24;		// time until app posts a data failure notification
+		long timeTillReminder= 1000 * 60 * 60 * 2;		// time until avatar tries to get user attention
 		long timeSinceLog = now - avatarWallpaper.lastLogTime;
+        if( timeSinceLog > timeTillWarning){   
+        	Notifier.addNotification(context,"no view data in past 24hrs; contact PIE-Lab staff.");
+        } else if (timeSinceLog > timeTillReminder){
+    		int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+    		if(currentHour <= theAvatar.bedTime && currentHour < theAvatar.wakeTime){
+    			Notifier.addNotification(context, theAvatar.getRandomMessage());
+    		}
+        }
 		//Log.d(TAG,"timeTilDataErr="+Long.toString(timeSinceLog));
         if( timeSinceLog > timeTillWarning){   
         	Notifier.addNotification(context,"no view data in past 24hrs; contact PIE-Lab staff.");
