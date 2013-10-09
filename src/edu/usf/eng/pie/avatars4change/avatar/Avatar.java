@@ -1,5 +1,6 @@
 package edu.usf.eng.pie.avatars4change.avatar;
 
+import java.util.Calendar;
 import java.util.Random;
 
 import edu.usf.eng.pie.avatars4change.storager.Sdcard;
@@ -18,8 +19,6 @@ public class Avatar extends Entity {
 	private final String TAG = "avatar.Avatar";
 	//avatar properties:
     public String     behaviorSelectorMethod = "Proteus Effect Study";
-    public int        bedTime                = 23;
-    public int        wakeTime               = 5;
 	public long       UPDATE_FREQUENCY       = 1000 * 1 * 1; 	//once per UPDATE_FREQUENCY; e.g. 60s/min *10min * 1000ms/s
     public long       lastActivityChange     = -UPDATE_FREQUENCY;	//last time activity level was changed [ms]
 
@@ -82,6 +81,14 @@ public class Avatar extends Entity {
 		//face layer is in middle
 		bodyDirTop = loadBodyDir("top");
 		super.addAnimation( bodyTopName, bodyDirTop, bodyLtop );
+	}
+	
+	//returns true if avatar should be asleep and false otherwise
+	public boolean isAsleep(){
+	    int        bedTime                = 23;
+	    int        wakeTime               = 5;
+		int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+		return (currentHour >= bedTime || currentHour <= wakeTime);
 	}
 	
 	public String getRandomMessage(){

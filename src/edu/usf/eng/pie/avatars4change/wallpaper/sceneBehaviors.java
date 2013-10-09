@@ -1,6 +1,5 @@
 package edu.usf.eng.pie.avatars4change.wallpaper;
 
-import java.util.Calendar;
 import java.util.TimeZone;
 
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
@@ -39,8 +38,7 @@ public class sceneBehaviors {
         if( timeSinceLog > timeTillWarning){   
         	Notifier.addNotification(context,"no view data in past 24hrs; contact PIE-Lab staff.");
         } else if (timeSinceLog > timeTillReminder){
-    		int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-    		if(currentHour <= theAvatar.bedTime && currentHour < theAvatar.wakeTime){
+    		if(!theAvatar.isAsleep()){
     			Notifier.addNotification(context, theAvatar.getRandomMessage());
     		}
         }
@@ -72,11 +70,7 @@ public class sceneBehaviors {
     
     //
     private static String getDesiredProteusLevel(Avatar theAvatar){
-    	//if past bedTime and before wakeTime, sleep
-        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        // Log.d(TAG, "current hour:" + currentHour);
-        if(currentHour >= theAvatar.bedTime || currentHour < theAvatar.wakeTime){
-        	//draw sleeping
+        if(theAvatar.isAsleep()){
         	return"sleeping";
         } else {	//awake
         	int today = Time.getJulianDay(System.currentTimeMillis(), (long) (TimeZone.getDefault().getRawOffset()/1000.0) ); 	//(new Time()).toMillis(false)
