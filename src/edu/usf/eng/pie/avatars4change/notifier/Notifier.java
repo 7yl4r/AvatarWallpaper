@@ -15,7 +15,7 @@ public class Notifier {
     	NotificationCompat.Builder builder =  
                 new NotificationCompat.Builder(context)  
                 .setSmallIcon(R.drawable.thumb)
-                .setContentTitle("AvatarWallpaper Error!")  
+                .setContentTitle("Avatar Wallpaper Says:")  
                 .setContentText(message);  
     	//set the intent opened when notification is clicked
         Intent notificationIntent = new Intent(context, edu.usf.eng.pie.avatars4change.notifier.Notifier.class);  //TODO 2nd class here should be changed to a message display activity
