@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.util.Log;
 import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaperSettings;
@@ -27,13 +28,24 @@ public class userData {
     public static int    currentActivityLevel = 0;	 // intstantaneously calculated level of activity {0,10}
 	public static int[]  recentActivityLevels = new int[20]; // last 20 activityLevels {0,10}
     public static float  recentAvgActivityLevel = 0; // currentLevel averaged over a window {0,10}
-    public static double[] FFT = new double[65];	//fourier transform of accel data (unknown scale)
+    private static double[] FFT = new double[65];	//fourier transform of accel data (unknown scale)
     
 	private static int recentSum = 0;	// sum of recent levels
 	
 	private static float min = 100;
 	private static float max = 0;
 	private static int[] activityFrequencies = new int[11];
+	
+	public static long lastFFTupdate = -1;
+	
+	public static double[] getFFT(){
+		return FFT;
+	}
+	
+	public static void updateFFT(double[] newFFT){
+		FFT = newFFT;
+		lastFFTupdate = SystemClock.elapsedRealtime();
+	}
 	
 	//returns the activity level name consistent with the proteus study activity level names 
 	//    for use like: avatar.setActivityLevel(user.getActivityLevelName())

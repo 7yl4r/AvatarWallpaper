@@ -21,8 +21,23 @@ public class activityMonitor {
 	public static String getActivityMonitor(){
 		return avatarWallpaperSettings.currentActivityMonitor;
 	}
+	
+	public static void onClose(Context contx){
+	// this method should be called once the monitor is no longer needed
+	// to do any needed cleanup.
+		tearDownActivityMonitor(contx);
+	}
+	
+	public static void resetActivityMonitor(Context contx){
+	// restart the activity monitor to fix any hiccups
+		final String method = getActivityMonitor();
+		tearDownActivityMonitor(contx);
+		startupActivityMonitor(contx, method);
+		Log.i(TAG,"activity monitor '"+method+"' reset");
+	}
 		
 	public static void setActivityMonitor(Context contx, String newMethod){
+	// used to change the activity monitor method
 		for (int i = 0; i<supportedMonitors.length; i++){
 			if (supportedMonitors[i].equals(newMethod)){	//check for acceptable newMethod
 				if (newMethod.equals(avatarWallpaperSettings.currentActivityMonitor)){	//check for method already running

@@ -3,6 +3,7 @@ package edu.usf.eng.pie.avatars4change.wallpaper;
 import java.util.TimeZone;
 
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
+import edu.usf.eng.pie.avatars4change.dataInterface.activityMonitor;
 import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 import edu.usf.eng.pie.avatars4change.notifier.Notifier;
 
@@ -56,7 +57,7 @@ public class sceneBehaviors {
     	}else if( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("Proteus Effect Study")){
     		proteusStudy(theAvatar);
     	}else if( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("IEEE VR demo")){
-    		VRDemo(theAvatar);
+    		VRDemo(theAvatar,context);
     	}else{
     		Log.e(TAG, "unrecognized scene behavior " + theAvatar.behaviorSelectorMethod);
     		debug(theAvatar);	//default method
@@ -119,11 +120,32 @@ public class sceneBehaviors {
 	}
 
 	// avatar shows sedentary behavior for sitting, slow active behavior for walking, fast active behavior for running
-	private static void VRDemo(Avatar theAvatar){
+	private static void VRDemo(Avatar theAvatar,Context contx){
 		avatarWallpaper.desiredFPS = (int)Math.round( (Math.exp(userData.recentAvgActivityLevel))*0.05f + 1.0f );//update frameRate from PA level
 		String activLvl = userData.getPAlevelName();
 		if(! activLvl.equalsIgnoreCase(theAvatar.getActivityLevel())){	//if user level does not match avatar
 			theAvatar.setActivityLevel(activLvl);	//set new avatar level
 		}
+		if(fftBroken()){
+			fixFFT(contx);
+		}
+	}
+	private static boolean fftBroken(){
+	// Checks if the fft getter is still working and returns true if broken.
+	// This must be checked periodically b/c the sensor service has a bad habit of 
+	// stopping without warning or reason.
+	// Checking is performed using a simple timeout.
+		final int TIME_TILL_BROKE = 10000;	// time without change until fft is considered broken
+		long now = SystemClock.elapsedRealtime();		//TODO: ensure that this works even if phone switched off. 
+        if((now - userData.lastFFTupdate) > TIME_TILL_BROKE){
+        	return true;
+        } else {
+        	return false;
+        }
+	}
+	private static void fixFFT(Context contx){
+	// attempts to fix a broken FFT accelerometer parser
+		Log.i(TAG,"FFT stalling. attempting to fix.");
+		activityMonitor.resetActivityMonitor(contx);
 	}
 }

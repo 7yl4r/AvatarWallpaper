@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.meapsoft.FFT;
 
 import edu.usf.eng.pie.avatars4change.dataInterface.userData;
-import edu.usf.eng.pie.avatars4change.storager.Sdcard;
 
 public class ServiceSensors extends Service implements SensorEventListener {
 	private String TAG = "ServiceSensors";
@@ -199,10 +198,11 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 					
 					//Log.v(TAG,"FFT len = " + Integer.toString(re.length) );
 					boolean oopsFlag = false; //this flag is to catch the error saving to userData.FFT
+					double[] FFTarray = new double[65];
 					for(int i=0; i< re.length; i++){
 						double mag = Math.sqrt(re[i]*re[i]+ im[i]*im[i]);
 						if(i < 64){
-							userData.FFT[i] = mag;	//add to userData (just for fun)
+							FFTarray[i] = mag;	//add to userData (just for fun)
 						} else {
 							oopsFlag = true;
 						}
@@ -210,6 +210,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 						featVect.add(Double.valueOf(mag)); //New for classification
 						im[i] = .0; //Clear the field
 					}
+					userData.updateFFT(FFTarray);
 					if(oopsFlag){	//print error to debugger
 						Log.e(TAG,"oops! FFT is > 64. FFT.length = " + Integer.toString(re.length) );
 					}

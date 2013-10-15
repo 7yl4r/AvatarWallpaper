@@ -36,8 +36,9 @@ public class Layer_Background {
 	    paint.setStrokeWidth(2);
 	    paint.setStyle(Paint.Style.STROKE);
 	    //NOTE: only the 1st 1/2 of the array is drawn, since it mirrors over the y axis
+	    double[] fft = userData.getFFT();
 	    for( int i = 0 ; i < 32 ; i++){
-	    	c.drawLine(scaleX(i), scaleY((int)Math.round(userData.FFT[i])), scaleX(i+1) , scaleY((int)Math.round(userData.FFT[i+1])), paint);
+	    	c.drawLine(scaleX(i), scaleY((int)Math.round(fft[i])), scaleX(i+1) , scaleY((int)Math.round(fft[i+1])), paint);
 	    }
     	c.restore();
     }

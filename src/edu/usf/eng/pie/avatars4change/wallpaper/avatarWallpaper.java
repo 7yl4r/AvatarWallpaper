@@ -19,6 +19,7 @@ import ly.count.android.api.Countly;
 import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import edu.usf.eng.pie.avatars4change.avatar.Location;
+import edu.usf.eng.pie.avatars4change.dataInterface.activityMonitor;
 import edu.usf.eng.pie.avatars4change.dataInterface.countlyInterface;
 import edu.usf.eng.pie.avatars4change.wallpaper.Layer_Main;
 import edu.usf.eng.pie.avatars4change.storager.Sdcard;
@@ -97,8 +98,12 @@ public class avatarWallpaper extends WallpaperService {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        
         //shut down countly
        	Countly.sharedInstance().onStop(); // in onStop.
+       	
+       	//shut down activity monitor
+       	activityMonitor.onClose(getApplicationContext());
     }
 
     @Override
