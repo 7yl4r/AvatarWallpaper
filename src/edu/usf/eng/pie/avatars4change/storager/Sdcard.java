@@ -107,7 +107,7 @@ public class Sdcard {
 	// method for getting file dir when context is not available...
 	@SuppressLint("SdCardPath")
 	public static String getFileDir(){
-		if (backupFileDir.equals(null)) {
+		if (backupFileDir == null) {
 			Log.e(TAG,"cannot get file dir without a context, and unfortunately I don't have one stored...");
 			String guess = null;
 			try{

@@ -80,7 +80,7 @@ public class CropImage extends MonitoredActivity {
 		mContentResolver = getContentResolver();
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.cropimage);
+		setContentView(R.layout.old_cropimage);
 
 		mImageView = (CropImageView) findViewById(R.id.image);
         // set no hardware acceleration on 4.0+

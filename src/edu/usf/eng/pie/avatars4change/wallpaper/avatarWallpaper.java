@@ -58,8 +58,6 @@ public class avatarWallpaper extends WallpaperService {
     	Sdcard.onStart();
     }
 
-
-
 	//sets up the avatar (called in onCreate)
 	private void avatarSetup(){
         theAvatar = new Avatar(new Location(0,0,0,300,0), 3,"sleeping", getApplicationContext());		//create new avatar

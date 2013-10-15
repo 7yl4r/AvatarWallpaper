@@ -5,8 +5,8 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.usf.eng.pie.avatars4change"
-    	android:versionCode="3"
-      	android:versionName="2.0">
+    	android:versionCode="4"
+      	android:versionName="2.1">
 
     <uses-sdk android:minSdkVersion="8"
               android:targetSdkVersion="17"/>
@@ -67,16 +67,28 @@
 	           <category android:name="android.intent.category.DEFAULT" />
       	 	</intent-filter>
        </activity>
+       <!-- OLD photo-selector: -->
+       <!-- 
         <activity
             android:label="photoSelectorSetup"
             android:name="com.droid4you.util.cropimage.MainActivity"
             android:exported="true">
        </activity>
        <activity
-            android:name="com.droid4you.util.cropimage.CropImage"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="CropLabel">
-           </activity>
+       		android:name="com.droid4you.util.cropimage.CropImage"
+       		android:configChanges="orientation|keyboardHidden"
+       		android:label="CropLabel">
+       </activity>
+       -->
+       <!--  NEW photo-selector: -->
+        <activity android:name="edu.usf.eng.pie.avatars4change.photoSelector.GetPhotoActivity"
+                  android:label="AndroidImageCrop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
            
        <activity 
            android:label="PAcollector"

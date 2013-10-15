@@ -1,19 +1,8 @@
 package edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
-
-//import weka.core.Attribute;
-//import weka.core.DenseInstance;
-//import weka.core.Instance;
-//import weka.core.Instances;
-//import weka.core.converters.ArffSaver;
-//import weka.core.converters.ConverterUtils.DataSource;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -23,24 +12,17 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
-
 
 import com.meapsoft.FFT;
 
 import edu.usf.eng.pie.avatars4change.dataInterface.userData;
 import edu.usf.eng.pie.avatars4change.storager.Sdcard;
-import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaper;
 
 public class ServiceSensors extends Service implements SensorEventListener {
 	private String TAG = "ServiceSensors";
-	private static final int mFeatLen = Globals.ACCELEROMETER_BLOCK_CAPACITY + 2;
-	private int NOTIFICATION_ID =1;
-	private File mFeatureFile;
-	private File mResults;
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
 	private int mServiceTaskType;
@@ -83,32 +65,22 @@ public class ServiceSensors extends Service implements SensorEventListener {
 	}
 
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// TODO Auto-generated method stub
+		Log.d(TAG,"onAccuracyChanged");
+		return;
 	}
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId){
-		 //Log.i("LocalService", "Received start id " + startId + ": " + intent);
+		 Log.i(TAG, "Received start id " + startId + ": " + intent);
 		
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);		
 		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);	
 		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
-		String toastDisp = "Entre a OnStartCommand";
-		
-		//ArrayList<Attribute> allAttr = new ArrayList<Attribute>();
 		
 		Bundle extras = intent.getExtras();
 		mLabel = extras.getString("label");
 		
-		Toast.makeText(this, mLabel, Toast.LENGTH_LONG).show();
-		//Log.d(TAG, "onStartCommand");
-		
-		//mFeatureFile = new File(getExternalFilesDir(null), "features.arff");
-		mFeatureFile= new File(Sdcard.getFileDir(getApplicationContext()),"feature-Still-walking" + ".arff");
-		 
-		//Log.d(TAG, mFeatureFile.getAbsolutePath());
-		//if the task is data collection create an empty dataset
-		//else (classify in real time), load the classify
+		Log.d(TAG,mLabel);
 		
 		if("collecting".compareTo(extras.getString("type"))==0){
 			mServiceTaskType = Globals.SERVICE_TASK_TYPE_COLLECT;
@@ -123,49 +95,6 @@ public class ServiceSensors extends Service implements SensorEventListener {
 				
 			///////////////////////////////////////////////////////////
 			}
-		 
-		// ArrayList<Attribute> allAttr = new ArrayList<Attribute>();
-		 DecimalFormat df = new DecimalFormat("0000");
-		 
-		 // for(int i=0; i < Globals.ACCELEROMETER_BLOCK_CAPACITY; i++){
-		  //allAttr.add(new Attribute("fft_coef_" + df.format(i)));
-		 // }
-		  // allAttr.add(new Attribute("max"));
-		   
-		   //ArrayList<String> labelItems = new ArrayList<String>(3);
-		   //labelItems.add("still");
-		   //labelItems.add("walking");
-		  // labelItems.add("running");
-		   
-		   //mClassAttribute = new Attribute("label", labelItems);
-		   
-		  // allAttr.add(mClassAttribute);
-		   
-		   //capacity 10000
-		  // mDataset = new Instances("accelerometer_features", allAttr, 10000);
-		   
-		   //Set the last column/attribute (walking, running...) as the class index classification
-		  
-		   //mDataset.setClassIndex(mDataset.numAttributes()-1);
-		   
-		   //create a new arff file
-		  // ArffSaver saver = new ArffSaver();
-		   
-		   //Set the data source of the file content
-		   //saver.setInstances(mDataset);
-		   
-		  // try{
-			//   saver.setFile(mFeatureFile);
-			   //saver.setFile(new File("./data/test.arff"));
-			   //saver.setFile(new File(userData.getFileDir(),"feature" + ".arff"));
-			//   saver.writeBatch();
-			   
-			//   } catch (IOException e){
-			//	   toastDisp = "Failed saving the file.  Check your storage";
-			//	   e.printStackTrace();		   
-			 //  }
-		     // Toast.makeText(getApplicationContext(), toastDisp, Toast.LENGTH_SHORT).show();
-
 		   return START_STICKY;
 	}
 	
@@ -185,7 +114,7 @@ public class ServiceSensors extends Service implements SensorEventListener {
 		//Toast.makeText(this, "Estoy on Sensor Change", Toast.LENGTH_LONG).show();
 		//Log.d(TAG, "OnSensorChanged");
 		
-		//Converting row acceleration to Linear aceleration acording to the example in android developers web page
+		//Converting row acceleration to Linear acceleration according to the example in android developers web page
 		final float alpha = 0.8f;
          
         // End of the data transformation
@@ -216,20 +145,20 @@ double m= Math.sqrt(linear_acceleration[0]*linear_acceleration[0] + linear_accel
 			//float m= (float) Math.sqrt(lastX*lastX + lastY*lastY + lastZ*lastZ);
 			
 			try{
-				mAccBuffer.add(new Double(m));
+				mAccBuffer.add(Double.valueOf(m));
 			} catch (IllegalStateException e) {
 				ArrayBlockingQueue<Double> newBuf = new ArrayBlockingQueue<Double>(mAccBuffer.size()*2);
 				//Log.d(TAG, "Size of accel buffer increased to: " + newBuf.size());
 				mAccBuffer.drainTo(newBuf);
 				mAccBuffer =  newBuf;
-				mAccBuffer.add(new Double(m));
+				mAccBuffer.add(Double.valueOf(m));
 			}
 		}
 	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
+		Log.d(TAG,"onBind");
 		return null;
 	}
 	
@@ -239,13 +168,8 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 
 	@Override
 	protected Void doInBackground(Void... arg0) {
+		Log.d(TAG, "doInBackground");
 		
-		//Toast.makeText(ServiceSensors.this, "Estoy classificando", Toast.LENGTH_LONG).show();
-		//Toast.makeText(this, "doInBackground", Toast.LENGTH_LONG).show();
-		//Log.d(TAG, "doInBackground");
-		
-		//Instance inst = new DenseInstance(mFeatLen);
-		//inst.setDataset(mDataset);
 		int blockSize = 0;
 		FFT fft = new FFT(Globals.ACCELEROMETER_BLOCK_CAPACITY);
 		double[] accBlock = new double [Globals.ACCELEROMETER_BLOCK_CAPACITY];
@@ -255,15 +179,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 		ArrayList<Double> featVect = new ArrayList<Double>(Globals.ACCELEROMETER_BLOCK_CAPACITY);
 		
 		double max = Double.MIN_VALUE;
-		
-		//boolean flag1= true;
-		
-    	if(Sdcard.storageReady()){
-			mResults= new File(Sdcard.getFileDir(getApplicationContext()),"mResults" + ".txt");
-    	} else {
-    		Log.e(TAG,"no sdCard! uh oh...");
-    		//TODO: ???
-    	}
+				
 		while(true){
 			try{  if(isCancelled()){break;}
 				 
@@ -291,19 +207,14 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 							oopsFlag = true;
 						}
 						//inst.setValue(i, mag);  //Remove as soon as possible
-						featVect.add(new Double(mag)); //New for classification
+						featVect.add(Double.valueOf(mag)); //New for classification
 						im[i] = .0; //Clear the field
 					}
 					if(oopsFlag){	//print error to debugger
 						Log.e(TAG,"oops! FFT is > 64. FFT.length = " + Integer.toString(re.length) );
 					}
 					
-					//Append max after frequency component
-					//inst.setValue(Globals.ACCELEROMETER_BLOCK_CAPACITY, max);  //Remove
-					//inst.setValue(mClassAttribute, mLabel); //Remove
-					//mDataset.add(inst);			//Remove
-					
-					featVect.add(new Double(max));
+					featVect.add(Double.valueOf(max));
 					
 					int classifiedValue = (int) Classifier.classify(featVect.toArray());
 					
@@ -329,60 +240,15 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
 			return null;
          }
 	
-	protected void muestra(int b){
-		Toast.makeText(getApplicationContext(), Integer.toString(b), Toast.LENGTH_SHORT).show();
-	}
-	
 	protected void onCancelled(){
 		Toast.makeText(getApplicationContext(), "Ultimo onCancell", Toast.LENGTH_SHORT).show();
 		Log.d(TAG, "onCancelled");
-		String toastDisp;
 		
 		if(mServiceTaskType == Globals.SERVICE_TASK_TYPE_CLASSIFY){
 			super.onCancelled();
 			return;
 		}
-		
-		
-		//if(mFeatureFile.exists()){
-			//DataSource source;
-			//try{
-				//source = new DataSource(new FileInputStream(mFeatureFile));
-				//Instances oldDataset = source.getDataSet();
-				//Log.i("TESTNULL", oldDataset.toString());
-				//oldDataset.setClassIndex(mDataset.numAttributes() -1);
-				
-				//if(!oldDataset.equalHeaders(mDataset)){
-				//	throw new Exception(" The two dataset have different headers: \n");
-				//}
-				//Move all items over
-				//for(int i= 0; i< mDataset.size(); i++){
-				//	oldDataset.add(mDataset.get(i));
-				//}
-				//mDataset = oldDataset;
-				//mFeatureFile.delete();			
-			
-			 // } catch(Exception e){
-			//	  e.printStackTrace();
-				  
-			 // }
-			//toastDisp = "Data file updated.";
-			
-		//}else {
-			//toastDisp = "Data file created.";
-		//}
-		//ArffSaver saver = new ArffSaver();
-		//saver.setInstances(mDataset);
-		//try{
-		//	saver.setFile(mFeatureFile);
-			//saver.writeBatch();
-		//} catch (IOException e){
-			//toastDisp = "Failed saving the file.  Check your storage.";
-			//e.printStackTrace();
-		//}
-		//System.out.println(mDataset);
-		toastDisp = "Failed saving the file.  Check your storage.";
-		Toast.makeText(getApplicationContext(), "Que pasa aqui", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getApplicationContext(), "Que pasa aqui", Toast.LENGTH_SHORT).show();
 		Log.d(TAG, "onCancelled");
 		super.onCancelled();		
 	}

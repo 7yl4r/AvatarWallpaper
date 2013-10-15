@@ -37,8 +37,11 @@ public class AvatarWallpaperSetup extends Activity{
     	SetDirectory();
 		// start up the face selector
     	Log.d(TAG,"starting face selector");
-		startActivity(new Intent(getApplicationContext(), com.droid4you.util.cropimage.MainActivity.class));
-		// then start up the id name selector
+    	//old photo activity:
+		//startActivity(new Intent(getApplicationContext(), com.droid4you.util.cropimage.MainActivity.class));
+    	//new photo activity:
+		startActivity(new Intent(getApplicationContext(),edu.usf.eng.pie.avatars4change.photoSelector.GetPhotoActivity.class));
+    	// then start up the id name selector
 		Log.d(TAG,"starting name selector");
 		idChooser();
 		// lastly, show privacy disclaimer

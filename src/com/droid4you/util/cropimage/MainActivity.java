@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
-        setContentView(R.layout.main);
+        setContentView(R.layout.photo_selector_main);
         //dialog for button click
         final String [] items			= new String [] { "Select a picture from gallery","Take a picture"};				
 		ArrayAdapter<String> adapter	= new ArrayAdapter<String> (this, android.R.layout.select_dialog_item,items);

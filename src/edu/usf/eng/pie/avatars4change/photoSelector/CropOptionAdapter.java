@@ -1,4 +1,5 @@
-package com.droid4you.util.cropimage;
+package edu.usf.eng.pie.avatars4change.photoSelector;
+
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,13 @@ import java.util.ArrayList;
 
 import edu.usf.eng.pie.avatars4change.R;
 
+
 public class CropOptionAdapter extends ArrayAdapter<CropOption> {
 	private ArrayList<CropOption> mOptions;
 	private LayoutInflater mInflater;
 	
 	public CropOptionAdapter(Context context, ArrayList<CropOption> options) {
-		super(context, R.layout.old_crop_selector, options);
+		super(context, R.layout.photo_crop_selector, options);
 		
 		mOptions 	= options;
 		
@@ -29,7 +31,7 @@ public class CropOptionAdapter extends ArrayAdapter<CropOption> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup group) {
 		if (convertView == null)
-			convertView = mInflater.inflate(R.layout.old_crop_selector, null);
+			convertView = mInflater.inflate(R.layout.photo_crop_selector, null);
 		
 		CropOption item = mOptions.get(position);
 		
@@ -43,3 +45,7 @@ public class CropOptionAdapter extends ArrayAdapter<CropOption> {
 		return null;
 	}
 }
+
+
+
+

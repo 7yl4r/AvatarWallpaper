@@ -19,14 +19,13 @@
         android:layout_height="200dp"
         android:background="@drawable/thumb" >
 
-        <view
-            android:id="@+id/image"
+        <ImageView
+            android:id="@+id/iv_photo"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="52dp"
-            class="com.droid4you.util.cropimage.CropImageView"
             android:background="#55000000" />
 
     </RelativeLayout>
