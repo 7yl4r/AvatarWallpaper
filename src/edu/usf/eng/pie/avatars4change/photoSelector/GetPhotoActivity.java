@@ -1,13 +1,12 @@
 package edu.usf.eng.pie.avatars4change.photoSelector;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.droid4you.util.cropimage.Util;
 
 import edu.usf.eng.pie.avatars4change.R;
 
@@ -115,6 +114,7 @@ public class GetPhotoActivity extends Activity {
     
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    // handle the user input
 	    if (resultCode != RESULT_OK) return;
 	   
 	    switch (requestCode) {
@@ -186,7 +186,18 @@ public class GetPhotoActivity extends Activity {
 	    }
 	}
     
+    private static void closeSilently(Closeable c) {
+    // close and ignore all exceptions
+        if (c == null) return;
+        try {
+            c.close();
+        } catch (Throwable t) {
+            // do nothing
+        }
+    }
+    
 	private void saveOutput(Bitmap croppedImage, Uri saveUri) {
+	// save the given image to the given uri
 		if (saveUri != null) {
 			OutputStream outputStream = null;
 			try {
@@ -198,7 +209,7 @@ public class GetPhotoActivity extends Activity {
 				// TODO: report error to caller
 				Log.e(TAG, "Cannot open file: " + saveUri, ex);
 			} finally {
-				Util.closeSilently(outputStream);
+				closeSilently(outputStream);
 			}
 			Bundle extras = new Bundle();
 			setResult(RESULT_OK, new Intent(saveUri.toString())
