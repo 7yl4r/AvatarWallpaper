@@ -83,10 +83,6 @@
        <!--  NEW photo-selector: -->
         <activity android:name="edu.usf.eng.pie.avatars4change.photoSelector.GetPhotoActivity"
                   android:label="AndroidImageCrop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
            
