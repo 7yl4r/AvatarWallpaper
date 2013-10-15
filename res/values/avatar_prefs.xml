@@ -2,12 +2,12 @@
 
 <resources>
     <!-- default values -->
-    <string name="default_configmacro">Proteus Effect Study</string>
+    <string name="default_configmacro">IEEE VR demo</string>
 	<string name="default_activitymonitor">built-in</string>
 	<string name="default_currentactivity">running</string>
 	<string name="default_resetlogs">false</string>
 	<string name="default_activeonevens">true</string>
-	<string name="default_debugmode">true</string>
+	<string name="default_debugmode">false</string>
     
 	<!-- settings keys: -->
 	<string name="key_killme">killMe</string>
