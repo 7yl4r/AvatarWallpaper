@@ -14,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.meapsoft.FFT;
 
@@ -58,7 +57,7 @@ public class ServiceSensors extends Service implements SensorEventListener {
 		mAsyncTask = new OnSensorChangedTask();
 	    mAsyncTask.execute();
 		 
-		Toast.makeText(this, "My Service Created", Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, "My Service Created", Toast.LENGTH_LONG).show();
 		Log.d(TAG, "Service Created");	   
 		super.onCreate();		
 	}
@@ -99,8 +98,8 @@ public class ServiceSensors extends Service implements SensorEventListener {
 	
 	 @Override
 	  public void onDestroy() {
-		 Toast.makeText(ServiceSensors.this, "Estoy en destroy", Toast.LENGTH_SHORT).show();
-	        //Log.d(TAG, "onDestroy");
+		 //Toast.makeText(ServiceSensors.this, "Estoy en destroy", Toast.LENGTH_SHORT).show();
+	     Log.d(TAG, "sensorService onDestroy");
 	    
 	   if(mAsyncTask != null)
 	    {
@@ -242,7 +241,7 @@ private class OnSensorChangedTask extends AsyncTask<Void, Void, Void>{
          }
 	
 	protected void onCancelled(){
-		Toast.makeText(getApplicationContext(), "Ultimo onCancell", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getApplicationContext(), "Ultimo onCancell", Toast.LENGTH_SHORT).show();
 		Log.d(TAG, "onCancelled");
 		
 		if(mServiceTaskType == Globals.SERVICE_TASK_TYPE_CLASSIFY){
