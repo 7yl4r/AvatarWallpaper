@@ -1,53 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/photoSelectorScroller"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:clipChildren="true"
-    android:gravity="center"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent" >
 
-    <TextView
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello"
-        android:textSize="18sp"
-        android:textStyle="normal"
-        android:typeface="serif" />
+        android:clipChildren="true"
+        android:gravity="center|top"
+        android:orientation="vertical" >
 
-    <RelativeLayout
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:background="@drawable/thumb" >
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hello"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:typeface="serif" />
 
-        <ImageView
-            android:id="@+id/iv_photo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="52dp"
-            android:background="#55000000" />
+        <RelativeLayout
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@drawable/thumb" >
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="52dp"
+                android:background="#55000000" />
+        </RelativeLayout>
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/photoRequest"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/photoRequest"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btn_crop"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="select new image of your face" />
+        <Button
+            android:id="@+id/btn_crop"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="select new image of your face" />
 
-    <Button
-        android:id="@+id/btn_done"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="that looks like me" />
+        <Button
+            android:id="@+id/btn_done"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="that looks like me" />
+    </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

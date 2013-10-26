@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/uidChooserScroller"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:clipChildren="true"
-    android:gravity="center"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent" >
 
-    <TextView
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/uidRequest"
-        android:textSize="18sp"
-        android:textStyle="normal"
-        android:typeface="serif" />
+        android:layout_height="fill_parent"
+        android:clipChildren="true"
+        android:gravity="center|top"
+        android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/text_uid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10" >
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/uidRequest"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:typeface="serif" />
 
-        <requestFocus />
-    </EditText>
+        <EditText
+            android:id="@+id/text_uid"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text|textPersonName"
+            android:maxLength="30" >
 
-    <Button
-        android:id="@+id/btn_done"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="done" />
+            <requestFocus />
+        </EditText>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_done"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="done" />
+    </LinearLayout>
+
+</ScrollView>
