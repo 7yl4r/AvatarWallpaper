@@ -7,7 +7,7 @@
 	<string name="default_currentactivity">running</string>
 	<string name="default_resetlogs">false</string>
 	<string name="default_activeonevens">true</string>
-	<string name="default_debugmode">false</string>
+	<string name="default_debugmode">true</string>
     
 	<!-- settings keys: -->
 	<string name="key_killme">killMe</string>

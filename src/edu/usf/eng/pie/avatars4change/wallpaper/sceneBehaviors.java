@@ -147,5 +147,6 @@ public class sceneBehaviors {
 	// attempts to fix a broken FFT accelerometer parser
 		Log.i(TAG,"FFT stalling. attempting to fix.");
 		activityMonitor.resetActivityMonitor(contx);
+		userData.lastFFTupdate = SystemClock.elapsedRealtime();
 	}
 }
