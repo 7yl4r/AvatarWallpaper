@@ -1,7 +1,6 @@
 package edu.usf.eng.pie.avatars4change.dataInterface;
 
 import edu.usf.eng.pie.avatars4change.myrunsdatacollectorlite.Globals;
-import edu.usf.eng.pie.avatars4change.wallpaper.avatarWallpaperSettings;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -12,6 +11,7 @@ public class activityMonitor {
 	private static final String TAG = "dataInterface.activityMonitor";
 	private static final String[] supportedMonitors = {"built-in","mMonitor"};	//list of supported activity monitors
 	
+    private static String currentActivityMonitor = "none"; //name of current activity monitor method used
 	private static myRunsDataCollectorReceiver builtInReceiver  = new myRunsDataCollectorReceiver();
 	private static mMonitorReceiver            mMonitorReceiver = new mMonitorReceiver();
 	
@@ -19,7 +19,7 @@ public class activityMonitor {
 	private static final IntentFilter builtInIntentFilter  = new IntentFilter("SOME_ACTION"); // TODO: change "SOME_ACTION"
 
 	public static String getActivityMonitor(){
-		return avatarWallpaperSettings.currentActivityMonitor;
+		return currentActivityMonitor;
 	}
 	
 	public static void onClose(Context contx){
@@ -40,7 +40,7 @@ public class activityMonitor {
 	// used to change the activity monitor method
 		for (int i = 0; i<supportedMonitors.length; i++){
 			if (supportedMonitors[i].equals(newMethod)){	//check for acceptable newMethod
-				if (newMethod.equals(avatarWallpaperSettings.currentActivityMonitor)){	//check for method already running
+				if (newMethod.equals(currentActivityMonitor)){	//check for method already running
 					Log.i(TAG,"activity monitor '"+newMethod+"' already running");
 					return;
 				} else {
@@ -51,7 +51,7 @@ public class activityMonitor {
 			}
 		} // else: (exit of for loop means that newMethod is unrecognized)
 		Log.e(TAG,"unrecognized behaviorSelector '"+newMethod+"'! using default 'built-in'");
-		avatarWallpaperSettings.currentActivityMonitor = "built-in";
+		currentActivityMonitor = "built-in";
 		return;
 	}
 	
@@ -69,20 +69,20 @@ public class activityMonitor {
 			startupActivityMonitor(contx,"built-in");
 			return;
 		}
-		avatarWallpaperSettings.currentActivityMonitor = newMethod;
+		currentActivityMonitor = newMethod;
 		return;
 	}
 	
 	//stops the currently active monitor
 	private static void tearDownActivityMonitor(Context ctx){
-		if (avatarWallpaperSettings.currentActivityMonitor.equals("mMonitor")){
+		if (currentActivityMonitor.equals("mMonitor")){
 			try{
 				ctx.unregisterReceiver(mMonitorReceiver);
 			} catch (IllegalArgumentException e){
 				Log.i(TAG,"error unregistering receiver: "+e.getMessage());
 			}
 			//TODO: release mMonitor service using ctx.stopService()
-		} else if(avatarWallpaperSettings.currentActivityMonitor.equals("built-in")){
+		} else if(currentActivityMonitor.equals("built-in")){
 			try{
 				ctx.unregisterReceiver(builtInReceiver);
 			} catch (IllegalArgumentException e){
@@ -90,10 +90,10 @@ public class activityMonitor {
 			}
 			PAcollectorStop(ctx);// stop the PA monitor service
 		} else {
-			Log.e(TAG,"active ctivity monitor method '"+avatarWallpaperSettings.currentActivityMonitor+"' not recognized! cannot stop it!");
+			Log.e(TAG,"active ctivity monitor method '"+currentActivityMonitor+"' not recognized! cannot stop it!");
 			return;	//this skips the last line
 		}
-		avatarWallpaperSettings.currentActivityMonitor = "None";
+		currentActivityMonitor = "None";
 	}
 	
 	//sets up the built-in physical activity collector service

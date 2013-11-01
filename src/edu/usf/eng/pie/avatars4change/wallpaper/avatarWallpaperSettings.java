@@ -24,7 +24,6 @@ public class avatarWallpaperSettings extends PreferenceActivity
     implements SharedPreferences.OnSharedPreferenceChangeListener {
 	private static final String TAG = "avatarWallpaperSettings";
 	
-    public static String currentActivityMonitor = "none"; //name of current activity monitor method used
 //    public static boolean debugMode = true;	//TODO: this is not yet a setting, but should be
 	
     @Override
