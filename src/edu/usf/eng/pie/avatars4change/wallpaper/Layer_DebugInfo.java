@@ -1,5 +1,6 @@
 package edu.usf.eng.pie.avatars4change.wallpaper;
 
+import edu.usf.eng.pie.avatars4change.avatar.Avatar;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -25,7 +26,7 @@ public class Layer_DebugInfo {
     }
 	    
     //draw fps text for debugging
-    public static void drawFPS(Canvas c, float desiredFPS, Rect frame){
+    public static void drawFPS(Canvas c, float desiredFPS, Rect frame,Avatar avtr){
     	//calculate current frame rate
         long thisTime = System.currentTimeMillis();
         long elapsedTime = thisTime-lastTime;
@@ -42,7 +43,10 @@ public class Layer_DebugInfo {
     	mPaint.setColor(Color.BLACK); 
     	mPaint.setTextSize(20); 
     	int xOffset = -frame.right/3 , yOffset = -frame.bottom/4;
-    	c.drawText("avatar speed: " + desiredFPS + "     est. FPS: " + fps, xOffset, yOffset, mPaint); 
+    	float newLine = mPaint.getTextSize()+5;
+    	c.drawText("avatar speed:" + desiredFPS + "     est. FPS:" + fps , xOffset, yOffset, mPaint); 
+    	yOffset+=newLine;
+    	c.drawText("BehavSel:" + avtr.behaviorSelectorMethod,xOffset,yOffset,mPaint);
     }
     
     // Draw a circle around the current touch point, if any.

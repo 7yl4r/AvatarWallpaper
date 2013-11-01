@@ -42,7 +42,7 @@ public class Layer_Main {
 				.getBoolean(ctx.getString(R.string.key_debugmode),true);
 		if(debug){
 			c.save();
-			Layer_DebugInfo.drawFPS(c, avatarWallpaper.desiredFPS, frame);
+			Layer_DebugInfo.drawFPS(c, avatarWallpaper.desiredFPS, frame, daAvatar);
 			c.restore();
 		}
 	}
