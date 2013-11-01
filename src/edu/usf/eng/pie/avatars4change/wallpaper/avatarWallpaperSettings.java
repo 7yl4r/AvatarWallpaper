@@ -122,13 +122,9 @@ public class avatarWallpaperSettings extends PreferenceActivity
 			userData.USERID = mPrefs.getString(key,userData.USERID);
 			Log.d(TAG,"UID:"+userData.USERID);
 		
-    	}else if (key.equals(ctx.getString(R.string.key_configmacro))){	//8
-    		//TODO: load settings values for selected macro
-			avatarWallpaper.theAvatar.setBehaviorSelectorMethod(Integer.parseInt(mPrefs.getString(key, 
-					                                                             Integer.toString(avatarWallpaper.theAvatar.behaviorSelectorMethod)
-					                                            ))
-           );
-			Log.d(TAG, "behaviorSelector:"+avatarWallpaper.theAvatar.behaviorSelectorMethod);
+//   	}else if (key.equals(ctx.getString(R.string.key_configmacro))){	//8
+//    		//TODO: load settings values for selected macro
+//			Log.d(TAG, "behaviorSelector:"+Integer.toString(avatarWallpaper.theAvatar.getBehaviorSelectorMethod(ctx)));
 			
 			//TODO: remove (like above)
     	}else if (key.equals(ctx.getString(R.string.key_scale))){		//10
@@ -136,7 +132,7 @@ public class avatarWallpaperSettings extends PreferenceActivity
 			Log.d(TAG, "scale:"+Float.toString(avatarWallpaper.theAvatar.scaler));
 			
     	}else if (key.equals(ctx.getString(R.string.key_activitymonitor))){
-    		activityMonitor.setActivityMonitor(ctx,mPrefs.getString(key, Integer.toString(avatarWallpaper.theAvatar.behaviorSelectorMethod)));
+    		activityMonitor.setActivityMonitor(ctx,mPrefs.getString(key, activityMonitor.getActivityMonitor()));
     		userData.resetPAmeasures();	
 			Log.d(TAG, "activityMonitor:"+activityMonitor.getActivityMonitor());
     	}else{	//unknown preference key

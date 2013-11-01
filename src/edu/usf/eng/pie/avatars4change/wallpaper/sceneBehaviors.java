@@ -15,10 +15,11 @@ import android.util.Log;
 public class sceneBehaviors {
 	private static final String TAG = "sceneBehavior";
 	
-	public static final int BEHAVIOR_NULL          = 0;
-	public static final int BEHAVIOR_STATIC        = 1;
-	public static final int BEHAVIOR_PROTEUS_STUDY = 2;
-	public static final int BEHAVIOR_DEMO          = 3;
+	public static final int BEHAVIOR_ERR           =-1;	//used to flag an error
+	public static final int BEHAVIOR_NULL          = 0; //used as default values
+	public static final int BEHAVIOR_STATIC        = 1; //avatar behavior does not change
+	public static final int BEHAVIOR_PROTEUS_STUDY = 2; //proteus study style changes (avatar does whatever it wants)
+	public static final int BEHAVIOR_DEMO          = 3; //demo changes (avatar mirrors behavior)
 	
     private static boolean   activeOnEvens       = true;	//active on even days?
     
@@ -48,19 +49,20 @@ public class sceneBehaviors {
         if( timeSinceLog > timeTillWarning){   
         	Notifier.addNotification(context,"no view data in past 24hrs; contact PIE-Lab staff.");
         }
-    	if( theAvatar.behaviorSelectorMethod == BEHAVIOR_NULL){
+        int method = theAvatar.getBehaviorSelectorMethod(context);
+    	if( method == BEHAVIOR_NULL){
         	Log.e(TAG,"behaviorSelectorMethod = null; cannot run Behavior");
     		return;
     	}	//implied ELSE
     	; //Log.d(TAG,"updating scene via " + theAvatar.behaviorSelectorMethod);
-    	if ( theAvatar.behaviorSelectorMethod == BEHAVIOR_STATIC ){
+    	if ( method == BEHAVIOR_STATIC ){
     		constant(theAvatar);
-    	}else if( theAvatar.behaviorSelectorMethod == BEHAVIOR_PROTEUS_STUDY){
+    	}else if( method == BEHAVIOR_PROTEUS_STUDY){
     		proteusStudy(theAvatar);
-    	}else if( theAvatar.behaviorSelectorMethod == BEHAVIOR_DEMO){
+    	}else if( method == BEHAVIOR_DEMO){
     		VRDemo(theAvatar,context);
     	}else{
-    		Log.e(TAG, "unrecognized scene behavior " + theAvatar.behaviorSelectorMethod);
+    		Log.e(TAG, "unrecognized scene behavior " + method);
     		debug(theAvatar);	//default method
     	}
     }

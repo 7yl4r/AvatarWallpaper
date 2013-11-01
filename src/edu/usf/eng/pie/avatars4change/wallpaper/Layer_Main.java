@@ -35,14 +35,14 @@ public class Layer_Main {
 		avatarScene.draw(c);	//this should already be scaled correctly
 		c.restore();
 		
-		drawAbove(c,frame,daAvatar);
+		drawAbove(c,frame,daAvatar, ctx);
 		
 		//DEBUG text layers on very top:
 		boolean debug = ctx.getSharedPreferences(ctx.getString(R.string.shared_prefs_name), Context.MODE_PRIVATE)
 				.getBoolean(ctx.getString(R.string.key_debugmode),true);
 		if(debug){
 			c.save();
-			Layer_DebugInfo.drawFPS(c, avatarWallpaper.desiredFPS, frame, daAvatar);
+			Layer_DebugInfo.drawFPS(c, avatarWallpaper.desiredFPS, frame, daAvatar, ctx);
 			c.restore();
 		}
 	}
@@ -50,11 +50,12 @@ public class Layer_Main {
 	//settings-dependent background draw 
 	private static void drawBG(Context ctx, Canvas c, Rect frame, Avatar daAvatar){
 		c.save();
-		if ( daAvatar.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_STATIC ){
+		int method = daAvatar.getBehaviorSelectorMethod(ctx);
+		if ( method == sceneBehaviors.BEHAVIOR_STATIC ){
     		Layer_Background.drawPlainBG(c);
-    	}else if( daAvatar.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_PROTEUS_STUDY){
+    	}else if( method == sceneBehaviors.BEHAVIOR_PROTEUS_STUDY){
     		Layer_Background.drawPlainBG(c);
-    	}else if( daAvatar.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_DEMO){
+    	}else if( method == sceneBehaviors.BEHAVIOR_DEMO){
     		String activMonitor = ctx.getSharedPreferences(ctx.getString(R.string.shared_prefs_name), Context.MODE_PRIVATE)
     				.getString(ctx.getString(R.string.key_activitymonitor),"");
     		if(activMonitor.equals("built-in")){	//TODO: this should probably be referenced using R.string
@@ -63,24 +64,25 @@ public class Layer_Main {
     			Layer_Background.drawPlainBG(c);
     		}
     	}else{
-    		Log.e(TAG, "unrecognized scene behavior " + daAvatar.behaviorSelectorMethod);
+    		Log.e(TAG, "unrecognized scene behavior " + method);
     		Layer_Background.drawPlainBG(c);
     	}
 		
 	}
 	
 	//settings-dependent draw on top
-	private static void drawAbove(Canvas c, Rect frame, Avatar daAvatar){
-		if ( daAvatar.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_STATIC ){
+	private static void drawAbove(Canvas c, Rect frame, Avatar daAvatar, Context ctxt){
+		int method = daAvatar.getBehaviorSelectorMethod(ctxt);
+		if ( method == sceneBehaviors.BEHAVIOR_STATIC ){
     		
-    	}else if( daAvatar.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_PROTEUS_STUDY ){
+    	}else if( method == sceneBehaviors.BEHAVIOR_PROTEUS_STUDY ){
 		
-    	}else if( daAvatar.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_DEMO){
+    	}else if( method == sceneBehaviors.BEHAVIOR_DEMO){
     		c.save();
     		Layer_UserStatus.draw(c, frame);
     		c.restore();
     	}else{
-    		Log.e(TAG, "unrecognized scene behavior " + daAvatar.behaviorSelectorMethod);
+    		Log.e(TAG, "unrecognized scene behavior " + method);
     	}
 	}
 }

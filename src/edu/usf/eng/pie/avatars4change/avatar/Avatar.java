@@ -20,7 +20,7 @@ public class Avatar extends Entity {
 	
 	private final String TAG = "avatar.Avatar";
 	//avatar properties:
-    public int        behaviorSelectorMethod = sceneBehaviors.BEHAVIOR_NULL;
+    private int        behaviorSelectorMethod = sceneBehaviors.BEHAVIOR_NULL;
 	public long       UPDATE_FREQUENCY       = 1000 * 1 * 1; 	//once per UPDATE_FREQUENCY; e.g. 60s/min *10min * 1000ms/s
     public long       lastActivityChange     = -UPDATE_FREQUENCY;	//last time activity level was changed [ms]
 
@@ -56,7 +56,7 @@ public class Avatar extends Entity {
 	public Avatar(Location LOC, int realismL, String activityL, Context context) {
 		super("AvatarObject",LOC);
 		SharedPreferences sharedPrefs = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_MULTI_PROCESS);
-		behaviorSelectorMethod = sharedPrefs.getInt(context.getString(R.string.key_configmacro),sceneBehaviors.BEHAVIOR_NULL);
+		behaviorSelectorMethod = Integer.parseInt(context.getString(R.string.default_configmacro));
 		baseFileDirectory = Sdcard.getFileDir(context);
 		spriteDir = baseFileDirectory + "sprites";
 		//set default image locations
@@ -169,6 +169,16 @@ public class Avatar extends Entity {
 		this.behaviorSelectorMethod = newMethod;
 		this.lastActivityChange = -this.UPDATE_FREQUENCY;	// this makes the activity update now to match selection
 		return;
+	}
+	
+	public int getBehaviorSelectorMethod(Context ctx){
+		SharedPreferences sharedPrefs = ctx.getSharedPreferences(ctx.getString(R.string.app_name), Context.MODE_MULTI_PROCESS);
+		this.behaviorSelectorMethod = sharedPrefs.getInt(ctx.getString(R.string.key_configmacro),-1);
+		if (this.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_ERR){
+			Log.d(TAG,"failed to get config macro from shared prefs; using default.");
+			behaviorSelectorMethod = Integer.parseInt(ctx.getString(R.string.default_configmacro));
+		}
+		return this.behaviorSelectorMethod;
 	}
 	
 	//sets up the locations and sizes of the images for the avatar. Images are retrieved and drawn in the drawAvatar() method

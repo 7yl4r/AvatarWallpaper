@@ -45,11 +45,11 @@ public class avatarWallpaper extends WallpaperService {
     	Sdcard.waitForReady(getApplicationContext());
     	
         avatarSetup();
-    	
+
         // setup default preferences (if none have been set ever)
         PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.avatar_settings, false);        
         avatarWallpaperSettings.loadPrefs(getApplicationContext(),avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
-        
+
         //TODO: add a setting like countlyLogging == true, then this should be triggered by preferenceChangeListener
         countlySetup();
 
