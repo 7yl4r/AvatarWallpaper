@@ -60,6 +60,14 @@ public class AvatarWallpaperSetup extends Activity{
     	editor.commit();
     	*/
 	}
+
+	/*	
+	SharedPreferences p = PreferenceManager
+            .getDefaultSharedPreferences(this);
+    boolean firstRun = p.getBoolean(PREFERENCE_FIRST_RUN, true);
+    if (firstRun) {
+        p.edit().putBoolean(PREFERENCE_FIRST_RUN, false).commit();
+*/
 	
 	private void privacyDisclaimer(){
 		setContentView(R.layout.privacy_disclaimer);

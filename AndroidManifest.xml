@@ -15,6 +15,7 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.SET_WALLPAPER" />
 	<!-- TODO: need get sdcard mounted/removed intent permission? -->
 	
 	<uses-feature android:name="android.hardware.sensor.accelerometer"
@@ -59,9 +60,21 @@
         </activity>
         
         <activity
+            android:label="setAvatarWallpaper"
+            android:name="edu.usf.eng.pie.avatars4change.wallpaper.setWallpaper"
+            android:exported="true">
+            <!--  intent filter for launching on appStart -->
+            <intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>    
+        
+        <activity
             android:label="initialSetup"
             android:name="edu.usf.eng.pie.avatars4change.wallpaper.AvatarWallpaperSetup"
             android:exported="true">
+            <!-- intent filter for launching from settings -->
             <intent-filter>
 	           <action android:name="edu.usf.eng.pie.avatars4change.wallpaper.AvatarWallpaperSetup" />
 	           <category android:name="android.intent.category.DEFAULT" />
