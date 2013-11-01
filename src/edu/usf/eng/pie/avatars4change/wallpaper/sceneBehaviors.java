@@ -14,11 +14,18 @@ import android.util.Log;
 
 public class sceneBehaviors {
 	private static final String TAG = "sceneBehavior";
+	
 	public static final String[] behaviors = {
 		"constant",
 		"Proteus Effect Study",
 		"IEEE VR demo"
 	};
+	
+	public static final int BEHAVIOR_NULL          = 0;
+	public static final int BEHAVIOR_STATIC        = 1;
+	public static final int BEHAVIOR_PROTEUS_STUDY = 2;
+	public static final int BEHAVIOR_DEMO          = 3;
+	
     private static boolean   activeOnEvens       = true;	//active on even days?
     
     public static boolean getActiveOnEvens(){
@@ -47,16 +54,16 @@ public class sceneBehaviors {
         if( timeSinceLog > timeTillWarning){   
         	Notifier.addNotification(context,"no view data in past 24hrs; contact PIE-Lab staff.");
         }
-    	if( theAvatar.behaviorSelectorMethod == null){
+    	if( theAvatar.behaviorSelectorMethod == BEHAVIOR_NULL){
         	Log.e(TAG,"behaviorSelectorMethod = null; cannot run Behavior");
     		return;
     	}	//implied ELSE
     	; //Log.d(TAG,"updating scene via " + theAvatar.behaviorSelectorMethod);
-    	if ( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("constant") ){
+    	if ( theAvatar.behaviorSelectorMethod == BEHAVIOR_STATIC ){
     		constant(theAvatar);
-    	}else if( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("Proteus Effect Study")){
+    	}else if( theAvatar.behaviorSelectorMethod == BEHAVIOR_PROTEUS_STUDY){
     		proteusStudy(theAvatar);
-    	}else if( theAvatar.behaviorSelectorMethod.equalsIgnoreCase("IEEE VR demo")){
+    	}else if( theAvatar.behaviorSelectorMethod == BEHAVIOR_DEMO){
     		VRDemo(theAvatar,context);
     	}else{
     		Log.e(TAG, "unrecognized scene behavior " + theAvatar.behaviorSelectorMethod);

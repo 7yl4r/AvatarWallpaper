@@ -50,11 +50,11 @@ public class Layer_Main {
 	//settings-dependent background draw 
 	private static void drawBG(Context ctx, Canvas c, Rect frame, Avatar daAvatar){
 		c.save();
-		if ( daAvatar.behaviorSelectorMethod.equalsIgnoreCase("constant") ){
+		if ( daAvatar.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_STATIC ){
     		Layer_Background.drawPlainBG(c);
-    	}else if( daAvatar.behaviorSelectorMethod.equalsIgnoreCase("Proteus Effect Study")){
+    	}else if( daAvatar.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_PROTEUS_STUDY){
     		Layer_Background.drawPlainBG(c);
-    	}else if( daAvatar.behaviorSelectorMethod.equalsIgnoreCase("IEEE VR demo")){
+    	}else if( daAvatar.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_DEMO){
     		String activMonitor = ctx.getSharedPreferences(ctx.getString(R.string.shared_prefs_name), Context.MODE_PRIVATE)
     				.getString(ctx.getString(R.string.key_activitymonitor),"");
     		if(activMonitor.equals("built-in")){	//TODO: this should probably be referenced using R.string
@@ -71,11 +71,11 @@ public class Layer_Main {
 	
 	//settings-dependent draw on top
 	private static void drawAbove(Canvas c, Rect frame, Avatar daAvatar){
-		if ( daAvatar.behaviorSelectorMethod.equalsIgnoreCase("constant") ){
+		if ( daAvatar.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_STATIC ){
     		
-    	}else if( daAvatar.behaviorSelectorMethod.equalsIgnoreCase("Proteus Effect Study")){
+    	}else if( daAvatar.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_PROTEUS_STUDY ){
 		
-    	}else if( daAvatar.behaviorSelectorMethod.equalsIgnoreCase("IEEE VR demo")){
+    	}else if( daAvatar.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_DEMO){
     		c.save();
     		Layer_UserStatus.draw(c, frame);
     		c.restore();

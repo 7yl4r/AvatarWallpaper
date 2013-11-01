@@ -7,6 +7,7 @@ import edu.usf.eng.pie.avatars4change.R;
 import edu.usf.eng.pie.avatars4change.storager.Sdcard;
 import edu.usf.eng.pie.avatars4change.wallpaper.sceneBehaviors;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.os.SystemClock;
 import android.util.Log;
@@ -19,7 +20,7 @@ public class Avatar extends Entity {
 	
 	private final String TAG = "avatar.Avatar";
 	//avatar properties:
-    public String     behaviorSelectorMethod = "null";
+    public int        behaviorSelectorMethod = sceneBehaviors.BEHAVIOR_NULL;
 	public long       UPDATE_FREQUENCY       = 1000 * 1 * 1; 	//once per UPDATE_FREQUENCY; e.g. 60s/min *10min * 1000ms/s
     public long       lastActivityChange     = -UPDATE_FREQUENCY;	//last time activity level was changed [ms]
 
@@ -54,7 +55,8 @@ public class Avatar extends Entity {
 	//constructor
 	public Avatar(Location LOC, int realismL, String activityL, Context context) {
 		super("AvatarObject",LOC);
-		behaviorSelectorMethod =context.getString(R.string.key_configmacro);
+		SharedPreferences sharedPrefs = context.getSharedPreferences(context.getString(R.string.app_name), context.MODE_MULTI_PROCESS);
+		behaviorSelectorMethod = sharedPrefs.getInt(context.getString(R.string.key_configmacro),sceneBehaviors.BEHAVIOR_NULL);
 		baseFileDirectory = Sdcard.getFileDir(context);
 		spriteDir = baseFileDirectory + "sprites";
 		//set default image locations
@@ -163,7 +165,7 @@ public class Avatar extends Entity {
 		loadBodyLocation();
 	}
 	
-	public void setBehaviorSelectorMethod(String newMethod){
+	public void setBehaviorSelectorMethod(int newMethod){
 		for (int i = 0; i<sceneBehaviors.behaviors.length; i++){
 			if (sceneBehaviors.behaviors[i].equals(newMethod)){
 				// given string is accepted
@@ -173,7 +175,7 @@ public class Avatar extends Entity {
 			}
 		} // else: (exit of for loop means that newMethod is unrecognized)
 		Log.e(TAG,"unrecognized behaviorSelector '"+newMethod+"'! using default 'constant'");
-		this.behaviorSelectorMethod = "constant";
+		this.behaviorSelectorMethod = sceneBehaviors.BEHAVIOR_STATIC;
 		return;
 	}
 	

@@ -124,7 +124,10 @@ public class avatarWallpaperSettings extends PreferenceActivity
 		
     	}else if (key.equals(ctx.getString(R.string.key_configmacro))){	//8
     		//TODO: load settings values for selected macro
-			avatarWallpaper.theAvatar.setBehaviorSelectorMethod(mPrefs.getString(key, avatarWallpaper.theAvatar.behaviorSelectorMethod));
+			avatarWallpaper.theAvatar.setBehaviorSelectorMethod(Integer.parseInt(mPrefs.getString(key, 
+					                                                             Integer.toString(avatarWallpaper.theAvatar.behaviorSelectorMethod)
+					                                            ))
+           );
 			Log.d(TAG, "behaviorSelector:"+avatarWallpaper.theAvatar.behaviorSelectorMethod);
 			
 			//TODO: remove (like above)
@@ -133,7 +136,7 @@ public class avatarWallpaperSettings extends PreferenceActivity
 			Log.d(TAG, "scale:"+Float.toString(avatarWallpaper.theAvatar.scaler));
 			
     	}else if (key.equals(ctx.getString(R.string.key_activitymonitor))){
-    		activityMonitor.setActivityMonitor(ctx,mPrefs.getString(key, avatarWallpaper.theAvatar.behaviorSelectorMethod));
+    		activityMonitor.setActivityMonitor(ctx,mPrefs.getString(key, Integer.toString(avatarWallpaper.theAvatar.behaviorSelectorMethod)));
     		userData.resetPAmeasures();	
 			Log.d(TAG, "activityMonitor:"+activityMonitor.getActivityMonitor());
     	}else{	//unknown preference key

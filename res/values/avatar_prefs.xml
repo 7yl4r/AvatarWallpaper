@@ -2,7 +2,7 @@
 
 <resources>
     <!-- default values -->
-    <string name="default_configmacro">IEEE VR demo</string>
+    <string name="default_configmacro">3</string>
 	<string name="default_activitymonitor">built-in</string>
 	<string name="default_currentactivity">running</string>
 	<string name="default_resetlogs">false</string>
