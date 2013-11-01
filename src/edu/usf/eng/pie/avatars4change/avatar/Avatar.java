@@ -55,7 +55,7 @@ public class Avatar extends Entity {
 	//constructor
 	public Avatar(Location LOC, int realismL, String activityL, Context context) {
 		super("AvatarObject",LOC);
-		SharedPreferences sharedPrefs = context.getSharedPreferences(context.getString(R.string.app_name), context.MODE_MULTI_PROCESS);
+		SharedPreferences sharedPrefs = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_MULTI_PROCESS);
 		behaviorSelectorMethod = sharedPrefs.getInt(context.getString(R.string.key_configmacro),sceneBehaviors.BEHAVIOR_NULL);
 		baseFileDirectory = Sdcard.getFileDir(context);
 		spriteDir = baseFileDirectory + "sprites";
@@ -166,16 +166,8 @@ public class Avatar extends Entity {
 	}
 	
 	public void setBehaviorSelectorMethod(int newMethod){
-		for (int i = 0; i<sceneBehaviors.behaviors.length; i++){
-			if (sceneBehaviors.behaviors[i].equals(newMethod)){
-				// given string is accepted
-				this.behaviorSelectorMethod = newMethod;
-				this.lastActivityChange = -this.UPDATE_FREQUENCY;	// this makes the activity update now to match selection
-				return;
-			}
-		} // else: (exit of for loop means that newMethod is unrecognized)
-		Log.e(TAG,"unrecognized behaviorSelector '"+newMethod+"'! using default 'constant'");
-		this.behaviorSelectorMethod = sceneBehaviors.BEHAVIOR_STATIC;
+		this.behaviorSelectorMethod = newMethod;
+		this.lastActivityChange = -this.UPDATE_FREQUENCY;	// this makes the activity update now to match selection
 		return;
 	}
 	

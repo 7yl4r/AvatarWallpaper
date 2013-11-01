@@ -15,12 +15,6 @@ import android.util.Log;
 public class sceneBehaviors {
 	private static final String TAG = "sceneBehavior";
 	
-	public static final String[] behaviors = {
-		"constant",
-		"Proteus Effect Study",
-		"IEEE VR demo"
-	};
-	
 	public static final int BEHAVIOR_NULL          = 0;
 	public static final int BEHAVIOR_STATIC        = 1;
 	public static final int BEHAVIOR_PROTEUS_STUDY = 2;
