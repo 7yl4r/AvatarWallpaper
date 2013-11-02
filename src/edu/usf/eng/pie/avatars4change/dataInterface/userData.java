@@ -100,7 +100,8 @@ public class userData {
 		if (newV > max) {max = newV; if (min > max) min=max-1;}
 		
 		currentActivityLevel = scaleValue(newV);
-		Log.d(TAG,"incrementing activityFreq["+Integer.toString(currentActivityLevel)+"]");
+//		Log.d(TAG,"incrementing activityFreq["+Integer.toString(currentActivityLevel)+"]");
+		//TODO: actually make this work properly
 		activityFrequencies[currentActivityLevel] += 1;
 		
 		recentSum = 0;

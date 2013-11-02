@@ -173,7 +173,7 @@ public class Avatar extends Entity {
 	
 	public int getBehaviorSelectorMethod(Context ctx){
 		SharedPreferences sharedPrefs = ctx.getSharedPreferences(ctx.getString(R.string.app_name), Context.MODE_MULTI_PROCESS);
-		this.behaviorSelectorMethod = sharedPrefs.getInt(ctx.getString(R.string.key_configmacro),-1);
+		this.behaviorSelectorMethod = sharedPrefs.getInt(ctx.getString(R.string.key_configmacro),sceneBehaviors.BEHAVIOR_ERR);
 		if (this.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_ERR){
 			Log.d(TAG,"failed to get config macro from shared prefs; using default.");
 			behaviorSelectorMethod = Integer.parseInt(ctx.getString(R.string.default_configmacro));

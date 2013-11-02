@@ -26,8 +26,8 @@ public class myRunsDataCollectorReceiver extends BroadcastReceiver {
     	userData.setCurrentActivityName(url);
 
     	//extra debug info:
-    	Log.d("Llegando al myRunsDataCollectorReceiver", Integer.toString(userData.recentActivityLevels[userData.recentActivityLevels.length-1]) + 
-    	      "->" + url + "; past " + Integer.toString(userData.recentActivityLevels.length) + 
-    	      "sample avg: " + userData.recentAvgActivityLevel);
+//    	Log.d("myRunsDataCollectorReceiver", Integer.toString(userData.recentActivityLevels[userData.recentActivityLevels.length-1]) + 
+//    	      "->" + url + "; past " + Integer.toString(userData.recentActivityLevels.length) + 
+//    	      "sample avg: " + userData.recentAvgActivityLevel);
 	}
 }
