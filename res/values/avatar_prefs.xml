@@ -2,7 +2,7 @@
 
 <resources>
     <!-- default values -->
-    <string name="default_configmacro">3</string>
+    <string name="default_configmacro">2</string>
 	<string name="default_activitymonitor">built-in</string>
 	<string name="default_currentactivity">running</string>
 	<string name="default_resetlogs">false</string>
@@ -65,9 +65,17 @@
 	<string-array name="behavior">
 	    <item >constant</item>
 	    <item >Proteus Effect Study</item>
-	    <item >debug</item>
 	    <item >IEEE VR demo</item>
+	    <item >debug</item>
+	    
 	</string-array>
+	<string-array name="behaviorValues">
+	    <item >1</item>
+	    <item >2</item>
+	    <item >3</item>
+	    <item >4</item>
+	</string-array>
+	
 	<string-array name="scaleNames">
 	    <item >0.5</item>
 	    <item >1</item>

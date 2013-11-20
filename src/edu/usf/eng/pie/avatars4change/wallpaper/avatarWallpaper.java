@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -48,7 +49,7 @@ public class avatarWallpaper extends WallpaperService {
 
         // setup default preferences (if none have been set ever)
         PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.avatar_settings, false);        
-        avatarWallpaperSettings.loadPrefs(getApplicationContext(),avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), 0));
+        avatarWallpaperSettings.loadPrefs(getApplicationContext(),avatarWallpaper.this.getSharedPreferences(getString(R.string.shared_prefs_name), Context.MODE_PRIVATE));
 
         //TODO: add a setting like countlyLogging == true, then this should be triggered by preferenceChangeListener
         countlySetup();

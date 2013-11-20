@@ -37,7 +37,7 @@
 	            <ListPreference android:title="Config Macro" 
 	                android:key="@string/key_configmacro"
 	                android:entries="@array/behavior" 
-				    android:entryValues="@array/behavior" 
+				    android:entryValues="@array/behaviorValues" 
 	 			   	android:summary="select the base app behavior" 
 	 			   	android:defaultValue="@string/default_configmacro" />
 	            <PreferenceScreen android:title="Config Customization" android:key="@string/key_researchconfigcustomizationscreen">

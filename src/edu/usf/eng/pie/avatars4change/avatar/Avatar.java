@@ -56,7 +56,9 @@ public class Avatar extends Entity {
 	public Avatar(Location LOC, int realismL, String activityL, Context context) {
 		super("AvatarObject",LOC);
 		SharedPreferences sharedPrefs = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_MULTI_PROCESS);
-		behaviorSelectorMethod = Integer.parseInt(context.getString(R.string.default_configmacro));
+		behaviorSelectorMethod = sharedPrefs.getInt(context.getString(R.string.key_configmacro),
+				                                    Integer.parseInt(context.getString(R.string.default_configmacro))
+		                                            );
 		baseFileDirectory = Sdcard.getFileDir(context);
 		spriteDir = baseFileDirectory + "sprites";
 		//set default image locations
@@ -172,8 +174,13 @@ public class Avatar extends Entity {
 	}
 	
 	public int getBehaviorSelectorMethod(Context ctx){
-		SharedPreferences sharedPrefs = ctx.getSharedPreferences(ctx.getString(R.string.app_name), Context.MODE_MULTI_PROCESS);
-		this.behaviorSelectorMethod = sharedPrefs.getInt(ctx.getString(R.string.key_configmacro),sceneBehaviors.BEHAVIOR_ERR);
+		SharedPreferences sharedPrefs = ctx.getSharedPreferences(ctx.getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
+		String key = ctx.getString(R.string.key_configmacro);
+		int def_val = sceneBehaviors.BEHAVIOR_ERR;
+		//Log.d(TAG,"behavPrefStr="+sharedPrefs.getString(key,Integer.toString(def_val)));
+		//NOTE: this is how it should be done (but this insists on throwing ClassCastException):
+		//this.behaviorSelectorMethod = sharedPrefs.getInt(key,def_val);
+		this.behaviorSelectorMethod = Integer.parseInt(sharedPrefs.getString(key, Integer.toString(def_val)));
 		if (this.behaviorSelectorMethod == sceneBehaviors.BEHAVIOR_ERR){
 			Log.d(TAG,"failed to get config macro from shared prefs; using default.");
 			behaviorSelectorMethod = Integer.parseInt(ctx.getString(R.string.default_configmacro));

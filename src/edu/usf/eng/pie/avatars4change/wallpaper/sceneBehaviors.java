@@ -20,6 +20,7 @@ public class sceneBehaviors {
 	public static final int BEHAVIOR_STATIC        = 1; //avatar behavior does not change
 	public static final int BEHAVIOR_PROTEUS_STUDY = 2; //proteus study style changes (avatar does whatever it wants)
 	public static final int BEHAVIOR_DEMO          = 3; //demo changes (avatar mirrors behavior)
+	public static final int BEHAVIOR_DEBUG         = 4; //not implemented
 	
     private static boolean   activeOnEvens       = true;	//active on even days?
     
